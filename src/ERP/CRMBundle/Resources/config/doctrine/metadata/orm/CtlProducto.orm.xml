@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CtlProducto" table="ctl_producto">
+    <indexes>
+      <index name="fk_ctl_producto_ctl_categoria_producto1_idx" columns="categoria_producto"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="150" nullable="false"/>
+    <field name="descripcion" type="text" column="descripcion" length="65535" nullable="true"/>
+    <field name="estado" type="boolean" column="estado" nullable="false"/>
+    <many-to-one field="categoriaProducto" target-entity="CtlCategoriaProducto">
+      <join-columns>
+        <join-column name="categoria_producto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

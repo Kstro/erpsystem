@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmComentarioCuenta" table="crm_comentario_cuenta">
+    <indexes>
+      <index name="fk_crm_comentario_has_crm_cuenta_crm_cuenta1_idx" columns="cuenta"/>
+      <index name="fk_crm_comentario_cuenta_ctl_usuario1_idx" columns="usuario"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="comentario" type="text" column="comentario" length="65535" nullable="false"/>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <many-to-one field="usuario" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="cuenta" target-entity="CrmCuenta">
+      <join-columns>
+        <join-column name="cuenta" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,49 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtlEstado
+ *
+ * @ORM\Table(name="ctl_estado", indexes={@ORM\Index(name="fk_ctl_estado_ctl_pais1_idx", columns={"pais"})})
+ * @ORM\Entity
+ */
+class CtlEstado
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=15, nullable=true)
+     */
+    private $codigo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=200, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var \CtlPais
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pais", referencedColumnName="id")
+     * })
+     */
+    private $pais;
+
+
+}

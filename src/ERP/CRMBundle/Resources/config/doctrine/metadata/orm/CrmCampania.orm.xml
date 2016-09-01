@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmCampania" table="crm_campania">
+    <indexes>
+      <index name="fk_crm_campania_crm_tipo_campania1_idx" columns="tipo_campania"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="100" nullable="false"/>
+    <field name="descripcion" type="text" column="descripcion" length="65535" nullable="true"/>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <field name="fechaInicio" type="date" column="fecha_inicio" nullable="false"/>
+    <field name="fechaFin" type="date" column="fecha_fin" nullable="false"/>
+    <field name="estado" type="boolean" column="estado" nullable="false"/>
+    <many-to-one field="tipoCampania" target-entity="CrmTipoCampania">
+      <join-columns>
+        <join-column name="tipo_campania" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

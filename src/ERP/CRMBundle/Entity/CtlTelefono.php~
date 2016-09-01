@@ -1,0 +1,82 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtlTelefono
+ *
+ * @ORM\Table(name="ctl_telefono", indexes={@ORM\Index(name="fk_ctl_telefono_crm_cuenta1_idx", columns={"cuenta"}), @ORM\Index(name="fk_ctl_telefono_ctl_persona1_idx", columns={"persona"}), @ORM\Index(name="fk_ctl_telefono_ctl_empresa1_idx", columns={"empresa"}), @ORM\Index(name="fk_ctl_telefono_ctl_sucursal1_idx", columns={"sucursal"}), @ORM\Index(name="fk_ctl_telefono_ctl_tipo_telefono1_idx", columns={"tipo_telefono"})})
+ * @ORM\Entity
+ */
+class CtlTelefono
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="num_telefonico", type="string", length=25, nullable=false)
+     */
+    private $numTelefonico;
+
+    /**
+     * @var \CrmCuenta
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCuenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cuenta", referencedColumnName="id")
+     * })
+     */
+    private $cuenta;
+
+    /**
+     * @var \CtlPersona
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPersona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="persona", referencedColumnName="id")
+     * })
+     */
+    private $persona;
+
+    /**
+     * @var \CtlEmpresa
+     *
+     * @ORM\ManyToOne(targetEntity="CtlEmpresa")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="empresa", referencedColumnName="id")
+     * })
+     */
+    private $empresa;
+
+    /**
+     * @var \CtlSucursal
+     *
+     * @ORM\ManyToOne(targetEntity="CtlSucursal")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="sucursal", referencedColumnName="id")
+     * })
+     */
+    private $sucursal;
+
+    /**
+     * @var \CtlTipoTelefono
+     *
+     * @ORM\ManyToOne(targetEntity="CtlTipoTelefono")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_telefono", referencedColumnName="id")
+     * })
+     */
+    private $tipoTelefono;
+
+
+}

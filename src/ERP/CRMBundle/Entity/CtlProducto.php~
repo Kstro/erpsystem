@@ -1,0 +1,56 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtlProducto
+ *
+ * @ORM\Table(name="ctl_producto", indexes={@ORM\Index(name="fk_ctl_producto_ctl_categoria_producto1_idx", columns={"categoria_producto"})})
+ * @ORM\Entity
+ */
+class CtlProducto
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", length=65535, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \CtlCategoriaProducto
+     *
+     * @ORM\ManyToOne(targetEntity="CtlCategoriaProducto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="categoria_producto", referencedColumnName="id")
+     * })
+     */
+    private $categoriaProducto;
+
+
+}

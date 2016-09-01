@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="HistorialAcciones" table="historial_acciones">
+    <indexes>
+      <index name="fk_accion_tabla_ctl_tipo_accion1_idx" columns="tipo_accion"/>
+      <index name="fk_accion_tabla_ctl_usuario1_idx" columns="usuario"/>
+      <index name="fk_accion_tabla_ctl_producto1_idx" columns="producto"/>
+      <index name="fk_accion_tabla_crm_actividad1_idx" columns="actividad"/>
+      <index name="fk_accion_tabla_fac_factura1_idx" columns="factura"/>
+      <index name="fk_accion_tabla_crm_oportunidad1_idx" columns="oportunidad"/>
+      <index name="fk_accion_tabla_crm_cotizacion1_idx" columns="cotizacion"/>
+      <index name="fk_accion_tabla_crm_cuenta1_idx" columns="cuenta"/>
+      <index name="fk_accion_tabla_crm_campania1_idx" columns="campania"/>
+      <index name="fk_historial_crm_contacto1_idx" columns="contacto"/>
+      <index name="fk_historial_crm_proyecto1_idx" columns="proyecto"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <field name="accion" type="text" column="accion" length="65535" nullable="false"/>
+    <field name="srcArchivo" type="string" column="src_archivo" length="255" nullable="true"/>
+    <many-to-one field="cuenta" target-entity="CrmCuenta">
+      <join-columns>
+        <join-column name="cuenta" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="campania" target-entity="CrmCampania">
+      <join-columns>
+        <join-column name="campania" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="contacto" target-entity="CrmContacto">
+      <join-columns>
+        <join-column name="contacto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="proyecto" target-entity="CrmProyecto">
+      <join-columns>
+        <join-column name="proyecto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="cotizacion" target-entity="CrmCotizacion">
+      <join-columns>
+        <join-column name="cotizacion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="oportunidad" target-entity="CrmOportunidad">
+      <join-columns>
+        <join-column name="oportunidad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuario" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="producto" target-entity="CtlProducto">
+      <join-columns>
+        <join-column name="producto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="actividad" target-entity="CrmActividad">
+      <join-columns>
+        <join-column name="actividad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="factura" target-entity="FacFactura">
+      <join-columns>
+        <join-column name="factura" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="tipoAccion" target-entity="CtlTipoAccion">
+      <join-columns>
+        <join-column name="tipo_accion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

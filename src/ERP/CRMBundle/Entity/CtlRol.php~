@@ -1,0 +1,46 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtlRol
+ *
+ * @ORM\Table(name="ctl_rol")
+ * @ORM\Entity
+ */
+class CtlRol
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=75, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CtlUsuario", mappedBy="rol")
+     */
+    private $usuario;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->usuario = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

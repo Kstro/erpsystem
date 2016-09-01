@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmAsignacionActividad" table="crm_asignacion_actividad">
+    <indexes>
+      <index name="fk_crm_asignado_tarea_crm_tarea1_idx" columns="actividad"/>
+      <index name="fk_crm_asignado_tarea_ctl_usuario1_idx" columns="usuario_asignado"/>
+      <index name="fk_crm_asignacion_actividad_ctl_tiempo_notificacion1_idx" columns="tiempo_notificacion"/>
+      <index name="fk_crm_asignacion_actividad_ctl_tipo_recordatorio1_idx" columns="tipo_recordatorio"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="tipoRecordatorio" target-entity="CtlTipoRecordatorio">
+      <join-columns>
+        <join-column name="tipo_recordatorio" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="tiempoNotificacion" target-entity="CtlTiempoNotificacion">
+      <join-columns>
+        <join-column name="tiempo_notificacion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuarioAsignado" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario_asignado" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="actividad" target-entity="CrmActividad">
+      <join-columns>
+        <join-column name="actividad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

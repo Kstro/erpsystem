@@ -1,0 +1,49 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Bitacora
+ *
+ * @ORM\Table(name="bitacora", indexes={@ORM\Index(name="fk_bitacora_ctl_usuario1_idx", columns={"usuario"})})
+ * @ORM\Entity
+ */
+class Bitacora
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="accion", type="string", length=255, nullable=false)
+     */
+    private $accion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_accion", type="datetime", nullable=false)
+     */
+    private $fechaAccion;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+
+}

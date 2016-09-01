@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmDocumentoAdjuntoCorreo" table="crm_documento_adjunto_correo">
+    <indexes>
+      <index name="fk_crm_documento_adjunto_correo_crm_correo1_idx" columns="correo"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="src" type="string" column="src" length="255" nullable="false"/>
+    <many-to-one field="correo" target-entity="CrmCorreoEnviado">
+      <join-columns>
+        <join-column name="correo" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

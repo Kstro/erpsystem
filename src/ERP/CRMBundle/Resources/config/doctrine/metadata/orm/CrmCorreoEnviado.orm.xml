@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmCorreoEnviado" table="crm_correo_enviado">
+    <indexes>
+      <index name="fk_crm_correo_crm_plantilla_correo1_idx" columns="plantilla_correo"/>
+      <index name="fk_crm_correo_ctl_usuario1_idx" columns="usuario"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="asunto" type="string" column="asunto" length="100" nullable="false"/>
+    <field name="correoAquienEnvia" type="string" column="correo_aquien_envia" length="60" nullable="false"/>
+    <field name="cuerpoCorreo" type="text" column="cuerpo_correo" length="65535" nullable="true"/>
+    <field name="fechaEnvio" type="datetime" column="fecha_envio" nullable="false"/>
+    <field name="estado" type="integer" column="estado" nullable="false"/>
+    <many-to-one field="usuario" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="plantillaCorreo" target-entity="CrmPlantillaCorreo">
+      <join-columns>
+        <join-column name="plantilla_correo" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CtlSucursal" table="ctl_sucursal">
+    <indexes>
+      <index name="fk_ctl_sucursal_ctl_empresa1_idx" columns="empresa"/>
+      <index name="fk_ctl_sucursal_ctl_ciudad1_idx" columns="ciudad"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="150" nullable="false"/>
+    <field name="direccion" type="text" column="direccion" length="65535" nullable="false"/>
+    <field name="estado" type="integer" column="estado" nullable="false"/>
+    <many-to-one field="ciudad" target-entity="CtlCiudad">
+      <join-columns>
+        <join-column name="ciudad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="empresa" target-entity="CtlEmpresa">
+      <join-columns>
+        <join-column name="empresa" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmActividad" table="crm_actividad">
+    <indexes>
+      <index name="fk_crm_tarea_crm_tipo_tarea1_idx" columns="tipo_actividad"/>
+      <index name="fk_crm_actividad_ctl_prioridad1_idx" columns="prioridad"/>
+      <index name="fk_crm_actividad_crm_estado_actividad1_idx" columns="estado_actividad"/>
+      <index name="fk_crm_actividad_ctl_sucursal1_idx" columns="sucursal"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="200" nullable="false"/>
+    <field name="descripcion" type="text" column="descripcion" length="65535" nullable="true"/>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <field name="fechaInicio" type="datetime" column="fecha_inicio" nullable="false"/>
+    <field name="fechaFin" type="datetime" column="fecha_fin" nullable="true"/>
+    <field name="fechaCancelacion" type="datetime" column="fecha_cancelacion" nullable="true"/>
+    <many-to-one field="sucursal" target-entity="CtlSucursal">
+      <join-columns>
+        <join-column name="sucursal" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="estadoActividad" target-entity="CrmEstadoActividad">
+      <join-columns>
+        <join-column name="estado_actividad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="prioridad" target-entity="CtlPrioridad">
+      <join-columns>
+        <join-column name="prioridad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="tipoActividad" target-entity="CrmTipoActividad">
+      <join-columns>
+        <join-column name="tipo_actividad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,66 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtlSucursal
+ *
+ * @ORM\Table(name="ctl_sucursal", indexes={@ORM\Index(name="fk_ctl_sucursal_ctl_empresa1_idx", columns={"empresa"}), @ORM\Index(name="fk_ctl_sucursal_ctl_ciudad1_idx", columns={"ciudad"})})
+ * @ORM\Entity
+ */
+class CtlSucursal
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="direccion", type="text", length=65535, nullable=false)
+     */
+    private $direccion;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \CtlEmpresa
+     *
+     * @ORM\ManyToOne(targetEntity="CtlEmpresa")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="empresa", referencedColumnName="id")
+     * })
+     */
+    private $empresa;
+
+    /**
+     * @var \CtlCiudad
+     *
+     * @ORM\ManyToOne(targetEntity="CtlCiudad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ciudad", referencedColumnName="id")
+     * })
+     */
+    private $ciudad;
+
+
+}

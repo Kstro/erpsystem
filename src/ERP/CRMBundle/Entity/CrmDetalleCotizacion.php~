@@ -1,0 +1,59 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmDetalleCotizacion
+ *
+ * @ORM\Table(name="crm_detalle_cotizacion", indexes={@ORM\Index(name="fk_crm_detalle_cotizacion_crm_cotizacion1_idx", columns={"cotizacion"}), @ORM\Index(name="fk_crm_detalle_cotizacion_ctl_producto1_idx", columns={"producto"})})
+ * @ORM\Entity
+ */
+class CrmDetalleCotizacion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="cantidad", type="integer", nullable=false)
+     */
+    private $cantidad;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="valor_unitario", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $valorUnitario;
+
+    /**
+     * @var \CrmCotizacion
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCotizacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cotizacion", referencedColumnName="id")
+     * })
+     */
+    private $cotizacion;
+
+    /**
+     * @var \CtlProducto
+     *
+     * @ORM\ManyToOne(targetEntity="CtlProducto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="producto", referencedColumnName="id")
+     * })
+     */
+    private $producto;
+
+
+}

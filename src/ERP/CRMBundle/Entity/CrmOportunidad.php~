@@ -1,0 +1,93 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmOportunidad
+ *
+ * @ORM\Table(name="crm_oportunidad", indexes={@ORM\Index(name="fk_crm_oportunidad_ctl_etapa_venta1_idx", columns={"etapa_venta"}), @ORM\Index(name="fk_crm_oportunidad_ctl_fuente1_idx", columns={"fuente_principal"}), @ORM\Index(name="fk_crm_oportunidad_campania1_idx", columns={"campania"}), @ORM\Index(name="fk_crm_oportunidad_crm_estado_oportunidad1_idx", columns={"estado_oportunidad"})})
+ * @ORM\Entity
+ */
+class CrmOportunidad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_cierre", type="date", nullable=true)
+     */
+    private $fechaCierre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", length=65535, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var \CtlEtapaVenta
+     *
+     * @ORM\ManyToOne(targetEntity="CtlEtapaVenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="etapa_venta", referencedColumnName="id")
+     * })
+     */
+    private $etapaVenta;
+
+    /**
+     * @var \CtlFuente
+     *
+     * @ORM\ManyToOne(targetEntity="CtlFuente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fuente_principal", referencedColumnName="id")
+     * })
+     */
+    private $fuentePrincipal;
+
+    /**
+     * @var \CrmCampania
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCampania")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="campania", referencedColumnName="id")
+     * })
+     */
+    private $campania;
+
+    /**
+     * @var \CrmEstadoOportunidad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmEstadoOportunidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_oportunidad", referencedColumnName="id")
+     * })
+     */
+    private $estadoOportunidad;
+
+
+}

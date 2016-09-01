@@ -1,0 +1,45 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmActividadCampania
+ *
+ * @ORM\Table(name="crm_actividad_campania", indexes={@ORM\Index(name="fk_crm_actividad_campania_crm_actividad1_idx", columns={"actividad"}), @ORM\Index(name="fk_crm_actividad_campania_crm_campania1_idx", columns={"campania"})})
+ * @ORM\Entity
+ */
+class CrmActividadCampania
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \CrmActividad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actividad", referencedColumnName="id")
+     * })
+     */
+    private $actividad;
+
+    /**
+     * @var \CrmCampania
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCampania")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="campania", referencedColumnName="id")
+     * })
+     */
+    private $campania;
+
+
+}

@@ -1,0 +1,69 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmCaso
+ *
+ * @ORM\Table(name="crm_caso", indexes={@ORM\Index(name="fk_crm_caso_crm_tipo_caso1_idx", columns={"tipo_caso"}), @ORM\Index(name="fk_crm_caso_ctl_usuario1_idx", columns={"usuario_asignado"}), @ORM\Index(name="fk_crm_caso_ctl_prioridad1_idx", columns={"prioridad"})})
+ * @ORM\Entity
+ */
+class CrmCaso
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", length=65535, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var \CrmTipoCaso
+     *
+     * @ORM\ManyToOne(targetEntity="CrmTipoCaso")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_caso", referencedColumnName="id")
+     * })
+     */
+    private $tipoCaso;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_asignado", referencedColumnName="id")
+     * })
+     */
+    private $usuarioAsignado;
+
+    /**
+     * @var \CtlPrioridad
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPrioridad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="prioridad", referencedColumnName="id")
+     * })
+     */
+    private $prioridad;
+
+
+}

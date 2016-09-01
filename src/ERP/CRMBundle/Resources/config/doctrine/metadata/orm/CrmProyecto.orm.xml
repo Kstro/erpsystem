@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmProyecto" table="crm_proyecto">
+    <indexes>
+      <index name="fk_crm_proyecto_ctl_prioridad1_idx" columns="prioridad"/>
+      <index name="fk_crm_proyecto_ctl_tipo_proyecto1_idx" columns="tipo_proyecto"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="250" nullable="false"/>
+    <field name="descripcion" type="text" column="descripcion" length="65535" nullable="true"/>
+    <field name="observaciones" type="text" column="observaciones" length="65535" nullable="true"/>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <field name="fechaFinEsperada" type="datetime" column="fecha_fin_esperada" nullable="false"/>
+    <field name="fechaFin" type="datetime" column="fecha_fin" nullable="true"/>
+    <field name="estado" type="integer" column="estado" nullable="false"/>
+    <many-to-one field="tipoProyecto" target-entity="CtlTipoProyecto">
+      <join-columns>
+        <join-column name="tipo_proyecto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="prioridad" target-entity="CtlPrioridad">
+      <join-columns>
+        <join-column name="prioridad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

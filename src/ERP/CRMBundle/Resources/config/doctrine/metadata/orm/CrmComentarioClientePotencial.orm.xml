@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmComentarioClientePotencial" table="crm_comentario_cliente_potencial">
+    <indexes>
+      <index name="fk_crm_comentario_has_crm_cliente_potencial_crm_cliente_pot_idx" columns="cliente_potencial"/>
+      <index name="fk_crm_comentario_cliente_potencial_ctl_usuario1_idx" columns="usuario"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="comentario" type="text" column="comentario" length="65535" nullable="false"/>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <many-to-one field="usuario" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="clientePotencial" target-entity="CrmClientePotencial">
+      <join-columns>
+        <join-column name="cliente_potencial" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

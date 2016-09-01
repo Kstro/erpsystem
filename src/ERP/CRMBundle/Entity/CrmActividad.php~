@@ -1,0 +1,107 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmActividad
+ *
+ * @ORM\Table(name="crm_actividad", indexes={@ORM\Index(name="fk_crm_tarea_crm_tipo_tarea1_idx", columns={"tipo_actividad"}), @ORM\Index(name="fk_crm_actividad_ctl_prioridad1_idx", columns={"prioridad"}), @ORM\Index(name="fk_crm_actividad_crm_estado_actividad1_idx", columns={"estado_actividad"}), @ORM\Index(name="fk_crm_actividad_ctl_sucursal1_idx", columns={"sucursal"})})
+ * @ORM\Entity
+ */
+class CrmActividad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=200, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", length=65535, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="datetime", nullable=false)
+     */
+    private $fechaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="datetime", nullable=true)
+     */
+    private $fechaFin;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_cancelacion", type="datetime", nullable=true)
+     */
+    private $fechaCancelacion;
+
+    /**
+     * @var \CrmTipoActividad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmTipoActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_actividad", referencedColumnName="id")
+     * })
+     */
+    private $tipoActividad;
+
+    /**
+     * @var \CtlPrioridad
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPrioridad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="prioridad", referencedColumnName="id")
+     * })
+     */
+    private $prioridad;
+
+    /**
+     * @var \CrmEstadoActividad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmEstadoActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_actividad", referencedColumnName="id")
+     * })
+     */
+    private $estadoActividad;
+
+    /**
+     * @var \CtlSucursal
+     *
+     * @ORM\ManyToOne(targetEntity="CtlSucursal")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="sucursal", referencedColumnName="id")
+     * })
+     */
+    private $sucursal;
+
+
+}

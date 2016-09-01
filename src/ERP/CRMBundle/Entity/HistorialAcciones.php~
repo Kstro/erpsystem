@@ -1,0 +1,156 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * HistorialAcciones
+ *
+ * @ORM\Table(name="historial_acciones", indexes={@ORM\Index(name="fk_accion_tabla_ctl_tipo_accion1_idx", columns={"tipo_accion"}), @ORM\Index(name="fk_accion_tabla_ctl_usuario1_idx", columns={"usuario"}), @ORM\Index(name="fk_accion_tabla_ctl_producto1_idx", columns={"producto"}), @ORM\Index(name="fk_accion_tabla_crm_actividad1_idx", columns={"actividad"}), @ORM\Index(name="fk_accion_tabla_fac_factura1_idx", columns={"factura"}), @ORM\Index(name="fk_accion_tabla_crm_oportunidad1_idx", columns={"oportunidad"}), @ORM\Index(name="fk_accion_tabla_crm_cotizacion1_idx", columns={"cotizacion"}), @ORM\Index(name="fk_accion_tabla_crm_cuenta1_idx", columns={"cuenta"}), @ORM\Index(name="fk_accion_tabla_crm_campania1_idx", columns={"campania"}), @ORM\Index(name="fk_historial_crm_contacto1_idx", columns={"contacto"}), @ORM\Index(name="fk_historial_crm_proyecto1_idx", columns={"proyecto"})})
+ * @ORM\Entity
+ */
+class HistorialAcciones
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="accion", type="text", length=65535, nullable=false)
+     */
+    private $accion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="src_archivo", type="string", length=255, nullable=true)
+     */
+    private $srcArchivo;
+
+    /**
+     * @var \CtlTipoAccion
+     *
+     * @ORM\ManyToOne(targetEntity="CtlTipoAccion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_accion", referencedColumnName="id")
+     * })
+     */
+    private $tipoAccion;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \CtlProducto
+     *
+     * @ORM\ManyToOne(targetEntity="CtlProducto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="producto", referencedColumnName="id")
+     * })
+     */
+    private $producto;
+
+    /**
+     * @var \CrmActividad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actividad", referencedColumnName="id")
+     * })
+     */
+    private $actividad;
+
+    /**
+     * @var \FacFactura
+     *
+     * @ORM\ManyToOne(targetEntity="FacFactura")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="factura", referencedColumnName="id")
+     * })
+     */
+    private $factura;
+
+    /**
+     * @var \CrmOportunidad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmOportunidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="oportunidad", referencedColumnName="id")
+     * })
+     */
+    private $oportunidad;
+
+    /**
+     * @var \CrmCotizacion
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCotizacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cotizacion", referencedColumnName="id")
+     * })
+     */
+    private $cotizacion;
+
+    /**
+     * @var \CrmCuenta
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCuenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cuenta", referencedColumnName="id")
+     * })
+     */
+    private $cuenta;
+
+    /**
+     * @var \CrmCampania
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCampania")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="campania", referencedColumnName="id")
+     * })
+     */
+    private $campania;
+
+    /**
+     * @var \CrmContacto
+     *
+     * @ORM\ManyToOne(targetEntity="CrmContacto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="contacto", referencedColumnName="id")
+     * })
+     */
+    private $contacto;
+
+    /**
+     * @var \CrmProyecto
+     *
+     * @ORM\ManyToOne(targetEntity="CrmProyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto", referencedColumnName="id")
+     * })
+     */
+    private $proyecto;
+
+
+}

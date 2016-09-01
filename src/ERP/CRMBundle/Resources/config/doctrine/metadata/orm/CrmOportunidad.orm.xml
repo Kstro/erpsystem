@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmOportunidad" table="crm_oportunidad">
+    <indexes>
+      <index name="fk_crm_oportunidad_ctl_etapa_venta1_idx" columns="etapa_venta"/>
+      <index name="fk_crm_oportunidad_ctl_fuente1_idx" columns="fuente_principal"/>
+      <index name="fk_crm_oportunidad_campania1_idx" columns="campania"/>
+      <index name="fk_crm_oportunidad_crm_estado_oportunidad1_idx" columns="estado_oportunidad"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="150" nullable="false"/>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <field name="fechaCierre" type="date" column="fecha_cierre" nullable="true"/>
+    <field name="descripcion" type="text" column="descripcion" length="65535" nullable="true"/>
+    <many-to-one field="estadoOportunidad" target-entity="CrmEstadoOportunidad">
+      <join-columns>
+        <join-column name="estado_oportunidad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="campania" target-entity="CrmCampania">
+      <join-columns>
+        <join-column name="campania" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="fuentePrincipal" target-entity="CtlFuente">
+      <join-columns>
+        <join-column name="fuente_principal" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="etapaVenta" target-entity="CtlEtapaVenta">
+      <join-columns>
+        <join-column name="etapa_venta" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,77 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmCampania
+ *
+ * @ORM\Table(name="crm_campania", indexes={@ORM\Index(name="fk_crm_campania_crm_tipo_campania1_idx", columns={"tipo_campania"})})
+ * @ORM\Entity
+ */
+class CrmCampania
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", length=65535, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="date", nullable=false)
+     */
+    private $fechaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_fin", type="date", nullable=false)
+     */
+    private $fechaFin;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \CrmTipoCampania
+     *
+     * @ORM\ManyToOne(targetEntity="CrmTipoCampania")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_campania", referencedColumnName="id")
+     * })
+     */
+    private $tipoCampania;
+
+
+}

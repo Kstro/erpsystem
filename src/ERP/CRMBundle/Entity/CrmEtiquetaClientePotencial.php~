@@ -1,0 +1,45 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmEtiquetaClientePotencial
+ *
+ * @ORM\Table(name="crm_etiqueta_cliente_potencial", indexes={@ORM\Index(name="fk_crm_etiqueta_cliente_potencial_crm_etiqueta1_idx", columns={"etiqueta"}), @ORM\Index(name="fk_crm_etiqueta_cliente_potencial_crm_cliente_potencial1_idx", columns={"cliente_potencial"})})
+ * @ORM\Entity
+ */
+class CrmEtiquetaClientePotencial
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \CrmEtiqueta
+     *
+     * @ORM\ManyToOne(targetEntity="CrmEtiqueta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="etiqueta", referencedColumnName="id")
+     * })
+     */
+    private $etiqueta;
+
+    /**
+     * @var \CrmClientePotencial
+     *
+     * @ORM\ManyToOne(targetEntity="CrmClientePotencial")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cliente_potencial", referencedColumnName="id")
+     * })
+     */
+    private $clientePotencial;
+
+
+}

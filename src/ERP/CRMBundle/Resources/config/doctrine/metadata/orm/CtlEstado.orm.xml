@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CtlEstado" table="ctl_estado">
+    <indexes>
+      <index name="fk_ctl_estado_ctl_pais1_idx" columns="pais"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="codigo" type="string" column="codigo" length="15" nullable="true"/>
+    <field name="nombre" type="string" column="nombre" length="200" nullable="false"/>
+    <many-to-one field="pais" target-entity="CtlPais">
+      <join-columns>
+        <join-column name="pais" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

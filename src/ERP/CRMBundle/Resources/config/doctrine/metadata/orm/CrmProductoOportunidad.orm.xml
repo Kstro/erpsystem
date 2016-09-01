@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmProductoOportunidad" table="crm_producto_oportunidad">
+    <indexes>
+      <index name="fk_crm_oportunidad_has_ctl_producto_ctl_producto1_idx" columns="producto"/>
+      <index name="fk_crm_oportunidad_has_ctl_producto_crm_oportunidad1_idx" columns="oportunidad"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="cantidad" type="integer" column="cantidad" nullable="false"/>
+    <many-to-one field="producto" target-entity="CtlProducto">
+      <join-columns>
+        <join-column name="producto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="oportunidad" target-entity="CrmOportunidad">
+      <join-columns>
+        <join-column name="oportunidad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

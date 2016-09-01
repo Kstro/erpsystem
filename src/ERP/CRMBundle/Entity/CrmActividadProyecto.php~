@@ -1,0 +1,52 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmActividadProyecto
+ *
+ * @ORM\Table(name="crm_actividad_proyecto", indexes={@ORM\Index(name="fk_crm_actividad_proyecto_crm_actividad1_idx", columns={"actividad"}), @ORM\Index(name="fk_crm_actividad_proyecto_crm_proyecto1_idx", columns={"proyecto"})})
+ * @ORM\Entity
+ */
+class CrmActividadProyecto
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \CrmActividad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actividad", referencedColumnName="id")
+     * })
+     */
+    private $actividad;
+
+    /**
+     * @var \CrmProyecto
+     *
+     * @ORM\ManyToOne(targetEntity="CrmProyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto", referencedColumnName="id")
+     * })
+     */
+    private $proyecto;
+
+
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CtlPersona" table="ctl_persona">
+    <indexes>
+      <index name="fk_ctl_persona_ctl_sucursal1_idx" columns="sucursal"/>
+      <index name="fk_ctl_persona_ctl_tratamiento_protocolario1_idx" columns="tratamiento_protocolario"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="150" nullable="false"/>
+    <field name="apellido" type="string" column="apellido" length="150" nullable="false"/>
+    <field name="genero" type="string" column="genero" length="1" nullable="false"/>
+    <field name="fechaRegistro" type="datetime" column="fecha_registro" nullable="false"/>
+    <many-to-one field="tratamientoProtocolario" target-entity="CtlTratamientoProtocolario">
+      <join-columns>
+        <join-column name="tratamiento_protocolario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="sucursal" target-entity="CtlSucursal">
+      <join-columns>
+        <join-column name="sucursal" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

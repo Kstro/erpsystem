@@ -1,0 +1,65 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmAsignacionActividad
+ *
+ * @ORM\Table(name="crm_asignacion_actividad", indexes={@ORM\Index(name="fk_crm_asignado_tarea_crm_tarea1_idx", columns={"actividad"}), @ORM\Index(name="fk_crm_asignado_tarea_ctl_usuario1_idx", columns={"usuario_asignado"}), @ORM\Index(name="fk_crm_asignacion_actividad_ctl_tiempo_notificacion1_idx", columns={"tiempo_notificacion"}), @ORM\Index(name="fk_crm_asignacion_actividad_ctl_tipo_recordatorio1_idx", columns={"tipo_recordatorio"})})
+ * @ORM\Entity
+ */
+class CrmAsignacionActividad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \CrmActividad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actividad", referencedColumnName="id")
+     * })
+     */
+    private $actividad;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_asignado", referencedColumnName="id")
+     * })
+     */
+    private $usuarioAsignado;
+
+    /**
+     * @var \CtlTiempoNotificacion
+     *
+     * @ORM\ManyToOne(targetEntity="CtlTiempoNotificacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tiempo_notificacion", referencedColumnName="id")
+     * })
+     */
+    private $tiempoNotificacion;
+
+    /**
+     * @var \CtlTipoRecordatorio
+     *
+     * @ORM\ManyToOne(targetEntity="CtlTipoRecordatorio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_recordatorio", referencedColumnName="id")
+     * })
+     */
+    private $tipoRecordatorio;
+
+
+}

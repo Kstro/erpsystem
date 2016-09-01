@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmClientePotencial" table="crm_cliente_potencial">
+    <indexes>
+      <index name="fk_crm_cliente_potencial_ctl_nivel_interes1_idx" columns="nivel_interes"/>
+      <index name="fk_crm_cliente_potencial_ctl_fuente1_idx" columns="fuente_principal"/>
+      <index name="fk_crm_cliente_potencial_campania1_idx" columns="campania"/>
+      <index name="fk_crm_cliente_potencial_crm_estado_cliente_potencial1_idx" columns="estado_cliente_potencial"/>
+      <index name="fk_crm_cliente_potencial_ctl_persona1_idx" columns="persona"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="persona" target-entity="CtlPersona">
+      <join-columns>
+        <join-column name="persona" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="estadoClientePotencial" target-entity="CrmEstadoClientePotencial">
+      <join-columns>
+        <join-column name="estado_cliente_potencial" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="campania" target-entity="CrmCampania">
+      <join-columns>
+        <join-column name="campania" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="fuentePrincipal" target-entity="CtlFuente">
+      <join-columns>
+        <join-column name="fuente_principal" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="nivelInteres" target-entity="CtlNivelInteres">
+      <join-columns>
+        <join-column name="nivel_interes" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

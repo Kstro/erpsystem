@@ -1,0 +1,8 @@
+erpcrm:
+    resource: "@ERPCRMBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

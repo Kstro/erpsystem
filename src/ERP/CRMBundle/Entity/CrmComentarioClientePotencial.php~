@@ -1,0 +1,59 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmComentarioClientePotencial
+ *
+ * @ORM\Table(name="crm_comentario_cliente_potencial", indexes={@ORM\Index(name="fk_crm_comentario_has_crm_cliente_potencial_crm_cliente_pot_idx", columns={"cliente_potencial"}), @ORM\Index(name="fk_crm_comentario_cliente_potencial_ctl_usuario1_idx", columns={"usuario"})})
+ * @ORM\Entity
+ */
+class CrmComentarioClientePotencial
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comentario", type="text", length=65535, nullable=false)
+     */
+    private $comentario;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \CrmClientePotencial
+     *
+     * @ORM\ManyToOne(targetEntity="CrmClientePotencial")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cliente_potencial", referencedColumnName="id")
+     * })
+     */
+    private $clientePotencial;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+
+}

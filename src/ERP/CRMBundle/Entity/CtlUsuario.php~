@@ -1,0 +1,85 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtlUsuario
+ *
+ * @ORM\Table(name="ctl_usuario", indexes={@ORM\Index(name="fk_ctl_usuario_ctl_persona1_idx", columns={"persona"})})
+ * @ORM\Entity
+ */
+class CtlUsuario
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=150, nullable=false)
+     */
+    private $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=255, nullable=false)
+     */
+    private $salt;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \CtlPersona
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPersona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="persona", referencedColumnName="id")
+     * })
+     */
+    private $persona;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CtlRol", inversedBy="usuario")
+     * @ORM\JoinTable(name="ctl_rol_usuario",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="rol", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $rol;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->rol = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

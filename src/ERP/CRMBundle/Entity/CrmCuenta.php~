@@ -1,0 +1,110 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmCuenta
+ *
+ * @ORM\Table(name="crm_cuenta", indexes={@ORM\Index(name="fk_crm_cuenta_crm_tipo_cuenta1_idx", columns={"tipo_cuenta"}), @ORM\Index(name="fk_crm_cuenta_ctl_industria1_idx", columns={"industria"}), @ORM\Index(name="fk_crm_cuenta_crm_cliente_potencial1_idx", columns={"cliente_potencial"}), @ORM\Index(name="fk_crm_cuenta_ctl_nivel_satisfaccion1_idx", columns={"nivel_satisfaccion"}), @ORM\Index(name="fk_crm_cuenta_ctl_tipo_entidad1_idx", columns={"tipo_entidad"})})
+ * @ORM\Entity
+ */
+class CrmCuenta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", length=65535, nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sitio_web", type="string", length=100, nullable=true)
+     */
+    private $sitioWeb;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \CrmTipoCuenta
+     *
+     * @ORM\ManyToOne(targetEntity="CrmTipoCuenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_cuenta", referencedColumnName="id")
+     * })
+     */
+    private $tipoCuenta;
+
+    /**
+     * @var \CtlIndustria
+     *
+     * @ORM\ManyToOne(targetEntity="CtlIndustria")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="industria", referencedColumnName="id")
+     * })
+     */
+    private $industria;
+
+    /**
+     * @var \CrmClientePotencial
+     *
+     * @ORM\ManyToOne(targetEntity="CrmClientePotencial")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cliente_potencial", referencedColumnName="id")
+     * })
+     */
+    private $clientePotencial;
+
+    /**
+     * @var \CtlNivelSatisfaccion
+     *
+     * @ORM\ManyToOne(targetEntity="CtlNivelSatisfaccion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nivel_satisfaccion", referencedColumnName="id")
+     * })
+     */
+    private $nivelSatisfaccion;
+
+    /**
+     * @var \CtlTipoEntidad
+     *
+     * @ORM\ManyToOne(targetEntity="CtlTipoEntidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_entidad", referencedColumnName="id")
+     * })
+     */
+    private $tipoEntidad;
+
+
+}

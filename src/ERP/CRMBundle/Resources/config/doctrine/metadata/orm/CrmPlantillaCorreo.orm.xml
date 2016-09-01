@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmPlantillaCorreo" table="crm_plantilla_correo">
+    <indexes>
+      <index name="fk_crm_plantilla_correo_ctl_usuario1_idx" columns="usuario_asignado"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="150" nullable="false"/>
+    <field name="descripcion" type="text" column="descripcion" length="65535" nullable="true"/>
+    <field name="asunto" type="string" column="asunto" length="125" nullable="true"/>
+    <field name="cuerpoCorreo" type="text" column="cuerpo_correo" length="65535" nullable="true"/>
+    <field name="estado" type="boolean" column="estado" nullable="false"/>
+    <many-to-one field="usuarioAsignado" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario_asignado" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

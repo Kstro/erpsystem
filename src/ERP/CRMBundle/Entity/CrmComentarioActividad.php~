@@ -1,0 +1,59 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmComentarioActividad
+ *
+ * @ORM\Table(name="crm_comentario_actividad", indexes={@ORM\Index(name="fk_crm_actividad_has_crm_comentario_crm_actividad1_idx", columns={"actividad"}), @ORM\Index(name="fk_crm_comentario_actividad_ctl_usuario1_idx", columns={"usuario"})})
+ * @ORM\Entity
+ */
+class CrmComentarioActividad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comentario", type="text", length=65535, nullable=false)
+     */
+    private $comentario;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \CrmActividad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actividad", referencedColumnName="id")
+     * })
+     */
+    private $actividad;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+
+}

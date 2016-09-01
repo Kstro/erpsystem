@@ -1,0 +1,75 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmClientePotencial
+ *
+ * @ORM\Table(name="crm_cliente_potencial", indexes={@ORM\Index(name="fk_crm_cliente_potencial_ctl_nivel_interes1_idx", columns={"nivel_interes"}), @ORM\Index(name="fk_crm_cliente_potencial_ctl_fuente1_idx", columns={"fuente_principal"}), @ORM\Index(name="fk_crm_cliente_potencial_campania1_idx", columns={"campania"}), @ORM\Index(name="fk_crm_cliente_potencial_crm_estado_cliente_potencial1_idx", columns={"estado_cliente_potencial"}), @ORM\Index(name="fk_crm_cliente_potencial_ctl_persona1_idx", columns={"persona"})})
+ * @ORM\Entity
+ */
+class CrmClientePotencial
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \CtlNivelInteres
+     *
+     * @ORM\ManyToOne(targetEntity="CtlNivelInteres")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nivel_interes", referencedColumnName="id")
+     * })
+     */
+    private $nivelInteres;
+
+    /**
+     * @var \CtlFuente
+     *
+     * @ORM\ManyToOne(targetEntity="CtlFuente")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fuente_principal", referencedColumnName="id")
+     * })
+     */
+    private $fuentePrincipal;
+
+    /**
+     * @var \CrmCampania
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCampania")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="campania", referencedColumnName="id")
+     * })
+     */
+    private $campania;
+
+    /**
+     * @var \CrmEstadoClientePotencial
+     *
+     * @ORM\ManyToOne(targetEntity="CrmEstadoClientePotencial")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_cliente_potencial", referencedColumnName="id")
+     * })
+     */
+    private $estadoClientePotencial;
+
+    /**
+     * @var \CtlPersona
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPersona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="persona", referencedColumnName="id")
+     * })
+     */
+    private $persona;
+
+
+}

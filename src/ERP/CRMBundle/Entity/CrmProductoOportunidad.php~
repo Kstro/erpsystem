@@ -1,0 +1,52 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmProductoOportunidad
+ *
+ * @ORM\Table(name="crm_producto_oportunidad", indexes={@ORM\Index(name="fk_crm_oportunidad_has_ctl_producto_ctl_producto1_idx", columns={"producto"}), @ORM\Index(name="fk_crm_oportunidad_has_ctl_producto_crm_oportunidad1_idx", columns={"oportunidad"})})
+ * @ORM\Entity
+ */
+class CrmProductoOportunidad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="cantidad", type="integer", nullable=false)
+     */
+    private $cantidad;
+
+    /**
+     * @var \CrmOportunidad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmOportunidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="oportunidad", referencedColumnName="id")
+     * })
+     */
+    private $oportunidad;
+
+    /**
+     * @var \CtlProducto
+     *
+     * @ORM\ManyToOne(targetEntity="CtlProducto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="producto", referencedColumnName="id")
+     * })
+     */
+    private $producto;
+
+
+}

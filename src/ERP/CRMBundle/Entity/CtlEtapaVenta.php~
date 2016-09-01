@@ -1,0 +1,46 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtlEtapaVenta
+ *
+ * @ORM\Table(name="ctl_etapa_venta")
+ * @ORM\Entity
+ */
+class CtlEtapaVenta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="probabilidad", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $probabilidad;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
+
+
+}

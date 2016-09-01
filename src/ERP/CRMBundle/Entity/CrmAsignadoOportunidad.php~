@@ -1,0 +1,62 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmAsignadoOportunidad
+ *
+ * @ORM\Table(name="crm_asignado_oportunidad", indexes={@ORM\Index(name="fk_crm_asignado_oportunidad_crm_oportunidad1_idx", columns={"oportunidad"}), @ORM\Index(name="fk_crm_asignado_oportunidad_ctl_usuario1_idx", columns={"usuario_asignado"}), @ORM\Index(name="fk_crm_asignado_oportunidad_ctl_prioridad1_idx", columns={"prioridad"})})
+ * @ORM\Entity
+ */
+class CrmAsignadoOportunidad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_limite", type="date", nullable=true)
+     */
+    private $fechaLimite;
+
+    /**
+     * @var \CrmOportunidad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmOportunidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="oportunidad", referencedColumnName="id")
+     * })
+     */
+    private $oportunidad;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_asignado", referencedColumnName="id")
+     * })
+     */
+    private $usuarioAsignado;
+
+    /**
+     * @var \CtlPrioridad
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPrioridad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="prioridad", referencedColumnName="id")
+     * })
+     */
+    private $prioridad;
+
+
+}

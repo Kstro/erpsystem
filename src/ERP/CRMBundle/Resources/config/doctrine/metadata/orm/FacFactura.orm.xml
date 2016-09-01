@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="FacFactura" table="fac_factura">
+    <indexes>
+      <index name="fk_fac_factura_crm_oportunidad1_idx" columns="oportunidad"/>
+      <index name="fk_fac_factura_ctl_usuario1_idx" columns="usuario"/>
+      <index name="fk_fac_factura_ctl_estado_factura1_idx" columns="estado_factura"/>
+      <index name="fk_fac_factura_ctl_sucursal1_idx" columns="sucursal"/>
+      <index name="fk_fac_factura_ctl_direccion1_idx" columns="direccion"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fechaFactura" type="date" column="fecha_factura" nullable="false"/>
+    <many-to-one field="direccion" target-entity="CtlDireccion">
+      <join-columns>
+        <join-column name="direccion" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="sucursal" target-entity="CtlSucursal">
+      <join-columns>
+        <join-column name="sucursal" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="estadoFactura" target-entity="CtlEstadoFactura">
+      <join-columns>
+        <join-column name="estado_factura" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuario" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="oportunidad" target-entity="CrmOportunidad">
+      <join-columns>
+        <join-column name="oportunidad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

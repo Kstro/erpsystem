@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmEtiquetaProyecto" table="crm_etiqueta_proyecto">
+    <indexes>
+      <index name="fk_crm_etiqueta_proyecto_crm_etiqueta1_idx" columns="etiqueta"/>
+      <index name="fk_crm_etiqueta_proyecto_crm_proyecto1_idx" columns="proyecto"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="proyecto" target-entity="CrmProyecto">
+      <join-columns>
+        <join-column name="proyecto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="etiqueta" target-entity="CrmEtiqueta">
+      <join-columns>
+        <join-column name="etiqueta" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

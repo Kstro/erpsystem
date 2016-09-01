@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmAsignadoOportunidad" table="crm_asignado_oportunidad">
+    <indexes>
+      <index name="fk_crm_asignado_oportunidad_crm_oportunidad1_idx" columns="oportunidad"/>
+      <index name="fk_crm_asignado_oportunidad_ctl_usuario1_idx" columns="usuario_asignado"/>
+      <index name="fk_crm_asignado_oportunidad_ctl_prioridad1_idx" columns="prioridad"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fechaLimite" type="date" column="fecha_limite" nullable="true"/>
+    <many-to-one field="prioridad" target-entity="CtlPrioridad">
+      <join-columns>
+        <join-column name="prioridad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuarioAsignado" target-entity="CtlUsuario">
+      <join-columns>
+        <join-column name="usuario_asignado" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="oportunidad" target-entity="CrmOportunidad">
+      <join-columns>
+        <join-column name="oportunidad" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

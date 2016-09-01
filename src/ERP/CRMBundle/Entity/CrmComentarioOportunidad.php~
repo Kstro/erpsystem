@@ -1,0 +1,59 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmComentarioOportunidad
+ *
+ * @ORM\Table(name="crm_comentario_oportunidad", indexes={@ORM\Index(name="fk_crm_comentario_has_crm_oportunidad_crm_oportunidad1_idx", columns={"oportunidad"}), @ORM\Index(name="fk_crm_comentario_oportunidad_ctl_usuario1_idx", columns={"usuario"})})
+ * @ORM\Entity
+ */
+class CrmComentarioOportunidad
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comentario", type="text", length=65535, nullable=false)
+     */
+    private $comentario;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \CrmOportunidad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmOportunidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="oportunidad", referencedColumnName="id")
+     * })
+     */
+    private $oportunidad;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+
+}

@@ -1,0 +1,42 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmContacto
+ *
+ * @ORM\Table(name="crm_contacto", indexes={@ORM\Index(name="fk_crm_contacto_ctl_persona1_idx", columns={"persona"})})
+ * @ORM\Entity
+ */
+class CrmContacto
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \CtlPersona
+     *
+     * @ORM\ManyToOne(targetEntity="CtlPersona")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="persona", referencedColumnName="id")
+     * })
+     */
+    private $persona;
+
+
+}

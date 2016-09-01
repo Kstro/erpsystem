@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmPersonaProyecto" table="crm_persona_proyecto">
+    <indexes>
+      <index name="fk_crm_persona_proyecto_crm_proyecto1_idx" columns="proyecto"/>
+      <index name="fk_crm_persona_proyecto_ctl_persona1_idx" columns="persona"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="fechaInicio" type="datetime" column="fecha_inicio" nullable="false"/>
+    <field name="fechaFin" type="datetime" column="fecha_fin" nullable="false"/>
+    <many-to-one field="persona" target-entity="CtlPersona">
+      <join-columns>
+        <join-column name="persona" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="proyecto" target-entity="CrmProyecto">
+      <join-columns>
+        <join-column name="proyecto" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

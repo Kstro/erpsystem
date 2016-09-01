@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CrmPersonalCampania" table="crm_personal_campania">
+    <indexes>
+      <index name="fk_crm_asignacion_campania_crm_campania1_idx" columns="campania"/>
+      <index name="fk_crm_personal_campania_ctl_persona1_idx" columns="persona_asignada"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="estado" type="integer" column="estado" nullable="false"/>
+    <many-to-one field="personaAsignada" target-entity="CtlPersona">
+      <join-columns>
+        <join-column name="persona_asignada" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="campania" target-entity="CrmCampania">
+      <join-columns>
+        <join-column name="campania" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

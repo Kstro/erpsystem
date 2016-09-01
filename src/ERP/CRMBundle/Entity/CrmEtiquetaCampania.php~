@@ -1,0 +1,45 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmEtiquetaCampania
+ *
+ * @ORM\Table(name="crm_etiqueta_campania", indexes={@ORM\Index(name="fk_crm_etiqueta_campania_crm_etiqueta1_idx", columns={"etiqueta"}), @ORM\Index(name="fk_crm_etiqueta_campania_campania1_idx", columns={"campania"})})
+ * @ORM\Entity
+ */
+class CrmEtiquetaCampania
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \CrmEtiqueta
+     *
+     * @ORM\ManyToOne(targetEntity="CrmEtiqueta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="etiqueta", referencedColumnName="id")
+     * })
+     */
+    private $etiqueta;
+
+    /**
+     * @var \CrmCampania
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCampania")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="campania", referencedColumnName="id")
+     * })
+     */
+    private $campania;
+
+
+}

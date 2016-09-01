@@ -1,0 +1,83 @@
+<?php
+
+namespace ERP\CRMBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CrmCotizacion
+ *
+ * @ORM\Table(name="crm_cotizacion", indexes={@ORM\Index(name="fk_crm_cotizacion_crm_oportunidad1_idx", columns={"oportunidad"}), @ORM\Index(name="fk_crm_cotizacion_ctl_usuario1_idx", columns={"usuario"}), @ORM\Index(name="fk_crm_cotizacion_crm_estado_cotizacion1_idx", columns={"estado_cotizacion"})})
+ * @ORM\Entity
+ */
+class CrmCotizacion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fechaRegistro;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_vencimiento", type="date", nullable=false)
+     */
+    private $fechaVencimiento;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_cierre", type="datetime", nullable=true)
+     */
+    private $fechaCierre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="condiciones_generales", type="text", length=65535, nullable=true)
+     */
+    private $condicionesGenerales;
+
+    /**
+     * @var \CrmOportunidad
+     *
+     * @ORM\ManyToOne(targetEntity="CrmOportunidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="oportunidad", referencedColumnName="id")
+     * })
+     */
+    private $oportunidad;
+
+    /**
+     * @var \CtlUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="CtlUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \CrmEstadoCotizacion
+     *
+     * @ORM\ManyToOne(targetEntity="CrmEstadoCotizacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_cotizacion", referencedColumnName="id")
+     * })
+     */
+    private $estadoCotizacion;
+
+
+}
