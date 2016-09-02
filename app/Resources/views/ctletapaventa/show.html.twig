@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlEtapaVenta</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ctlEtapaVentum.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ ctlEtapaVentum.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Probabilidad</th>
+                <td>{{ ctlEtapaVentum.probabilidad }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{% if ctlEtapaVentum.estado %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_ctletapaventa_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_ctletapaventa_edit', { 'id': ctlEtapaVentum.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

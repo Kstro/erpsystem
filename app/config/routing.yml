@@ -6,3 +6,7 @@ erpcrm:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+# app/config/routing.yml
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

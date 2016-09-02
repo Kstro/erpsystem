@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{%block head -%} 
+    {% block title -%}<title>::{% block titlename -%}:: Plus Belle ::{% endblock %}</title>{% endblock %}
+
+    {% block meta -%}
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+    {% block css -%}
+        <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
+        <link rel="stylesheet" href="{{ asset('Resources/fullcalendar/css/fullcalendar.print.css') }}" media="print"/>
+        <link rel="stylesheet" href="{{ asset('Resources/jquery-ui/themes/base/jquery-ui.css') }}"  media="all"/>
+        {#<link rel="stylesheet" href="{{ asset('Resources/bootstrap-3/css/bootstrap.css') }}"  media="all"/>#}
+    {%- endblock %}
+    {% block js -%}
+        <script type="text/javascript" src="{{ asset('Resources/bootstrap-3/js/jquery.min.js') }}"></script>  
+        
+        {#<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script type="text/javascript" src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>        #}
+        <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
+        <script src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
+        <script src="{{ asset('Resources/jquery-ui/ui/jquery-ui.js') }}"></script>
+{#        <script type="text/javascript" src="{{ asset('Resources/jquery-ui/ui/jquery-ui.js') }}"></script>#}
+    {%- endblock %}
+     
+{% endblock %}
+</head>
+<body>
+{% block body -%}
+<div>{% block menu -%}{% endblock %}</div>
+<div class="container-fluid">
+  <div class="row">     
+   <div class="col-xs-12 cols-sm-12 col-md-12 col col-lg-12">
+       {% block header -%}
+        <div class="row"> 
+          <div class="col-xs-3 cols-sm-3 col-md-3 col col-lg-3">
+            {% block logo %}{% endblock %}
+          </div>
+          <div class="col-md-12">
+            {% block titleHeader %}
+            <h2><p class="fheader"></p></h2>	
+            {% endblock %}    
+          </div>
+        </div>
+        {%- endblock %}
+   </div>
+  </div>
+  {% block bodycontenido -%}
+  <div class="row">     
+      <div class="col-xs2 cols-sm-3 col-md-3 col col-lg-3">
+            {% block sidebar %}{% endblock %}
+      </div>
+      <div class="col-xs-9 cols-sm-9 col-md-9 col col-lg-9">
+            {% block contenido %}{% endblock %} 
+      </div>
+  </div>
+  {% endblock %}
+  <div class="row">     
+      <div class="col-xs-12 cols-sm-12 col-md-12 col col-lg-12">
+          {% block footer -%}{% endblock %}
+      </div>
+</div>
+</div>
+{% endblock %}
+{% block jquery -%}{% endblock %} 
+</body>
+</html>

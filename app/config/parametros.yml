@@ -1,0 +1,65 @@
+# This file is auto-generated during the composer install
+parameters:
+    #labels
+        app.pais: 
+        app.nombre: 
+        app.urlParam: 
+        app.protocolo: 
+    #Titulos página
+        #front
+        app.tituloHome:  CRM Systems
+        app.tituloDirectorio: 
+        app.tituloPreguntarGratis: 
+        app.tituloRealizarPregunta: 
+        app.tituloRespuesta: 
+        app.tituloPreguntas: 
+        app.tituloLogin: 
+        app.tituloRegistro: 
+        app.tituloBlog: 
+        app.tituloBlogEntrada: 
+        app.tituloContacto: 
+        app.tituloRecomendar: 
+        app.tituloRecuperarContraseña: 
+        app.tituloPago: 
+        #perfil
+        app.perfil: 
+        app.perfilPublico: 
+        app.verficarmeAbogado: 
+        app.verficarmeNotario: 
+        app.miSuscripciones: 
+        app.miEmpresa: 
+        app.ajustesCuenta: 
+        app.miBlog: 
+        app.centroPreguntas: 
+        app.cambiarPass: 
+        #administración
+        app.abogadosReg: 
+        app.aprobacionPagos: 
+        app.aprobacionAbogados: 
+        app.verificarAbogados: 
+        app.verificarNotarios: 
+        app.facturacion: 
+        app.aprobarPreguntas: 
+        app.correoAdmin: 
+        app.promociones: 
+    #Imagenes
+        app.logoBlog: 
+        app.logoPanel: 
+        app.logoBlanco: 
+        app.logoColor: 
+        app.logoPublicidad: 
+        app.logoRegistro: 
+        app.suscripcionBoton: 
+        app.cancelarSuscripcionBoton: 
+        app.metodoPago: 
+    #Correos
+        app.correoInfo: 
+        app.correo: 
+    #Codigo de área (Telefono)
+        app.codigoParam: 
+    #Coordenadas pais (Para la empresa, predeterminar un punto de partida en el pais)
+        app.coordenadasLatitud: 
+        app.coordenadasLongitud: 
+    #Otros
+        app.facebook: 
+        

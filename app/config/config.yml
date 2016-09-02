@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: parametros.yml }
     - { resource: security.yml }
     - { resource: services.yml }
 
@@ -35,6 +36,54 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
 
+#Parametros para cambiar apariencia de la plataforma    
+    globals:
+        urlParam: '%app.urlParam%'
+        pais: '%app.pais%'
+        nombre: '%app.nombre%'
+        tituloHome: '%app.tituloHome%'
+        tituloDirectorio: '%app.tituloDirectorio%'
+        tituloPreguntarGratis: '%app.tituloPreguntarGratis%'
+        tituloRealizarPregunta: '%app.tituloRealizarPregunta%'
+        tituloRespuesta: '%app.tituloRespuesta%'
+        tituloPreguntas: '%app.tituloPreguntas%'
+        tituloLogin: '%app.tituloLogin%'
+        tituloRegistro: '%app.tituloRegistro%'
+        tituloBlog: '%app.tituloBlog%'
+        tituloBlogEntrada: '%app.tituloBlogEntrada%'
+        tituloContacto: '%app.tituloContacto%'
+        tituloRecomendar: '%app.tituloRecomendar%'
+        tituloRecuperarContraseña: '%app.tituloRecuperarContraseña%'
+        perfil: '%app.perfil%'
+        perfilPublico: '%app.perfilPublico%'
+        verficarmeAbogado: '%app.verficarmeAbogado%'
+        verficarmeNotario: '%app.verficarmeNotario%'
+        miSuscripciones: '%app.miSuscripciones%'
+        miEmpresa: '%app.miEmpresa%'
+        ajustesCuenta: '%app.ajustesCuenta%'
+        miBlog: '%app.miBlog%'
+        centroPreguntas: '%app.centroPreguntas%'
+        cambiarPass: '%app.cambiarPass%'
+        abogadosReg: '%app.abogadosReg%'
+        aprobacionAbogados: '%app.aprobacionAbogados%'
+        aprobacionPagos: '%app.aprobacionPagos%'
+        verificarAbogados: '%app.verificarAbogados%'
+        verificarNotarios: '%app.verificarNotarios%'
+        facturacion: '%app.facturacion%'
+        aprobarPreguntas: '%app.aprobarPreguntas%'
+        correoAdmin: '%app.correoAdmin%'
+        promociones: '%app.promociones%'
+        logoPanel: '%app.logoPanel%'
+        logoColor: '%app.logoColor%'
+        logoPublicidad: '%app.logoPublicidad%'
+        logoRegistro: '%app.logoRegistro%'
+        logoBlanco: '%app.logoBlanco%'
+        correoInfo: '%app.correoInfo%'
+        codigoParam: '%app.codigoParam%'
+        coordenadasLatitud: '%app.coordenadasLatitud%'
+        coordenadasLongitud: '%app.coordenadasLongitud%'
+        facebook: '%app.facebook%'
+
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -54,8 +103,19 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        default_entity_manager:   default
+        entity_managers:
+            default:
+                connection:       default
+                mappings:
+                    ERPCRMBundle: ~
+                dql:
+                    datetime_functions:
+                        DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+                        DAY: DoctrineExtensions\Query\Mysql\Day
+                        MONTH: DoctrineExtensions\Query\Mysql\Month
+                        YEAR: DoctrineExtensions\Query\Mysql\Year
+                        IFNULL: DoctrineExtensions\Query\Mysql\IfNull
 
 # Swiftmailer Configuration
 swiftmailer:
