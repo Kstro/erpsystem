@@ -1,3 +1,11 @@
 .errorform{
 	border: 1px solid #D43F3A;
 }
+
+/*Slider settings*/
+#ex1Slider .slider-selection {
+	background: #DDD;
+}
+slider-track-high{
+	
+}

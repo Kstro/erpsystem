@@ -15,3 +15,7 @@
 			return true;///Valor valido
 		}
 	}
+
+	function isAlphaOrParen(str) {
+  		return /^[a-zA-Z() ]+$/.test(str);
+	}
