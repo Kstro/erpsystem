@@ -50,18 +50,15 @@ $(document).ready(function() {
 	/////Fin definición persist data (Save method)
 
 
-
 	/////Persist datatable (Edit method)
-	$(document).on('click', '#saleStageList>tbody>tr', function(event) {
+	$(document).on('click', '#saleStageList>tbody>tr>td:nth-child(2), #saleStageList>tbody>tr>td:nth-child(3), #saleStageList>tbody>tr>td:nth-child(4)', function(event) {
 		/////Definición de variables
 		var text = $(this).prop('tagName');
 		console.log(text);
-		var id=$(this).children().first().children().attr('id');
+		var id=$(this).parent().children().first().children().attr('id');
 		var idForm=$('#txtId').val();
-
-		
 		var probability=$('#txtProbability');
-		if (text=='TR' && id!=idForm) {
+		if (text=='TD' && id!=idForm) {
 			$.ajax({
 				url: Routing.generate('admin_ctletapaventa_retrieve_ajax'),
 				type: 'POST',
@@ -77,15 +74,12 @@ $(document).ready(function() {
 						probability.slider('setValue', data.probability);
 					}					
 					$('#pnAdd').slideDown();
-					//$('.btnAdd').click();
-					//table.ajax.reload();
 				},
 				error:function(data){
 					if(data.error){
 						console.log(data.id);
 						swal('',data.error,'error');
 					}
-					//$btn.button('reset');
 				}
 			});
 		} 
@@ -122,6 +116,7 @@ $(document).ready(function() {
 					$('#txtId').val(data.id);
 					$('#txtName').val(data.name);
 					
+					$('.chkItemAll').prop({'checked': false});
 					$btn.button('reset');
 					table.ajax.reload();
 				}

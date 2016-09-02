@@ -1,0 +1,109 @@
+{% extends ':layout:layouterp.html.twig' %}
+
+
+{% block customcss %}
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+{% endblock %}
+{% block descripcion %}
+     <div class="col-md-5">
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">Campaigns list</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">Add, modify or delete campaign.</p>
+     </div>
+
+{% endblock %}
+{% block acciones %}
+     <div class="col-md-7 text-right panel-body">
+          <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">Add</button>
+          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">Delete</button>
+          <button class="hidden btnShow btn btn-sm btn-success btn-flat">Show</button>
+          <button class="hidden btnAction btn btn-sm btn-default btn-flat">Action</button>
+     </div>
+{% endblock acciones %}
+
+{% block navegacion %}
+    <a href="/sepes/app_dev.php/admin/reporte/pacientes/reporte" class="leftnava"><li class="leftnav left ">Users management<span class="pull-right right"><i class=""></i></span></li></a>
+    <a href="/sepes/app_dev.php/admin/reporte/ingresoemergencia" class="leftnava"><li class="leftnav left active"> management<span class="pull-right right"><i class="fa fa-arrow-right"></i></span></li></a>
+          
+{% endblock %}
+
+
+{% block contenido %}
+    <div class="row">
+        {% include ':ctletapaventa:new.html.twig' %}
+
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-xs-12">
+            <table id="campaignList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+                  
+                <thead>
+                    <tr role="row">
+                        <th style="text-align:left;width: 10px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting">Name</th>
+                        <th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">Probability</th>
+                        <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th>
+                        {# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}
+                    </tr>
+                </thead>      
+             </table>
+        </div>
+    </div>
+{% endblock %}
+{% block contenido %}
+    
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    </table>
+
+    
+{% endblock %}
+
+{% block js_extend %}
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/salestage/salestage.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/slider/js/bootstrap-slider.min.js') }}"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            /////Definición datatable
+            var table = $('#campaignList').DataTable({
+                dom:'ftp',
+                "processing": false,
+                "serverSide": true,
+                "ajax": {
+                    "url": '{{path('admin_campaigns_data')}}',
+                    "type": 'GET'
+                },
+                "columns": [
+                    { "data": "chk" },
+                    { "data": "name" },
+                    { "data": "probability" },
+                    { "data": "state" }
+                    // { "data": "actions" }
+                ],
+                "order":[1,'asc'],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 },
+                    { "orderable": false, "targets": 3 }
+                ]
+            });
+            /////Fin definición datatable
+
+            /////Definición slider
+            $('#txtProbability').slider({
+                formatter: function(value) {
+                    return 'Current value: ' + value;
+                }
+            });
+            /////Fin definición slider
+        });
+    </script>
+     
+{% endblock %}
