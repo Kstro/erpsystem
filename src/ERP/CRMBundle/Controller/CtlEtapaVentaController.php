@@ -4,6 +4,7 @@ namespace ERP\CRMBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -147,7 +148,7 @@ class CtlEtapaVentaController extends Controller
      *
      * @Route("/sales/data/as", name="admin_etapa_ventas_data")
      */
-    public function datapacienteAction(Request $request)
+    public function datasalesAction(Request $request)
     {
         
     
@@ -188,18 +189,26 @@ class CtlEtapaVentaController extends Controller
         if($busqueda['value']!=''){
             
                     
-                    $dql = "SELECT pac.nombre as name,pac.probabilidad as probability,pac.estado as state, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as link FROM ERPCRMBundle:CtlEtapaVenta pac "
-                                                . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ',upper(pac.probabilidad),' ',upper(pac.estado)) LIKE upper(:busqueda) "
-                        . "AND pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                    $sql = "SELECT pac.nombre as name, CONCAT(pac.probabilidad,' %') as probability, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions,
+                                CASE
+                                WHEN pac.estado =1 THEN 'Active'
+                                ELSE 'Inactive'
+                                END AS state FROM ERPCRMBundle:CtlEtapaVenta pac "
+                                . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ',upper(pac.probabilidad),' ',upper(pac.estado)) LIKE upper(:busqueda) "
+                                . "AND pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                     $row['data'] = $em->createQuery($dql)
                             ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                             ->getResult();
                     
                     $row['recordsFiltered']= count($row['data']);
                     
-                    $dql = "SELECT pac.nombre as name,pac.probabilidad as probability,pac.estado as state, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as link FROM ERPCRMBundle:CtlEtapaVenta pac "
-                        . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ',upper(pac.probabilidad),' ',upper(pac.estado)) LIKE upper(:busqueda) "
-                        . "AND pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                    $sql = "SELECT pac.nombre as name, CONCAT(pac.probabilidad,' %') as probability, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions,
+                                CASE
+                                WHEN pac.estado =1 THEN 'Active'
+                                ELSE 'Inactive'
+                                END AS state FROM ERPCRMBundle:CtlEtapaVenta pac "
+                                        . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ',upper(pac.probabilidad),' ',upper(pac.estado)) LIKE upper(:busqueda) "
+                                        . "AND pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                     $row['data'] = $em->createQuery($dql)
                             ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                             ->setFirstResult($start)
@@ -208,9 +217,15 @@ class CtlEtapaVentaController extends Controller
               
         }
         else{
-            $dql = "SELECT pac.nombre as name,pac.probabilidad as probability,pac.estado as state, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as link FROM ERPCRMBundle:CtlEtapaVenta pac "
+
+            $sql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',pac.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',pac.probabilidad,' %</div>') as probability, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions,
+                CASE
+                WHEN pac.estado =1 THEN 'Active'
+                ELSE 'Inactive'
+                END AS state FROM ERPCRMBundle:CtlEtapaVenta pac "
                         . " WHERE pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
-            $row['data'] = $em->createQuery($dql)
+            
+            $row['data'] = $em->createQuery($sql)
                     ->setFirstResult($start)
                     ->setMaxResults($longitud)
                     ->getResult();
@@ -218,5 +233,185 @@ class CtlEtapaVentaController extends Controller
         
         return new Response(json_encode($row));
     }
+
+
+
+
+
+    /**
+     * Save sales stage
+     *
+     * @Route("/sales/stage/save", name="admin_ctletapaventa_save_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function saveajaxAction(Request $request)
+    {
+        try {
+            $name=$request->get("param1");
+            $probability=$request->get("param2");
+            $id=$request->get("param3");
+            $response = new JsonResponse();
+            // var_dump($name);
+            // var_dump($probability);
+            // die();
+
+            $em = $this->getDoctrine()->getManager();
+            if ($id=='') {
+                    $object = new CtlEtapaVenta();
+                    $object->setNombre($name);
+                    $object->setProbabilidad($probability);
+                    $object->setEstado(true);
+                    $em->persist($object);
+                    $em->flush();    
+                    $data['msg']='¡Saved!';
+                    $data['id']=$object->getId();
+            } else {
+                    $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);
+                    $object->setNombre($name);
+                    $object->setProbabilidad($probability);
+                    $em->merge($object);
+                    $em->flush();    
+                    $data['msg']='¡Updated!';
+                    $data['id']=$object->getId();
+            }
+            
+            // if ($editForm->isSubmitted() && $editForm->isValid()) {
+            //     $em = $this->getDoctrine()->getManager();
+            //     $em->persist($ctlEtapaVentum);
+            //     $em->flush();
+
+            //     return $this->redirectToRoute('admin_ctletapaventa_edit', array('id' => $ctlEtapaVentum->getId()));
+            // }
+            
+            
+            $response->setData($data); 
+            
+        } catch (Exception $e) {
+            $data['error']=$e->getMessage();
+            $response->setData($data);
+        }
+        
+        return $response;
+        
+    }
+
+
+
+
+
+    /**
+     * Save sales stage
+     *
+     * @Route("/sales/stage/retrieve", name="admin_ctletapaventa_retrieve_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function retrieveajaxAction(Request $request)
+    {
+        try {
+            $id=$request->get("param1");
+            $response = new JsonResponse();
+            
+            $em = $this->getDoctrine()->getManager();
+            $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);
+            if(count($object)){
+                
+                //$object->setProbabilidad($);
+                $em->merge($object);
+                $em->flush();    
+                $data['name']=$object->getNombre();
+                $data['probability']=$object->getProbabilidad();
+                //$data['name']=$object->getNombre();
+                $data['id']=$object->getId();
+            }
+            else{
+                $data['error']="Error";
+            }
+                        
+            $response->setData($data); 
+            
+        } catch (Exception $e) {
+            $data['error']=$e->getMessage();
+            $response->setData($data);
+        }
+        
+        return $response;
+        
+    }
+
+
+
+
+    /**
+     * Save sales stage
+     *
+     * @Route("/sales/stage/delete", name="admin_ctletapaventa_delete_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function deleteajaxAction(Request $request)
+    {
+        try {
+            $ids=$request->get("param1");
+            $response = new JsonResponse();
+            // var_dump($ids);
+            // die();
+            $em = $this->getDoctrine()->getManager();
+            foreach ($ids as $key => $id) {
+                $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);    
+                if(count($object)){
+                    $object->setEstado(0);
+                    $em->merge($object);
+                    $em->flush();    
+                    $data['msg']='¡Data Updated!';
+                }
+                else{
+                    $data['error']="Error";
+                }
+            }
+            $response->setData($data); 
+        } catch (Exception $e) {
+            $data['error']=$e->getMessage();
+            $response->setData($data);
+        }
+        return $response;
+        
+    }
+
+    /**
+     * Save sales stage
+     *
+     * @Route("/sales/stage/active", name="admin_ctletapaventa_active_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function activeajaxAction(Request $request)
+    {
+        try {
+            $ids=$request->get("param1");
+            $response = new JsonResponse();
+            // var_dump($ids);
+            // die();
+            $em = $this->getDoctrine()->getManager();
+            foreach ($ids as $key => $id) {
+                $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);    
+                if(count($object)){
+                    $object->setEstado(1);
+                    $em->merge($object);
+                    $em->flush();    
+                    $data['msg']='¡Data Updated!';
+                }
+                else{
+                    $data['error']="Error";
+                }
+            }
+            $response->setData($data); 
+        } catch (Exception $e) {
+            $data['error']=$e->getMessage();
+            $response->setData($data);
+        }
+        return $response;
+        
+    }
+
+
+
 
 }
