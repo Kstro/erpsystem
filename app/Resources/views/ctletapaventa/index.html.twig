@@ -48,7 +48,7 @@
 						<th style="text-align:left;width: 10px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
 						<th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting">Name</th>
 						<th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">Probability</th>
-						<th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th>
+						{# <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th> #}
 						{# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}
 					</tr>
 						
@@ -142,9 +142,11 @@
 {% endblock %}
 
 {% block js_extend %}
+	<script type="text/javascript" src="{{ asset('Resources/animations/showforms.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/persist/salestage/salestage.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/slider/js/bootstrap-slider.min.js') }}"></script>
+
 		<script type="text/javascript">
 		$(document).ready(function() {
 		  	/////Definición datatable
@@ -159,14 +161,14 @@
 				"columns": [
 					{ "data": "chk" },
 					{ "data": "name" },
-					{ "data": "probability" },
-					{ "data": "state" }
+					{ "data": "probability" }
+					// { "data": "state" }
 					// { "data": "actions" }
 				],
 				"order":[1,'asc'],
 				"columnDefs": [
-					{ "orderable": false, "targets": 0 },
-					{ "orderable": false, "targets": 3 }
+					{ "orderable": false, "targets": 0 }
+					// { "orderable": false, "targets": 3 }
 				]
 			});
 			/////Fin definición datatable

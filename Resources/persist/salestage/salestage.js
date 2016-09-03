@@ -23,14 +23,20 @@ $(document).ready(function() {
 					if(data.msg){
 						swal('',data.msg,'success');
 						id.val(data.id);
+						$('#txtId').val('');
+						$('#txtName').val('');
+						$('#txtProbability').val('10');
+						probability.slider('setValue', 10);
+						$('.btnAdd').click();
+						$btn.button('reset');
+						table.ajax.reload();
 					}
-					$('#txtId').val('');
-					$('#txtName').val('');
-					$('#txtProbability').val('10');
-					probability.slider('setValue', 10);
-					$('.btnAdd').click();
-					$btn.button('reset');
-					table.ajax.reload();
+					if(data.error){
+						console.log(data.id);
+						swal('',data.error,'error');
+						$btn.button('reset');
+					}
+					
 				},
 				error:function(data){
 					if(data.error){
@@ -58,6 +64,8 @@ $(document).ready(function() {
 		var id=$(this).parent().children().first().children().attr('id');
 		var idForm=$('#txtId').val();
 		var probability=$('#txtProbability');
+		//Cambiar nombre del panel heading para Modify
+		$('.panel-heading').html('Edit');
 		if (text=='TD' && id!=idForm) {
 			$.ajax({
 				url: Routing.generate('admin_ctletapaventa_retrieve_ajax'),
@@ -65,15 +73,16 @@ $(document).ready(function() {
 				data: {param1: id},
 				success:function(data){
 					if(data.error){
-						swal('',data.msg,'success');
+						swal('',data.error,'error');
 						id.val(data.id);
 					}
 					else{
 						$('#txtId').val(data.id);
 						$('#txtName').val(data.name);
 						probability.slider('setValue', data.probability);
+						$('#pnAdd').slideDown();
 					}					
-					$('#pnAdd').slideDown();
+					
 				},
 				error:function(data){
 					if(data.error){
@@ -110,12 +119,11 @@ $(document).ready(function() {
 			data: {param1: ids},
 			success:function(data){
 				if(data.error){
-					swal('',data.msg,'success');
+					swal('',data.error,'error');
 				}
 				else{
 					$('#txtId').val(data.id);
 					$('#txtName').val(data.name);
-					
 					$('.chkItemAll').prop({'checked': false});
 					$btn.button('reset');
 					table.ajax.reload();
@@ -175,6 +183,7 @@ $(document).ready(function() {
 
 		/////Definición de variables
 		var text = $(this).prop('tagName');
+		$('#pnAdd').slideUp();
 		console.log(text);
 		if (text=='INPUT' ) {
 			var id=$(this).parent().attr('id');

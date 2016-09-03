@@ -8,58 +8,58 @@ parameters:
     #Titulos página
         #front
         app.tituloHome:  CRM Systems
-        app.tituloDirectorio: 
-        app.tituloPreguntarGratis: 
-        app.tituloRealizarPregunta: 
-        app.tituloRespuesta: 
-        app.tituloPreguntas: 
-        app.tituloLogin: 
-        app.tituloRegistro: 
-        app.tituloBlog: 
-        app.tituloBlogEntrada: 
-        app.tituloContacto: 
-        app.tituloRecomendar: 
-        app.tituloRecuperarContraseña: 
-        app.tituloPago: 
+        app.tituloDirectorio: s
+        app.tituloPreguntarGratis: s
+        app.tituloRealizarPregunta: s
+        app.tituloRespuesta: s
+        app.tituloPreguntas: s
+        app.tituloLogin: s
+        app.tituloRegistro: s
+        app.tituloBlog: s
+        app.tituloBlogEntrada: s
+        app.tituloContacto: s
+        app.tituloRecomendar: s
+        app.tituloRecuperarContraseña: s
+        app.tituloPago: s
         #perfil
-        app.perfil: 
-        app.perfilPublico: 
-        app.verficarmeAbogado: 
-        app.verficarmeNotario: 
-        app.miSuscripciones: 
-        app.miEmpresa: 
-        app.ajustesCuenta: 
-        app.miBlog: 
-        app.centroPreguntas: 
-        app.cambiarPass: 
+        app.perfil: e
+        app.perfilPublico: e
+        app.verficarmeAbogado: e
+        app.verficarmeNotario: e
+        app.miSuscripciones: e
+        app.miEmpresa: e
+        app.ajustesCuenta: e
+        app.miBlog: e
+        app.centroPreguntas: e
+        app.cambiarPass: e
         #administración
-        app.abogadosReg: 
-        app.aprobacionPagos: 
-        app.aprobacionAbogados: 
-        app.verificarAbogados: 
-        app.verificarNotarios: 
-        app.facturacion: 
-        app.aprobarPreguntas: 
-        app.correoAdmin: 
-        app.promociones: 
+        app.abogadosReg: s
+        app.aprobacionPagos: s
+        app.aprobacionAbogados: s
+        app.verificarAbogados: s
+        app.verificarNotarios: s
+        app.facturacion: s
+        app.aprobarPreguntas: s
+        app.correoAdmin: s
+        app.promociones: s
     #Imagenes
-        app.logoBlog: 
-        app.logoPanel: 
-        app.logoBlanco: 
-        app.logoColor: 
-        app.logoPublicidad: 
-        app.logoRegistro: 
-        app.suscripcionBoton: 
-        app.cancelarSuscripcionBoton: 
-        app.metodoPago: 
+        app.logoBlog: er
+        app.logoPanel: er
+        app.logoBlanco: er
+        app.logoColor: er
+        app.logoPublicidad: er
+        app.logoRegistro: er
+        app.suscripcionBoton: er
+        app.cancelarSuscripcionBoton: er
+        app.metodoPago: er
     #Correos
-        app.correoInfo: 
-        app.correo: 
+        app.correoInfo: w
+        app.correo: w
     #Codigo de área (Telefono)
-        app.codigoParam: 
+        app.codigoParam: w
     #Coordenadas pais (Para la empresa, predeterminar un punto de partida en el pais)
-        app.coordenadasLatitud: 
-        app.coordenadasLongitud: 
+        app.coordenadasLatitud: w
+        app.coordenadasLongitud: w
     #Otros
-        app.facebook: 
+        app.facebook: w
         
