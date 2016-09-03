@@ -144,7 +144,7 @@ class CtlEtapaVentaController extends Controller
 
 
     /**
-     * 
+     * List sale stages
      *
      * @Route("/sales/data/list", name="admin_etapa_ventas_data")
      */
@@ -184,24 +184,24 @@ class CtlEtapaVentaController extends Controller
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){        
-                            $sql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',pac.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',pac.probabilidad,' %</div>') as probability, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions,
+                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability, 
                                         CASE
-                                        WHEN pac.estado =1 THEN 'Active'
+                                        WHEN obj.estado =1 THEN 'Active'
                                         ELSE 'Inactive'
-                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta pac "
-                                        . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ',upper(pac.probabilidad)) LIKE upper(:busqueda) "
-                                        . "AND pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
+                                        . "WHERE obj.estado=1 AND CONCAT(upper(obj.nombre),' ',upper(obj.probabilidad)) LIKE upper(:busqueda) "
+                                        . "AND obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                             $row['data'] = $em->createQuery($sql)
                                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                                     ->getResult();                    
                             $row['recordsFiltered']= count($row['data']);
-                            $sql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',pac.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',pac.probabilidad,' %</div>') as probability, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions,
+                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability,
                                         CASE
-                                        WHEN pac.estado =1 THEN 'Active'
+                                        WHEN obj.estado =1 THEN 'Active'
                                         ELSE 'Inactive'
-                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta pac "
-                                                . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ',upper(pac.probabilidad)) LIKE upper(:busqueda) "
-                                                . "AND pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
+                                                . "WHERE obj.estado=1 AND CONCAT(upper(obj.nombre),' ',upper(obj.probabilidad)) LIKE upper(:busqueda) "
+                                                . "AND obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                             $row['data'] = $em->createQuery($sql)
                                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                                     ->setFirstResult($start)
@@ -209,12 +209,12 @@ class CtlEtapaVentaController extends Controller
                                     ->getResult();
                 }
                 else{
-                    $sql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',pac.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',pac.probabilidad,' %</div>') as probability, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions,
+                    $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability,
                                 CASE
-                                WHEN pac.estado =1 THEN 'Active'
+                                WHEN obj.estado =1 THEN 'Active'
                                 ELSE 'Inactive'
-                                END AS state FROM ERPCRMBundle:CtlEtapaVenta pac "
-                                        . " WHERE pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                                END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
+                                        . " WHERE obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                     $row['data'] = $em->createQuery($sql)
                             ->setFirstResult($start)
                             ->setMaxResults($longitud)
@@ -222,26 +222,27 @@ class CtlEtapaVentaController extends Controller
                             //var_dump($row);
                 }
                 return new Response(json_encode($row));
-            } catch (\Exception $e) {                       
+            } catch (\Exception $e) {    
+                    if(method_exists($e,'getErrorCode')){                     
                     switch (intval($e->getErrorCode()))
                     {
                         case 2003: 
-                            $row['data'][0]['chk'] ='';
-                            $row['data'][0]['name'] ='Server offline';
-                            $row['data'][0]['probability'] ='';
-                            $row['data'][0]['actions'] ='';
-                            $row['data'][0]['state'] ='';
+                            $row['data'][0]['name'] ='Server offline. CODE: '.$e->getErrorCode();
                         break;
                         default :
-                            $row['data'][0]['chk'] = $e->getMessage();
-                            $row['data'][0]['name'] = $e->getMessage();
-                            $row['data'][0]['probability'] = $e->getMessage();
-                            $row['data'][0]['actions'] = $e->getMessage();
-                            $row['data'][0]['state'] = $e->getMessage();
-                            
+                            $row['data'][0]['name'] = $e->getMessage();                           
                         break;
+                    }               
+                    $row['data'][0]['chk'] ='';
+                    $row['data'][0]['probability'] ='';
+                    $row['data'][0]['actions'] ='';
+                    $row['data'][0]['state'] ='';                     
+                    $row['recordsFiltered']= 0;
                     }                                    
-                return new Response(json_encode($row));            
+                    else{
+                            $data['error']=$e->getMessage();
+                    }
+                return new Response(json_encode($row));        
         }
     
         
@@ -274,53 +275,52 @@ class CtlEtapaVentaController extends Controller
                 // die();
 
                 $em = $this->getDoctrine()->getManager();
-
                 $sql = "SELECT upper(pac.nombre) FROM ERPCRMBundle:CtlEtapaVenta pac "
-                                        . "WHERE pac.estado=1 AND upper(pac.nombre) LIKE upper(:busqueda) "
-                                        . "AND pac.estado=1";
+                                            . "WHERE pac.estado=1 AND upper(pac.nombre) LIKE upper(:busqueda) "
+                                            . "AND pac.estado=1";
                 $objectDuplicate = $em->createQuery($sql)
-                                    ->setParameters(array('busqueda'=>"%".strtoupper($name)."%"))
-                                    ->getResult();   
+                                        ->setParameters(array('busqueda'=>"%".strtoupper($name)."%"))
+                                        ->getResult();   
 
-                
-                
-                if (count($objectDuplicate)) {
-                    $data['error'] = "Duplicate name";
-                } else {
-                    if ($id=='') {
-                            $object = new CtlEtapaVenta();
-                            $object->setNombre($name);
-                            $object->setProbabilidad($probability);
-                            $object->setEstado(true);
-                            $em->persist($object);
-                            $em->flush();    
-                            $data['msg']='¡Saved!';
-                            $data['id']=$object->getId();
+                    
+                    
+                    if (count($objectDuplicate) && $id=='') {
+                        $data['error'] = "Duplicate name";
                     } else {
-                            $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);
-                            $object->setNombre($name);
-                            $object->setProbabilidad($probability);
-                            $em->merge($object);
-                            $em->flush();    
-                            $data['msg']='¡Updated!';
-                            $data['id']=$object->getId();
+                        if ($id=='') {
+                                $object = new CtlEtapaVenta();
+                                $object->setNombre($name);
+                                $object->setProbabilidad($probability);
+                                $object->setEstado(true);
+                                $em->persist($object);
+                                $em->flush();    
+                                $data['msg']='¡Saved!';
+                                $data['id']=$object->getId();
+                        } else {
+                                $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);
+                                $object->setNombre($name);
+                                $object->setProbabilidad($probability);
+                                $em->merge($object);
+                                $em->flush();    
+                                $data['msg']='¡Updated!';
+                                $data['id']=$object->getId();
+                        }
+                        
+                        
                     }
-                    
-                    
-                }
                 $response->setData($data); 
             } catch (\Exception $e) {
                     //var_dump($e);
                     if(method_exists($e,'getErrorCode')){
                         switch (intval($e->getErrorCode())){
                             case 2003: 
-                                $data['error'] = "Server offline";
+                                $data['error'] = 'Server offline. CODE: '.$e->getErrorCode();
                             break;
                             case 1062: 
-                                $data['error'] = "Duplicate name!";
+                                $data['error'] = "Duplicate name! CODE: ".$e->getErrorCode();
                             break;
                             default :
-                                $data['error'] = $e->getMessage();                     
+                                $data['error'] = "Error CODE: ".$e->getMessage();               
                             break;
                             }      
                     }
@@ -345,7 +345,7 @@ class CtlEtapaVentaController extends Controller
 
 
     /**
-     * Save sales stage
+     * Retrieve sales stage
      *
      * @Route("/sales/stage/retrieve", name="admin_ctletapaventa_retrieve_ajax",  options={"expose"=true}))
      * @Method("POST")
@@ -375,15 +375,20 @@ class CtlEtapaVentaController extends Controller
             $response->setData($data); 
             
         } catch (\Exception $e) {
-            switch (intval($e->getErrorCode()))
-                    {
-                        case 2003: 
-                            $data['error'] = "Server offline";
-                        break;
-                        default :
-                            $data['error'] = $e->getMessage();                     
-                        break;
-                    }      
+            if(method_exists($e,'getErrorCode')){
+                switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $data['error'] = "Server offline";
+                            break;
+                            default :
+                                $data['error'] = "Error CODE: ".$e->getMessage();                     
+                            break;
+                        }      
+            }
+            else{
+                    $data['error']=$e->getMessage();
+            }
             $response->setData($data);
         }
         
@@ -395,7 +400,7 @@ class CtlEtapaVentaController extends Controller
 
 
     /**
-     * Save sales stage
+     * Delete sales stage
      *
      * @Route("/sales/stage/delete", name="admin_ctletapaventa_delete_ajax",  options={"expose"=true}))
      * @Method("POST")
@@ -414,7 +419,7 @@ class CtlEtapaVentaController extends Controller
                     $object->setEstado(0);
                     $em->merge($object);
                     $em->flush();    
-                    $data['msg']='¡Data Updated!';
+                    $data['msg']='¡Deleted!';
                 }
                 else{
                     $data['error']="Error";
@@ -422,7 +427,8 @@ class CtlEtapaVentaController extends Controller
             }
             $response->setData($data); 
         } catch (\Exception $e) {
-            switch (intval($e->getErrorCode()))
+            if(method_exists($e,'getErrorCode')){
+                switch (intval($e->getErrorCode()))
                     {
                         case 2003: 
                             $data['error'] = "Server offline";
@@ -431,55 +437,17 @@ class CtlEtapaVentaController extends Controller
                             $data['error'] = $e->getMessage();                     
                         break;
                     }      
-            $data['error']=$e->getMessage();
+             }
+            else{
+                    $data['error']=$e->getMessage();
+            }
             $response->setData($data);
         }
         return $response;
         
     }
 
-    /**
-     * Save sales stage
-     *
-     * @Route("/sales/stage/active", name="admin_ctletapaventa_active_ajax",  options={"expose"=true}))
-     * @Method("POST")
-     */
-    public function activeajaxAction(Request $request)
-    {
-        try {
-            $ids=$request->get("param1");
-            $response = new JsonResponse();
-            // var_dump($ids);
-            // die();
-            $em = $this->getDoctrine()->getManager();
-            foreach ($ids as $key => $id) {
-                $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);    
-                if(count($object)){
-                    $object->setEstado(1);
-                    $em->merge($object);
-                    $em->flush();    
-                    $data['msg']='¡Data Updated!';
-                }
-                else{
-                    $data['error']="Error";
-                }
-            }
-            $response->setData($data); 
-        } catch (\Exception $e) {
-            switch (intval($e->getErrorCode()))
-                    {
-                        case 2003: 
-                            $data['error'] = "Server offline";
-                        break;
-                        default :
-                            $data['error'] = $e->getMessage();                     
-                        break;
-                    }      
-            $response->setData($data);
-        }
-        return $response;
-        
-    }
+    
 
 
 

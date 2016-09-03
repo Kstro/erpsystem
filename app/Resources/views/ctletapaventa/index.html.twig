@@ -46,8 +46,8 @@
 				<thead>
 					<tr role="row">
 						<th style="text-align:left;width: 10px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-						<th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting">Name</th>
-						<th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">Probability</th>
+						<th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">Name</th>
+						<th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting_desc">Probability</th>
 						{# <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th> #}
 						{# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}
 					</tr>
@@ -55,83 +55,7 @@
 				</thead>	  
 			 </table>
 
-			 {# <table style="width: 100%;" aria-describedby="example_info" role="grid" id="example" class="mdl-data-table dataTable" width="100%" cellspacing="0">
-					
-					
-					<tbody>
-														
-					<tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Prescott Bartlett</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Technical Author</td>
-							<td class=" mdl-data-table__cell--non-numeric">London</td>
-							<td>27</td>
-							<td>2011/05/07</td>
-							<td>$145,000</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Gavin Cortez</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Team Leader</td>
-							<td class=" mdl-data-table__cell--non-numeric">San Francisco</td>
-							<td>22</td>
-							<td>2008/10/26</td>
-							<td>$235,500</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Gloria Little</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Systems Administrator</td>
-							<td class=" mdl-data-table__cell--non-numeric">New York</td>
-							<td>59</td>
-							<td>2009/04/10</td>
-							<td>$237,500</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Lael Greer</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Systems Administrator</td>
-							<td class=" mdl-data-table__cell--non-numeric">London</td>
-							<td>21</td>
-							<td>2009/02/27</td>
-							<td>$103,500</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Tiger Nixon</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">System Architect</td>
-							<td class=" mdl-data-table__cell--non-numeric">Edinburgh</td>
-							<td>61</td>
-							<td>2011/04/25</td>
-							<td>$320,800</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Quinn Flynn</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Lead</td>
-							<td class=" mdl-data-table__cell--non-numeric">Edinburgh</td>
-							<td>22</td>
-							<td>2013/03/03</td>
-							<td>$342,000</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Finn Camacho</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">San Francisco</td>
-							<td>47</td>
-							<td>2009/07/07</td>
-							<td>$87,500</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Olivia Liang</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">Singapore</td>
-							<td>64</td>
-							<td>2011/02/03</td>
-							<td>$234,500</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Sakura Yamamoto</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">Tokyo</td>
-							<td>37</td>
-							<td>2009/08/19</td>
-							<td>$139,575</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Bradley Greer</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Software Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">London</td>
-							<td>41</td>
-							<td>2012/10/13</td>
-							<td>$132,000</td>
-						</tr></tbody>
-				</table> #}
+			 
 		</div>
 	</div>
 	 {# <ul>
@@ -149,6 +73,9 @@
 
 		<script type="text/javascript">
 		$(document).ready(function() {
+
+			$('#txtId').val('');
+
 		  	/////Definición datatable
 			var table = $('#saleStageList').DataTable({
 				dom:'ftp',
@@ -180,6 +107,8 @@
 				}
 			});
 			/////Fin definición slider
+			
+
 		});
 	</script>
 	 

@@ -9,9 +9,7 @@ $(document).on('click', '.btnAdd', function(event) {
 	if (id!='') {
 		$('#txtId').val('');
 		$('#txtName').val('');
-		$('#txtProbability').val('10');
 		$('#pnAdd').slideDown();
-		probability.slider('setValue', 10);
 	}
 	else{
 		$('#pnAdd').slideToggle();
@@ -24,12 +22,11 @@ $(document).on('click', '.btnAdd', function(event) {
 /////Hide forms panel
 
 $(document).on('click, input', '#btnCancel, .sortRecords, div.dataTables_filter input', function(event) {
-	var probability=$('#txtProbability');
+	//console.log('add');
 	$('#txtId').val('');
 	$('#txtName').val('');
 	$('#pnAdd').slideUp();
 	$('.chkItemAll').prop({'checked': false});
-	probability.slider('setValue', 10);	
 	$('.btnAdd').removeClass('hidden');
 	$('.btnDelete').addClass('hidden');
 });

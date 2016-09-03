@@ -19,3 +19,5 @@
 	function isAlphaOrParen(str) {
   		return /^[a-zA-Z() ]+$/.test(str);
 	}
+
+	$('.chkItemAll').prop({'checked': false});
