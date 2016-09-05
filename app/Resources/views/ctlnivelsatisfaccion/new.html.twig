@@ -1,7 +1,7 @@
 {# {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>CrmTipoCampania creation</h1>
+    <h1>CtlNivelSatisfaccion creation</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -10,20 +10,19 @@
 
     <ul>
         <li>
-            <a href="{{ path('admin_crmtipocampania_index') }}">Back to the list</a>
+            <a href="{{ path('levelcustomersatisfaction_index') }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}
  #}
 
 
-
- <div class="col-md-12 col-xs-12">
+  <div class="col-md-12 col-xs-12">
             <div id="pnAdd" class="panel panel-default" style="display:none;">
                     <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
                     <div class="panel-body">
                         <div class="col-md-4">
-                        <label>{{nameCampania}}</label>
+                        <label>{{nameSatisfaccion}}</label>
                         <label class="hidden requiredFields">{{requiredFields}}</label>
                         <input id="txtId" type="hidden" name="" class="input-sm form-control">
                         <input id="txtName" type="text" name="" class="input-sm form-control validateInput">

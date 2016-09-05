@@ -1,7 +1,9 @@
+{# {% extends 'base.html.twig' %} #}
+
 {% extends ':layout:layouterp.html.twig' %}
 
 
-{% block title -%}<title>{{tituloCampania}}</title>{% endblock %}
+{% block title -%}<title>{{tituloProveedor}}</title>{% endblock %}
 
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
@@ -9,8 +11,8 @@
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCampania}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionCampania}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoProveedor}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionProveedor}}</p>
      </div>
 
 {% endblock %}
@@ -23,43 +25,42 @@
      </div>
 {% endblock acciones %}
 
-
 {% block contenido %}
     <div class="row">
-        {% include ':crmtipocampania:new.html.twig' %}
+        {% include ':ctlnivelsatisfaccion:new.html.twig' %}
 
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
-            <table id="campaignList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+            <table id="providersList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
                   
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCampania}}</th>
-                        {# <th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">Probability</th> #}
-                        {# <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th> #}
-                        {# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}
+                        <th>{{nameProveedor}}</th>
+                        <th>{{emailProveedor}}</th>
+                        <th>{{phoneProveedor}}</th>
+                        <th>{{industryProveedor}}</th>
                     </tr>
                 </thead>      
              </table>
         </div>
     </div>
+
+    
 {% endblock %}
-
-
 {% block js_extend %}
-    <script type="text/javascript" src="{{ asset('Resources/animations/campaigntypes/campaigntypes.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/customersatisfaction/customersatisfaction.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/campaigntypes/campaigntypes.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/customersatisfaction/customersatisfaction.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             /////Definición datatable
-            var table = $('#campaignList').DataTable({
+            var table = $('#providersList').DataTable({
                 dom:'ftp',
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{path('admin_campaigns_data')}}',
+                    "url": '{{path('admin_providers_data')}}',
                     "type": 'GET'
                 },
                 "columns": [
@@ -88,6 +89,7 @@
                 }
             });
             /////Fin definición datatable
+
         });
     </script>
      

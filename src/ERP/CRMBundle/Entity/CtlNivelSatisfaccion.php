@@ -28,6 +28,12 @@ class CtlNivelSatisfaccion
      */
     private $nombre;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
 
 
     /**
@@ -59,6 +65,34 @@ class CtlNivelSatisfaccion
      * @return string 
      */
     public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param boolean $estado
+     * @return CtlNivelSatisfaccion
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return boolean 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    public function __toString()
     {
         return $this->nombre;
     }

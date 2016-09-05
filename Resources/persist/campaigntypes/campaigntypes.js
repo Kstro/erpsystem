@@ -42,7 +42,8 @@ $(document).ready(function() {
 			});
 		}
 		else {
-			swal('','¡Fields in red are required!','error');
+			var requiredFields = $('.requiredFields').html();
+			swal('',requiredFields,'error');
 			$btn.button('reset');
 			//console.log('error');
 		}
@@ -51,7 +52,7 @@ $(document).ready(function() {
 
 
 	/////Persist datatable (Edit method)
-	$(document).on('click', '#campaignList>tbody>tr>td:nth-child(2), #campaignList>tbody>tr>td:nth-child(3), #campaignList>tbody>tr>td:nth-child(4)', function(event) {
+	$(document).on('click', '#campaignList>tbody>tr>td:nth-child(2)', function(event) {
 		/////Definición de variables
 		var text = $(this).prop('tagName');
 		console.log(text);
@@ -59,7 +60,8 @@ $(document).ready(function() {
 		var idForm=$('#txtId').val();
 		var selected = 0;
 		//Cambiar nombre del panel heading para Modify
-		$('.panel-heading').html('Edit');
+		$('.pnHeadingLabelAdd').addClass('hidden');
+		$('.pnHeadingLabelEdit').removeClass('hidden');
 		$('.chkItem').each(function() {
 			if ($(this).is(':checked')) {
 				selected++;
@@ -92,8 +94,10 @@ $(document).ready(function() {
 			});
 		} 
 		else {
-
-		}					
+			if(id==idForm && selected==0){
+				$('#pnAdd').slideDown();
+			}
+		}
 	});
 	/////Fin definición persist data (Edit method)
 
@@ -167,11 +171,11 @@ $(document).ready(function() {
 	$(document).on('click', '.chkItemAll', function(event) {
 		/////Definición de variables
 		var id=$(this).children().first().children().attr('id');
-		var probability=$('#txtProbability');
+		// var probability=$('#txtProbability');
 
 		$('#txtId').val('');
 		$('#txtName').val('');
-		probability.slider('setValue', 14);
+		// probability.slider('setValue', 14);
 		$('#pnAdd').slideUp();
 		if ($(this).is(':checked')) {
 			$('.chkItem').each(function() {
@@ -204,7 +208,7 @@ $(document).ready(function() {
 		console.log(text);
 		if (text=='INPUT' ) {
 			var id=$(this).parent().attr('id');
-			var probability=$('#txtProbability');
+			// var probability=$('#txtProbability');
 			if ($(this).is(':checked')) {
 				$('.btnAdd').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');

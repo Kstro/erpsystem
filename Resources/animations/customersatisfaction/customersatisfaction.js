@@ -3,7 +3,7 @@
 $(document).on('click', '.btnAdd', function(event) {
 	//console.log('add');
 	var id = $('#txtId').val();
-	
+	var probability=$('#txtProbability');
 	//Cambiar nombre del panel heading para add (Inserción)
 	$('.pnHeadingLabelAdd').removeClass('hidden');
 	$('.pnHeadingLabelEdit').addClass('hidden');
@@ -33,7 +33,7 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 });
 
 
-$(document).on('click', '#btnCancel, #campaignList>thead>tr>th:gt(0)', function(event) {
+$(document).on('click', '#btnCancel, #satisfactionList>thead>tr>th:gt(0)', function(event) {
 	//console.log('add');
 	$('#txtId').val('');
 	$('#txtName').val('');

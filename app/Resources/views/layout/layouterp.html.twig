@@ -13,6 +13,7 @@
 	                          	<link rel="stylesheet" href="{{ asset('Resources/datatable/css/datatables.material.min.css') }}">
 	                          	<link rel="stylesheet" href="{{ asset('Resources/sweetalert/css/sweetalert2.min.css') }}">
 	                          	<link rel="stylesheet" href="{{ asset('Resources/customscss/errors.css') }}">
+	                          	<link rel="stylesheet" href="{{ asset('Resources/select2/css/select2.min.css') }}">
 	                          	<link rel="stylesheet" href="{{ asset('Resources/src/css/style.css') }}">
 	                          	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
 	                          	{% block customcss %}
@@ -51,7 +52,8 @@
 	            	<div class="row" style="margin-top:20px;">
 		                   	<div class="col-md-2 col-xs-12">
 		                   		{% block navegacion %}
-					{% endblock %}
+		                   			{% include ':layout:menu.html.twig' %}
+						{% endblock %}
 		                   	</div>
 			          <div class="col-md-10 col-xs-12">
 		                   		{% block contenido %}
@@ -69,10 +71,134 @@
 	<script type="text/javascript" src="{{ asset('Resources/datatable/js/jquery.datatables.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/datatable/js/datatables.material.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/sweetalert/js/sweetalert2.min.js') }}"></script>
-          <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-          <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-          <link rel="shortcut icon" href="{{ asset('Resources/src/img/favicon.png')}}" type="image/x-icon">
-          <link rel="icon" href="{{ asset('Resources/src/img/favicon.png')}}" type="image/x-icon">		
+	<script type="text/javascript" src="{{ asset('Resources/select2/js/select2.min.js') }}"></script>
+	<script src="{{ asset('Resources/shortcut/shortcut.js')}}"></script> <!-- http://www.openjs.com/scripts/events/keyboard_shortcuts/v1.php -->
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+	<link rel="shortcut icon" href="{{ asset('Resources/src/img/favicon.png')}}" type="image/x-icon">
+	<link rel="icon" href="{{ asset('Resources/src/img/favicon.png')}}" type="image/x-icon">	
+
+	<script type="text/javascript">
+                        $( document ).ready(function() {
+
+    				$(function () {
+          				$('[data-toggle="tooltip"]').tooltip();
+        				});
+    
+
+
+                            $(document).on('change','#busquedaRapida',function(){
+                                var expediente = $(this).val();
+                                var url = "{{path('admin_campaigntypes_save_ajax')}}"+"?id="+expediente;
+                                console.log(url);
+                                window.location=url;
+                            });
+
+                            var busqueda = $('#busquedaRapida').select2({
+                                    
+                                    ajax: {
+                                        url: "{{path('admin_campaigntypes_save_ajax')}}",
+                                        dataType: 'json',
+                                        delay: 250,
+                                        data: function (params) {
+                                            return {
+                                              q: params.term, 
+                                              page: params.page
+                                            };
+                                        },
+                                        processResults: function (data, params) {
+                                            var select2Data = $.map(data.data, function (obj) {
+                                                obj.id = obj.numero;
+                                                obj.text = obj.numero+" "+obj.nombres+" "+obj.apellidos;
+
+                                                return obj;
+                                            });
+
+                                            return {
+                                                results: select2Data
+                                                {#pagination: {
+                                                    more: (params.page * 30) < data.total_count
+                                                }#}
+                                            };
+                                        },
+                                        cache: true
+                                    },
+                                    escapeMarkup: function (markup) { return markup; }, 
+                                    minimumInputLength: 1,
+                                    templateResult: formatRepo, 
+                                    templateSelection: formatRepoSelection 
+                                });
+
+                            
+                            function formatRepo (data) {
+                                if(data.numero){
+                                    var markup = "<div class='select2-result-repository clearfix'>" +
+                                                 "<div class='select2-result-repository__meta'>" +
+                                                 "<div class='select2-result-repository__title'>" + data.numero+" | "+data.nombres+" "+data.apellidos+"</div>" +
+                                                 "</div></div>";
+                                } else {
+                                    var markup = "{{select2Label}}";
+                                }
+
+
+                                
+
+                                return markup;
+                            }
+
+                            function formatRepoSelection (data) {
+                                if(data.numero){
+                                    return data.numero+" | "+data.nombres+" "+data.apellidos;
+                                } else {
+                                    return "{{select2Label}}"; 
+                                }    
+                            }
+                            
+                            shortcut.add("Ctrl+g",function() {
+                                {#busqueda.click();
+                                console.log('click');#}
+                                $("#busquedaRapida").select2('destroy');
+                                var busqueda = $('#busquedaRapida').select2({
+                                    
+                                    ajax: {
+                                        url: "{{path('admin_campaigntypes_save_ajax')}}",
+                                        dataType: 'json',
+                                        delay: 250,
+                                        data: function (params) {
+                                            return {
+                                              q: params.term, 
+                                              page: params.page
+                                            };
+                                        },
+                                        processResults: function (data, params) {
+                                            var select2Data = $.map(data.data, function (obj) {
+                                                obj.id = obj.numero;
+                                                obj.text = obj.numero+" "+obj.nombres+" "+obj.apellidos;
+
+                                                return obj;
+                                            });
+
+                                            return {
+                                                results: select2Data
+                                                {#pagination: {
+                                                    more: (params.page * 30) < data.total_count
+                                                }#}
+                                            };
+                                        },
+                                        cache: true
+                                    },
+                                    escapeMarkup: function (markup) { return markup; }, 
+                                    minimumInputLength: 1,
+                                    templateResult: formatRepo, 
+                                    templateSelection: formatRepoSelection 
+                                });
+                                $("#busquedaRapida").select2('open');
+                            });
+                            
+                        });
+                </script>
+
+
 	{% block js_extend %}
 	{% endblock %}
 	

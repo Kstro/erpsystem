@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CrmCuenta</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ crmCuentum.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ crmCuentum.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ crmCuentum.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Fecharegistro</th>
+                <td>{% if crmCuentum.fechaRegistro %}{{ crmCuentum.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Sitioweb</th>
+                <td>{{ crmCuentum.sitioWeb }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ crmCuentum.estado }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_accounts_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_accounts_edit', { 'id': crmCuentum.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

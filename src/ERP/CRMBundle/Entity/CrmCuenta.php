@@ -106,6 +106,11 @@ class CrmCuenta
      */
     private $tipoEntidad;
 
+     /**
+     * @ORM\OneToMany(targetEntity="CrmContacto", mappedBy="cuenta", cascade={"persist", "remove"})
+     */
+    private $contactoCuenta;
+
 
 
     /**
@@ -347,4 +352,33 @@ class CrmCuenta
     {
         return $this->tipoEntidad;
     }
+
+
+     /**
+     * Get contactoCuenta
+     *
+     * @return \ERP\CRMBundle\Entity\CrmCuenta 
+     */
+    public function getContactoCuenta()
+    {
+        return $this->contactoCuenta;
+    }
+    
+    
+    /**
+     * Set consulta
+     *
+     * @param \ERP\CRMBundle\Entity\CrmContactoCuenta 
+     *
+     * @return ContactoCuenta
+     */
+    public function setContactoCuenta(\ERP\CRMBundle\Entity\CrmContactoCuenta $contactoCuenta = null)
+    {
+        $this->contactoCuenta = $contactoCuenta;
+
+        return $this;
+    }
+
+
+
 }

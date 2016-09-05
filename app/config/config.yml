@@ -42,18 +42,108 @@ twig:
         pais: '%app.pais%'
         nombre: '%app.nombre%'
         tituloHome: '%app.tituloHome%'
-        tituloDirectorio: '%app.tituloDirectorio%'
-        tituloPreguntarGratis: '%app.tituloPreguntarGratis%'
-        tituloRealizarPregunta: '%app.tituloRealizarPregunta%'
-        tituloRespuesta: '%app.tituloRespuesta%'
-        tituloPreguntas: '%app.tituloPreguntas%'
+
+        #serverMesages
+        serverOffline: '%app.serverOffline%'
+        serverDuplicateName: '%app.serverDuplicateName%'
+        serverMsgSave: '%app.serverMsgSave%'
+        serverMsgUpdate: '%app.serverMsgUpdate%'
+        serverMsgDelete: '%app.serverMsgDelete%'
+        serverError: '%app.serverError%'
+
+        #requiredFields
+        requiredFields: '%app.requiredFields%'
+
+        #requiredFields
+        select2Label: '%app.select2Label%'
+        
+        editPass: '%app.editPass%'
+        showLog: '%app.showLog%'
+        settings: '%app.settings%'
+        logOut: '%app.logOut%'
+
+        #datatables
+        dtInfo: '%app.dtInfo%'
+        dtInfoEmpty: '%app.dtInfoEmpty%'
+        dtEmptyTable: '%app.dtEmptyTable%'
+        dtNext: '%app.dtNext%'
+        dtPrev: '%app.dtPrev%'
+        dtProcessing: '%app.dtProcessing%'
+        dtSearch: '%app.dtSearch%'
+        dtLengthMenu: '%app.dtLengthMenu%'
+
+
+        #Botones
+        add: '%app.add%'
+        delete: '%app.delete%'
+        show: '%app.show%'
+        action: '%app.action%'
+        save: '%app.save%'
+        cancel: '%app.cancel%'
+
+        #Tooltips
+        accountsTooltip: '%app.accountsTooltip%'
+        saleStagesTooltip: '%app.saleStagesTooltip%'
+        activitiesTooltip: '%app.activitiesTooltip%'
+        calendarTooltip: '%app.calendarTooltip%'
+        settingsTooltip: '%app.settingsTooltip%'
+        reportsTooltip: '%app.reportsTooltip%'
+
+        #icons
+        accountsIcon: '%app.accountsIcon%'
+        saleStagesIcon: '%app.saleStagesIcon%'
+        activitiesIcon: '%app.activitiesIcon%'
+        calendarIcon: '%app.calendarIcon%'
+        settingsIcon: '%app.settingsIcon%'
+        reportsIcon: '%app.reportsIcon%'
+
+        #Encabezados panel
+        pnHeadingLabelAdd: '%app.pnHeadingLabelAdd%'
+        pnHeadingLabelEdit: '%app.pnHeadingLabelEdit%'
+
+        #Etapas de ventas
+        tituloEtapa: '%app.tituloEtapa%'
+        menuEtapa: '%app.menuEtapa%'
+        encabezadoEtapa: '%app.encabezadoEtapa%'
+        descripcionEtapa: '%app.descripcionEtapa%'
+        nameEtapa: '%app.nameEtapa%'
+        probabilityEtapa: '%app.probabilityEtapa%'
+        
+        #Campanias
+        tituloCampania: '%app.tituloCampania%'
+        menuCampania: '%app.menuCampania%'
+        encabezadoCampania: '%app.encabezadoCampania%'
+        descripcionCampania: '%app.descripcionCampania%'
+        nameCampania: '%app.nameCampania%'
+
+        #Nivel de satisfaccion
+        tituloSatisfaccion: '%app.tituloSatisfaccion%'
+        menuSatisfaccion: '%app.menuSatisfaccion%'
+        encabezadoSatisfaccion: '%app.encabezadoSatisfaccion%'
+        descripcionSatisfaccion: '%app.descripcionSatisfaccion%'
+        nameSatisfaccion: '%app.nameSatisfaccion%'
+
+        #Proveedor
+        tituloProveedor: '%app.tituloProveedor%'
+        menuProveedor: '%app.menuProveedor%'
+        encabezadoProveedor: '%app.encabezadoProveedor%'
+        descripcionProveedor: '%app.descripcionProveedor%'
+        nameProveedor: '%app.nameProveedor%'
+        emailProveedor: '%app.emailProveedor%'
+        phoneProveedor: '%app.phoneProveedor%'
+        industryProveedor: '%app.industryProveedor%'
+
+
+
+
+
+
         tituloLogin: '%app.tituloLogin%'
-        tituloRegistro: '%app.tituloRegistro%'
-        tituloBlog: '%app.tituloBlog%'
-        tituloBlogEntrada: '%app.tituloBlogEntrada%'
-        tituloContacto: '%app.tituloContacto%'
-        tituloRecomendar: '%app.tituloRecomendar%'
-        tituloRecuperarContraseña: '%app.tituloRecuperarContraseña%'
+        
+        
+        
+        
+        
         perfil: '%app.perfil%'
         perfilPublico: '%app.perfilPublico%'
         verficarmeAbogado: '%app.verficarmeAbogado%'

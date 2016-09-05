@@ -6,21 +6,102 @@ parameters:
         app.urlParam: 
         app.protocolo: 
     #Titulos página
-        #front
+        #backend
+
+        #serverMesages
+        app.serverOffline: Server offline 
+        app.serverDuplicateName: Duplicate value
+        app.serverMsgSave: ¡Saved!
+        app.servermsgupdate: ¡Updated!
+        app.serverMsgDelete: ¡Deleted!
+        app.serverError: Error!
+        
+
+
+        #frontend
+
+        #requiredFields
+        app.requiredFields: ¡Fields in red are required!
+
+        #select2
+        app.select2Label: Search... (Ctrl+g)
+        
+        app.editPass: Edit password
+        app.showLog: Show log
+        app.settings: Settings
+        app.logOut: Log out
+
+        #datatables
+        app.dtInfo: Showing page
+        app.dtInfoEmpty: 
+        app.dtEmptyTable: No data found
+        app.dtNext: Next
+        app.dtPrev: Previous
+        app.dtProcessing: Processing...
+        app.dtSearch: Search:
+        app.dtLengthMenu: Show
+
+        #botones
+        app.add: Add
+        app.delete: Delete
+        app.show: Show
+        app.action: Action
+        app.save: Save
+        app.cancel: Cancel
+        app.pnHeadingLabelAdd: Add
+        app.pnHeadingLabelEdit: Edit
+
+        #Tooltips
+        app.accountsTooltip: CRM
+        app.saleStagesTooltip: Sales
+        app.activitiesTooltip: Activities
+        app.calendarTooltip: Calendar
+        app.settingsTooltip: Settings
+        app.reportsTooltip: Reports
+        
+        #icons
+        app.accountsIcon: 1.png
+        app.saleStagesIcon: 2.png
+        app.activitiesIcon: 3.png
+        app.calendarIcon: 4.png
+        app.settingsIcon: 5.png
+        app.reportsIcon: 6.png
+            
+        #tituloPrincipal
         app.tituloHome:  CRM Systems
-        app.tituloDirectorio: s
-        app.tituloPreguntarGratis: s
-        app.tituloRealizarPregunta: s
-        app.tituloRespuesta: s
-        app.tituloPreguntas: s
+        #Etapas de ventas
+        app.tituloEtapa: CRM | Sales stage management
+        app.menuEtapa: Sales stage mgmt.
+        app.encabezadoEtapa: Sales stage list
+        app.descripcionEtapa: Add, modify or delete sales stages.
+        app.nameEtapa: Name
+        app.probabilityEtapa: Probability
+        #Campanias
+        app.tituloCampania: CRM | Campaign types management
+        app.menuCampania: Campaign types mgmt.
+        app.encabezadoCampania: Campaigns list
+        app.descripcionCampania: Add, modify or delete campaign.
+        app.nameCampania: Name
+        #Nivel de satisfaccion
+        app.tituloSatisfaccion: CRM | Level of customer satisfaction
+        app.menuSatisfaccion: Level of customer satisfaction mgmt.
+        app.encabezadoSatisfaccion: Level of customer satisfaction
+        app.descripcionSatisfaccion: Add, modify or delete levels of customer satisfaction.
+        app.nameSatisfaccion: Name
+        #Proveedor
+        app.tituloProveedor: CRM | Providers
+        app.menuProveedor: Providers mgmt.
+        app.encabezadoProveedor: Providers
+        app.descripcionProveedor: Add, modify or delete providers.
+        app.nameProveedor: Name
+        app.emailProveedor: Email
+        app.phoneProveedor: Phone
+        app.industryProveedor: Industry
+
+        
+       
         app.tituloLogin: s
-        app.tituloRegistro: s
-        app.tituloBlog: s
-        app.tituloBlogEntrada: s
-        app.tituloContacto: s
-        app.tituloRecomendar: s
-        app.tituloRecuperarContraseña: s
-        app.tituloPago: s
+       
         #perfil
         app.perfil: e
         app.perfilPublico: e

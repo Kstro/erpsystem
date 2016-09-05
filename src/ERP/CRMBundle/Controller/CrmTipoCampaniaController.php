@@ -14,7 +14,7 @@ use ERP\CRMBundle\Form\CrmTipoCampaniaType;
 /**
  * CrmTipoCampania controller.
  *
- * @Route("/admin/crmtipocampania")
+ * @Route("/admin/campaigns")
  */
 class CrmTipoCampaniaController extends Controller
 {
@@ -28,10 +28,11 @@ class CrmTipoCampaniaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $crmTipoCampanias = $em->getRepository('ERPCRMBundle:CrmTipoCampania')->findAll();
+        //$crmTipoCampanias = $em->getRepository('ERPCRMBundle:CrmTipoCampania')->findAll();
 
         return $this->render('crmtipocampania/index.html.twig', array(
-            'crmTipoCampanias' => $crmTipoCampanias,
+            // 'crmTipoCampanias' => $crmTipoCampanias,
+            'menuCampaniaA' => true,
         ));
     }
 
@@ -230,7 +231,8 @@ class CrmTipoCampaniaController extends Controller
                     switch (intval($e->getErrorCode()))
                     {
                         case 2003: 
-                            $row['data'][0]['name'] ='Server offline. CODE: '.$e->getErrorCode();
+                            $serverOffline= $this->getParameter('app.serverOffline');
+                            $row['data'][0]['name'] =$serverOffline.'. CODE: '.$e->getErrorCode();
                         break;
                         default :
                             $row['data'][0]['name'] = $e->getMessage();                           
@@ -280,13 +282,14 @@ class CrmTipoCampaniaController extends Controller
                                             . "WHERE obj.estado=1 AND upper(obj.nombre) LIKE upper(:busqueda) "
                                             . "AND obj.estado=1";
                 $objectDuplicate = $em->createQuery($sql)
-                                        ->setParameters(array('busqueda'=>"%".strtoupper($name)."%"))
+                                        ->setParameters(array('busqueda'=>"".strtoupper($name).""))
                                         ->getResult();   
 
                     
                    
                     if (count($objectDuplicate) && $id=='') {
-                        $data['error'] = "Duplicate name";
+                        $serverDuplicateName = $this->getParameter('app.serverDuplicateName');
+                        $data['error'] = $serverDuplicateName;
                     } else {
                         if ($id=='') {
                                 $object = new CrmTipoCampania();
@@ -294,14 +297,16 @@ class CrmTipoCampaniaController extends Controller
                                 $object->setEstado(true);
                                 $em->persist($object);
                                 $em->flush();    
-                                $data['msg']='¡Saved!';
+                                $serverSave = $this->getParameter('app.serverMsgSave');
+                                $data['msg']=$serverSave;
                                 $data['id']=$object->getId();
                         } else {
                                 $object = $em->getRepository('ERPCRMBundle:CrmTipoCampania')->find($id);
                                 $object->setNombre($name);
                                 $em->merge($object);
                                 $em->flush();    
-                                $data['msg']='¡Updated!';
+                                $serverUpdate = $this->getParameter('app.serverMsgUpdate');
+                                $data['msg']=$serverUpdate;
                                 $data['id']=$object->getId();
                         }
                         
@@ -313,10 +318,12 @@ class CrmTipoCampaniaController extends Controller
                     if(method_exists($e,'getErrorCode')){
                         switch (intval($e->getErrorCode())){
                             case 2003: 
-                                $data['error'] = 'Server offline. CODE: '.$e->getErrorCode();
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
                             break;
                             case 1062: 
-                                $data['error'] = "Duplicate name! CODE: ".$e->getErrorCode();
+                                $serverDuplicate = $this->getParameter('app.serverDuplicateName');
+                                $data['error'] = $serverDuplicate."! CODE: ".$e->getErrorCode();
                             break;
                             default :
                                 $data['error'] = "Error CODE: ".$e->getMessage();
@@ -375,7 +382,8 @@ class CrmTipoCampaniaController extends Controller
                 switch (intval($e->getErrorCode()))
                         {
                             case 2003: 
-                                $data['error'] = "Server offline";
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
                             break;
                             default :
                                 $data['error'] = "Error CODE: ".$e->getMessage();                     
@@ -414,7 +422,8 @@ class CrmTipoCampaniaController extends Controller
                     $object->setEstado(0);
                     $em->merge($object);
                     $em->flush();    
-                    $data['msg']='¡Data Updated!';
+                    $serverDelete = $this->getParameter('app.serverMsgDelete');
+                    $data['msg']=$serverDelete;
                 }
                 else{
                     $data['error']="Error";
@@ -426,7 +435,8 @@ class CrmTipoCampaniaController extends Controller
                 switch (intval($e->getErrorCode()))
                     {
                         case 2003: 
-                            $data['error'] = "Server offline";
+                            $serverOffline = $this->getParameter('app.serverOffline');
+                            $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
                         break;
                         default :
                             $data['error'] = $e->getMessage();                     

@@ -8,134 +8,134 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use ERP\CRMBundle\Entity\CtlEtapaVenta;
-use ERP\CRMBundle\Form\CtlEtapaVentaType;
+use ERP\CRMBundle\Entity\CtlNivelSatisfaccion;
+use ERP\CRMBundle\Form\CtlNivelSatisfaccionType;
 
 /**
- * CtlEtapaVenta controller.
+ * CtlNivelSatisfaccion controller.
  *
- * @Route("/admin/salestages")
+ * @Route("/admin/levelcustomersatisfaction")
  */
-class CtlEtapaVentaController extends Controller
+class CtlNivelSatisfaccionController extends Controller
 {
     /**
-     * Lists all CtlEtapaVenta entities.
+     * Lists all CtlNivelSatisfaccion entities.
      *
-     * @Route("/", name="admin_ctletapaventa_index")
+     * @Route("/", name="levelcustomersatisfaction_index")
      * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        //$ctlEtapaVentas = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->findAll();
+        // $ctlNivelSatisfaccions = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->findAll();
 
-        return $this->render('ctletapaventa/index.html.twig', array(
-            //'ctlEtapaVentas' => $ctlEtapaVentas,
-            'menuEtapaA' => true,
+        return $this->render('ctlnivelsatisfaccion/index.html.twig', array(
+            // 'ctlNivelSatisfaccions' => $ctlNivelSatisfaccions,
+            'menuSatisfaccionA' => true,
         ));
     }
 
     /**
-     * Creates a new CtlEtapaVenta entity.
+     * Creates a new CtlNivelSatisfaccion entity.
      *
-     * @Route("/new", name="admin_ctletapaventa_new")
+     * @Route("/new", name="levelcustomersatisfaction_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
-        $ctlEtapaVentum = new CtlEtapaVenta();
-        $form = $this->createForm('ERP\CRMBundle\Form\CtlEtapaVentaType', $ctlEtapaVentum);
+        $ctlNivelSatisfaccion = new CtlNivelSatisfaccion();
+        $form = $this->createForm('ERP\CRMBundle\Form\CtlNivelSatisfaccionType', $ctlNivelSatisfaccion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($ctlEtapaVentum);
+            $em->persist($ctlNivelSatisfaccion);
             $em->flush();
 
-            return $this->redirectToRoute('admin_ctletapaventa_show', array('id' => $ctlEtapaVentum->getId()));
+            return $this->redirectToRoute('levelcustomersatisfaction_show', array('id' => $ctlNivelSatisfaccion->getId()));
         }
 
-        return $this->render('ctletapaventa/new.html.twig', array(
-            'ctlEtapaVentum' => $ctlEtapaVentum,
+        return $this->render('ctlnivelsatisfaccion/new.html.twig', array(
+            'ctlNivelSatisfaccion' => $ctlNivelSatisfaccion,
             'form' => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a CtlEtapaVenta entity.
+     * Finds and displays a CtlNivelSatisfaccion entity.
      *
-     * @Route("/{id}", name="admin_ctletapaventa_show")
+     * @Route("/{id}", name="levelcustomersatisfaction_show")
      * @Method("GET")
      */
-    public function showAction(CtlEtapaVenta $ctlEtapaVentum)
+    public function showAction(CtlNivelSatisfaccion $ctlNivelSatisfaccion)
     {
-        $deleteForm = $this->createDeleteForm($ctlEtapaVentum);
+        $deleteForm = $this->createDeleteForm($ctlNivelSatisfaccion);
 
-        return $this->render('ctletapaventa/show.html.twig', array(
-            'ctlEtapaVentum' => $ctlEtapaVentum,
+        return $this->render('ctlnivelsatisfaccion/show.html.twig', array(
+            'ctlNivelSatisfaccion' => $ctlNivelSatisfaccion,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Displays a form to edit an existing CtlEtapaVenta entity.
+     * Displays a form to edit an existing CtlNivelSatisfaccion entity.
      *
-     * @Route("/{id}/edit", name="admin_ctletapaventa_edit")
+     * @Route("/{id}/edit", name="levelcustomersatisfaction_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, CtlEtapaVenta $ctlEtapaVentum)
+    public function editAction(Request $request, CtlNivelSatisfaccion $ctlNivelSatisfaccion)
     {
-        $deleteForm = $this->createDeleteForm($ctlEtapaVentum);
-        $editForm = $this->createForm('ERP\CRMBundle\Form\CtlEtapaVentaType', $ctlEtapaVentum);
+        $deleteForm = $this->createDeleteForm($ctlNivelSatisfaccion);
+        $editForm = $this->createForm('ERP\CRMBundle\Form\CtlNivelSatisfaccionType', $ctlNivelSatisfaccion);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($ctlEtapaVentum);
+            $em->persist($ctlNivelSatisfaccion);
             $em->flush();
 
-            return $this->redirectToRoute('admin_ctletapaventa_edit', array('id' => $ctlEtapaVentum->getId()));
+            return $this->redirectToRoute('levelcustomersatisfaction_edit', array('id' => $ctlNivelSatisfaccion->getId()));
         }
 
-        return $this->render('ctletapaventa/edit.html.twig', array(
-            'ctlEtapaVentum' => $ctlEtapaVentum,
+        return $this->render('ctlnivelsatisfaccion/edit.html.twig', array(
+            'ctlNivelSatisfaccion' => $ctlNivelSatisfaccion,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Deletes a CtlEtapaVenta entity.
+     * Deletes a CtlNivelSatisfaccion entity.
      *
-     * @Route("/{id}", name="admin_ctletapaventa_delete")
+     * @Route("/{id}", name="levelcustomersatisfaction_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, CtlEtapaVenta $ctlEtapaVentum)
+    public function deleteAction(Request $request, CtlNivelSatisfaccion $ctlNivelSatisfaccion)
     {
-        $form = $this->createDeleteForm($ctlEtapaVentum);
+        $form = $this->createDeleteForm($ctlNivelSatisfaccion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($ctlEtapaVentum);
+            $em->remove($ctlNivelSatisfaccion);
             $em->flush();
         }
 
-        return $this->redirectToRoute('admin_ctletapaventa_index');
+        return $this->redirectToRoute('levelcustomersatisfaction_index');
     }
 
     /**
-     * Creates a form to delete a CtlEtapaVenta entity.
+     * Creates a form to delete a CtlNivelSatisfaccion entity.
      *
-     * @param CtlEtapaVenta $ctlEtapaVentum The CtlEtapaVenta entity
+     * @param CtlNivelSatisfaccion $ctlNivelSatisfaccion The CtlNivelSatisfaccion entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(CtlEtapaVenta $ctlEtapaVentum)
+    private function createDeleteForm(CtlNivelSatisfaccion $ctlNivelSatisfaccion)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_ctletapaventa_delete', array('id' => $ctlEtapaVentum->getId())))
+            ->setAction($this->generateUrl('levelcustomersatisfaction_delete', array('id' => $ctlNivelSatisfaccion->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -144,12 +144,15 @@ class CtlEtapaVentaController extends Controller
 
 
 
+
+
+
     /**
-     * List sale stages
+     * List level of customer satisfaction
      *
-     * @Route("/sales/data/list", name="admin_etapa_ventas_data")
+     * @Route("/customer/satisfaction/data/list", name="admin_customer_satisfaction_data")
      */
-    public function datasalesAction(Request $request)
+    public function datacampaignsAction(Request $request)
     {
             try {
                 $start = $request->query->get('start');
@@ -158,7 +161,7 @@ class CtlEtapaVentaController extends Controller
                 $busqueda = $request->query->get('search');
                 
                 $em = $this->getDoctrine()->getEntityManager();
-                $rowsTotal = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->findAll();
+                $rowsTotal = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->findAll();
                 
                 $row['draw']=$draw++;  
                 $row['recordsTotal'] = count($rowsTotal);
@@ -176,33 +179,31 @@ class CtlEtapaVentaController extends Controller
                     case 1:
                         $orderByText = "name";
                         break;
+                    
                     case 2:
-                        $orderByText = "probability";
-                        break;
-                    case 3:
                         $orderByText = "state";
                         break;
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){        
-                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability, 
-                                        CASE
-                                        WHEN obj.estado =1 THEN 'Active'
-                                        ELSE 'Inactive'
-                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
-                                        . "WHERE obj.estado=1 AND CONCAT(upper(obj.nombre),' ',upper(obj.probabilidad)) LIKE upper(:busqueda) "
+                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name,
+                                CASE
+                                WHEN obj.estado =1 THEN 'Active'
+                                ELSE 'Inactive'
+                                END AS state FROM ERPCRMBundle:CtlNivelSatisfaccion obj "
+                                        . "WHERE obj.estado=1 AND upper(obj.nombre) LIKE upper(:busqueda) "
                                         . "AND obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                             $row['data'] = $em->createQuery($sql)
                                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                                     ->getResult();                    
                             $row['recordsFiltered']= count($row['data']);
-                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability,
-                                        CASE
-                                        WHEN obj.estado =1 THEN 'Active'
-                                        ELSE 'Inactive'
-                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
-                                                . "WHERE obj.estado=1 AND CONCAT(upper(obj.nombre),' ',upper(obj.probabilidad)) LIKE upper(:busqueda) "
-                                                . "AND obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name,
+                                CASE
+                                WHEN obj.estado =1 THEN 'Active'
+                                ELSE 'Inactive'
+                                END AS state FROM ERPCRMBundle:CtlNivelSatisfaccion obj "
+                                                . "WHERE obj.estado=1 AND upper(obj.nombre) LIKE upper(:busqueda) "
+                                                . "AND pac.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                             $row['data'] = $em->createQuery($sql)
                                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                                     ->setFirstResult($start)
@@ -210,21 +211,23 @@ class CtlEtapaVentaController extends Controller
                                     ->getResult();
                 }
                 else{
-                    $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability,
+                    $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name,
                                 CASE
                                 WHEN obj.estado =1 THEN 'Active'
                                 ELSE 'Inactive'
-                                END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
+                                END AS state FROM ERPCRMBundle:CtlNivelSatisfaccion obj "
                                         . " WHERE obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
                     $row['data'] = $em->createQuery($sql)
                             ->setFirstResult($start)
                             ->setMaxResults($longitud)
                             ->getResult();
-                            //var_dump($row);
+                            
                 }
+                //var_dump($row);
                 return new Response(json_encode($row));
-            } catch (\Exception $e) {    
-                    if(method_exists($e,'getErrorCode')){                     
+            } catch (\Exception $e) {  
+                //var_dump($e);
+                if(method_exists($e,'getErrorCode')){                     
                     switch (intval($e->getErrorCode()))
                     {
                         case 2003: 
@@ -236,15 +239,13 @@ class CtlEtapaVentaController extends Controller
                         break;
                     }               
                     $row['data'][0]['chk'] ='';
-                    $row['data'][0]['probability'] ='';
-                    $row['data'][0]['actions'] ='';
-                    $row['data'][0]['state'] ='';                     
+                    
                     $row['recordsFiltered']= 0;
                     }                                    
                     else{
                             $data['error']=$e->getMessage();
                     }
-                return new Response(json_encode($row));        
+                return new Response(json_encode($row));            
         }
     
         
@@ -256,9 +257,9 @@ class CtlEtapaVentaController extends Controller
 
 
     /**
-     * Save sales stage
+     * Save level of customer satisfaction
      *
-     * @Route("/sales/stage/save", name="admin_ctletapaventa_save_ajax",  options={"expose"=true}))
+     * @Route("/customer/satisfaction/save", name="admin_customer_satisfaction_save_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function saveajaxAction(Request $request)
@@ -269,31 +270,30 @@ class CtlEtapaVentaController extends Controller
         
             try {
                 $name=$request->get("param1");
-                $probability=$request->get("param2");
-                $id=$request->get("param3");
+                
+                $id=$request->get("param2");
                 $response = new JsonResponse();
                 // var_dump($name);
                 // var_dump($probability);
                 // die();
 
                 $em = $this->getDoctrine()->getManager();
-                $sql = "SELECT upper(pac.nombre) FROM ERPCRMBundle:CtlEtapaVenta pac "
-                                            . "WHERE pac.estado=1 AND upper(pac.nombre) LIKE upper(:busqueda) "
-                                            . "AND pac.estado=1";
+                $sql = "SELECT upper(obj.nombre) FROM ERPCRMBundle:CtlNivelSatisfaccion obj "
+                                            . "WHERE obj.estado=1 AND upper(obj.nombre) LIKE upper(:busqueda) "
+                                            . "AND obj.estado=1";
                 $objectDuplicate = $em->createQuery($sql)
                                         ->setParameters(array('busqueda'=>"".strtoupper($name).""))
                                         ->getResult();   
 
                     
-                    
+                   
                     if (count($objectDuplicate) && $id=='') {
                         $serverDuplicateName = $this->getParameter('app.serverDuplicateName');
                         $data['error'] = $serverDuplicateName;
                     } else {
                         if ($id=='') {
-                                $object = new CtlEtapaVenta();
+                                $object = new CtlNivelSatisfaccion();
                                 $object->setNombre($name);
-                                $object->setProbabilidad($probability);
                                 $object->setEstado(true);
                                 $em->persist($object);
                                 $em->flush();    
@@ -301,13 +301,12 @@ class CtlEtapaVentaController extends Controller
                                 $data['msg']=$serverSave;
                                 $data['id']=$object->getId();
                         } else {
-                                $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);
+                                $object = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->find($id);
                                 $object->setNombre($name);
-                                $object->setProbabilidad($probability);
                                 $em->merge($object);
                                 $em->flush();    
                                 $serverUpdate = $this->getParameter('app.serverMsgUpdate');
-                                $data['msg']=$serverUpdate; 
+                                $data['msg']=$serverUpdate;
                                 $data['id']=$object->getId();
                         }
                         
@@ -327,7 +326,7 @@ class CtlEtapaVentaController extends Controller
                                 $data['error'] = $serverDuplicate."! CODE: ".$e->getErrorCode();
                             break;
                             default :
-                                $data['error'] = "Error CODE: ".$e->getMessage();               
+                                $data['error'] = "Error CODE: ".$e->getMessage();
                             break;
                             }      
                     }
@@ -352,9 +351,9 @@ class CtlEtapaVentaController extends Controller
 
 
     /**
-     * Retrieve sales stage
+     * Retrieve level of customer satisfaction
      *
-     * @Route("/sales/stage/retrieve", name="admin_ctletapaventa_retrieve_ajax",  options={"expose"=true}))
+     * @Route("/customer/satisfaction/retrieve", name="admin_customer_satisfaction_retrieve_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function retrieveajaxAction(Request $request)
@@ -364,14 +363,13 @@ class CtlEtapaVentaController extends Controller
             $response = new JsonResponse();
             
             $em = $this->getDoctrine()->getManager();
-            $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);
+            $object = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->find($id);
             if(count($object)){
                 
                 //$object->setProbabilidad($);
                 $em->merge($object);
                 $em->flush();    
                 $data['name']=$object->getNombre();
-                $data['probability']=$object->getProbabilidad();
                 //$data['name']=$object->getNombre();
                 $data['id']=$object->getId();
             }
@@ -406,11 +404,10 @@ class CtlEtapaVentaController extends Controller
 
 
 
-
     /**
-     * Delete sales stage
+     * Delete level of customer satisfaction
      *
-     * @Route("/sales/stage/delete", name="admin_ctletapaventa_delete_ajax",  options={"expose"=true}))
+     * @Route("/customer/satisfaction/delete", name="admin_customer_satisfaction_delete_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function deleteajaxAction(Request $request)
@@ -422,7 +419,7 @@ class CtlEtapaVentaController extends Controller
             // die();
             $em = $this->getDoctrine()->getManager();
             foreach ($ids as $key => $id) {
-                $object = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($id);    
+                $object = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->find($id);    
                 if(count($object)){
                     $object->setEstado(0);
                     $em->merge($object);
@@ -456,9 +453,6 @@ class CtlEtapaVentaController extends Controller
         return $response;
         
     }
-
-    
-
 
 
 

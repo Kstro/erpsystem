@@ -1,13 +1,15 @@
 {% extends ':layout:layouterp.html.twig' %}
 
+{% block title -%}<title>{{tituloSales}}</title>{% endblock %}
+
 {% block customcss %}
 	
 {% endblock %}
 
 {% block descripcion %}
     <div class="col-md-5">
-        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">List of account types</p>
-        <p class="robo" style="font-weight: 300; font-size: 14px; ">Add, modify or delete the account types.</p>
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSatisfaccion}}</p>
+        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionSatisfaccion}}</p>
     </div>
 
 {% endblock %}

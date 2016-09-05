@@ -5,7 +5,8 @@ $(document).on('click', '.btnAdd', function(event) {
 	var id = $('#txtId').val();
 	var probability=$('#txtProbability');
 	//Cambiar nombre del panel heading para add (Inserción)
-	$('.panel-heading').html('Add');
+	$('.pnHeadingLabelAdd').removeClass('hidden');
+	$('.pnHeadingLabelEdit').addClass('hidden');
 	if (id!='') {
 		$('#txtId').val('');
 		$('#txtName').val('');
@@ -23,7 +24,18 @@ $(document).on('click', '.btnAdd', function(event) {
 
 /////Hide forms panel
 
-$(document).on('click, input', '#btnCancel, .sortRecords, div.dataTables_filter input', function(event) {
+$(document).on('input', 'div.dataTables_filter input', function(event) {
+	var probability=$('#txtProbability');
+	$('#txtId').val('');
+	$('#txtName').val('');
+	$('#pnAdd').slideUp();
+	$('.chkItemAll').prop({'checked': false});
+	probability.slider('setValue', 10);	
+	$('.btnAdd').removeClass('hidden');
+	$('.btnDelete').addClass('hidden');
+});
+
+$(document).on('click', '#saleStageList>thead>tr>th:nth-child(2),#saleStageList>thead>tr>th:nth-child(3),#btnCancel', function(event) {
 	var probability=$('#txtProbability');
 	$('#txtId').val('');
 	$('#txtName').val('');

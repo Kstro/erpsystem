@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlNivelSatisfaccion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ctlNivelSatisfaccion.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ ctlNivelSatisfaccion.nombre }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('levelcustomersatisfaction_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('levelcustomersatisfaction_edit', { 'id': ctlNivelSatisfaccion.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
