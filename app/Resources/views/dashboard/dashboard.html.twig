@@ -1,0 +1,27 @@
+{% extends ':layout:layouterp.html.twig' %}
+
+{% block customcss %}
+    
+{% endblock %}
+
+{% block body %}
+    {% include ':layout:nav.html.twig' %}
+    
+    <div class="container">
+        {% block descripcion_y_acciones %}
+            <div class="row">
+                {% block descripcion %}{% endblock %}
+                {% block acciones %}{% endblock acciones %}
+            </div>	                	
+        {% endblock %}  
+                  
+        <p class="robo text-center" style="font-size: 35px; font-weight: 300; font-family: 'Roboto', sans-serif; margin-bottom: 0px;">Dashboard</p>
+        <p class="robo text-center" style="font-size: 17px; font-weight: 300; font-family: 'Roboto', sans-serif; margin-bottom: 30px;">Control panel</p>
+        
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10 col-xs-12">
+                {% include ':dashboard:iconos_modulos.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}    

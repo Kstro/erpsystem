@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlUsuario</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ctlUsuario.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ ctlUsuario.username }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ ctlUsuario.password }}</td>
+            </tr>
+            <tr>
+                <th>Salt</th>
+                <td>{{ ctlUsuario.salt }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{% if ctlUsuario.estado %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Intentos</th>
+                <td>{{ ctlUsuario.intentos }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_user_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_user_edit', { 'id': ctlUsuario.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

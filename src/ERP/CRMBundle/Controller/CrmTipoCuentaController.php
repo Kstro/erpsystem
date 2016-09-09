@@ -26,13 +26,7 @@ class CrmTipoCuentaController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $crmTipoCuentas = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findAll();
-
-        return $this->render('crmtipocuenta/index.html.twig', array(
-            'crmTipoCuentas' => $crmTipoCuentas,
-        ));
+        return $this->render('crmtipocuenta/index.html.twig');
     }
 
     /**
@@ -73,30 +67,72 @@ class CrmTipoCuentaController extends Controller
         if($isAjax){
             try {
                 $em = $this->getDoctrine()->getManager();
+                //$exito = '1';
                 $parameters = $request->request->all();
-
                 $accounttypename = $parameters['name'];
+                $id = $parameters['id'];
+                
+                $sql = "SELECT upper(acc.nombre) FROM ERPCRMBundle:CrmTipoCuenta acc "
+                        . "WHERE upper(acc.nombre) LIKE upper(:busqueda) AND acc.estado = 1";
+                
+                $objectDuplicate = $em->createQuery($sql)
+                                    ->setParameters(array('busqueda'=>"%".strtoupper($accounttypename)."%"))
+                                    ->getResult(); 
+                
+                if (count($objectDuplicate)) {
+                    $data['error'] = "Duplicate name";
+                    //$exito = '0';
+                } else {
+                    if ($id=='') {
+                        $accounttype = new CrmTipoCuenta();
+                        $accounttype->setNombre($accounttypename);
+                        $accounttype->setEstado(1);
 
-                $accounttype = new CrmTipoCuenta();
-                $accounttype->setNombre($accounttypename);
-                $accounttype->setEstado(1);
-
-                $em->persist($accounttype);
-                $em->flush();
+                        $em->persist($accounttype);
+                        $em->flush();
+                        
+                        $data['msg']='It has successfully registered!';
+                        $data['id']=$accounttype->getId();
+                    } else {
+                        $accounttype = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
+                        $accounttype->setNombre($accounttypename);
+                        
+                        $em->merge($accounttype);
+                        $em->flush();
+                        
+                        $data['msg']='It has successfully updated!';
+                        $data['id']=$accounttype->getId();
+                    }                                        
+                }
                 
                 $response = new JsonResponse();
                 $response->setData(array(
-                                  'exito'   => '1'
+                                  //'exito'   => $exito,
+                                  'msg'   => $data
                                ));  
             
-            return $response; 
+                return $response; 
             } catch (Exception $e) {
-                $data['msj'] = $e->getMessage();
-                
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode())){
+                        case 2003: 
+                            $data['error'] = "Server offline";
+                        break;
+                        case 1062: 
+                            $data['error'] = "Duplicate name!";
+                        break;
+                        default :
+                            $data['error'] = $e->getMessage();                     
+                        break;
+                        }      
+                }
+                else{
+                    $data['error']=$e->getMessage();
+                }
+                    
                 $response = new JsonResponse();
                 $response->setData(array(
-                                  'exito' => '0',
-                                  'msj'   => $data
+                                  'msg'   => $data
                                ));  
             }                
         } else {    
@@ -211,11 +247,8 @@ class CrmTipoCuentaController extends Controller
 
         $orderByText="";
         switch(intval($orderBy)){
-            case 0:
-                $orderByText = "name";
-                break;
             case 1:
-                $orderByText = "state";
+                $orderByText = "name";
                 break;
         }
         
@@ -223,7 +256,7 @@ class CrmTipoCuentaController extends Controller
         if($busqueda['value']!=''){                                
             $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
                     . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "'<input type=\"checkbox\" >' as check, "
+                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
                     . "when acc.estado = 1 then 'Active' "
                     . "else 'Inactive' "
@@ -240,7 +273,7 @@ class CrmTipoCuentaController extends Controller
 
             $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
                     . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "'<input type=\"checkbox\" >' as check, "
+                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
                     . "when acc.estado = 1 then 'Active' "
                     . "else 'Inactive' "
@@ -259,7 +292,7 @@ class CrmTipoCuentaController extends Controller
         else{
             $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
                     . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "'<input type=\"checkbox\" >' as check, "
+                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
                     . "when acc.estado = 1 then 'Active' "
                     . "else 'Inactive' "
@@ -274,5 +307,93 @@ class CrmTipoCuentaController extends Controller
         }
         
         return new Response(json_encode($row));
+    }
+    
+    /**
+     * Retrieve the account type
+     *
+     * @Route("/account-types/retrieve", name="admin_retrieve_accounttype", options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function retrieveAccountTypeAction(Request $request)
+    {
+        try {
+            $id=$request->get("id");
+            $response = new JsonResponse();
+            
+            $em = $this->getDoctrine()->getManager();
+            $accountType = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
+            if(count($accountType)){
+                //$em->merge($accountType);
+                //$em->flush();    
+                $data['name']=$accountType->getNombre();
+                $data['id']=$accountType->getId();
+            }
+            else{
+                $data['error']="Error";
+            }
+                        
+            $response->setData($data); 
+            
+        } catch (\Exception $e) {
+            switch (intval($e->getErrorCode()))
+                    {
+                        case 2003: 
+                            $data['error'] = "Server offline";
+                        break;
+                        default :
+                            $data['error'] = $e->getMessage();                     
+                        break;
+                    }      
+            $response->setData($data);
+        }
+        
+        return $response;
+        
+    }
+    
+    /**
+     * Delete the account type
+     *
+     * @Route("/account-types/delete", name="admin_delete_accounttype",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function deleteAccountTypeAction(Request $request)
+    {
+        try {
+            $ids=$request->get("param1");
+            $response = new JsonResponse();
+            
+            $em = $this->getDoctrine()->getManager();
+            foreach ($ids as $key => $id) {
+                $object = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);    
+                if(count($object)){
+                    $object->setEstado(0);
+                    $em->merge($object);
+                    $em->flush();    
+                    $data['msg']='Data Updated!';
+                }
+                else{
+                    $data['error']="Error";
+                }
+            }
+            $response->setData($data); 
+        } catch (\Exception $e) {
+            $response = new JsonResponse();
+            
+            switch (intval($e->getErrorCode()))
+                    {
+                        case 2003: 
+                            $data['error'] = "Server offline";
+                        break;
+                        default :
+                            $data['error'] = $e->getMessage();                     
+                        break;
+                    }      
+            $data['error']=$e->getMessage();
+            $response->setData($data);
+        }
+        
+        return $response;        
     }
 }

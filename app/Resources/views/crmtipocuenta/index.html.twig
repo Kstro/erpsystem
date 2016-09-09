@@ -1,7 +1,7 @@
 {% extends ':layout:layouterp.html.twig' %}
 
 {% block customcss %}
-	
+    
 {% endblock %}
 
 {% block descripcion %}
@@ -14,10 +14,10 @@
 
 {% block acciones %}
     <div class="col-md-7 text-right panel-body">
-        <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">Add</button>
-        <button class="btnDelete btn btn-sm btn-danger btn-flat hide">Delete</button>
-        <button class="btnShow btn btn-sm btn-success btn-flat hide">Show</button>
-        <button class="btnAction btn btn-sm btn-default btn-flat hide">Action</button>
+        <button data-loading-text="Loading..." autocomplete="off" class="btAdd btn btn-sm btn-primary btn-flat">Add</button>
+        <button class="btDelete btn btn-sm btn-danger btn-flat hidden">Delete</button>
+        <button class="btShow btn btn-sm btn-success btn-flat hidden">Show</button>
+        <button class="btAction btn btn-sm btn-default btn-flat hidden">Action</button>
     </div>
 {% endblock acciones %}
 
@@ -34,7 +34,7 @@
                 
                 <div class="panel-heading">Add</div>
                 <div class="panel-body">
-                    
+                        <input id="txtId" type="hidden" name="" class="input-sm form-control">
                         <div class="col-md-6 col-xs-12">
                             <label>Name</label>
                             <input id="txtName" type="text" name="txtName" class="input-sm form-control validateInput">
@@ -64,5 +64,29 @@
 {% block js_extend %}
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/accounttype/accounttype.js') }}"></script> 
-    <script type="text/javascript" src="{{ asset('Resources/persist/accounttype/funciones.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('Resources/animations/funciones.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('Resources/animations/accounttype/showformsaccounttype.js') }}"></script> 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            /////Definición datatable
+            var table = $('#accountTypesList').DataTable({
+                dom:'ftp',
+                "processing": false,
+                "serverSide": true,
+                "ajax": {
+                        "url": Routing.generate('admin_account_types_data'),
+                        "type": 'GET'
+                },
+                "columns": [
+                        { "data": "check" },
+                        { "data": "name" }
+                ],
+                "order":[1,'asc'],
+                "columnDefs": [
+                        { "orderable": false, "targets": 0 }
+                ]
+            });
+            /////Fin definición datatable 
+        });
+    </script>
 {% endblock %}

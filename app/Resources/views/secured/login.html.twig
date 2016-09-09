@@ -1,0 +1,50 @@
+{% extends ':layout:layouterp.html.twig' %}
+
+{% block customcss %}
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/login.css') }}">
+{% endblock %}    
+
+{% block body %}
+    <body class="hold-transition login-page">
+        <div class="login-box"  >
+            <div class="login-title">
+                <b>ERP</b>SYSTEMS
+            </div>
+            
+            <div class="login-box-body">
+                <p class="login-box-msg">Login</p>
+
+                <form action="{% block form_action %}{{ path("erpdg_security_check") }}{% endblock %}" method="post" id="frmLogin">  
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Username" id="username" name="_username" value="{{ last_username }}">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Password" id="contrasenha" name="_password">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div id="captcha" class="captcha col-xs-12" style="display: none">
+                                <div class="g-recaptcha" data-sitekey="6Lc1QyQTAAAAAPOLibXnni_MgVU_vwbBRfKoNjVC"></div>
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-xs-8">                            
+                            <div style="color:red; margin-bottom: 20px;" class="error-auth hidden"></div>                                
+                        </div>
+                        
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" id="btLogin">Login</button>
+                        </div>
+                    </div>
+                </form>                
+            </div>
+        </div>
+    </body>
+{% endblock %}
+{% block js_extend %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/secured/login.js') }}"></script>
+{% endblock %}    
