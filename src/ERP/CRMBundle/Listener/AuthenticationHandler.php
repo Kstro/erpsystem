@@ -54,19 +54,22 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
             
             if(isset($parameters['g-recaptcha-response'])){
                 $captcha = $parameters['g-recaptcha-response'];
-                
-                if(!$captcha && $user->getIntentos() > 2){
-                    //No se ha seleccionado Captcha 
-                    $intentos = $user->getIntentos();            
-                    $array = array( 'success' => false, 'intentos' => $intentos, 'message' => 'Please check the captcha form.' );
+                if($user) {
+                    if(!$captcha && $user->getIntentos() > 2){
+                        //No se ha seleccionado Captcha 
+                        $intentos = $user->getIntentos();            
+                        $array = array( 'success' => false, 'intentos' => $intentos, 'message' => 'Please check the captcha form.' );
+                    } else {
+                        $user->setIntentos($user->getIntentos() + 1);   
+                        $user->setLastAttempt(new \DateTime('now'));
+                        $this->em->merge($user);
+                        $this->em->flush();
+
+                        $intentos = $user->getIntentos();            
+                        $array = array( 'success' => false, 'intentos' => $intentos, 'message' => $exception->getMessage() ); 
+                    }
                 } else {
-                    $user->setIntentos($user->getIntentos() + 1);   
-                    $user->setLastAttempt(new \DateTime('now'));
-                    $this->em->merge($user);
-                    $this->em->flush();
-                    
-                    $intentos = $user->getIntentos();            
-                    $array = array( 'success' => false, 'intentos' => $intentos, 'message' => $exception->getMessage() ); 
+                    $array = array( 'success' => false, 'intentos' => 0, 'message' => 'Sorry, your username is not recognized' ); 
                 }
             } else {
                 $user->setIntentos($user->getIntentos() + 1);     

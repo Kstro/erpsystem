@@ -25,6 +25,7 @@ $(document).ready(function() {
                         attempts++;
                         capa.style.display = 'block';
                     } else {
+                        $('#contrasenha').val('');
                         capa.style.display = 'none';
                     }                    
                     
