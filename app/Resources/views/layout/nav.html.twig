@@ -30,20 +30,20 @@
         {% block busqueda %}<li style="margin-top: 10px !important;">
                 {#<input id="busquedaRapida" type="text" class="form-control" style="width: 300px; margin-top: 5px;" placeholder="Realize una búsqueda - (Ctrl+G)">#}
                 <select id="busquedaRapida" style="width: 250px;" class="form-control">
-                    <option value="0">Realice una búsqueda</option>
+                    <option value="0">{{select2Label}}</option>
                 </select>
             </li>
         {% endblock busqueda %}
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <img src="{{ asset('Photos/Empleado/')}}{#{{app.user.persona.empleado[0].foto}}#}" style="width: 25px;"> &nbsp; {{app.user.persona.nombre}} {{app.user.persona.apellido}} <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <img src="{{ asset('Photos/Empleado/')}}{#{{app.user.persona.empleado[0].foto}}#}" style="width: 25px;"> &nbsp; {#{{app.user.persona.nombres}} {{app.user.persona.apellidos}}#}<span class="caret"></span></a>
              <ul class="dropdown-menu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href=""><span class="pull-right"><i class="fa fa-key"></i></span>Editar contraseña</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href=""><span class="pull-right"><i class="fa fa-book text-muted"></i></span>Mostrar bitacora</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href=""><span class="pull-right"><i class="fa fa-key"></i></span>{{editPass}}</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href=""><span class="pull-right"><i class="fa fa-book text-muted"></i></span>{{showLog}}</a></li>
                 {% if is_granted('ROLE_ADMIN') %}
-                <li role="presentation"><a role="menuitem" tabindex="-1" href=""><span class="pull-right"><i class="glyphicon glyphicon-cog text-muted"></i></span>Ajustes</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href=""><span class="pull-right"><i class="glyphicon glyphicon-cog text-muted"></i></span>{{settings}}</a></li>
                 {% endif %}
                 <li role="separator" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{path('erpdg_logout')}}"><span class="pull-right"><i class="fa fa-sign-out text-muted"></i></span> Cerrar sesión</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href=""><span class="pull-right"><i class="fa fa-sign-out text-muted"></i></span> {{logOut}}</a></li>
             </ul> 
         </li>
         

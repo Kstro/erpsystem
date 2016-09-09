@@ -5,9 +5,7 @@ $(document).ready(function() {
 		var $btn = $(this).button('loading');
     		var id=$('#txtId');
 		var name=$('#txtName');
-		var probability=$('#txtProbability');
-		var state = $('#txtState');
-		var table = $('#saleStageList').DataTable();
+		var table = $('#campaignList').DataTable();
 		var errores = 0;//Contador de errores, para antes de la persistencia
 		$('.validateInput').each(function() {
 			if (!required($(this))) {
@@ -16,27 +14,23 @@ $(document).ready(function() {
 		});
 		if (errores==0) {
 			$.ajax({
-				url: Routing.generate('admin_ctletapaventa_save_ajax'),
+				url: Routing.generate('admin_campaigntypes_save_ajax'),
 				type: 'POST',
-				data: {param1: name.val(),param2:probability.val(),param3:id.val()},
+				data: {param1: name.val(),param2:id.val()},
 				success:function(data){
 					if(data.msg){
 						swal('',data.msg,'success');
 						id.val(data.id);
 						$('#txtId').val('');
 						$('#txtName').val('');
-						$('#txtProbability').val('10');
-						probability.slider('setValue', 10);
 						$('.btnAdd').click();
-						$btn.button('reset');
 						table.ajax.reload();
 					}
 					if(data.error){
 						console.log(data.id);
 						swal('',data.error,'error');
-						$btn.button('reset');
 					}
-					
+					$btn.button('reset');
 				},
 				error:function(data){
 					if(data.error){
@@ -58,13 +52,12 @@ $(document).ready(function() {
 
 
 	/////Persist datatable (Edit method)
-	$(document).on('click', '#saleStageList>tbody>tr>td:nth-child(2), #saleStageList>tbody>tr>td:nth-child(3), #saleStageList>tbody>tr>td:nth-child(4)', function(event) {
+	$(document).on('click', '#campaignList>tbody>tr>td:nth-child(2)', function(event) {
 		/////Definición de variables
 		var text = $(this).prop('tagName');
 		console.log(text);
 		var id=$(this).parent().children().first().children().attr('id');
 		var idForm=$('#txtId').val();
-		var probability=$('#txtProbability');
 		var selected = 0;
 		//Cambiar nombre del panel heading para Modify
 		$('.pnHeadingLabelAdd').addClass('hidden');
@@ -77,7 +70,7 @@ $(document).ready(function() {
 
 		if (text=='TD' && id!=idForm && selected==0) {
 			$.ajax({
-				url: Routing.generate('admin_ctletapaventa_retrieve_ajax'),
+				url: Routing.generate('admin_campaigntypes_retrieve_ajax'),
 				type: 'POST',
 				data: {param1: id},
 				success:function(data){
@@ -88,7 +81,6 @@ $(document).ready(function() {
 					else{
 						$('#txtId').val(data.id);
 						$('#txtName').val(data.name);
-						probability.slider('setValue', data.probability);
 						$('#pnAdd').slideDown();
 					}					
 					
@@ -116,7 +108,7 @@ $(document).ready(function() {
 		/////Definición de variables
 		var id=$(this).children().first().children().attr('id');
 		var ids=[];
-		var table = $('#saleStageList').DataTable();
+		var table = $('#campaignList').DataTable();
 		$('.chkItem').each(function() {
 			if ($(this).is(':checked')) {
 				ids.push($(this).parent().attr('id'));
@@ -124,6 +116,8 @@ $(document).ready(function() {
 		});	
 		console.log(ids);
 		// var probability=$('#txtProbability');
+
+
 		swal({
                         title: "",
                         text: "Remove selected rows?",
@@ -134,8 +128,8 @@ $(document).ready(function() {
                         reverseButtons: true,
                     }).then(function(isConfirm) {
                         if (isConfirm) {
-				$.ajax({
-					url: Routing.generate('admin_ctletapaventa_delete_ajax'),
+                            	$.ajax({
+					url: Routing.generate('admin_campaigntypes_delete_ajax'),
 					type: 'POST',
 					data: {param1: ids},
 					success:function(data){
@@ -165,12 +159,10 @@ $(document).ready(function() {
 						//$btn.button('reset');
 					}
 				});
-			}
-			else{
-				$btn.button('reset');
-			}
-		});
-		$btn.button('reset');
+                        }
+                    });
+                
+		
 	});
 	/////Fin definición persist data (Delete method)
 
@@ -179,11 +171,11 @@ $(document).ready(function() {
 	$(document).on('click', '.chkItemAll', function(event) {
 		/////Definición de variables
 		var id=$(this).children().first().children().attr('id');
-		var probability=$('#txtProbability');
+		// var probability=$('#txtProbability');
 
 		$('#txtId').val('');
 		$('#txtName').val('');
-		probability.slider('setValue', 14);
+		// probability.slider('setValue', 14);
 		$('#pnAdd').slideUp();
 		if ($(this).is(':checked')) {
 			$('.chkItem').each(function() {
@@ -210,14 +202,13 @@ $(document).ready(function() {
 
 		/////Definición de variables
 		var text = $(this).prop('tagName');
-		var selected = 0;
 		var total=0;
 		var selected=0;
 		$('#pnAdd').slideUp();
 		console.log(text);
 		if (text=='INPUT' ) {
 			var id=$(this).parent().attr('id');
-			var probability=$('#txtProbability');
+			// var probability=$('#txtProbability');
 			if ($(this).is(':checked')) {
 				$('.btnAdd').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');
@@ -227,8 +218,7 @@ $(document).ready(function() {
 				$('.btnAdd').removeClass('hidden');
 				$('.btnDelete').addClass('hidden');
 				$(this).prop({'checked': false});
-			}
-			$('.chkItem').each(function() {
+			}$('.chkItem').each(function() {
 				total++;
 				if ($(this).is(':checked')) {
 					selected++;
@@ -244,7 +234,6 @@ $(document).ready(function() {
 		else{
 			$('.chkItemAll').prop({'checked': false});	
 		}
-
 	});
 	/////Fin select checkboxes (Single)
 });	

@@ -1,30 +1,27 @@
 {% extends ':layout:layouterp.html.twig' %}
 
+{% block title -%}<title>{{tituloEtapa}}</title>{% endblock %}
+
 {% block customcss %}
 	<link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
 	<link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
 {% endblock %}
 {% block descripcion %}
 	 <div class="col-md-5">
-		  <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">Sales stage list</p>
-		  <p class="robo" style="font-weight: 300; font-size: 14px; ">Add, modify or delete sales stages.</p>
+		  <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoEtapa}}</p>
+		  <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionEtapa}}</p>
 	 </div>
 
 {% endblock %}
 {% block acciones %}
 	 <div class="col-md-7 text-right panel-body">
-		  <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">Add</button>
-		  <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">Delete</button>
-		  <button class="hidden btnShow btn btn-sm btn-success btn-flat">Show</button>
-		  <button class="hidden btnAction btn btn-sm btn-default btn-flat">Action</button>
+		  <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">{{add}}</button>
+		  <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
+		  <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+		  <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
 	 </div>
 {% endblock acciones %}
 
-{% block navegacion %}
-	<a href="/sepes/app_dev.php/admin/reporte/pacientes/reporte" class="leftnava"><li class="leftnav left ">Users management<span class="pull-right right"><i class=""></i></span></li></a>
-	<a href="/sepes/app_dev.php/admin/reporte/ingresoemergencia" class="leftnava"><li class="leftnav left active"> management<span class="pull-right right"><i class="fa fa-arrow-right"></i></span></li></a>
-		  
-{% endblock %}
 
 {% block contenido %}
 	<div class="row">
@@ -46,8 +43,8 @@
 				<thead>
 					<tr role="row">
 						<th style="text-align:left;width: 10px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-						<th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting">Name</th>
-						<th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">Probability</th>
+						<th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameEtapa}}</th>
+						<th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting_desc">{{probabilityEtapa}}</th>
 						{# <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th> #}
 						{# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}
 					</tr>
@@ -55,83 +52,7 @@
 				</thead>	  
 			 </table>
 
-			 {# <table style="width: 100%;" aria-describedby="example_info" role="grid" id="example" class="mdl-data-table dataTable" width="100%" cellspacing="0">
-					
-					
-					<tbody>
-														
-					<tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Prescott Bartlett</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Technical Author</td>
-							<td class=" mdl-data-table__cell--non-numeric">London</td>
-							<td>27</td>
-							<td>2011/05/07</td>
-							<td>$145,000</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Gavin Cortez</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Team Leader</td>
-							<td class=" mdl-data-table__cell--non-numeric">San Francisco</td>
-							<td>22</td>
-							<td>2008/10/26</td>
-							<td>$235,500</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Gloria Little</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Systems Administrator</td>
-							<td class=" mdl-data-table__cell--non-numeric">New York</td>
-							<td>59</td>
-							<td>2009/04/10</td>
-							<td>$237,500</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Lael Greer</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Systems Administrator</td>
-							<td class=" mdl-data-table__cell--non-numeric">London</td>
-							<td>21</td>
-							<td>2009/02/27</td>
-							<td>$103,500</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Tiger Nixon</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">System Architect</td>
-							<td class=" mdl-data-table__cell--non-numeric">Edinburgh</td>
-							<td>61</td>
-							<td>2011/04/25</td>
-							<td>$320,800</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Quinn Flynn</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Lead</td>
-							<td class=" mdl-data-table__cell--non-numeric">Edinburgh</td>
-							<td>22</td>
-							<td>2013/03/03</td>
-							<td>$342,000</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Finn Camacho</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">San Francisco</td>
-							<td>47</td>
-							<td>2009/07/07</td>
-							<td>$87,500</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Olivia Liang</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">Singapore</td>
-							<td>64</td>
-							<td>2011/02/03</td>
-							<td>$234,500</td>
-						</tr><tr class="odd" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Sakura Yamamoto</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Support Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">Tokyo</td>
-							<td>37</td>
-							<td>2009/08/19</td>
-							<td>$139,575</td>
-						</tr><tr class="even" role="row">
-							<td class="mdl-data-table__cell--non-numeric">Bradley Greer</td>
-							<td class="mdl-data-table__cell--non-numeric sorting_1">Software Engineer</td>
-							<td class=" mdl-data-table__cell--non-numeric">London</td>
-							<td>41</td>
-							<td>2012/10/13</td>
-							<td>$132,000</td>
-						</tr></tbody>
-				</table> #}
+			 
 		</div>
 	</div>
 	 {# <ul>
@@ -142,13 +63,16 @@
 {% endblock %}
 
 {% block js_extend %}
-	<script type="text/javascript" src="{{ asset('Resources/animations/showforms.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('Resources/animations/salestages/salestages.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/persist/salestage/salestage.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/slider/js/bootstrap-slider.min.js') }}"></script>
 
 		<script type="text/javascript">
 		$(document).ready(function() {
+
+			$('#txtId').val('');
+
 		  	/////Definición datatable
 			var table = $('#saleStageList').DataTable({
 				dom:'ftp',
@@ -169,7 +93,19 @@
 				"columnDefs": [
 					{ "orderable": false, "targets": 0 }
 					// { "orderable": false, "targets": 3 }
-				]
+				],
+		                "language": {
+		                    "info": "{{dtInfo}} _PAGE_ de _PAGES_",
+		                    "infoEmpty": "{{dtInfoEmpty}}",
+		                    "emptyTable": "{{dtEmptyTable}}",
+		                    "paginate": { 
+		                        "next": "{{dtNext}}",
+		                        "previous": "{{dtPrev}}"
+		                    },
+		                    "processing": "{{dtProcessing}}",
+		                    "search": "{{dtSearch}}",
+		                    "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
+		                }
 			});
 			/////Fin definición datatable
 
@@ -180,6 +116,8 @@
 				}
 			});
 			/////Fin definición slider
+			
+
 		});
 	</script>
 	 
