@@ -1,15 +1,15 @@
 {% extends ':layout:layouterp.html.twig' %}
 
-{% block title -%}<title>{{tituloSatisfaccion}}</title>{% endblock %}
+{% block title -%}<title>{{tituloTiempoNotificacion}}</title>{% endblock %}
 
 {% block customcss %}
-    <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
+    
     <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSatisfaccion}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionSatisfaccion}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTiempoNotificacion}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTiempoNotificacion}}</p>
      </div>
 
 {% endblock %}
@@ -24,16 +24,18 @@
 
 {% block contenido %}
     <div class="row">
-        {% include ':ctlnivelsatisfaccion:new.html.twig' %}
+        {% include ':ctltiemponotificacion:new.html.twig' %}
 
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
-            <table id="satisfactionList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+            <table id="timeNotificationList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
                   
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameSatisfaccion}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameTiempoNotificacion}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{duracionTiempoNotificacion}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{unidadTiempoNotificacion}}</th>
                         {# <th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">Probability</th> #}
                         {# <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th> #}
                         {# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}
@@ -46,24 +48,28 @@
 
 
 
+
+
 {% block js_extend %}
-    <script type="text/javascript" src="{{ asset('Resources/animations/customersatisfaction/customersatisfaction.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/timenotifications/timenotifications.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/customersatisfaction/customersatisfaction.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/timenotifications/timenotifications.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             /////Definición datatable
-            var table = $('#satisfactionList').DataTable({
+            var table = $('#timeNotificationList').DataTable({
                 dom:'ftp',
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{path('admin_customer_satisfaction_data')}}',
+                    "url": '{{path('admin_tiempo_notificaciones_data')}}',
                     "type": 'GET'
                 },
                 "columns": [
                     { "data": "chk" },
                     { "data": "name" },
+                    { "data": "duration" },
+                    { "data": "unit" }
                     // { "data": "probability" },
                     // { "data": "state" }
                     // { "data": "actions" }
@@ -89,6 +95,7 @@
             });
             /////Fin definición datatable
 
+            $('#dpbUnidad').select2();
         });
     </script>
      

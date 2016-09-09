@@ -20,9 +20,11 @@ parameters:
 
         #frontend
 
+        #form validations
         #requiredFields
         app.requiredFields: ¡Fields in red are required!
-
+        #imageError
+        app.imageError: ¡Image too big!
         #select2
         app.select2Label: Search... (Ctrl+g)
         
@@ -34,6 +36,7 @@ parameters:
         #datatables
         app.dtInfo: Showing page
         app.dtInfoEmpty: 
+        app.dtZeroRecords: No data found 
         app.dtEmptyTable: No data found
         app.dtNext: Next
         app.dtPrev: Previous
@@ -43,6 +46,7 @@ parameters:
 
         #botones
         app.add: Add
+        app.back: Back
         app.delete: Delete
         app.show: Show
         app.action: Action
@@ -84,19 +88,43 @@ parameters:
         app.nameCampania: Name
         #Nivel de satisfaccion
         app.tituloSatisfaccion: CRM | Level of customer satisfaction
-        app.menuSatisfaccion: Level of customer satisfaction mgmt.
+        app.menuSatisfaccion: Lvl of customer satisfaction mgmt.
         app.encabezadoSatisfaccion: Level of customer satisfaction
         app.descripcionSatisfaccion: Add, modify or delete levels of customer satisfaction.
         app.nameSatisfaccion: Name
         #Proveedor
         app.tituloProveedor: CRM | Providers
+        app.companiaNombreProveedor: Name's company
         app.menuProveedor: Providers mgmt.
         app.encabezadoProveedor: Providers
         app.descripcionProveedor: Add, modify or delete providers.
         app.nameProveedor: Name
-        app.emailProveedor: Email
+        app.nombreProveedor: First name
+        app.apellidoProveedor: Last name
+        app.tratoProveedor: Title
         app.phoneProveedor: Phone
-        app.industryProveedor: Industry
+        app.extensionProveedor: Extension
+        app.emailProveedor: Email
+        app.direccionProveedor: Address
+        app.fotoProveedor: Photo
+        app.ciudadProveedor: City
+        app.departamentoProveedor: State
+        app.tipoPersonaProveedor: Person
+        app.industriaProveedor: Industry
+        app.sitioWebProveedor: Website
+        app.inputFileLabel: Browse
+        #Tiempo notificaciones
+        app.tituloTiempoNotificacion: CRM | Notification time
+        app.menuTiempoNotificacion: Notif. time mgmt.
+        app.encabezadoTiempoNotificacion: Notifications
+        app.descripcionTiempoNotificacion: Add, modify or delete time notifications.
+        app.nameTiempoNotificacion: Description
+        app.duracionTiempoNotificacion: Duration
+        app.unidadTiempoNotificacion: Unit time
+        app.minutosTiempoNotificacion: Minutes
+        app.diasTiempoNotificacion: Days
+        app.mesesTiempoNotificacion: Months
+        app.aniosTiempoNotificacion: Years
 
         
        

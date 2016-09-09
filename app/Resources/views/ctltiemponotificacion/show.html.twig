@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlTiempoNotificacion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ctlTiempoNotificacion.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ ctlTiempoNotificacion.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Duracion</th>
+                <td>{{ ctlTiempoNotificacion.duracion }}</td>
+            </tr>
+            <tr>
+                <th>Unidadtiempo</th>
+                <td>{{ ctlTiempoNotificacion.unidadTiempo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_notifications_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_notifications_edit', { 'id': ctlTiempoNotificacion.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -107,9 +107,19 @@ class CrmCuenta
     private $tipoEntidad;
 
      /**
-     * @ORM\OneToMany(targetEntity="CrmContacto", mappedBy="cuenta", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="CrmContactoCuenta", mappedBy="cuenta", cascade={"persist", "remove"})
      */
     private $contactoCuenta;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CtlCorreo", mappedBy="cuenta", cascade={"persist", "remove"})
+     */
+    private $correo;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CtlTelefono", mappedBy="cuenta", cascade={"persist", "remove"})
+     */
+    private $telefono;
 
 
 
@@ -375,6 +385,59 @@ class CrmCuenta
     public function setContactoCuenta(\ERP\CRMBundle\Entity\CrmContactoCuenta $contactoCuenta = null)
     {
         $this->contactoCuenta = $contactoCuenta;
+
+        return $this;
+    }
+
+
+
+    /**
+     * Get ctlCorreo
+     *
+     * @return \ERP\CRMBundle\Entity\CtlCorreo 
+     */
+    public function getCorreo()
+    {
+        return $this->correo;
+    }
+    
+    
+    /**
+     * Set consulta
+     *
+     * @param \ERP\CRMBundle\Entity\CtlCorreo
+     *
+     * @return Correo
+     */
+    public function setCorreo(\ERP\CRMBundle\Entity\CrmCorreo $correo = null)
+    {
+        $this->correo = $correo;
+
+        return $this;
+    }
+
+
+    /**
+     * Get CtlTelefono
+     *
+     * @return \ERP\CRMBundle\Entity\CtlTelefono 
+     */
+    public function getCtlTelefono()
+    {
+        return $this->telefono;
+    }
+    
+    
+    /**
+     * Set telefono
+     *
+     * @param \ERP\CRMBundle\Entity\CtlTelefono
+     *
+     * @return Telefono
+     */
+    public function setTelefono(\ERP\CRMBundle\Entity\CtlTelefono $telefono = null)
+    {
+        $this->telefono = $telefono;
 
         return $this;
     }

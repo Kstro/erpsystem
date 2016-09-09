@@ -9,6 +9,7 @@
 		var valor = object.val();
 		if (valor=='' || valor==0) {
 			object.addClass('errorform');
+			console.log(object);
 			return false;///Valor vacio (invalido)
 		} 
 		else {

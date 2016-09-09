@@ -8,6 +8,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    photo.proveedor: %kernel.root_dir%/../photos/proveedor/
 
 framework:
     #esi:             ~
@@ -50,10 +51,11 @@ twig:
         serverMsgUpdate: '%app.serverMsgUpdate%'
         serverMsgDelete: '%app.serverMsgDelete%'
         serverError: '%app.serverError%'
-
+        #form validations
         #requiredFields
         requiredFields: '%app.requiredFields%'
-
+        #imageError
+        imageError: '%app.imageError%'
         #requiredFields
         select2Label: '%app.select2Label%'
         
@@ -71,11 +73,13 @@ twig:
         dtProcessing: '%app.dtProcessing%'
         dtSearch: '%app.dtSearch%'
         dtLengthMenu: '%app.dtLengthMenu%'
+        dtZeroRecords: '%app.dtZeroRecords%'
 
 
         #Botones
         add: '%app.add%'
         delete: '%app.delete%'
+        back: '%app.back%'
         show: '%app.show%'
         action: '%app.action%'
         save: '%app.save%'
@@ -125,13 +129,40 @@ twig:
 
         #Proveedor
         tituloProveedor: '%app.tituloProveedor%'
+        
+        companiaNombreProveedor: '%app.companiaNombreProveedor%'
         menuProveedor: '%app.menuProveedor%'
         encabezadoProveedor: '%app.encabezadoProveedor%'
         descripcionProveedor: '%app.descripcionProveedor%'
         nameProveedor: '%app.nameProveedor%'
+        nombreProveedor: '%app.nombreProveedor%'
+        apellidoProveedor: '%app.apellidoProveedor%'
+        tratoProveedor: '%app.tratoProveedor%'
+        extensionProveedor: '%app.extensionProveedor%'
         emailProveedor: '%app.emailProveedor%'
         phoneProveedor: '%app.phoneProveedor%'
-        industryProveedor: '%app.industryProveedor%'
+        direccionProveedor: '%app.direccionProveedor%'
+        fotoProveedor: '%app.fotoProveedor%'
+        ciudadProveedor: '%app.ciudadProveedor%'
+        departamentoProveedor: '%app.departamentoProveedor%'
+        tipoPersonaProveedor: '%app.tipoPersonaProveedor%'
+        industriaProveedor: '%app.industriaProveedor%'
+        sitioWebProveedor: '%app.sitioWebProveedor%'
+        inputFileLabel: '%app.inputFileLabel%'
+        
+        #Tiempo notificaciones
+        tituloTiempoNotificacion: '%app.tituloTiempoNotificacion%'
+        menuTiempoNotificacion: '%app.menuTiempoNotificacion%'
+        encabezadoTiempoNotificacion: '%app.encabezadoTiempoNotificacion%'
+        descripcionTiempoNotificacion: '%app.descripcionTiempoNotificacion%'
+        nameTiempoNotificacion: '%app.nameTiempoNotificacion%'
+        duracionTiempoNotificacion: '%app.duracionTiempoNotificacion%'
+        unidadTiempoNotificacion: '%app.unidadTiempoNotificacion%'
+        minutosTiempoNotificacion: '%app.minutosTiempoNotificacion%'
+        diasTiempoNotificacion: '%app.diasTiempoNotificacion%'
+        mesesTiempoNotificacion: '%app.mesesTiempoNotificacion%'
+        aniosTiempoNotificacion: '%app.aniosTiempoNotificacion%'
+        
 
 
 

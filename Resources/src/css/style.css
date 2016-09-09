@@ -11,6 +11,10 @@
 	font-weight: 500;
 }
 
+tr:hover{
+	cursor: pointer;
+}
+
 .leftnav {
 	padding: 7px;
 	border-radius: 6px;

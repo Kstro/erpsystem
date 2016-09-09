@@ -1,0 +1,54 @@
+{# {% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlTiempoNotificacion creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_notifications_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
+ #}
+
+
+
+   <div class="col-md-12 col-xs-12">
+            <div id="pnAdd" class="panel panel-default" style="display:none;">
+                    <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+                    <div class="panel-body">
+                        <div class="col-md-4">
+                            <label>{{nameTiempoNotificacion}}</label>
+                            <label class="hidden requiredFields">{{requiredFields}}</label>
+                            <input id="txtId" type="hidden" name="" class="input-sm form-control">
+                            <input id="txtName" type="text" name="" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="col-md-4">
+                            <label>{{duracionTiempoNotificacion}}</label>
+                            <input id="txtDuration" type="text" name="" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="col-md-4">
+                            <label>{{unidadTiempoNotificacion}}</label>
+                            <select style="width:100%" id="dpbUnidad" class="input-sm form-control validateSelect">
+                                <option value="{{minutosTiempoNotificacion}}">{{minutosTiempoNotificacion}}</option>
+                                <option value="{{diasTiempoNotificacion}}">{{diasTiempoNotificacion}}</option>
+                                <option value="{{mesesTiempoNotificacion}}">{{mesesTiempoNotificacion}}</option>
+                                <option value="{{aniosTiempoNotificacion}}">{{aniosTiempoNotificacion}}</option>
+                            </select>
+                        </div>
+
+                    
+                    <div class="clearfix"></div>
+                    <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                        <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
+                        <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                    </div>
+                    </div>
+                    {# <div class="panel-footer">Panel Footer</div> #}
+            </div>
+</div>

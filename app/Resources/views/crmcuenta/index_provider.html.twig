@@ -8,6 +8,11 @@
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
     <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    <style type="text/css">
+        .errorform{
+            border: 1px solid #F00 !important;
+        }
+    </style>
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
@@ -18,7 +23,9 @@
 {% endblock %}
 {% block acciones %}
      <div class="col-md-7 text-right panel-body">
-          <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">{{add}}</button>
+          <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button>
+          <button data-loading-text="Loading..." autocomplete="off" class="btnAddPage btn btn-sm btn-primary btn-flat">{{add}}</button>
+          
           <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
           <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
           <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
@@ -27,7 +34,7 @@
 
 {% block contenido %}
     <div class="row">
-        {% include ':ctlnivelsatisfaccion:new.html.twig' %}
+        {% include ':crmcuenta:provider.html.twig' %}
 
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
@@ -36,10 +43,11 @@
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        <th>{{nameProveedor}}</th>
-                        <th>{{emailProveedor}}</th>
-                        <th>{{phoneProveedor}}</th>
-                        <th>{{industryProveedor}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameProveedor}}</th>
+                        
+                        <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailProveedor}}</th>
+                        <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneProveedor}}</th>
+                        <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{industriaProveedor}}</th>
                     </tr>
                 </thead>      
              </table>
@@ -49,9 +57,10 @@
     
 {% endblock %}
 {% block js_extend %}
-    <script type="text/javascript" src="{{ asset('Resources/animations/customersatisfaction/customersatisfaction.js') }}"></script>
+    
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/customersatisfaction/customersatisfaction.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/provider/provider.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/provider/provider.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             /////Definición datatable
@@ -66,6 +75,9 @@
                 "columns": [
                     { "data": "chk" },
                     { "data": "name" },
+                    { "data": "email" },
+                    { "data": "phone" },
+                    { "data": "industry" }
                     // { "data": "probability" },
                     // { "data": "state" }
                     // { "data": "actions" }
@@ -88,8 +100,18 @@
                     "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
                 }
             });
+            //Buscar hasta que se presione enter
+            $('#providersList_filter input').unbind();
+            $('#providersList_filter input').bind('keyup', function(e) {
+                if(e.keyCode == 13) {
+                    table.search( this.value ).draw();
+                    $('.chkItemAll').prop({'checked': false});
+                }
+            });
             /////Fin definición datatable
 
+            $('#dpbTitulo').select2();
+            $('.dpbTipoPhone').select2();
         });
     </script>
      

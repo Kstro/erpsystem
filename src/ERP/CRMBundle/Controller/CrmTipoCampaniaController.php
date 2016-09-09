@@ -362,11 +362,11 @@ class CrmTipoCampaniaController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             $object = $em->getRepository('ERPCRMBundle:CrmTipoCampania')->find($id);
-            if(count($object)){
+            if(count($object)!=0){
                 
                 //$object->setProbabilidad($);
-                $em->merge($object);
-                $em->flush();    
+                //$em->merge($object);
+                //$em->flush();    
                 $data['name']=$object->getNombre();
                 //$data['name']=$object->getNombre();
                 $data['id']=$object->getId();

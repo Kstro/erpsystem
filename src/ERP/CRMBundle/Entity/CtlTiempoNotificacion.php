@@ -43,6 +43,14 @@ class CtlTiempoNotificacion
     private $unidadTiempo;
 
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string", length=20, nullable=false)
+     */
+    private $estado;
+
+
 
     /**
      * Get id
@@ -121,5 +129,29 @@ class CtlTiempoNotificacion
     public function getUnidadTiempo()
     {
         return $this->unidadTiempo;
+    }
+
+
+    /**
+     * Set estado
+     *
+     * @param boolean $estado
+     * @return CtlTiempoNotificacion
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return boolean 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }
