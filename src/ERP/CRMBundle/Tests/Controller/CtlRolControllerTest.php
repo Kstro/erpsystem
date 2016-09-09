@@ -4,7 +4,7 @@ namespace ERP\CRMBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CrmTipoCampaniaControllerTest extends WebTestCase
+class CtlRolControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class CrmTipoCampaniaControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/admin/crmtipocampania/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/crmtipocampania/");
+        $crawler = $client->request('GET', '/admin/role/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/role/");
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'erp_crmbundle_crmtipocampania[field_name]'  => 'Test',
+            'erp_crmbundle_ctlrol[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class CrmTipoCampaniaControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Update')->form(array(
-            'erp_crmbundle_crmtipocampania[field_name]'  => 'Foo',
+            'erp_crmbundle_ctlrol[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

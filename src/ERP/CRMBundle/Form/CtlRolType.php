@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CrmTipoCampaniaType extends AbstractType
+class CtlRolType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,7 +16,7 @@ class CrmTipoCampaniaType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('estado')
+            ->add('usuario')
         ;
     }
     
@@ -26,7 +26,7 @@ class CrmTipoCampaniaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ERP\CRMBundle\Entity\CrmTipoCampania'
+            'data_class' => 'ERP\CRMBundle\Entity\CtlRol'
         ));
     }
 }

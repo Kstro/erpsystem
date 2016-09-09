@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlRol list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ctlRol in ctlRols %}
+            <tr>
+                <td><a href="{{ path('admin_role_show', { 'id': ctlRol.id }) }}">{{ ctlRol.id }}</a></td>
+                <td>{{ ctlRol.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_role_show', { 'id': ctlRol.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_role_edit', { 'id': ctlRol.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_role_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

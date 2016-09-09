@@ -8,8 +8,8 @@
 		///El valor '' es para input que requieran que se ingrese texto, el valor 0 puede ser para selects2 (dropdowns)
 		var valor = object.val();
 		if (valor=='' || valor==0) {
-			object.addClass('errorform');
-			console.log(object);
+
+          	         object.addClass('errorform');
 			return false;///Valor vacio (invalido)
 		} 
 		else {

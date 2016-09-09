@@ -12,6 +12,15 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('ERPCRMBundle:Default:index.html.twig');  
+        return $this->redirect($this->generateUrl('admin_dashboard'));
+    }
+    
+    /**
+     * @Route("/admin/dashboard", name="admin_dashboard", options={"expose"=true})
+     * 
+     */
+    public function dashboardAction()
+    {
+        return $this->render('dashboard/dashboard.html.twig');
     }
 }

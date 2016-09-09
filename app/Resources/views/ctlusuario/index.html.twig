@@ -1,0 +1,53 @@
+{% extends ':layout:layouterp.html.twig' %}
+
+{% block descripcion %}
+	 <div class="col-md-5">
+		  <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">Users list</p>
+		  <p class="robo" style="font-weight: 300; font-size: 14px; ">Add, modify or delete users.</p>
+	 </div>
+
+{% endblock %}
+
+{% block navegacion %}
+	<a href="/sepes/app_dev.php/admin/reporte/pacientes/reporte" class="leftnava"><li class="leftnav left ">Users management<span class="pull-right right"><i class=""></i></span></li></a>
+	<a href="/sepes/app_dev.php/admin/reporte/ingresoemergencia" class="leftnava"><li class="leftnav left active"> management<span class="pull-right right"><i class="fa fa-arrow-right"></i></span></li></a>
+		  
+{% endblock %}
+
+{% block contenido %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ctlUsuario in ctlUsuarios %}
+            <tr>
+                <td><a href="{{ path('admin_user_show', { 'id': ctlUsuario.id }) }}">{{ ctlUsuario.id }}</a></td>
+                <td>{{ ctlUsuario.username }}</td>
+                <td>{% if ctlUsuario.estado %}Yes{% else %}No{% endif %}</td>
+                <td>{{ ctlUsuario.intentos }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_user_show', { 'id': ctlUsuario.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_user_edit', { 'id': ctlUsuario.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_user_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

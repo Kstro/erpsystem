@@ -1,7 +1,8 @@
 <?php
 
 namespace ERP\CRMBundle\Entity;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ctl_usuario", indexes={@ORM\Index(name="fk_ctl_usuario_ctl_persona1_idx", columns={"persona"})})
  * @ORM\Entity
  */
-class CtlUsuario
+class CtlUsuario implements AdvancedUserInterface, \Serializable
 {
     /**
      * @var integer
@@ -41,7 +42,16 @@ class CtlUsuario
      * @ORM\Column(name="salt", type="string", length=255, nullable=false)
      */
     private $salt;
+    
+    private $isEnabled; // = false; 
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_attempt", type="datetime", nullable=true)
+     */
+    private $lastAttempt;
+    
     /**
      * @var boolean
      *
@@ -73,7 +83,14 @@ class CtlUsuario
      * )
      */
     private $rol;
-
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="intentos", type="integer", nullable=false)
+     */
+    private $intentos;
+    
     /**
      * Constructor
      */
@@ -92,7 +109,30 @@ class CtlUsuario
     {
         return $this->id;
     }
+    
+    /**
+     * Get intentos
+     *
+     * @return integer 
+     */
+    public function getIntentos()
+    {
+        return $this->intentos;
+    }
 
+    /**
+     * Set intentos
+     *
+     * @param integer $intentos
+     * @return CtlUsuario
+     */
+    public function setIntentos($intentos)
+    {
+        $this->intentos = $intentos;
+
+        return $this;
+    }
+    
     /**
      * Set username
      *
@@ -161,6 +201,29 @@ class CtlUsuario
     {
         return $this->salt;
     }
+    
+    /**
+     * Set lastAttempt
+     *
+     * @param \DateTime $lastAttempt
+     * @return CtlUsuario
+     */
+    public function setLastAttempt($lastAttempt)
+    {
+        $this->lastAttempt = $lastAttempt;
+
+        return $this;
+    }
+
+    /**
+     * Get lastAttempt
+     *
+     * @return \DateTime 
+     */
+    public function getLastAttempt()
+    {
+        return $this->lastAttempt;
+    }
 
     /**
      * Set estado
@@ -214,7 +277,7 @@ class CtlUsuario
      * @param \ERP\CRMBundle\Entity\CtlRol $rol
      * @return CtlUsuario
      */
-    public function addRol(\ERP\CRMBundle\Entity\CtlRol $rol)
+    public function addCtlRol(\ERP\CRMBundle\Entity\CtlRol $rol)
     {
         $this->rol[] = $rol;
 
@@ -226,7 +289,7 @@ class CtlUsuario
      *
      * @param \ERP\CRMBundle\Entity\CtlRol $rol
      */
-    public function removeRol(\ERP\CRMBundle\Entity\CtlRol $rol)
+    public function removeCtlRol(\ERP\CRMBundle\Entity\CtlRol $rol)
     {
         $this->rol->removeElement($rol);
     }
@@ -240,4 +303,79 @@ class CtlUsuario
     {
         return $this->rol;
     }
+    /**
+     * Get roles
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getRoles()
+    {
+        return $this->rol->toArray(); //IMPORTANTE: el mecanismo de seguridad de Sf2 requiere ésto como un array
+    }        
+    
+     /**
+     * Compares this user to another to determine if they are the same.
+     *
+     * @param UserInterface $user The user
+     * @return boolean True if equal, false othwerwise.
+     */
+    public function equals(UserInterface $user) {
+        return md5($this->getUsername()) == md5($user->getUsername());
+ 
+    }
+ 
+    /**
+     * Erases the user credentials.
+     */
+    public function eraseCredentials() {
+ 
+    }
+    
+    
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            ) = unserialize($serialized);
+    }
+    
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return  !$this->isEnabled;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        if ((int)$this->estado == 1)
+            $this->isEnabled = true;
+        else
+            $this->isEnabled  = false;
+        return  $this->isEnabled;
+    }
+    
+    public function __toString() {
+        return $this->username ? $this->username : '';
+    }            
 }
