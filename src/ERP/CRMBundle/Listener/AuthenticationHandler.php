@@ -58,7 +58,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
                     if(!$captcha && $user->getIntentos() > 2){
                         //No se ha seleccionado Captcha 
                         $intentos = $user->getIntentos();            
-                        $array = array( 'success' => false, 'intentos' => $intentos, 'message' => 'Please check the captcha form.' );
+                        $array = array( 'success' => false, 'intentos' => $intentos, 'message' => $this->container->getParameter('app.checkCaptcha') );
                     } else {
                         $user->setIntentos($user->getIntentos() + 1);   
                         $user->setLastAttempt(new \DateTime('now'));
@@ -69,7 +69,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
                         $array = array( 'success' => false, 'intentos' => $intentos, 'message' => $exception->getMessage() ); 
                     }
                 } else {
-                    $array = array( 'success' => false, 'intentos' => 0, 'message' => 'Sorry, your username is not recognized' ); 
+                    $array = array( 'success' => false, 'intentos' => 0, 'message' => $this->container->getParameter('app.usernameInvalidate') ); 
                 }
             } else {
                 $user->setIntentos($user->getIntentos() + 1);     
@@ -127,7 +127,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
                                 $this->container->get('security.context')->setToken(null);
 
                                 $intentos = $user->getIntentos();            
-                                $array = array( 'success' => false, 'intentos' => $intentos, 'message' => 'Please check the captcha form.' );                                                               
+                                $array = array( 'success' => false, 'intentos' => $intentos, 'message' => $this->container->getParameter('app.checkCaptcha') );                                                               
                         } else {
                             $user->setIntentos(0);
                         
@@ -154,7 +154,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
                         $this->container->get('security.context')->setToken(null);
                         
                         $intentos = $user->getIntentos();            
-                        $array = array( 'success' => false, 'intentos' => $intentos, 'message' => 'Invalid captcha.' );
+                        $array = array( 'success' => false, 'intentos' => $intentos, 'message' => $this->container->getParameter('app.invalidCaptcha') );
                     } else {
                         //Captcha valido
                         $user->setIntentos(0);

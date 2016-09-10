@@ -51,6 +51,12 @@ twig:
         serverMsgUpdate: '%app.serverMsgUpdate%'
         serverMsgDelete: '%app.serverMsgDelete%'
         serverError: '%app.serverError%'
+        
+        #loginMessages
+        usernameInvalidate: '%app.usernameInvalidate%'
+        checkCaptcha: '%app.checkCaptcha%'
+        invalidCaptcha: '%app.invalidCaptcha%'
+        
         #form validations
         #requiredFields
         requiredFields: '%app.requiredFields%'
@@ -163,14 +169,28 @@ twig:
         mesesTiempoNotificacion: '%app.mesesTiempoNotificacion%'
         aniosTiempoNotificacion: '%app.aniosTiempoNotificacion%'
         
+        #Tipo de cuenta (CRUD)
+        tituloTipoCuenta: '%app.tituloTipoCuenta%'
+        encabezadoTipoCuenta: '%app.encabezadoTipoCuenta%'
+        descripcionTipoCuenta: '%app.descripcionTipoCuenta%'
+        nameTipoCuenta: '%app.nameTipoCuenta%'
 
-
-
-
-
-
-        tituloLogin: '%app.tituloLogin%'
+        #Fuentes de origen (CRUD)
+        tituloFuenteOrigen: '%app.tituloFuenteOrigen%'
+        encabezadoFuenteOrigen: '%app.encabezadoFuenteOrigen%'
+        descripcionFuenteOrigen: '%app.descripcionFuenteOrigen%'
+        nameFuenteOrigen: '%app.nameFuenteOrigen%'
         
+        #Prioridad (CRUD)
+        tituloPrioridad: '%app.tituloPrioridad%'
+        encabezadoPrioridad: '%app.encabezadoPrioridad%'
+        descripcionPrioridad: '%app.descripcionPrioridad%'
+        namePrioridad: '%app.namePrioridad%'
+
+        #Login
+        tituloLogin: '%app.tituloLogin%'        
+        usernameTxt: '%app.usernameTxt%'        
+        passwordTxt: '%app.passwordTxt%'        
         
         
         

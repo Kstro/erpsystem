@@ -8,108 +8,112 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use ERP\CRMBundle\Entity\CrmTipoCuenta;
-use ERP\CRMBundle\Form\CrmTipoCuentaType;
+use ERP\CRMBundle\Entity\CtlPrioridad;
+use ERP\CRMBundle\Form\CtlPrioridadType;
 
 /**
- * CrmTipoCuenta controller.
+ * CtlPrioridad controller.
  *
- * @Route("/admin/account-types")
+ * @Route("/admin/priority")
  */
-class CrmTipoCuentaController extends Controller
+class CtlPrioridadController extends Controller
 {
     /**
-     * Lists all CrmTipoCuenta entities.
+     * Lists all CtlPrioridad entities.
      *
-     * @Route("/", name="admin_tipocuenta_index")
+     * @Route("/", name="admin_priority_index")
      * @Method("GET")
      */
     public function indexAction()
     {
-        return $this->render('crmtipocuenta/index.html.twig');
-    }
+        $em = $this->getDoctrine()->getManager();
 
-    /**
-     * Creates a new CrmTipoCuenta entity.
-     *
-     * @Route("/new", name="admin_tipocuenta_new", options={"expose"=true})
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $crmTipoCuentum = new CrmTipoCuenta();
-        $form = $this->createForm('ERP\CRMBundle\Form\CrmTipoCuentaType', $crmTipoCuentum);
-        $form->handleRequest($request);
+        $ctlPrioridads = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($crmTipoCuentum);
-            $em->flush();
-
-            return $this->redirectToRoute('admin_tipocuenta_show', array('id' => $crmTipoCuentum->getId()));
-        }
-
-        return $this->render('crmtipocuenta/new.html.twig', array(
-            'crmTipoCuentum' => $crmTipoCuentum,
-            'form' => $form->createView(),
+        return $this->render('ctlprioridad/index.html.twig', array(
+            'ctlPrioridads' => $ctlPrioridads,
         ));
     }
 
     /**
-     * Creates a new CrmTipoCuenta entity.
+     * Creates a new CtlPrioridad entity.
      *
-     * @Route("/register", name="admin_register_accounttype", options={"expose"=true})
+     * @Route("/new", name="admin_priority_new")
      * @Method({"GET", "POST"})
      */
-    public function registerAccountTypeAction(Request $request)
+    public function newAction(Request $request)
+    {
+        $ctlPrioridad = new CtlPrioridad();
+        $form = $this->createForm('ERP\CRMBundle\Form\CtlPrioridadType', $ctlPrioridad);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($ctlPrioridad);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_priority_show', array('id' => $ctlPrioridad->getId()));
+        }
+
+        return $this->render('ctlprioridad/new.html.twig', array(
+            'ctlPrioridad' => $ctlPrioridad,
+            'form' => $form->createView(),
+        ));
+    }
+    
+    /**
+     * Creates a new CtlPrioridad entity.
+     *
+     * @Route("/register", name="admin_register_priority", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function registerPriorityAction(Request $request)
     {
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
                 $em = $this->getDoctrine()->getManager();
-                //$exito = '1';
+                
                 $parameters = $request->request->all();
-                $accounttypename = $parameters['name'];
+                $priorityname = $parameters['name'];
                 $id = $parameters['id'];
                 
-                $sql = "SELECT upper(acc.nombre) FROM ERPCRMBundle:CrmTipoCuenta acc "
-                        . "WHERE upper(acc.nombre) LIKE upper(:busqueda) AND acc.estado = 1";
+                $sql = "SELECT upper(pri.nombre) FROM ERPCRMBundle:CtlPrioridad pri "
+                        . "WHERE upper(pri.nombre) LIKE upper(:busqueda) AND pri.estado = 1";
                 
                 $objectDuplicate = $em->createQuery($sql)
-                                    ->setParameters(array('busqueda'=>"%".strtoupper($accounttypename)."%"))
-                                    ->getResult(); 
+                                     ->setParameters(array('busqueda'=>"%".strtoupper($priorityname)."%"))
+                                     ->getResult(); 
                 
                 if (count($objectDuplicate)) {
                     $data['error'] = $this->getParameter('app.serverDuplicateName');
-                    //$exito = '0';
                 } else {
                     if ($id=='') {
-                        $accounttype = new CrmTipoCuenta();
-                        $accounttype->setNombre($accounttypename);
-                        $accounttype->setEstado(1);
+                        $priority = new CtlPrioridad();
+                        $priority->setNombre($priorityname);
+                        $priority->setEstado(1);
 
-                        $em->persist($accounttype);
+                        $em->persist($priority);
                         $em->flush();
                         
                         $serverSave = $this->getParameter('app.serverMsgSave');
                         $data['msg']=$serverSave;
-                        $data['id']=$accounttype->getId();
+                        $data['id']=$priority->getId();
                     } else {
-                        $accounttype = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
-                        $accounttype->setNombre($accounttypename);
+                        $priority = $em->getRepository('ERPCRMBundle:CtlPrioridad')->find($id);
+                        $priority->setNombre($priorityname);
                         
-                        $em->merge($accounttype);
+                        $em->merge($priority);
                         $em->flush();
                         
                         $serverUpdate = $this->getParameter('app.serverMsgUpdate');
                         $data['msg']=$serverUpdate; 
-                        $data['id']=$accounttype->getId();
+                        $data['id']=$priority->getId();
                     }                                        
                 }
                 
                 $response = new JsonResponse();
                 $response->setData(array(
-                                  //'exito'   => $exito,
                                   'msg'   => $data
                                ));  
             
@@ -141,81 +145,81 @@ class CrmTipoCuentaController extends Controller
             return new Response('0');              
         }
     }
-    
+
     /**
-     * Finds and displays a CrmTipoCuenta entity.
+     * Finds and displays a CtlPrioridad entity.
      *
-     * @Route("/{id}", name="admin_tipocuenta_show")
+     * @Route("/{id}", name="admin_priority_show")
      * @Method("GET")
      */
-    public function showAction(CrmTipoCuenta $crmTipoCuentum)
+    public function showAction(CtlPrioridad $ctlPrioridad)
     {
-        $deleteForm = $this->createDeleteForm($crmTipoCuentum);
+        $deleteForm = $this->createDeleteForm($ctlPrioridad);
 
-        return $this->render('crmtipocuenta/show.html.twig', array(
-            'crmTipoCuentum' => $crmTipoCuentum,
+        return $this->render('ctlprioridad/show.html.twig', array(
+            'ctlPrioridad' => $ctlPrioridad,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Displays a form to edit an existing CrmTipoCuenta entity.
+     * Displays a form to edit an existing CtlPrioridad entity.
      *
-     * @Route("/{id}/edit", name="admin_tipocuenta_edit")
+     * @Route("/{id}/edit", name="admin_priority_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, CrmTipoCuenta $crmTipoCuentum)
+    public function editAction(Request $request, CtlPrioridad $ctlPrioridad)
     {
-        $deleteForm = $this->createDeleteForm($crmTipoCuentum);
-        $editForm = $this->createForm('ERP\CRMBundle\Form\CrmTipoCuentaType', $crmTipoCuentum);
+        $deleteForm = $this->createDeleteForm($ctlPrioridad);
+        $editForm = $this->createForm('ERP\CRMBundle\Form\CtlPrioridadType', $ctlPrioridad);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($crmTipoCuentum);
+            $em->persist($ctlPrioridad);
             $em->flush();
 
-            return $this->redirectToRoute('admin_tipocuenta_edit', array('id' => $crmTipoCuentum->getId()));
+            return $this->redirectToRoute('admin_priority_edit', array('id' => $ctlPrioridad->getId()));
         }
 
-        return $this->render('crmtipocuenta/edit.html.twig', array(
-            'crmTipoCuentum' => $crmTipoCuentum,
+        return $this->render('ctlprioridad/edit.html.twig', array(
+            'ctlPrioridad' => $ctlPrioridad,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Deletes a CrmTipoCuenta entity.
+     * Deletes a CtlPrioridad entity.
      *
-     * @Route("/{id}", name="admin_tipocuenta_delete")
+     * @Route("/{id}", name="admin_priority_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, CrmTipoCuenta $crmTipoCuentum)
+    public function deleteAction(Request $request, CtlPrioridad $ctlPrioridad)
     {
-        $form = $this->createDeleteForm($crmTipoCuentum);
+        $form = $this->createDeleteForm($ctlPrioridad);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($crmTipoCuentum);
+            $em->remove($ctlPrioridad);
             $em->flush();
         }
 
-        return $this->redirectToRoute('admin_tipocuenta_index');
+        return $this->redirectToRoute('admin_priority_index');
     }
 
     /**
-     * Creates a form to delete a CrmTipoCuenta entity.
+     * Creates a form to delete a CtlPrioridad entity.
      *
-     * @param CrmTipoCuenta $crmTipoCuentum The CrmTipoCuenta entity
+     * @param CtlPrioridad $ctlPrioridad The CtlPrioridad entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(CrmTipoCuenta $crmTipoCuentum)
+    private function createDeleteForm(CtlPrioridad $ctlPrioridad)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_tipocuenta_delete', array('id' => $crmTipoCuentum->getId())))
+            ->setAction($this->generateUrl('admin_priority_delete', array('id' => $ctlPrioridad->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -224,9 +228,9 @@ class CrmTipoCuentaController extends Controller
     /**
      * 
      *
-     * @Route("/account-types/data/as", name="admin_account_types_data", options={"expose"=true})
+     * @Route("/priority/data/as", name="admin_priorities_data", options={"expose"=true})
      */
-    public function dataAccountTypesAction(Request $request)
+    public function dataPriorityAction(Request $request)
     {        
         $start = $request->query->get('start');
         $draw = $request->query->get('draw');
@@ -234,7 +238,7 @@ class CrmTipoCuentaController extends Controller
         $busqueda = $request->query->get('search');
         
         $em = $this->getDoctrine()->getEntityManager();
-        $rowsTotal = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findAll();
+        $rowsTotal = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findAll();
         
         $row['draw']=$draw++;  
         $row['recordsTotal'] = count($rowsTotal);
@@ -256,15 +260,15 @@ class CrmTipoCuentaController extends Controller
         
         $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
         if($busqueda['value']!=''){                                
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
+            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', pri.nombre, '</div>') as name, "
+                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOriginSource fa fa-info-circle\"></i></a>' as link, "
+                    . "CONCAT('<div id=\"',pri.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
-                    . "when acc.estado = 1 then 'Active' "
+                    . "when pri.estado = 1 then 'Active' "
                     . "else 'Inactive' "
                     . "as state "
-                    . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 AND CONCAT(upper(acc.nombre), ' ' , upper(acc.estado)) LIKE upper(:busqueda) "
+                    . "FROM ERPCRMBundle:CtlPrioridad pri "
+                    . "WHERE pri.estado = 1 AND CONCAT(upper(pri.nombre), ' ' , upper(pri.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -273,34 +277,33 @@ class CrmTipoCuentaController extends Controller
 
             $row['recordsFiltered']= count($row['data']);
 
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
+            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', pri.nombre, '</div>') as name, "
+                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOriginSource fa fa-info-circle\"></i></a>' as link, "
+                    . "CONCAT('<div id=\"',pri.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
-                    . "when acc.estado = 1 then 'Active' "
+                    . "when pri.estado = 1 then 'Active' "
                     . "else 'Inactive' "
                     . "as state "
-                    . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 AND CONCAT(upper(acc.nombre),' ', upper(acc.estado)) LIKE upper(:busqueda) "
+                    . "FROM ERPCRMBundle:CtlPrioridad pri "
+                    . "WHERE pri.estado = 1 AND CONCAT(upper(pri.nombre),' ', upper(pri.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                     ->setFirstResult($start)
                     ->setMaxResults($longitud)
-                    ->getResult();
-              
+                    ->getResult();              
         }
         else{
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
+            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', pri.nombre, '</div>') as name, "
+                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOriginSource fa fa-info-circle\"></i></a>' as link, "
+                    . "CONCAT('<div id=\"',pri.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
-                    . "when acc.estado = 1 then 'Active' "
+                    . "when pri.estado = 1 then 'Active' "
                     . "else 'Inactive' "
                     . "as state "
-                    . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
+                    . "FROM ERPCRMBundle:CtlPrioridad pri "
+                    . "WHERE pri.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
             
             $row['data'] = $em->createQuery($dql)
                     ->setFirstResult($start)
@@ -312,24 +315,23 @@ class CrmTipoCuentaController extends Controller
     }
     
     /**
-     * Retrieve the account type
+     * Retrieve the priority
      *
-     * @Route("/account-types/retrieve", name="admin_retrieve_accounttype", options={"expose"=true}))
+     * @Route("/priority/retrieve", name="admin_retrieve_priority", options={"expose"=true}))
      * @Method("POST")
      */
-    public function retrieveAccountTypeAction(Request $request)
+    public function retrievePriorityAction(Request $request)
     {
         try {
             $id=$request->get("id");
             $response = new JsonResponse();
             
             $em = $this->getDoctrine()->getManager();
-            $accountType = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
-            if(count($accountType)){
-                //$em->merge($accountType);
-                //$em->flush();    
-                $data['name']=$accountType->getNombre();
-                $data['id']=$accountType->getId();
+            $priority = $em->getRepository('ERPCRMBundle:CtlPrioridad')->find($id);
+            if(count($priority)){
+                
+                $data['name']=$priority->getNombre();
+                $data['id']=$priority->getId();
             }
             else{
                 $data['error']="Error";
@@ -355,12 +357,12 @@ class CrmTipoCuentaController extends Controller
     }
     
     /**
-     * Delete the account type
+     * Delete the priority
      *
-     * @Route("/account-types/delete", name="admin_delete_accounttype",  options={"expose"=true}))
+     * @Route("/priority/delete", name="admin_delete_priority",  options={"expose"=true}))
      * @Method("POST")
      */
-    public function deleteAccountTypeAction(Request $request)
+    public function deletePriorityAction(Request $request)
     {
         try {
             $ids=$request->get("param1");
@@ -368,7 +370,7 @@ class CrmTipoCuentaController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             foreach ($ids as $key => $id) {
-                $object = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);    
+                $object = $em->getRepository('ERPCRMBundle:CtlPrioridad')->find($id);    
                 if(count($object)){
                     $object->setEstado(0);
                     $em->merge($object);

@@ -1,6 +1,6 @@
 {% extends ':layout:layouterp.html.twig' %}
 
-{% block title -%}<title>{{tituloTipoCuenta}}</title>{% endblock %}
+{% block title -%}<title>{{tituloFuenteOrigen}}</title>{% endblock %}
 
 {% block customcss %}
     
@@ -8,8 +8,8 @@
 
 {% block descripcion %}
     <div class="col-md-5">
-        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTipoCuenta}}</p>
-        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTipoCuenta}}</p>
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoFuenteOrigen}}</p>
+        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionFuenteOrigen}}</p>
     </div>
 
 {% endblock %}
@@ -23,60 +23,38 @@
     </div>
 {% endblock acciones %}
 
-{% block navegacion %}
-    <a href="/sepes/app_dev.php/admin/reporte/pacientes/reporte" class="leftnava"><li class="leftnav left ">Users management<span class="pull-right right"><i class=""></i></span></li></a>
-    <a href="/sepes/app_dev.php/admin/reporte/ingresoemergencia" class="leftnava"><li class="leftnav left active"> management<span class="pull-right right"><i class="fa fa-arrow-right"></i></span></li></a>
-		  
-{% endblock %}
-
 {% block contenido %}
     <div class="row">
-        <div class="col-md-12 col-xs-12">
-            <div id="pnAdd" class="panel panel-default" style="display:none;">
-                <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
-                
-                <div class="panel-body">
-                        <input id="txtId" type="hidden" name="" class="input-sm form-control">
-                        <div class="col-md-6 col-xs-12">
-                            <label>{{nameTipoCuenta}}</label>
-                            <input id="txtName" type="text" name="txtName" class="input-sm form-control validateInput">
-                        </div>
-                        <div class="col-md-6 pull-right text-right" style="margin-top:20px;">
-                            <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
-                            <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
-                        </div>
-                    
-                </div>
-            </div>
-        </div>
+        {% include ':ctlfuente:new.html.twig' %}
+        
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
-            <table id="accountTypesList" class="mdl-data-table" width="100%" cellspacing="0">
+            <table id="originSourceList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
                 <thead>
-                    <tr>
+                    <tr role="row">
                         <th style="width: 20px; padding-left: 8px;"><input type="checkbox" name="checktodos" onclick = "seleccionarTodo();"></th> 
-                        <th style="text-align: left">Name</th>                        
+                        <th style="text-align: left">Name</th>
                     </tr>
                 </thead>
-            </table>
+            </table>                
         </div>
     </div>
 {% endblock %}
 
 {% block js_extend %}
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/accounttype/accounttype.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('Resources/persist/source/source.js') }}"></script> 
     <script type="text/javascript" src="{{ asset('Resources/animations/funciones.js') }}"></script> 
-    <script type="text/javascript" src="{{ asset('Resources/animations/accounttype/showformsaccounttype.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('Resources/animations/source/source.js') }}"></script> 
     <script type="text/javascript">
         $(document).ready(function() {
             /////Definición datatable
-            var table = $('#accountTypesList').DataTable({
+            var table = $('#originSourceList').DataTable({
                 dom:'ftp',
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                        "url": Routing.generate('admin_account_types_data'),
+                        "url": Routing.generate('admin_origin_sources_data'),
                         "type": 'GET'
                 },
                 "columns": [
