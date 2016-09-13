@@ -14,6 +14,8 @@ parameters:
         app.serverMsgSave: ¡Saved!
         app.servermsgupdate: ¡Updated!
         app.serverMsgDelete: ¡Deleted!
+        app.serverMsgCancel: ¡Cancelled!
+        app.serverCancel: already cancelled!
         app.serverError: Error!
         
         #loginMessages
@@ -26,6 +28,16 @@ parameters:
         #form validations
         #requiredFields
         app.requiredFields: ¡Fields in red are required!
+        #remove Labels
+        app.removeLabel: Remove selected rows?
+        #cancel Labels
+        app.cancelLabel: Cancel selected tasks?
+        #cancelButtonText
+        app.cancelButtonText: Cancel
+        #confirmButtonText
+        app.confirmButtonText: Remove
+        #alternateconfirmButtonText
+        app.alternateconfirmButtonText: Continue
         #imageError
         app.imageError: ¡Image too big!
         #select2
@@ -131,6 +143,28 @@ parameters:
         app.diasTiempoNotificacion: Days
         app.mesesTiempoNotificacion: Months
         app.aniosTiempoNotificacion: Years
+
+
+        #Tareas
+        app.tituloTareas: CRM | Task
+        app.menuTareas: Activities mgmt.
+        app.encabezadoTareas: Notifications
+        app.descripcionTareas: Add, modify or delete tasks.
+        app.nameTareas: Name
+        app.tipoTareas: Task type
+        app.prioridadTareas: Priority
+        app.estadoTareas: Status
+        app.responsableTareas: Director
+        app.recordatorioTareas: Reminders
+        app.fechaInicioTareas: Start date
+        app.fechaFinTareas: End date
+        app.fechaCancelTareas: Cancel date
+        app.estado: Status
+        app.descripcionFormTareas: Description
+        app.prioridadTareas: Priority
+        app.taskNoEdit: can't be modified
+        
+        
         #Tipo de cuenta (CRUD)
         app.tituloTipoCuenta: CRM | Account type management
         app.encabezadoTipoCuenta: Account type
@@ -146,6 +180,7 @@ parameters:
         app.encabezadoPrioridad: Priorities catalog
         app.descripcionPrioridad: Add, modify or delete priorities.
         app.namePrioridad: Name
+
        
         #Login
         app.tituloLogin: CRM Systems | Login

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CrmActividad</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ crmActividad.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ crmActividad.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ crmActividad.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Fecharegistro</th>
+                <td>{% if crmActividad.fechaRegistro %}{{ crmActividad.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechainicio</th>
+                <td>{% if crmActividad.fechaInicio %}{{ crmActividad.fechaInicio|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechafin</th>
+                <td>{% if crmActividad.fechaFin %}{{ crmActividad.fechaFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacancelacion</th>
+                <td>{% if crmActividad.fechaCancelacion %}{{ crmActividad.fechaCancelacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_tasks_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_tasks_edit', { 'id': crmActividad.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

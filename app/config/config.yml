@@ -49,6 +49,8 @@ twig:
         serverDuplicateName: '%app.serverDuplicateName%'
         serverMsgSave: '%app.serverMsgSave%'
         serverMsgUpdate: '%app.serverMsgUpdate%'
+        serverMsgCancel: '%app.serverMsgCancel%'
+        serverCancel: '%app.serverCancel%'
         serverMsgDelete: '%app.serverMsgDelete%'
         serverError: '%app.serverError%'
         
@@ -60,6 +62,16 @@ twig:
         #form validations
         #requiredFields
         requiredFields: '%app.requiredFields%'
+        #cancelLabel
+        cancelLabel: '%app.cancelLabel%'
+        #removeLabel
+        removeLabel: '%app.removeLabel%'
+        #cancelButtonText
+        cancelButtonText: '%app.cancelButtonText%'
+        #confirmButtonText
+        confirmButtonText: '%app.confirmButtonText%'
+        #alternateconfirmButtonText
+        alternateconfirmButtonText: '%app.alternateconfirmButtonText%'
         #imageError
         imageError: '%app.imageError%'
         #requiredFields
@@ -168,6 +180,27 @@ twig:
         diasTiempoNotificacion: '%app.diasTiempoNotificacion%'
         mesesTiempoNotificacion: '%app.mesesTiempoNotificacion%'
         aniosTiempoNotificacion: '%app.aniosTiempoNotificacion%'
+
+
+        #Tareas (actividades)
+        tituloTareas: '%app.tituloTareas%'
+        menuTareas: '%app.menuTareas%'
+        encabezadoTareas: '%app.encabezadoTareas%'
+        descripcionTareas: '%app.descripcionTareas%'
+        descripcionFormTareas: '%app.descripcionFormTareas%'
+        nameTareas: '%app.nameTareas%'
+        tipoTareas: '%app.tipoTareas%'
+        prioridadTareas: '%app.prioridadTareas%'
+        estadoTareas: '%app.estadoTareas%'
+        responsableTareas: '%app.responsableTareas%'
+        recordatorioTareas: '%app.recordatorioTareas%'
+        fechaInicioTareas: '%app.fechaInicioTareas%'
+        fechaCancelTareas: '%app.fechaCancelTareas%'
+        estado: '%app.estadoTareas%'
+        fechaFinTareas: '%app.fechaFinTareas%'
+        descripcionFormTareas: '%app.descripcionFormTareas%'
+        prioridadTareas: '%app.prioridadTareas%'
+        taskNoEdit: '%app.taskNoEdit%'
         
         #Tipo de cuenta (CRUD)
         tituloTipoCuenta: '%app.tituloTipoCuenta%'

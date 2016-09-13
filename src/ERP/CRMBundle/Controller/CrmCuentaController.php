@@ -191,7 +191,7 @@ class CrmCuentaController extends Controller
      *
      * @Route("/providers/data/list", name="admin_providers_data")
      */
-    public function datacampaignsAction(Request $request)
+    public function dataprovidersAction(Request $request)
     {
             try {
                 $start = $request->query->get('start');
@@ -463,6 +463,7 @@ class CrmCuentaController extends Controller
                                 //var_dump('no buscar base tipo telefono');
                         }
                         $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
+                        $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
                         $ctlTelefonoObj->setPersona(null);
                         $ctlTelefonoObj->setEmpresa(null);
                         $ctlTelefonoObj->setSucursal(null);
@@ -553,6 +554,8 @@ class CrmCuentaController extends Controller
                 }//Fin de if id, inserción
                 //else para la modificación del objeto crmCuenta(proveedores) y sus tablas dependientes
                 else{
+                    // var_dump($phoneTypeArray);
+                    // die();
                         $crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
                         $crmCuentaObj->setTipoCuenta($crmTipoCuentaObj);
                         $crmCuentaObj->setIndustria($industriaObj);
@@ -561,7 +564,7 @@ class CrmCuentaController extends Controller
                         $crmCuentaObj->setTipoEntidad($tipoEntidadObj);
                         $crmCuentaObj->setNombre($nombreCuenta);
                         $crmCuentaObj->setDescripcion($descripcionCuenta);
-                        $crmCuentaObj->setFechaRegistro($fechaRegistro);
+                        // $crmCuentaObj->setFechaRegistro($fechaRegistro);
                         $crmCuentaObj->setSitioWeb($sitioWeb);
                         $crmCuentaObj->setEstado(1);
                                         
@@ -578,7 +581,7 @@ class CrmCuentaController extends Controller
 
                         //Eliminar correos
                         $ctlCorreoArrayObj = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlTelefonoArrayObj as $key => $value) {
+                        foreach ($ctlCorreoArrayObj as $key => $value) {
                             $em->remove($value);
                             $em->flush();
                         }
@@ -595,7 +598,7 @@ class CrmCuentaController extends Controller
                         $ctlPersonaObj->setNombre($nombrePersona);
                         $ctlPersonaObj->setApellido($apellidoPersona);
                         $ctlPersonaObj->setGenero($genero);
-                        $ctlPersonaObj->setFechaRegistro($fechaRegistro);
+                        // $ctlPersonaObj->setFechaRegistro($fechaRegistro);
                         $ctlPersonaObj->setSucursal($sucursal);
                         $ctlPersonaObj->setTratamientoProtocolario($tratamientoProtocolarioObj);
 
@@ -623,15 +626,19 @@ class CrmCuentaController extends Controller
 
 
                     //Tabla ctlTelefono
-                    $phoneLenght=count($phoneArray)-1;//Cantidad de telefono ingresados, menos 1 para index de array
+                    $phoneLenght=count($phoneArray);//Cantidad de telefono ingresados, menos 1 para index de array
                     //var_dump($phoneTypeArray[0]);
                     $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[0]);//Para definir la variable $ctlTipoTelefonoObj
+
                     foreach ($phoneArray as $key => $phone) {
-                                          
+                            // var_dump('for');
                         $ctlTelefonoObj = new CtlTelefono();
                         $ctlTelefonoObj->setCuenta($crmCuentaObj);
-                        // var_dump($key);
+                        // var_dump("key".$key);
+                        // var_dump("\nphone length".$phoneLenght);
+                        // var_dump("\n expresion".($key<$phoneLenght && $key!=0));
                         if ($key<$phoneLenght && $key!=0) {
+                            // var_dump('if');
                             if ($phoneTypeArray[$key]==$phoneTypeArray[$key-1]) {
                                 //No buscar en la base el tipo de telefono
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
@@ -644,12 +651,14 @@ class CrmCuentaController extends Controller
                             }
                          
                         } else {
+                                // var_dump('else');
                                 //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
                                 //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                                 //var_dump('no buscar base tipo telefono');
                         }
                         $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
+                        $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
                         $ctlTelefonoObj->setPersona(null);
                         $ctlTelefonoObj->setEmpresa(null);
                         $ctlTelefonoObj->setSucursal(null);
@@ -659,7 +668,7 @@ class CrmCuentaController extends Controller
                     }
 
                     //Tabla ctlDireccion
-                    $addressLenght=count($addressArray)-1;//Cantidad de direccion ingresados, menos 1 para index de array
+                    $addressLenght=count($addressArray);//Cantidad de direccion ingresados, menos 1 para index de array
                     foreach ($addressArray as $key => $phone) {
                                           
                         $ctlDireccionObj = new CtlDireccion();
@@ -820,11 +829,17 @@ class CrmCuentaController extends Controller
                 // var_dump(count($crmFotoObj));
                 if(count($ctlDireccionObj)!=0){
                     $dirArray=array();
+                    $cityArray=array();
+                    $stateArray=array();
                     foreach ($ctlDireccionObj as $key => $value) {
                         array_push($dirArray, $value->getDireccion());
+                        array_push($cityArray, $value->getCiudad()->getId());
+                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
                     }
                     // $data['addressArray']=$ctlDireccionObj[0];
                     $data['addressArray']=$dirArray;
+                    $data['cityArray']=$cityArray;
+                    $data['stateArray']=$stateArray;
                 }
                 else{
                     $data['addressArray']=[];
@@ -832,14 +847,22 @@ class CrmCuentaController extends Controller
                 if(count($ctlTelefonoObj)!=0){
 
                     // $data['phoneArray']=$ctlTelefonoObj[0];
-                    $dirArray=array();
+                    $telTipoArray=array();
+                    $telArray=array();
+                    $telExtArray=array();
                     foreach ($ctlTelefonoObj as $key => $value) {
-                        array_push($dirArray, $value->getNumTelefonico());
+                        array_push($telTipoArray, $value->getTipoTelefono()->getId());
+                        array_push($telArray, $value->getNumTelefonico());
+                        array_push($telExtArray, $value->getExtension());
                     }
                     // $data['addressArray']=$ctlDireccionObj[0];
-                    $data['phoneArray']=$dirArray;
+                    $data['typePhoneArray']=$telTipoArray;
+                    $data['phoneArray']=$telArray;
+                    $data['extPhoneArray']=$telExtArray;
                 }
                 else{
+                    $data['phoneArray']='';
+                    $data['phoneArray']='';
                     $data['phoneArray']='';
                 }
                 if(count($ctlCorreoObj)!=0){
@@ -873,7 +896,9 @@ class CrmCuentaController extends Controller
                 // $data['phoneArray']=$ctlTelefonoObj[0];
                 // $data['emailArray']=$ctlCorreoObj[0];
                 // $data['src']=$crmFotoObj[0]->getSrc();
+                $data['titulo']=$ctlPersonaObj->getTratamientoProtocolario()->getId();
                 $data['pesona']=$ctlPersonaObj->getId();
+                $data['entidad']=$crmCuentaObj->getTipoEntidad()->getId();
                 $data['industria']=$crmCuentaObj->getIndustria()->getId();
                 $data['website']=$crmCuentaObj->getSitioWeb();
                 
@@ -919,7 +944,7 @@ class CrmCuentaController extends Controller
     /**
      * Delete prividers
      *
-     * @Route("/providers/delete", name="admin_provider_delete_ajax",  options={"expose"=true}))
+     * @Route("/providers/delete", name="admin_providers_account_delete_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function deleteajaxAction(Request $request)
@@ -946,6 +971,72 @@ class CrmCuentaController extends Controller
                         $data['error']="Error";
                     }
                 }
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }      
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
+
+
+
+
+    /**
+     * search cities
+     *
+     * @Route("/providers/state/search/cities", name="admin_provider_search_cities_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function searchajaxAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $id=$request->get("param1");
+                $response = new JsonResponse();
+                 // var_dump($ids);
+                // die();
+                $em = $this->getDoctrine()->getManager();
+                $object = $em->getRepository('ERPCRMBundle:CtlCiudad')->findBy(array('estado'=>$id));
+
+                if(count($object)!=0){
+                    $array=array();
+                    
+                    foreach ($object as $key => $value) {
+                        $arrayAux=array();    
+                        array_push($arrayAux, $value->getId());
+                        array_push($arrayAux, $value->getNombre());
+                        array_push($array, $arrayAux);
+                    }
+                    // $data['addressArray']=$object[0];
+                    $data['ciudades']=$array;
+                }
+                else{
+                    $data['addressArray']=[];
+                }
+                // var_dump($data);
+                // die();
                 $response->setData($data); 
             } catch (\Exception $e) {
                 if(method_exists($e,'getErrorCode')){

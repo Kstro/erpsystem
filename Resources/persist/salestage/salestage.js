@@ -124,13 +124,18 @@ $(document).ready(function() {
 		});	
 		console.log(ids);
 		// var probability=$('#txtProbability');
+		var cancelLabel = $('#removeLabel').html();
+		var cancelButtonText = $('#cancelButtonText').html();
+		// var removeButton = $('#removeButton').html();
+		var confirmButtonText = $('#confirmButtonText').html();
+		
 		swal({
                         title: "",
-                        text: "Remove selected rows?",
+                        text: cancelLabel,
                         type: "info",
                         showCancelButton: true,
-                        confirmButtonText: "Remove",
-                        cancelButtonText: "Cancel",
+                        confirmButtonText: confirmButtonText,
+                        cancelButtonText: cancelButtonText,
                         reverseButtons: true,
                     }).then(function(isConfirm) {
                         if (isConfirm) {
@@ -165,6 +170,8 @@ $(document).ready(function() {
 						//$btn.button('reset');
 					}
 				});
+				$('.btnDelete').addClass('hidden');
+				$('.btnAdd').removeClass('hidden');
 			}
 			else{
 				$btn.button('reset');

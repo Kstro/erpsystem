@@ -114,7 +114,7 @@ $(document).ready(function() {
 		/////Definición de variables
 		var id=$(this).children().first().children().attr('id');
 		var ids=[];
-		var table = $('#saleStageList').DataTable();
+		
 		$('.chkItem').each(function() {
 			if ($(this).is(':checked')) {
 				ids.push($(this).parent().attr('id'));
@@ -133,7 +133,7 @@ $(document).ready(function() {
                     }).then(function(isConfirm) {
                         if (isConfirm) {
 				$.ajax({
-					url: Routing.generate('admin_ctletapaventa_delete_ajax'),
+					url: Routing.generate('admin_time_notification_delete_ajax'),
 					type: 'POST',
 					data: {param1: ids},
 					success:function(data){
@@ -141,6 +141,7 @@ $(document).ready(function() {
 							swal('',data.error,'error');
 						}
 						else{
+							var table = $('#timeNotificationList').DataTable();
 							$('#txtId').val(data.id);
 							$('#txtName').val(data.name);
 							$('.chkItemAll').prop({'checked': false});
@@ -163,6 +164,8 @@ $(document).ready(function() {
 						//$btn.button('reset');
 					}
 				});
+				$('.btnDelete').addClass('hidden');
+				$('.btnAdd').removeClass('hidden');
 			}
 			else{
 				$btn.button('reset');

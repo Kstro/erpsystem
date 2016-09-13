@@ -116,8 +116,8 @@ $(document).ready(function() {
         $('#pnAdd').slideUp();
         
         if ($(this).is(':checked')) {
-            $('.btAdd').addClass('hidden');
-            $('.btDelete').removeClass('hidden');
+            $('.btnAdd').addClass('hidden');
+            $('.btnDelete').removeClass('hidden');
             
             $('.chkItem').each( function() {			
                 if ($(this).is(':checked')) {
@@ -138,14 +138,14 @@ $(document).ready(function() {
             });
             
             if(contador == 0){
-                $('.btAdd').removeClass('hidden');
-                $('.btDelete').addClass('hidden');
+                $('.btnAdd').removeClass('hidden');
+                $('.btnDelete').addClass('hidden');
             }
         }
     });
     
     /////Persist datatable (Delete method)
-    $(document).on('click', '.btDelete', function(event) {
+    $(document).on('click', '.btnDelete', function(event) {
         var btn = $(this).button('loading');
         
         swal({

@@ -429,7 +429,7 @@ class CtlTiempoNotificacionController extends Controller
                 // die();
                 $em = $this->getDoctrine()->getManager();
                 foreach ($ids as $key => $id) {
-                    $object = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->find($id);    
+                    $object = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->find($id);    
                     if(count($object)){
                         $object->setEstado(0);
                         $em->merge($object);

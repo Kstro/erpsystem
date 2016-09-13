@@ -1,4 +1,4 @@
-$(document).on('click', '.btAdd', function(event) {
+$(document).on('click', '.btnAdd', function(event) {
 	var id = $('#txtId').val();
 	
         //Cambiar nombre del panel heading para add (Inserción)

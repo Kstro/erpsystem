@@ -18,14 +18,21 @@
      <div class="col-md-5">
           <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoProveedor}}</p>
           <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionProveedor}}</p>
+          {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
+        <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
+          <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+          <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
+          <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
      </div>
 
 {% endblock %}
 {% block acciones %}
      <div class="col-md-7 text-right panel-body">
-          <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button>
+          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
           <button data-loading-text="Loading..." autocomplete="off" class="btnAddPage btn btn-sm btn-primary btn-flat">{{add}}</button>
-          
+          <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
+          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
+                            
           <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
           <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
           <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
@@ -112,6 +119,8 @@
 
             $('#dpbTitulo').select2();
             $('.dpbTipoPhone').select2();
+            $('.dpbTipoPersona').select2();
+            $('.dpbIndustria').select2();
         });
     </script>
      
