@@ -2,7 +2,7 @@
 
 $(document).on('click', '.btnAddPage', function(event) {
 	//console.log('add');
-	var id = $('#txtId1').val();
+	var id = $('#txtId').val();
 	
 	// console.log("ID: "+id);
 	//Cambiar nombre del panel heading para add (Inserción)
@@ -10,20 +10,29 @@ $(document).on('click', '.btnAddPage', function(event) {
 	$('.pnHeadingLabelEdit').addClass('hidden');
 	if (id!='') {
 		// console.log("if");
+		
+		// $('#btnBack').removeClass('hidden');
+		// $('#btnCancelTop').removeClass('hidden');
+		// $('#btnSaveTop').removeClass('hidden');
+		
+
 		limpiarCampos();
-		$('#btnBack').removeClass('hidden');
-		$('#btnCancelTop').removeClass('hidden');
-		$('#btnSaveTop').removeClass('hidden');
+		$('#btnSaveTop').addClass('hidden');
+		$('#btnCancelTop').addClass('hidden');
+		$('#btnAddPage').removeClass('hidden');
 		$(this).addClass('hidden');
 	}
 	else{
 		// console.log("else");
 		// limpiarCampos();
 		$('#pnAdd').toggle();
-		$('#providersList').parent().toggle();
+		$('#tasksList').parent().toggle();
+		$('#btnSaveTop').removeClass('hidden');
+		$('#btnCancelTop').removeClass('hidden');
+
 	}
-	$('#btnSaveTop').removeClass('hidden');
-	$('#btnCancelTop').removeClass('hidden');
+	// $('#btnSaveTop').removeClass('hidden');
+	// $('#btnCancelTop').removeClass('hidden');
 	$('.btnAddPage').addClass('hidden');
 	$('#txtName').focus();
 });
@@ -48,14 +57,15 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 
 
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
+	
 	// console.log('cancel');
 	limpiarCampos();
 	return false;
 	
 });
-$(document).on('click', '#providersList>thead>tr>th:gt(0)', function(event) {
+$(document).on('click', '#tasksList>thead>tr>th:gt(0)', function(event) {
 	
-	console.log('cancel');
+	// console.log('cancel');
 	$('.chkItemAll').prop({'checked': false});
 
 	
@@ -65,37 +75,28 @@ $(document).on('click', '#providersList>thead>tr>th:gt(0)', function(event) {
 function limpiarCampos(){
 	$('#txtId').val('');
 	$('#txtName').val('');
-	$('#txtApellido').val('');
-	$('#txtDuracion').val('');
+	$('#txtDescripcion').val('');
 	$('#txtCompania').val('');
-	$('.txtAddressFirst').val('');
-	$('.firstPhoneTxt').val('');
-	$('.firstPhoneExtension').val('');
-	$('.txtEmailFirst').val('');
-	$('#imgTest').attr('src','http://placehold.it/250x250');
-	$('#file').val('');
-
+	$('#txtFechaInicio').val('');
+	$('#txtFechaFin').val('');
+	
 	$('.validateInput').each(function(index, el) {
 		$(this).removeClass('errorform');
 	});
-	$('.removeAddress').each(function(index, el) {
-		$(this).click();
-	});
-	$('.removePhone').each(function(index, el) {
-		$(this).click();
-	});
-	$('.removeEmail').each(function(index, el) {
+	$('.removePersona').each(function(index, el) {
 		$(this).click();
 	});
 		
-	$('.chkItemAll').prop({'checked': false});
+	
 	$('.btnAddPage').removeClass('hidden');
 	$('.btnDelete').addClass('hidden');
 	$('#btnBack').addClass('hidden');
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
+
+
 	$('#pnAdd').toggle();
-	$('#providersList').parent().toggle();
+	$('#tasksList').parent().toggle();
 }
 
 /////Fin hide forms panel

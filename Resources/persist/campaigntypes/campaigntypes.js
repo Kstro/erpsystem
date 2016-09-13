@@ -159,6 +159,8 @@ $(document).ready(function() {
 						//$btn.button('reset');
 					}
 				});
+                            		$('.btnDelete').addClass('hidden');
+				$('.btnAdd').removeClass('hidden');
                         }
 
                     });

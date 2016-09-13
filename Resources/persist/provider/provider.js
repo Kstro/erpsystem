@@ -3,10 +3,15 @@ $(document).ready(function() {
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
+	var numAddress = 0;
 	/////Persist datatable (Save method)
 	var filesSelectedPrev = document.getElementById("file").files;
 	// console.log(filesSelectedPrev[0]);
-	var table = $('#providerList').DataTable();
+	
+	$(document).on('click', '#btnSaveTop', function(event) {
+		$('#frmProvider').submit();
+	});
+
 	$(document).on('change', '#file', function(event) {
 		var filesSelected = document.getElementById("file").files;
 		if(filesSelectedPrev[0]=="undefined"){
@@ -55,25 +60,26 @@ $(document).ready(function() {
 					$("#message").html(data);
 					$("#txtId1").val(data.id1);
 					$("#txtId2").val(data.id2);
-
 					if(data.msg){
 						swal('',data.msg,'success');
+						var table = $('#providersList').DataTable();
 						//id.val(data.id1);
 						$('#txtId').val('');
 						$('#txtName').val('');
-						$('#txtProbability').val('10');
-						probability.slider('setValue', 10);
+						// $('#txtProbability').val('10');
+						// probability.slider('setValue', 10);
 						$('.btnAddPage').click();
 						$btn.button('reset');
-						table.ajax.reload();
 					}
 					if(data.error){
-						console.log(data.id);
+						// console.log(data.id);
 						swal('',data.error,'error');
 						$btn.button('reset');
 					}
-
+					table.ajax.reload();
 					$btn.button('reset');
+					// console.log('updata table');
+					// console.log(table);
 				},
 				error:function(data) {
 					/* Act on the event */
@@ -93,11 +99,10 @@ $(document).ready(function() {
 
 
 	/////Persist datatable (Edit method)
-	$(document).on('click', '#providersList>tbody>tr>td:nth-child(2),#providersList>tbody>tr>td:nth-child(3),#providersList>tbody>tr>td:nth-child(4)', function(event) {
+	$(document).on('click', '#providersList>tbody>tr>td:nth-child(2),#providersList>tbody>tr>td:nth-child(3),#providersList>tbody>tr>td:nth-child(4),#providersList>tbody>tr>td:nth-child(5)', function(event) {
 		/////Definición de variables
 		var text = $(this).prop('tagName');
 		// console.log(text);
-
 		var id=$(this).parent().children().first().children().attr('id');
 		// console.log(id);
 		var idArray = id.split('-');
@@ -128,21 +133,88 @@ $(document).ready(function() {
 						id.val(data.id);
 					}
 					else{
-						console.log(data);
+						// console.log(data);
 						$('#txtId1').val(data.id1);
 						$('#txtId2').val(data.id2);
+						$('#dpbTitulo').val(data.titulo);
 						$('#txtName').val(data.nombre);
 						$('#txtApellido').val(data.apellido);
-						$('#pnAdd').slideDown();
+						$('#txtCompania').val(data.compania);
+						// console.log(data.addressArray);
+						var numDirecciones = data.addressArray.length;
+						var numTelefonos = data.phoneArray.length;
+						var numCorreos = data.emailArray.length;
+						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
+						// Direcciones
+						for (var i = 0; i < numDirecciones; i++) {
+							// console.log(i);
+							// console.log(data.addressArray[i]);
+							switch(i){
+								case 0:
+									$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
+									$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
+									$('.txtAddressFirst').val(data.addressArray[i]);
+								break;
+								default:
+									$('#plusAddress').click();
+									$("#state-"+(numAddress)).val(data.stateArray[i]).trigger("change");
+									$("#city-"+(numAddress)).val(data.cityArray[i]).trigger("change");
+									$('#address-'+(numAddress)).val(data.addressArray[i]);
+								break;
+							}
+						}
+						// Telefonos
+						for (var i = 0; i < numTelefonos; i++) {
+							// console.log(i);
+							// console.log(data.addressArray[i]);
+							switch(i){
+								case 0:
+									$(".firstPhoneType").val(data.typePhoneArray[i]).trigger("change");
+									
+									$('.firstPhoneTxt').val(data.phoneArray[i]);
+									$('.firstPhoneExtension').val(data.extPhoneArray[i]);
+								break;
+								default:
+									$('#plusPhone').click();
+									//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();
+									$('#types-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
+									
+									$('#phones-'+(numPhones)).val(data.phoneArray[i]);
+									$('#extension-'+(numPhones)).val(data.extPhoneArray[i]);
+								break;
+							}
+						}
+						// Correos
+						for (var i = 0; i < numCorreos; i++) {
+							// console.log(i);
+							// console.log(data.addressArray[i]);
+							switch(i){
+								case 0:
+									$('.txtEmailFirst').val(data.emailArray[i]);
+								break;
+								default:
+									$('#plusEmail').click();
+									$('#email-'+(numEmail)).val(data.emailArray[i]);
+								break;
+							}
+						}
+						$('#imgTest').attr('src','../../../photos/proveedor/'+data.src);
+
+						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
+						$('.dpbIndustria').val(data.industria).change().trigger("change");
+												
+						$('.txtWebsite').val(data.website);
+						$('#pnAdd').show();
 						$('.btnAddPage').addClass('hidden');
 						$('#providersList').parent().toggle();
 						$('#btnBack').removeClass('hidden');
-
+						$('#btnCancelTop').removeClass('hidden');
+						$('#btnSaveTop').removeClass('hidden');
 					}					
 				},
 				error:function(data){
 					if(data.error){
-						console.log(data.id);
+						// console.log(data.id);
 						swal('',data.error,'error');
 					}
 				}
@@ -169,7 +241,7 @@ $(document).ready(function() {
 				ids.push($(this).parent().attr('id'));
 			}
 		});	
-		console.log(ids);
+		// console.log(ids);
 		swal({
                         title: "",
                         text: "Remove selected rows?",
@@ -206,6 +278,8 @@ $(document).ready(function() {
 						$btn.button('reset');
 					}
 				});
+                            		$('.btnDelete').addClass('hidden');
+				$('.btnAddPage').removeClass('hidden');
                         	}
                     });
                 	$btn.button('reset');		
@@ -281,7 +355,7 @@ $(document).ready(function() {
 	/////Contadores para agregar o eliminar telefono, email y direccion
 	var numPhones = 0;
 	var numEmail = 0;
-	var numAddress = 0;
+	
 	$('.txtPhone').each(function(index, el) {
 		numPhones++;
 	});
@@ -298,10 +372,10 @@ $(document).ready(function() {
 	$(document).on('click', '#plusPhone', function(event) {
 		numPhones++;
 		var optionsPhoneType = $('.firstPhoneType').html();
-		$('.phonesType').append('<div style="margin-top:27px;"><select id="types-'+numPhones+'" style="margin-top:25px !important;" name="phoneType[]" class="input-sm form-control validateInput dpbTipoPhone">'+optionsPhoneType+'</select></div>');
+		$('.phonesType').append('<div style="margin-top:27px;"><select id="types-'+numPhones+'" style="width:100%;margin-top:25px !important;" name="phoneType[]" class="input-sm form-control validateInput dpbTipoPhone">'+optionsPhoneType+'</select></div>');
 		$('.phonesText').append('<input id="phones-'+numPhones+'" style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone">');
 		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
-		$('.addPhone').append('<button id="deletePhone-'+numPhones+'" style="margin-top:27px;" class="btn removePhone"><i class="fa fa-remove"></i></button>');
+		$('.addPhone').append('<button id="deletePhone-'+numPhones+'" style="margin-top:27px;" class="btn removePhone btn-danger"><i class="fa fa-remove"></i></button>');
 		$('#types-'+numPhones).select2();
 		return false;
 	});
@@ -322,7 +396,7 @@ $(document).ready(function() {
 		numEmail++;
 		
 		$('.emailText').append('<input id="email-'+numEmail+'" type="text" name="email[]" style="margin-top:25px ;" class="input-sm form-control validateInput txtEmail">');
-		$('.addEmail').append('<button id="deleteEmail-'+numEmail+'" style="margin-top:27px;" class="btn removeEmail"><i class="fa fa-remove"></i></button>');
+		$('.addEmail').append('<button id="deleteEmail-'+numEmail+'" style="margin-top:27px;" class="btn removeEmail btn-danger"><i class="fa fa-remove"></i></button>');
 		return false;
 	});
 	$(document).on('click', '.removeEmail', function(event) {
@@ -345,7 +419,7 @@ $(document).ready(function() {
 		$('.city').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="input-sm form-control dpbCity">'+optionsCity+' </select></div>');
 		$('.state').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="input-sm form-control dpbState">'+optionsState+' </select></div>');
 		//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');
-		$('.addAddress').append('<button id="deleteAddress-'+numAddress+'" style="margin-top:25px;" class="btn removeAddress"><i class="fa fa-remove"></i></button>');
+		$('.addAddress').append('<button id="deleteAddress-'+numAddress+'" style="margin-top:25px;" class="btn removeAddress btn-danger"><i class="fa fa-remove"></i></button>');
 		$('#city-'+numAddress).select2();
 		$('#state-'+numAddress).select2();
 		return false;
@@ -357,6 +431,95 @@ $(document).ready(function() {
 		$('#city-'+numDelArray[1]).parent().remove();
 		$('#state-'+numDelArray[1]).parent().remove();
 		$(this).remove();
+		return false;
+	});
+	/////Fin de agregar/remover direccion
+
+
+	/////Agregar/remover direccion
+	$(document).on('change', '.dpbStateFirst,.dpbState', function(event) {		
+		var id=$(this).val();//Valor id estado
+		var idHtml=$(this).attr('id');//Valor id objecto html
+		// console.log(id);
+		// console.log(idHtml);
+		var domElement=$(this);
+		if (idHtml=='') {
+			$.ajax({
+				url: Routing.generate('admin_provider_search_cities_ajax'),
+				type: 'POST',
+				data: {param1: id},
+				success:function(data){
+					if(data.error){
+						swal('',data.error,'error');
+					}
+					else{
+						// console.log(data.ciudades[0]);
+					}
+					// console.log(data.ciudades[0][0]);
+					// console.log(data.ciudades[0][1]);
+					// console.log('assax'+data.ciudades.length);
+					$('.dpbCityFirst').select2('destroy');
+					$('.dpbCityFirst').html('');
+					for (var i = 0; i <data.ciudades.length; i++) {
+						if (i==0) {
+							$('.dpbCityFirst').append('<option selected value="'+data.ciudades[0][0]+'">'+data.ciudades[0][1]+'</option>');
+						} 
+						else {
+							$('.dpbCityFirst').append('<option value="'+data.ciudades[0][0]+'">'+data.ciudades[0][1]+'</option>');
+						}
+					}
+					$('.dpbCityFirst').select2();
+					//$('#pnAdd').slideUp();
+				},
+				error:function(data){
+					if(data.error){
+						// console.log(data.id);
+						swal('',data.error,'error');
+					}
+					$btn.button('reset');
+				}
+			});
+		} else {
+			$.ajax({
+				url: Routing.generate('admin_provider_search_cities_ajax'),
+				type: 'POST',
+				data: {param1: id},
+				success:function(data){
+					if(data.error){
+						swal('',data.error,'error');
+					}
+					else{
+						// console.log(data.ciudades[0]);
+					}
+					// console.log(data.ciudades[0][0]);
+					// console.log(data.ciudades[0][1]);
+					// console.log('assax'+data.ciudades.length);
+					var idHtmlArray=idHtml.split('-');
+					// console.log(idHtml);
+					// console.log(idHtmlArray);
+					$('#city-'+idHtmlArray[1]).select2('destroy');
+					$('#city-'+idHtmlArray[1]).html('');
+					// console.log('#city-'+idHtmlArray[1]);
+					for (var i = 0; i <data.ciudades.length; i++) {
+						if (i==0) {
+							$('#city-'+idHtmlArray[1]).append('<option selected value="'+data.ciudades[0][0]+'">'+data.ciudades[0][1]+'</option>');
+						} 
+						else {
+							$('#city-'+idHtmlArray[1]).append('<option value="'+data.ciudades[0][0]+'">'+data.ciudades[0][1]+'</option>');
+						}
+					}
+					$('#city-'+idHtmlArray[1]).select2();
+					//$('#pnAdd').slideUp();
+				},
+				error:function(data){
+					if(data.error){
+						console.log(data.id);
+						swal('',data.error,'error');
+					}
+					$btn.button('reset');
+				}
+			});
+		}
 		return false;
 	});
 	/////Fin de agregar/remover direccion

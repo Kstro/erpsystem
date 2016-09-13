@@ -8,18 +8,23 @@
 
 {% block descripcion %}
     <div class="col-md-5">
-        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSatisfaccion}}</p>
-        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionSatisfaccion}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSatisfaccion}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionSatisfaccion}}</p>
+          {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
+          <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
+          <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+          <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
+          <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
     </div>
 
 {% endblock %}
 
 {% block acciones %}
     <div class="col-md-7 text-right panel-body">
-        <button data-loading-text="Loading..." autocomplete="off" class="btAdd btn btn-sm btn-primary btn-flat">Add</button>
-        <button class="btDelete btn btn-sm btn-danger btn-flat hidden">Delete</button>
-        <button class="btShow btn btn-sm btn-success btn-flat hidden">Show</button>
-        <button class="btAction btn btn-sm btn-default btn-flat hidden">Action</button>
+        <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">{{add}}</button>
+          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
+          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
     </div>
 {% endblock acciones %}
 

@@ -78,6 +78,12 @@ class CtlTelefono
      */
     private $tipoTelefono;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="extension", type="string", length=25, nullable=false)
+     */
+    private $extension;
 
 
     /**
@@ -227,4 +233,28 @@ class CtlTelefono
     {
         return $this->tipoTelefono;
     }
+
+    /**
+     * Set extension
+     *
+     * @param string $extension
+     * @return CtlTelefono
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * Get extension
+     *
+     * @return string 
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
 }
