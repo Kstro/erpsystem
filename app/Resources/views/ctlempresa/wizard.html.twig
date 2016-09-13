@@ -1,5 +1,7 @@
 {% extends ':layout:layouterp.html.twig' %}
 
+{% block title -%}<title>{{tituloWizard}}</title>{% endblock %}
+
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/wizard.css') }}">
 {% endblock %}
@@ -15,7 +17,7 @@
             </div>	                	
         {% endblock %}  
         <div style="margin-bottom: 35px;">      
-            <p class="robo" style="font-size: 35px; font-weight: 300; font-family: 'Roboto', sans-serif; margin-bottom: 0px;">Configuration</p>
+            <p class="robo" style="font-size: 35px; font-weight: 300; font-family: 'Roboto', sans-serif; margin-bottom: 0px;">{{encabezadoWizard}}</p>
         </div>
         
         <div class="clearfix"></div>

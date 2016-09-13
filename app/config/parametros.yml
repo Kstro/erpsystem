@@ -87,7 +87,16 @@ parameters:
         app.reportsIcon: 6.png
         
         #Wizard de configuracion inicial
-        
+        app.encabezadoWizard: Configuration
+        app.tituloWizard:  CRM Systems | Configuration
+        app.step1Wizard: Step 1
+        app.step2Wizard: Step 2
+        app.step3Wizard: Step 3
+        app.step4Wizard: Completed 
+        app.btnSaveandContWizard: Save and continue
+        app.btnPreviousWizard: Previous
+        app.btnSkipWizard: Skip
+        app.btnCompletedWizard: Finish
             
         #tituloPrincipal
         app.tituloHome:  CRM Systems
