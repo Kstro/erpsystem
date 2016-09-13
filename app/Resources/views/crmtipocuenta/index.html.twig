@@ -1,6 +1,6 @@
 {% extends ':layout:layouterp.html.twig' %}
 
-{% block title -%}<title>{{tituloSales}}</title>{% endblock %}
+{% block title -%}<title>{{tituloTipoCuenta}}</title>{% endblock %}
 
 {% block customcss %}
     
@@ -8,23 +8,28 @@
 
 {% block descripcion %}
     <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSatisfaccion}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionSatisfaccion}}</p>
+
+          
           {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
           <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
           <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
           <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
           <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
+
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTipoCuenta}}</p>
+        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTipoCuenta}}</p>
     </div>
 
 {% endblock %}
 
 {% block acciones %}
     <div class="col-md-7 text-right panel-body">
+
         <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">{{add}}</button>
           <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
           <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
           <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
+
     </div>
 {% endblock acciones %}
 
@@ -38,17 +43,17 @@
     <div class="row">
         <div class="col-md-12 col-xs-12">
             <div id="pnAdd" class="panel panel-default" style="display:none;">
+                <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
                 
-                <div class="panel-heading">Add</div>
                 <div class="panel-body">
                         <input id="txtId" type="hidden" name="" class="input-sm form-control">
                         <div class="col-md-6 col-xs-12">
-                            <label>Name</label>
+                            <label>{{nameTipoCuenta}}</label>
                             <input id="txtName" type="text" name="txtName" class="input-sm form-control validateInput">
                         </div>
                         <div class="col-md-6 pull-right text-right" style="margin-top:20px;">
-                            <button id="btnSave" class="btn btn-sm btn-primary">Save</button>
-                            <button id="btnCancel" class="btn btn-sm btn-default">Cancel</button>
+                            <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                            <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
                         </div>
                     
                 </div>
@@ -91,7 +96,20 @@
                 "order":[1,'asc'],
                 "columnDefs": [
                         { "orderable": false, "targets": 0 }
-                ]
+                ],
+                "language": {
+                        "info": "{{dtInfo}} _PAGE_ de _PAGES_",
+                        "infoEmpty": "{{dtInfoEmpty}}",
+                        "zeroRecords": "{{dtZeroRecords}}",
+                        "emptyTable": "{{dtEmptyTable}}",
+                        "paginate": { 
+                            "next": "{{dtNext}}",
+                            "previous": "{{dtPrev}}"
+                        },
+                        "processing": "{{dtProcessing}}",
+                        "search": "{{dtSearch}}",
+                        "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
+                    }
             });
             /////Fin definición datatable 
         });

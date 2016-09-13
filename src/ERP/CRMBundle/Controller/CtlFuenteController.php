@@ -8,60 +8,66 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use ERP\CRMBundle\Entity\CrmTipoCuenta;
-use ERP\CRMBundle\Form\CrmTipoCuentaType;
+use ERP\CRMBundle\Entity\CtlFuente;
+use ERP\CRMBundle\Form\CtlFuenteType;
 
 /**
- * CrmTipoCuenta controller.
+ * CtlFuente controller.
  *
- * @Route("/admin/account-types")
+ * @Route("/admin/origin-source")
  */
-class CrmTipoCuentaController extends Controller
+class CtlFuenteController extends Controller
 {
     /**
-     * Lists all CrmTipoCuenta entities.
+     * Lists all CtlFuente entities.
      *
-     * @Route("/", name="admin_tipocuenta_index")
+     * @Route("/", name="admin_origin-source_index")
      * @Method("GET")
      */
     public function indexAction()
     {
-        return $this->render('crmtipocuenta/index.html.twig');
-    }
+        $em = $this->getDoctrine()->getManager();
 
-    /**
-     * Creates a new CrmTipoCuenta entity.
-     *
-     * @Route("/new", name="admin_tipocuenta_new", options={"expose"=true})
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $crmTipoCuentum = new CrmTipoCuenta();
-        $form = $this->createForm('ERP\CRMBundle\Form\CrmTipoCuentaType', $crmTipoCuentum);
-        $form->handleRequest($request);
+        $ctlFuentes = $em->getRepository('ERPCRMBundle:CtlFuente')->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($crmTipoCuentum);
-            $em->flush();
-
-            return $this->redirectToRoute('admin_tipocuenta_show', array('id' => $crmTipoCuentum->getId()));
-        }
-
-        return $this->render('crmtipocuenta/new.html.twig', array(
-            'crmTipoCuentum' => $crmTipoCuentum,
-            'form' => $form->createView(),
+        return $this->render('ctlfuente/index.html.twig', array(
+            'ctlFuentes' => $ctlFuentes,
         ));
     }
 
     /**
-     * Creates a new CrmTipoCuenta entity.
+     * Creates a new CtlFuente entity.
      *
-     * @Route("/register", name="admin_register_accounttype", options={"expose"=true})
+     * @Route("/new", name="admin_origin-source_new")
      * @Method({"GET", "POST"})
      */
-    public function registerAccountTypeAction(Request $request)
+    public function newAction(Request $request)
+    {
+        $ctlFuente = new CtlFuente();
+        $form = $this->createForm('ERP\CRMBundle\Form\CtlFuenteType', $ctlFuente);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($ctlFuente);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_origin-source_show', array('id' => $ctlFuente->getId()));
+        }
+
+        return $this->render('ctlfuente/new.html.twig', array(
+            'ctlFuente' => $ctlFuente,
+            'form' => $form->createView(),
+        ));
+    }
+    
+    /**
+     * Creates a new CtlFuente entity.
+     *
+     * @Route("/register", name="admin_register_origin_source", options={"expose"=true})
+     * @Method({"GET", "POST"})
+     */
+    public function registerOriginSourceAction(Request $request)
     {
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
@@ -69,47 +75,46 @@ class CrmTipoCuentaController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 //$exito = '1';
                 $parameters = $request->request->all();
-                $accounttypename = $parameters['name'];
+                $originsourcename = $parameters['name'];
                 $id = $parameters['id'];
                 
-                $sql = "SELECT upper(acc.nombre) FROM ERPCRMBundle:CrmTipoCuenta acc "
-                        . "WHERE upper(acc.nombre) LIKE upper(:busqueda) AND acc.estado = 1";
+                $sql = "SELECT upper(sou.nombre) FROM ERPCRMBundle:CtlFuente sou "
+                        . "WHERE upper(sou.nombre) LIKE upper(:busqueda) AND sou.estado = 1";
                 
                 $objectDuplicate = $em->createQuery($sql)
-                                    ->setParameters(array('busqueda'=>"%".strtoupper($accounttypename)."%"))
-                                    ->getResult(); 
+                                     ->setParameters(array('busqueda'=>"%".strtoupper($originsourcename)."%"))
+                                     ->getResult(); 
                 
                 if (count($objectDuplicate)) {
                     $data['error'] = $this->getParameter('app.serverDuplicateName');
                     //$exito = '0';
                 } else {
                     if ($id=='') {
-                        $accounttype = new CrmTipoCuenta();
-                        $accounttype->setNombre($accounttypename);
-                        $accounttype->setEstado(1);
+                        $originsource = new CtlFuente();
+                        $originsource->setNombre($originsourcename);
+                        $originsource->setEstado(1);
 
-                        $em->persist($accounttype);
+                        $em->persist($originsource);
                         $em->flush();
                         
                         $serverSave = $this->getParameter('app.serverMsgSave');
                         $data['msg']=$serverSave;
-                        $data['id']=$accounttype->getId();
+                        $data['id']=$originsource->getId();
                     } else {
-                        $accounttype = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
-                        $accounttype->setNombre($accounttypename);
+                        $originsource = $em->getRepository('ERPCRMBundle:CtlFuente')->find($id);
+                        $originsource->setNombre($originsourcename);
                         
-                        $em->merge($accounttype);
+                        $em->merge($originsource);
                         $em->flush();
                         
                         $serverUpdate = $this->getParameter('app.serverMsgUpdate');
                         $data['msg']=$serverUpdate; 
-                        $data['id']=$accounttype->getId();
+                        $data['id']=$originsource->getId();
                     }                                        
                 }
                 
                 $response = new JsonResponse();
                 $response->setData(array(
-                                  //'exito'   => $exito,
                                   'msg'   => $data
                                ));  
             
@@ -141,81 +146,81 @@ class CrmTipoCuentaController extends Controller
             return new Response('0');              
         }
     }
-    
+
     /**
-     * Finds and displays a CrmTipoCuenta entity.
+     * Finds and displays a CtlFuente entity.
      *
-     * @Route("/{id}", name="admin_tipocuenta_show")
+     * @Route("/{id}", name="admin_origin-source_show")
      * @Method("GET")
      */
-    public function showAction(CrmTipoCuenta $crmTipoCuentum)
+    public function showAction(CtlFuente $ctlFuente)
     {
-        $deleteForm = $this->createDeleteForm($crmTipoCuentum);
+        $deleteForm = $this->createDeleteForm($ctlFuente);
 
-        return $this->render('crmtipocuenta/show.html.twig', array(
-            'crmTipoCuentum' => $crmTipoCuentum,
+        return $this->render('ctlfuente/show.html.twig', array(
+            'ctlFuente' => $ctlFuente,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Displays a form to edit an existing CrmTipoCuenta entity.
+     * Displays a form to edit an existing CtlFuente entity.
      *
-     * @Route("/{id}/edit", name="admin_tipocuenta_edit")
+     * @Route("/{id}/edit", name="admin_origin-source_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, CrmTipoCuenta $crmTipoCuentum)
+    public function editAction(Request $request, CtlFuente $ctlFuente)
     {
-        $deleteForm = $this->createDeleteForm($crmTipoCuentum);
-        $editForm = $this->createForm('ERP\CRMBundle\Form\CrmTipoCuentaType', $crmTipoCuentum);
+        $deleteForm = $this->createDeleteForm($ctlFuente);
+        $editForm = $this->createForm('ERP\CRMBundle\Form\CtlFuenteType', $ctlFuente);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($crmTipoCuentum);
+            $em->persist($ctlFuente);
             $em->flush();
 
-            return $this->redirectToRoute('admin_tipocuenta_edit', array('id' => $crmTipoCuentum->getId()));
+            return $this->redirectToRoute('admin_origin-source_edit', array('id' => $ctlFuente->getId()));
         }
 
-        return $this->render('crmtipocuenta/edit.html.twig', array(
-            'crmTipoCuentum' => $crmTipoCuentum,
+        return $this->render('ctlfuente/edit.html.twig', array(
+            'ctlFuente' => $ctlFuente,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-     * Deletes a CrmTipoCuenta entity.
+     * Deletes a CtlFuente entity.
      *
-     * @Route("/{id}", name="admin_tipocuenta_delete")
+     * @Route("/{id}", name="admin_origin-source_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, CrmTipoCuenta $crmTipoCuentum)
+    public function deleteAction(Request $request, CtlFuente $ctlFuente)
     {
-        $form = $this->createDeleteForm($crmTipoCuentum);
+        $form = $this->createDeleteForm($ctlFuente);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($crmTipoCuentum);
+            $em->remove($ctlFuente);
             $em->flush();
         }
 
-        return $this->redirectToRoute('admin_tipocuenta_index');
+        return $this->redirectToRoute('admin_origin-source_index');
     }
 
     /**
-     * Creates a form to delete a CrmTipoCuenta entity.
+     * Creates a form to delete a CtlFuente entity.
      *
-     * @param CrmTipoCuenta $crmTipoCuentum The CrmTipoCuenta entity
+     * @param CtlFuente $ctlFuente The CtlFuente entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(CrmTipoCuenta $crmTipoCuentum)
+    private function createDeleteForm(CtlFuente $ctlFuente)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_tipocuenta_delete', array('id' => $crmTipoCuentum->getId())))
+            ->setAction($this->generateUrl('admin_origin-source_delete', array('id' => $ctlFuente->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -224,9 +229,9 @@ class CrmTipoCuentaController extends Controller
     /**
      * 
      *
-     * @Route("/account-types/data/as", name="admin_account_types_data", options={"expose"=true})
+     * @Route("/origin-sources/data/as", name="admin_origin_sources_data", options={"expose"=true})
      */
-    public function dataAccountTypesAction(Request $request)
+    public function dataOriginSourcesAction(Request $request)
     {        
         $start = $request->query->get('start');
         $draw = $request->query->get('draw');
@@ -234,7 +239,7 @@ class CrmTipoCuentaController extends Controller
         $busqueda = $request->query->get('search');
         
         $em = $this->getDoctrine()->getEntityManager();
-        $rowsTotal = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findAll();
+        $rowsTotal = $em->getRepository('ERPCRMBundle:CtlFuente')->findAll();
         
         $row['draw']=$draw++;  
         $row['recordsTotal'] = count($rowsTotal);
@@ -256,15 +261,15 @@ class CrmTipoCuentaController extends Controller
         
         $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
         if($busqueda['value']!=''){                                
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
+            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', sou.nombre, '</div>') as name, "
+                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOriginSource fa fa-info-circle\"></i></a>' as link, "
+                    . "CONCAT('<div id=\"',sou.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
-                    . "when acc.estado = 1 then 'Active' "
+                    . "when sou.estado = 1 then 'Active' "
                     . "else 'Inactive' "
                     . "as state "
-                    . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 AND CONCAT(upper(acc.nombre), ' ' , upper(acc.estado)) LIKE upper(:busqueda) "
+                    . "FROM ERPCRMBundle:CtlFuente sou "
+                    . "WHERE sou.estado = 1 AND CONCAT(upper(sou.nombre), ' ' , upper(sou.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -273,34 +278,33 @@ class CrmTipoCuentaController extends Controller
 
             $row['recordsFiltered']= count($row['data']);
 
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
+            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', sou.nombre, '</div>') as name, "
+                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOriginSource fa fa-info-circle\"></i></a>' as link, "
+                    . "CONCAT('<div id=\"',sou.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
-                    . "when acc.estado = 1 then 'Active' "
+                    . "when sou.estado = 1 then 'Active' "
                     . "else 'Inactive' "
                     . "as state "
-                    . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 AND CONCAT(upper(acc.nombre),' ', upper(acc.estado)) LIKE upper(:busqueda) "
+                    . "FROM ERPCRMBundle:CtlFuente sou "
+                    . "WHERE sou.estado = 1 AND CONCAT(upper(sou.nombre),' ', upper(sou.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                     ->setFirstResult($start)
                     ->setMaxResults($longitud)
-                    ->getResult();
-              
+                    ->getResult();              
         }
         else{
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', acc.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoAccountType fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',acc.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
+            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', sou.nombre, '</div>') as name, "
+                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOriginSource fa fa-info-circle\"></i></a>' as link, "
+                    . "CONCAT('<div id=\"',sou.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as check, "
                     . "case "
-                    . "when acc.estado = 1 then 'Active' "
+                    . "when sou.estado = 1 then 'Active' "
                     . "else 'Inactive' "
                     . "as state "
-                    . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
+                    . "FROM ERPCRMBundle:CtlFuente sou "
+                    . "WHERE sou.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
             
             $row['data'] = $em->createQuery($dql)
                     ->setFirstResult($start)
@@ -312,24 +316,23 @@ class CrmTipoCuentaController extends Controller
     }
     
     /**
-     * Retrieve the account type
+     * Retrieve the origin source
      *
-     * @Route("/account-types/retrieve", name="admin_retrieve_accounttype", options={"expose"=true}))
+     * @Route("/origin-sources/retrieve", name="admin_retrieve_originsource", options={"expose"=true}))
      * @Method("POST")
      */
-    public function retrieveAccountTypeAction(Request $request)
+    public function retrieveOriginSourcesAction(Request $request)
     {
         try {
             $id=$request->get("id");
             $response = new JsonResponse();
             
             $em = $this->getDoctrine()->getManager();
-            $accountType = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
-            if(count($accountType)){
-                //$em->merge($accountType);
-                //$em->flush();    
-                $data['name']=$accountType->getNombre();
-                $data['id']=$accountType->getId();
+            $originsource = $em->getRepository('ERPCRMBundle:CtlFuente')->find($id);
+            if(count($originsource)){
+                
+                $data['name']=$originsource->getNombre();
+                $data['id']=$originsource->getId();
             }
             else{
                 $data['error']="Error";
@@ -355,12 +358,12 @@ class CrmTipoCuentaController extends Controller
     }
     
     /**
-     * Delete the account type
+     * Delete the origin source
      *
-     * @Route("/account-types/delete", name="admin_delete_accounttype",  options={"expose"=true}))
+     * @Route("/origin-source/delete", name="admin_delete_origin_source",  options={"expose"=true}))
      * @Method("POST")
      */
-    public function deleteAccountTypeAction(Request $request)
+    public function deleteOriginSourcesAction(Request $request)
     {
         try {
             $ids=$request->get("param1");
@@ -368,7 +371,7 @@ class CrmTipoCuentaController extends Controller
             
             $em = $this->getDoctrine()->getManager();
             foreach ($ids as $key => $id) {
-                $object = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);    
+                $object = $em->getRepository('ERPCRMBundle:CtlFuente')->find($id);    
                 if(count($object)){
                     $object->setEstado(0);
                     $em->merge($object);

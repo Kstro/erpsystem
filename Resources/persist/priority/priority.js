@@ -9,7 +9,7 @@ $(document).ready(function() {
         var btn = $(this).button('loading');
         var id=$('#txtId');
         var name=$('#txtName');
-        var table = $('#accountTypesList').DataTable();
+        var table = $('#PriorityList').DataTable();
         var errores = 0; //Contador de errores, para antes de la persistencia
 
         $('.validateInput').each(function() {
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
             $.ajax({
                 data: data,
-                url: Routing.generate('admin_register_accounttype'),
+                url: Routing.generate('admin_register_priority'),
                 type: 'POST',
                 dataType: 'json',
                 success: function (response)
@@ -67,7 +67,7 @@ $(document).ready(function() {
     });     
     
     /////Persist datatable (Edit method)
-    $(document).on('click', '#accountTypesList>tbody>tr>td:nth-child(2)', function(event) {
+    $(document).on('click', '#PriorityList>tbody>tr>td:nth-child(2)', function(event) {
         /////Definición de variables
         var text = $(this).prop('tagName');
         var id=$(this).parent().children().first().children().attr('id');
@@ -79,7 +79,7 @@ $(document).ready(function() {
         
         if (text=='TD' && id!=idForm) {
             $.ajax({
-                url: Routing.generate('admin_retrieve_accounttype'),
+                url: Routing.generate('admin_retrieve_priority'),
                 type: 'POST',
                 data: {id: id},
                 success:function(data){
@@ -116,8 +116,8 @@ $(document).ready(function() {
         $('#pnAdd').slideUp();
         
         if ($(this).is(':checked')) {
-            $('.btnAdd').addClass('hidden');
-            $('.btnDelete').removeClass('hidden');
+            $('.btAdd').addClass('hidden');
+            $('.btDelete').removeClass('hidden');
             
             $('.chkItem').each( function() {			
                 if ($(this).is(':checked')) {
@@ -138,18 +138,18 @@ $(document).ready(function() {
             });
             
             if(contador == 0){
-                $('.btnAdd').removeClass('hidden');
-                $('.btnDelete').addClass('hidden');
+                $('.btAdd').removeClass('hidden');
+                $('.btDelete').addClass('hidden');
             }
         }
     });
     
     /////Persist datatable (Delete method)
-    $(document).on('click', '.btnDelete', function(event) {
+    $(document).on('click', '.btDelete', function(event) {
         var btn = $(this).button('loading');
         
         swal({
-            text: "Really remove account type?",
+            text: "Really remove priority?",
             type: "info",
             showCancelButton: true,
             confirmButtonColor: "#1D234D",
@@ -161,16 +161,15 @@ $(document).ready(function() {
                 /////Definición de variables
                 var id=$(this).children().first().children().attr('id');
                 var ids=[];
-                var table = $('#accountTypesList').DataTable();
+                var table = $('#PriorityList').DataTable();
                 $('.chkItem').each(function() {
                     if ($(this).is(':checked')) {
-                            ids.push($(this).parent().attr('id'));
+                        ids.push($(this).parent().attr('id'));
                     }
                 });	
-                //console.log(ids);
-
+                
                 $.ajax({
-                    url: Routing.generate('admin_delete_accounttype'),
+                    url: Routing.generate('admin_delete_priority'),
                     type: 'POST',
                     data: {param1: ids},
                     success:function(data){
@@ -182,7 +181,7 @@ $(document).ready(function() {
                             $('#txtName').val(data.name);
                             $("input[name=checktodos]").prop({'checked': false});
                             
-                            swal('', 'It has been successfully removed', 'success');
+                            swal('', data.msg,'success');
                             btn.button('reset');
                             table.ajax.reload();
                         }

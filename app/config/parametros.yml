@@ -18,8 +18,11 @@ parameters:
         app.serverCancel: already cancelled!
         app.serverError: Error!
         
-
-
+        #loginMessages
+        app.usernameInvalidate: Sorry, your username is not recognized.
+        app.checkCaptcha: Please check the captcha form.
+        app.invalidCaptcha: Invalid captcha.
+        
         #frontend
 
         #form validations
@@ -82,6 +85,9 @@ parameters:
         app.calendarIcon: 4.png
         app.settingsIcon: 5.png
         app.reportsIcon: 6.png
+        
+        #Wizard de configuracion inicial
+        
             
         #tituloPrincipal
         app.tituloHome:  CRM Systems
@@ -138,6 +144,7 @@ parameters:
         app.mesesTiempoNotificacion: Months
         app.aniosTiempoNotificacion: Years
 
+
         #Tareas
         app.tituloTareas: CRM | Task
         app.menuTareas: Activities mgmt.
@@ -158,11 +165,27 @@ parameters:
         app.taskNoEdit: can't be modified
         
         
-        
-        
-        
+        #Tipo de cuenta (CRUD)
+        app.tituloTipoCuenta: CRM | Account type management
+        app.encabezadoTipoCuenta: Account type
+        app.descripcionTipoCuenta: Add, modify or delete Account type.
+        app.nameTipoCuenta: Name
+        #Fuentes de origen (CRUD)
+        app.tituloFuenteOrigen: CRM | Origin sources management
+        app.encabezadoFuenteOrigen: Origin sources catalog
+        app.descripcionFuenteOrigen: Add, modify or delete origin sources.
+        app.nameFuenteOrigen: Name
+        #Prioridad (CRUD)
+        app.tituloPrioridad: CRM | Priorities management
+        app.encabezadoPrioridad: Priorities catalog
+        app.descripcionPrioridad: Add, modify or delete priorities.
+        app.namePrioridad: Name
+
        
-        app.tituloLogin: s
+        #Login
+        app.tituloLogin: CRM Systems | Login
+        app.usernameTxt: Username
+        app.passwordTxt: Password
        
         #perfil
         app.perfil: e

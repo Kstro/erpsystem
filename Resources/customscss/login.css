@@ -44,3 +44,25 @@ body {
   color: #666;
 }
 
+.main-footer {
+  margin-left: 0 !important;
+  min-height: 0 !important;
+  -webkit-transform: translate(0, 0) !important;
+  -ms-transform: translate(0, 0) !important;
+  -o-transform: translate(0, 0) !important;
+  transform: translate(0, 0) !important;
+  margin-left: 0;
+}
+
+.main-footer {
+  background: #fff;
+  padding: 15px;
+  color: #444;
+  border-top: 1px solid #d2d6de;
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}

@@ -71,38 +71,7 @@ class SecuredController extends Controller
      */
     public function securityCheckAction(Request $request)
     {        
-        // The security layer will intercept this request
-//        $isAjax = $this->get('Request')->isXMLhttpRequest();
-//        if($isAjax){
-//            try {
-//                $parameters = $request->request->all();
-//                //var_dump($parameters);
-//                //die();
-//
-//                $response = new JsonResponse();
-//                $response->setData(array(
-//                                  //'exito'   => $exito,
-//                                  'msg'   => '1'
-//                               ));  
-//            } catch (Exception $e) {
-//                $response = new JsonResponse();
-//                $response->setData(array(
-//                                  'exito'   => $e,
-//                                  'msg'   => 'Es una excepcion'
-//                               ));  
-//                return $response; 
-//                //return new Response('Es una excepcion');              
-//            }
-//                return $response; 
-//        } else {    
-//            $response = new JsonResponse();
-//            $response->setData(array(
-//                              //'exito'   => $exito,
-//                              'msg'   => 'No es ajax'
-//                           ));  
-//            return $response; 
-//            //return new Response('No es ajax');              
-//        }                  
+        // The security layer will intercept this request            
     }
     
     /**
