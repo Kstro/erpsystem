@@ -13,17 +13,17 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $company = $em->getRepository('ERPCRMBundle:CtlEmpresa')->findAll();
-        
-        if($company === NULL || $company == NULL ){
-            return $this->redirect($this->generateUrl('admin_company_configuration'));            
-        } elseif (!$company[0]->getWizard()) {
-            return $this->redirect($this->generateUrl('admin_company_configuration'));            
-        } else {    
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $company = $em->getRepository('ERPCRMBundle:CtlEmpresa')->findAll();
+//        
+//        if($company === NULL || $company == NULL ){
+//            return $this->redirect($this->generateUrl('admin_company_configuration'));            
+//        } elseif (!$company[0]->getWizard()) {
+//            return $this->redirect($this->generateUrl('admin_company_configuration'));            
+//        } else {    
             return $this->redirect($this->generateUrl('admin_dashboard'));
-        }                
+//        }                
     }
     
     /**
