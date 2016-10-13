@@ -1,66 +1,70 @@
 <html>
-    <head>
-        {% block head %}
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            {% block title -%}<title>{{tituloHome}}</title>{% endblock %}
-            <meta name="robots" content="noindex">
-            {% block css %}
-                <link rel="stylesheet" href="{{ asset('Resources/bootstrap/css/bootstrap.css')}}" >
-                <link rel="stylesheet" href="{{ asset('Resources/font-awesome/css/font-awesome.min.css') }}">
-                <link rel="stylesheet" href="{{ asset('Resources/datatable/css/material.min.css') }}">
-                <link rel="stylesheet" href="{{ asset('Resources/datatable/css/datatables.material.min.css') }}">
-                <link rel="stylesheet" href="{{ asset('Resources/sweetalert/css/sweetalert2.min.css') }}">
-                <link rel="stylesheet" href="{{ asset('Resources/customscss/errors.css') }}">
-                <link rel="stylesheet" href="{{ asset('Resources/select2/css/select2.min.css') }}">
-                <link rel="stylesheet" href="{{ asset('Resources/src/css/style.css') }}">
-                <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-                {% block customcss %}
-                {% endblock %}
-            {% endblock css%}
-        {% endblock %}    
-    </head>
-    <body style="font-family: 'Roboto', sans-serif;" class="sans">
-    {% block body %}
-			
-        {% include ':layout:nav.html.twig' %}
+	<head>
+	            {% block head %}
+	             	<meta charset="utf-8">
+	                	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	                	<meta name="viewport" content="width=device-width, initial-scale=1">
+	                    	{% block title -%}<title>{{tituloHome}}</title>{% endblock %}
+	                      		<meta name="robots" content="noindex">
+	                        	{% block css %}
+	                          	<link rel="stylesheet" href="{{ asset('Resources/bootstrap/css/bootstrap.css')}}" >
+	                          	<link rel="stylesheet" href="{{ asset('Resources/font-awesome/css/font-awesome.min.css') }}">
+	                          	<link rel="stylesheet" href="{{ asset('Resources/datatable/css/material.min.css') }}">
+	                          	<link rel="stylesheet" href="{{ asset('Resources/datatable/css/datatables.material.min.css') }}">
+	                          	<link rel="stylesheet" href="{{ asset('Resources/sweetalert/css/sweetalert2.min.css') }}">
+	                          	<link rel="stylesheet" href="{{ asset('Resources/customscss/errors.css') }}">
+	                          	<link rel="stylesheet" href="{{ asset('Resources/select2/css/select2.min.css') }}">
+	                          	<link rel="stylesheet" href="{{ asset('Resources/src/css/style.css') }}">
+	                          	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+	                          	{% block customcss %}
+	                          	{% endblock %}
+	                        	{% endblock css%}
+	             {% endblock %}    
+    	</head>
+<body style="font-family: 'Roboto', sans-serif;" class="sans">
+{% block body %}
+	
 		
-        <div class="clearfix"></div>
-        {% block icons %}
-            <div style="z-index:50;margin-bottom:20px; border-bottom:1px #000" class="col-md-12 col-xs-12">            
-                {% include ':layout:icons.html.twig' %}
-            </div>
-        {% endblock %}  
-            
+			{% include ':layout:nav.html.twig' %}
+		
+		<div class="clearfix"></div>
+		<div style="z-index:50;margin-bottom:20px; border-bottom:1px #000" class="col-md-12 col-xs-12">
+			{% include ':layout:icons.html.twig' %}
+		</div>
+	
+	
+
 	<div class="container">
-            {% block descripcion_y_acciones %}
-                <div class="row">
-                    <div class="col-md-12" style="border-bottom:1px solid #d3d3d3;">
-                        {% block descripcion %}{% endblock %}                                
-                        {% block acciones %}{% endblock acciones %}
-                    </div>
-                </div>
-            {% endblock %}  
+		{% block descripcion_y_acciones %}
+	                	<div class="row">
+	                		<div class="col-md-12" style="border-bottom:1px solid #d3d3d3;">
+	                    	{% block descripcion %}
 
-            <div class="clearfix"></div>
+	                    	{% endblock %}
+	                    	{% block acciones %}
 
-            {% block navegacion_Y_body %}
-                <div class="row" style="margin-top:20px;">
-                    <div class="col-md-2 col-xs-12">
-                        {% block navegacion %}
-                            {% include ':layout:menu.html.twig' %}
-                        {% endblock %}
-                    </div>
-                      <div class="col-md-10 col-xs-12">
-                        {% block contenido %}
-                        {% endblock contenido %}
-                    </div>
-                </div>
-            {% endblock %}  
+	                    	{% endblock acciones %}
+	                    	</div>
+	                	</div>
+	          {% endblock %}  
+	          <div class="clearfix"></div>
+	          {% block navegacion_Y_body %}
+	            	<div class="row" style="margin-top:20px;">
+		                   	<div class="col-md-2 col-xs-12">
+		                   		{% block navegacion %}
+		                   			{% include ':layout:menu.html.twig' %}
+						{% endblock %}
+		                   	</div>
+			          <div class="col-md-10 col-xs-12">
+		                   		{% block contenido %}
+					{% endblock contenido %}
+	            		</div>
+	                	</div>
+	            {% endblock %}  
 	</div>
-    {% endblock %}
-    {% block js_template %}
+ 
+{% endblock %}
+{% block js_template %}
 	<script type="text/javascript" src="{{ asset('Resources/jquery/jquery310.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/angular/angular158.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('Resources/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -75,123 +79,124 @@
 	<link rel="icon" href="{{ asset('Resources/src/img/favicon.png')}}" type="image/x-icon">	
 
 	<script type="text/javascript">
-                $( document ).ready(function() {
+                        $( document ).ready(function() {
 
-                    $(function () {
-                        $('[data-toggle="tooltip"]').tooltip();
-                    });
+    				$(function () {
+          				$('[data-toggle="tooltip"]').tooltip();
+        				});
+    
 
 
-                    $(document).on('change','#busquedaRapida',function(){
-                        var expediente = $(this).val();
-                        var url = "{{path('admin_campaigntypes_save_ajax')}}"+"?id="+expediente;
-                        console.log(url);
-                        window.location=url;
-                    });
+                            $(document).on('change','#busquedaRapida',function(){
+                                var expediente = $(this).val();
+                                var url = "{{path('admin_campaigntypes_save_ajax')}}"+"?id="+expediente;
+                                console.log(url);
+                                window.location=url;
+                            });
 
-                    var busqueda = $('#busquedaRapida').select2({
+                            var busqueda = $('#busquedaRapida').select2({
+                                    
+                                    ajax: {
+                                        url: "{{path('admin_campaigntypes_save_ajax')}}",
+                                        dataType: 'json',
+                                        delay: 250,
+                                        data: function (params) {
+                                            return {
+                                              q: params.term, 
+                                              page: params.page
+                                            };
+                                        },
+                                        processResults: function (data, params) {
+                                            var select2Data = $.map(data.data, function (obj) {
+                                                obj.id = obj.numero;
+                                                obj.text = obj.numero+" "+obj.nombres+" "+obj.apellidos;
 
-                            ajax: {
-                                url: "{{path('admin_campaigntypes_save_ajax')}}",
-                                dataType: 'json',
-                                delay: 250,
-                                data: function (params) {
-                                    return {
-                                      q: params.term, 
-                                      page: params.page
-                                    };
-                                },
-                                processResults: function (data, params) {
-                                    var select2Data = $.map(data.data, function (obj) {
-                                        obj.id = obj.numero;
-                                        obj.text = obj.numero+" "+obj.nombres+" "+obj.apellidos;
+                                                return obj;
+                                            });
 
-                                        return obj;
-                                    });
+                                            return {
+                                                results: select2Data
+                                                {#pagination: {
+                                                    more: (params.page * 30) < data.total_count
+                                                }#}
+                                            };
+                                        },
+                                        cache: true
+                                    },
+                                    escapeMarkup: function (markup) { return markup; }, 
+                                    minimumInputLength: 1,
+                                    templateResult: formatRepo, 
+                                    templateSelection: formatRepoSelection 
+                                });
 
-                                    return {
-                                        results: select2Data
-                                        {#pagination: {
-                                            more: (params.page * 30) < data.total_count
-                                        }#}
-                                    };
-                                },
-                                cache: true
-                            },
-                            escapeMarkup: function (markup) { return markup; }, 
-                            minimumInputLength: 1,
-                            templateResult: formatRepo, 
-                            templateSelection: formatRepoSelection 
+                            
+                            function formatRepo (data) {
+                                if(data.numero){
+                                    var markup = "<div class='select2-result-repository clearfix'>" +
+                                                 "<div class='select2-result-repository__meta'>" +
+                                                 "<div class='select2-result-repository__title'>" + data.numero+" | "+data.nombres+" "+data.apellidos+"</div>" +
+                                                 "</div></div>";
+                                } else {
+                                    var markup = "{{select2Label}}";
+                                }
+
+
+                                
+
+                                return markup;
+                            }
+
+                            function formatRepoSelection (data) {
+                                if(data.numero){
+                                    return data.numero+" | "+data.nombres+" "+data.apellidos;
+                                } else {
+                                    return "{{select2Label}}"; 
+                                }    
+                            }
+                            
+                            shortcut.add("Ctrl+g",function() {
+                                {#busqueda.click();
+                                console.log('click');#}
+                                $("#busquedaRapida").select2('destroy');
+                                var busqueda = $('#busquedaRapida').select2({
+                                    
+                                    ajax: {
+                                        url: "{{path('admin_campaigntypes_save_ajax')}}",
+                                        dataType: 'json',
+                                        delay: 250,
+                                        data: function (params) {
+                                            return {
+                                              q: params.term, 
+                                              page: params.page
+                                            };
+                                        },
+                                        processResults: function (data, params) {
+                                            var select2Data = $.map(data.data, function (obj) {
+                                                obj.id = obj.numero;
+                                                obj.text = obj.numero+" "+obj.nombres+" "+obj.apellidos;
+
+                                                return obj;
+                                            });
+
+                                            return {
+                                                results: select2Data
+                                                {#pagination: {
+                                                    more: (params.page * 30) < data.total_count
+                                                }#}
+                                            };
+                                        },
+                                        cache: true
+                                    },
+                                    escapeMarkup: function (markup) { return markup; }, 
+                                    minimumInputLength: 1,
+                                    templateResult: formatRepo, 
+                                    templateSelection: formatRepoSelection 
+                                });
+                                $("#busquedaRapida").select2('open');
+                            });
+                            
                         });
-
-
-                    function formatRepo (data) {
-                        if(data.numero){
-                            var markup = "<div class='select2-result-repository clearfix'>" +
-                                         "<div class='select2-result-repository__meta'>" +
-                                         "<div class='select2-result-repository__title'>" + data.numero+" | "+data.nombres+" "+data.apellidos+"</div>" +
-                                         "</div></div>";
-                        } else {
-                            var markup = "{{select2Label}}";
-                        }
-
-
-
-
-                        return markup;
-                    }
-
-                    function formatRepoSelection (data) {
-                        if(data.numero){
-                            return data.numero+" | "+data.nombres+" "+data.apellidos;
-                        } else {
-                            return "{{select2Label}}"; 
-                        }    
-                    }
-
-                    shortcut.add("Ctrl+g",function() {
-                        {#busqueda.click();
-                        console.log('click');#}
-                        $("#busquedaRapida").select2('destroy');
-                        var busqueda = $('#busquedaRapida').select2({
-
-                            ajax: {
-                                url: "{{path('admin_campaigntypes_save_ajax')}}",
-                                dataType: 'json',
-                                delay: 250,
-                                data: function (params) {
-                                    return {
-                                      q: params.term, 
-                                      page: params.page
-                                    };
-                                },
-                                processResults: function (data, params) {
-                                    var select2Data = $.map(data.data, function (obj) {
-                                        obj.id = obj.numero;
-                                        obj.text = obj.numero+" "+obj.nombres+" "+obj.apellidos;
-
-                                        return obj;
-                                    });
-
-                                    return {
-                                        results: select2Data
-                                        {#pagination: {
-                                            more: (params.page * 30) < data.total_count
-                                        }#}
-                                    };
-                                },
-                                cache: true
-                            },
-                            escapeMarkup: function (markup) { return markup; }, 
-                            minimumInputLength: 1,
-                            templateResult: formatRepo, 
-                            templateSelection: formatRepoSelection 
-                        });
-                        $("#busquedaRapida").select2('open');
-                    });
-
-                });
-            </script>
+                </script>
 
 
 	{% block js_extend %}
@@ -199,7 +204,7 @@
 	
 	{% block javascripts_step %}
 	{% endblock %}
-    {% endblock %}
+{% endblock %}
  
 
     </body>
