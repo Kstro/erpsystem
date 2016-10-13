@@ -138,6 +138,18 @@ twig:
         calendarIcon: '%app.calendarIcon%'
         settingsIcon: '%app.settingsIcon%'
         reportsIcon: '%app.reportsIcon%'
+        
+        #Wizard de configuracion inicial
+        tituloWizard: '%app.tituloWizard%'
+        encabezadoWizard: '%app.encabezadoWizard%'
+        step1Wizard: '%app.step1Wizard%'
+        step2Wizard: '%app.step2Wizard%'
+        step3Wizard: '%app.step3Wizard%'
+        step4Wizard: '%app.step4Wizard%'
+        btnSaveandContWizard: '%app.btnSaveandContWizard%'
+        btnPreviousWizard: '%app.btnPreviousWizard%'
+        btnSkipWizard: '%app.btnSkipWizard%'
+        btnCompletedWizard: '%app.btnCompletedWizard%'
 
         #Encabezados panel
         pnHeadingLabelAdd: '%app.pnHeadingLabelAdd%'

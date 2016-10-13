@@ -1,0 +1,162 @@
+{% extends ':layout:layouterp.html.twig' %}
+
+{% block title -%}<title>{{tituloWizard}}</title>{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/wizard.css') }}">
+{% endblock %}
+
+{% block body %}
+    {% include ':layout:nav.html.twig' %}
+    
+    <div class="container">
+        {% block descripcion_y_acciones %}
+            <div class="row">
+                {% block descripcion %}{% endblock %}
+                {% block acciones %}{% endblock acciones %}
+            </div>	                	
+        {% endblock %}  
+        <div style="margin-bottom: 35px;">      
+            <p class="robo" style="font-size: 35px; font-weight: 300; font-family: 'Roboto', sans-serif; margin-bottom: 0px;">{{encabezadoWizard}}</p>
+        </div>
+        
+        <div class="clearfix"></div>
+        <div class="row">
+            <section>
+            <div class="wizard">
+                <div class="wizard-inner">
+                    <div class="connecting-line"></div>
+                    <ul class="nav nav-tabs" role="tablist">
+
+                        <li role="presentation" class="active">
+                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-folder-open"></i>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li role="presentation" class="disabled">
+                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="disabled">
+                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-picture"></i>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li role="presentation" class="disabled">
+                            <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                <span class="round-tab">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <form role="form">
+                    <div class="tab-content">
+                        <div class="tab-pane active" role="tabpanel" id="step1">
+                            <div class="step1" style="padding: 5px;">
+                                <div id="step-1" class="panel panel-default">
+                                    <div class="panel-heading"><div class="">Step 1</div></div>
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label">First Name</label>
+                                                <input  maxlength="100" type="text" required="required" class="form-control" placeholder="Enter First Name"  />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Last Name</label>
+                                                <input maxlength="100" type="text" required="required" class="form-control" placeholder="Enter Last Name" />
+                                            </div>
+                                            <ul class="list-inline pull-right">
+                                                <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="step2">
+                            <div class="step2" style="padding: 5px;">
+                                <div id="step-2" class="panel panel-default">
+                                    <div class="panel-heading"><div class="">Step 2</div></div>
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Company Name</label>
+                                                <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Name" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Company Address</label>
+                                                <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Address"  />
+                                            </div>
+                                            <ul class="list-inline pull-right">
+                                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                                <li><button type="button" class="btn btn-primary next-step">Save and continue</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="step3">
+                            <div class="step3" style="padding: 5px;">
+                                <div id="step-3" class="panel panel-default">
+                                    <div class="panel-heading"><div class="">Step 3</div></div>
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Company Name</label>
+                                                <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Name" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Company Address</label>
+                                                <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Address"  />
+                                            </div>
+                                            <ul class="list-inline pull-right">
+                                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                                <li><button type="button" class="btn btn-default next-step">Skip</button></li>
+                                                <li><button type="button" class="btn btn-primary btn-info-full next-step">Save and continue</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="complete">
+                            <div class="step44" style="padding: 5px;">
+                                <div id="step4" class="panel panel-default">
+                                    <div class="panel-heading"><div class="">Completed</div></div>
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <h3> Completed</h3>
+                                            <ul class="list-inline pull-right">
+                                                <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                                                <li><button type="button" class="btn btn-success btn-info-full next-step">Finish</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>                    
+                </form>
+            </div> 
+        </section>
+    </div>
+{% endblock %}   
+
+{% block js_extend %}
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/wizard/wizard.js') }}"></script> 
+    <script type="text/javascript" src="{{ asset('Resources/animations/wizard/wizard.js') }}"></script> 
+{% endblock %}   

@@ -36,6 +36,13 @@ class CtlEmpresa
     private $fechaRegistro;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="wizard", type="boolean", nullable=true)
+     */
+    private $wizard;
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="estado", type="integer", nullable=false)
@@ -111,6 +118,29 @@ class CtlEmpresa
     }
 
     /**
+     * Set wizard
+     *
+     * @param boolean $wizard
+     * @return CtlEmpresa
+     */
+    public function setWizard($wizard)
+    {
+        $this->wizard = $wizard;
+
+        return $this;
+    }
+
+    /**
+     * Get wizard
+     *
+     * @return boolean 
+     */
+    public function getWizard()
+    {
+        return $this->wizard;
+    }
+    
+    /**
      * Set estado
      *
      * @param integer $estado
@@ -132,7 +162,7 @@ class CtlEmpresa
     {
         return $this->estado;
     }
-
+        
     /**
      * Set industria
      *
