@@ -1,0 +1,136 @@
+<div class="col-md-12 col-xs-12">
+            <div id="pnAdd" class="panel panel-default" style="display:none;">
+                    <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+                    <div class="panel-body">
+                        <form id="frmProvider"  method="post" enctype="multipart/form-data">
+                        <div class="col-md-2">
+                            <label>{{tratoAccount}}</label>
+                            <select style="margin-top:45px !important;" id="dpbTitulo" type="text" name="titulo" class="input-sm form-control validateSelect">
+                                {% for item in items %}
+                                    <option value="{{item.id}}">{{item.abreviatura}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label>{{nombreAccount}}</label>
+                            <label class="hidden requiredFields">{{requiredFields}}</label>
+                            <label class="hidden emailFields">{{emailFields}}</label>
+                            <input id="txtId1" type="hidden" name="id1" class="input-sm form-control">
+                            <input id="txtId2" type="hidden" name="id2" class="input-sm form-control">
+                            <input id="txtTipoAccount" type="hidden" name="tipoAccount" class="input-sm form-control" value="{{opcion}}">
+                            <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="col-md-5">
+                            <label>{{apellidoAccount}}</label>
+                            <input id="txtApellido" type="text" name="apellido" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="clearfix"></div> 
+                        <div class="col-md-7" style="margin-top:20px;">
+                            <label>{{companiaNombreAccount}}</label>
+                            <input id="txtCompania" type="text" name="compania" class="input-sm form-control validateInput">
+                        </div>
+                        {# <div class="col-md-5" style="margin-top:20px;">
+                            <label>{{tipoAccount}}</label>
+                            <input id="txtCompania" type="text" name="compania" class="input-sm form-control validateInput">
+                        </div> #}
+                        <div class="clearfix"></div> 
+                        <div class="col-md-7 address" style="margin-top:20px;">
+                            <label>{{direccionAccount}}</label>
+                            <input type="text" name="address[]" class="input-sm form-control validateInput txtAddress txtAddressFirst">
+                        </div>
+                        <div class="col-md-2 state" style="margin-top:20px;">
+                            <label>{{departamentoAccount}}</label>
+                            {# <input type="text" name="" class="input-sm form-control validateInput txtState"> #}
+                            <select style="width:100%;" id name="addressDepartamento[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
+                                    {% for estado in estados %}
+                                        <option value={{estado.id}}>{{estado.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 city" style="margin-top:20px;">
+                            <label>{{ciudadAccount}}</label>
+                            <select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
+                                {% for ciudad in ciudades %}
+                                    <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-1 addAddress" style="margin-top:20px;">
+                            <button id="plusAddress" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-2 phonesType" style="margin-top:20px;">
+                            <label>{{phoneAccount}}</label>
+                            <select style="margin-top:25px; width:100%;" type="text" name="phoneType[]" class="input-sm form-control validateInput dpbTipoPhone firstPhoneType">
+                                {% for tipo in tiposTelefono %}
+                                        <option value={{tipo.id}}>{{tipo.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 phonesText" style="margin-top:20px;">
+                            <input style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone firstPhoneTxt">
+                        </div>
+                        <div class="col-md-2 phonesExtension" style="margin-top:20px;">
+                            <label>{{extensionAccount}}</label>
+                            <input type="text" name="phoneExt[]" class="input-sm form-control  txtExtension firstPhoneExtension">
+                        </div>
+                        <div class="col-md-1 addPhone" style="margin-top:20px;">
+                            <button id="plusPhone" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <div class="col-md-4 emailText" style="margin-top:20px;">
+                            <label>{{emailAccount}}</label>
+                            <input type="text" name="email[]" class="input-sm form-control  txtEmail txtEmailFirst validateInput validateInputEmail">
+                        </div>
+                        <div class="col-md-1 addEmail" style="margin-top:20px;">
+                            <button id="plusEmail" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <div class="clearfix"></div>
+                        
+                        <div class="col-md-12" style="margin-top:40px;">
+                            <label>{{fotoAccount}}</label>
+                        </div>
+                        <div class="clearfix"></div> 
+                        <div class="col-md-6" style="margin-top:20px;">
+                            
+                            <label class="hidden imageError">{{imageError}}</label>
+                            <img id="imgTest" src="http://placehold.it/250x250" style="margin-bottom:25px; width:250px; height:250px; margin:auto;">
+                            <br>
+                            <label class="btn btn-default btn-file" style="margin-top:25px;">
+                                {{inputFileLabel}} <br><input style="display:none;margin-top:25px;" type="file" name="file" id="file" class="imgProvider btn-file btn file">
+                            </label>
+                                
+                        </div>
+                        <div class="col-md-6" style="margin-top:20px;">
+                            <div class="col-md-12" style="margin-top:25px;">
+                                <div class="col-md-4">
+                                    <label >{{industriaAccount}}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select style="margin-top:25px; width:100%;" type="text" name="industria" class="input-sm form-control validateInput dpbIndustria">
+                                        {% for industria in industrias %}
+                                            <option value={{industria.id}}>{{industria.nombre}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div> 
+                            <div class="col-md-12" style="margin-top:25px;">
+                                <div class="col-md-4">
+                                    <label >{{sitioWebAccount}}</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" name="website" class="input-sm form-control txtWebsite">
+                                </div>
+                            </div>                               
+                        </div>
+                            <div class="clearfix"></div> 
+                            <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                                <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
+                                <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                            </div>
+                        </div>
+                        </form>
+                    {# <div class="panel-footer">Panel Footer</div> #}
+            </div>
+</div>

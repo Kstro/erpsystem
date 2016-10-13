@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new ERP\CRMBundle\ERPCRMBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Djamy\GoogleCalendarBundle\DjamyGoogleCalendarBundle(),
+            new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

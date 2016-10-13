@@ -1,5 +1,6 @@
 <div class="col-md-12 col-xs-12">
-            <div id="pnAdd" class="panel panel-default" style="display:none;">
+            <div id="pnAdd" style="display:none;">
+                <div class="panel panel-default">
                     <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
                     <div class="panel-body">
                         <form id="frmProvider"  method="post" enctype="multipart/form-data">
@@ -14,8 +15,11 @@
                         <div class="col-md-5">
                             <label>{{nombreProveedor}}</label>
                             <label class="hidden requiredFields">{{requiredFields}}</label>
+                            <label class="hidden emailFields">{{emailFields}}</label>
                             <input id="txtId1" type="hidden" name="id1" class="input-sm form-control">
                             <input id="txtId2" type="hidden" name="id2" class="input-sm form-control">
+                            <input id="iteracion" type="hidden" name="iteracion" class="input-sm form-control">
+                            <input id="primeraFecha" type="hidden" name="iteracion" class="input-sm form-control">
                             <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
                         </div>
                         <div class="col-md-5">
@@ -74,7 +78,7 @@
                         </div>
                         <div class="col-md-4 emailText" style="margin-top:20px;">
                             <label>{{emailProveedor}}</label>
-                            <input type="text" name="email[]" class="input-sm form-control  txtEmail txtEmailFirst validateInput">
+                            <input type="text" name="email[]" class="input-sm form-control  txtEmail txtEmailFirst validateInput validateInputEmail">
                         </div>
                         <div class="col-md-1 addEmail" style="margin-top:20px;">
                             <button id="plusEmail" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
@@ -136,8 +140,58 @@
                                 <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
                                 <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
                             </div>
-                        </div>
                         </form>
+                        </div>
+                        
                     {# <div class="panel-footer">Panel Footer</div> #}
-            </div>
+
+                </div>
+                  <div class="clearfix"></div>
+                <div class="panel panel-default" id="comentarios">
+                    <div class="panel-heading">
+                        <div class="pnHeadingLabelComment">{{pnHeadingLabelComment}}</div>
+                        
+                        
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12 col-xs-12">
+                            <textarea id="txtAddComment" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 col-xs-12" style="margin-top:10px;">
+                            <button class="btnAddComment btn-primary btn btn-xs pull-right">{{add}}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-md-12 col-xs-12">
+
+
+
+
+
+
+    {# <div class="page-header">
+        <h1 id="">Timeline</h1>
+    </div> #}
+
+
+
+    
+    <div class="qa-message-list" id="wallmessages">
+            
+    </div>
 </div>
+        <div class="clearfix"></div>
+            <div class="col-md-12 col-xs-12 text-center" style="margin:20px 0;">
+                <button id="btnLoadMore" class="btn btn-default pull-center">Load more</button>
+            </div>
+        </div>
+</div>
+
+
+
+
+

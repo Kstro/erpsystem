@@ -1,0 +1,107 @@
+{# {% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CrmCampania creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_campaigns_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
+ #}
+ <div class="col-md-12 col-xs-12">
+            <div id="pnAdd" class="panel panel-default" style="display:none;">
+                    <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+                    <div class="panel-body">
+                        <form id="frmCampaigns"  method="post" enctype="multipart/form-data">
+                            <div class="col-md-6">
+                                <label>{{nameCampaniaReg}}</label>
+                                <label class="hidden requiredFields">{{requiredFields}}</label>
+                                <input id="txtId" type="hidden" name="txtId" class="input-sm form-control">
+                                <input id="txtName" type="text" name="txtName" class="input-sm form-control validateInput">
+                            </div>
+                            <div class="col-md-6">
+                                <label>{{tipoCampaniaReg}}</label>
+                                <select style="width:100%;" name="tipoCampania" id="tipoCampania" class="">
+                                    {% for campania in campanias %}
+                                        <option value="{{campania.id}}">{{campania.nombre}}</option>    
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-6" style="margin-top:20px;">
+                                <label>{{responsableCampaniaReg}}</label>
+                                <select style="width:100%;" name="responsableCampania[]" id="responsableCampania" class="dpbFirstResponsable">
+                                    {# <option value="0"></option> #}
+                                    {% for persona in personas %}
+                                        <option value="{{persona.persona.id}}">{{persona.persona.nombre}} {{persona.persona.apellido}}</option>    
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6" style="margin-top:20px;">
+                                <label>{{estadoCampaniaReg}}</label>
+                                <select style="width:100%;" name="estadoCampania" id="estadoCampania" class="">
+                                    {# <option value="1">Planning</option>
+                                    <option value="2">Active</option>
+                                    <option value="3">Inactive</option>
+                                    <option value="4">Completed</option> #}
+                                    <option value="Planning">Planning</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-6" style="margin-top:20px;">
+                                <label>{{fechaInicioCampaniaReg}}</label>
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <input id="txtFechaInicio" type="text" readonly name="inicioCampania" class="input-sm form-control validateInput input-group date">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="margin-top:20px;">
+                                <label>{{fechaFinCampaniaReg}}</label>
+
+                                <div class='input-group date' id='datetimepicker2'>
+                                    <input id="txtFechaFin" type="text" readonly name="finCampania" class="input-sm form-control validateInput input-group date">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-12" style="margin-top:20px;">
+                                <label>{{descripcionFormCampaniaReg}}</label>
+                                <textarea id="txtDescripcion" type="text" name="descripcionCampania" class="input-sm form-control"></textarea>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-5 responsable" style="margin-top:20px;">
+                                <label>{{responsableTareas}}</label>
+                                <select style="margin-top:25px; width:100%;" type="text" name="responsable[]" class="input-sm form-control validateInput dpbResponsable firstResponsable">
+                                    {% for persona in personas %}
+                                            <option value={{persona.id}}>{{persona.persona.nombre}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-1 addPersona" style="margin-top:20px;">
+                                <button id="plusPersona" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="col-md-12 pull-right text-right" style="margin-top:20px;">
+                                <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
+                                <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+</div>

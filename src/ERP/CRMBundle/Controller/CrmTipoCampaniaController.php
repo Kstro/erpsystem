@@ -14,7 +14,7 @@ use ERP\CRMBundle\Form\CrmTipoCampaniaType;
 /**
  * CrmTipoCampania controller.
  *
- * @Route("/admin/campaigns")
+ * @Route("/admin/type-campaigns")
  */
 class CrmTipoCampaniaController extends Controller
 {

@@ -1,10 +1,10 @@
-/////Show forms panel
+/*/////Show forms panel*/
 
 $(document).on('click', '.btnAdd', function(event) {
-	//console.log('add');
+	/*//console.log('add');*/
 	var id = $('#txtId').val();
 	var probability=$('#txtProbability');
-	//Cambiar nombre del panel heading para add (Inserción)
+	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');
 	$('.pnHeadingLabelEdit').addClass('hidden');
 	if (id!='') {
@@ -20,9 +20,9 @@ $(document).on('click', '.btnAdd', function(event) {
 	$('#txtName').focus();
 });
 
-/////Fin show forms panel
+/*/////Fin show forms panel*/
 
-/////Hide forms panel
+/*/////Hide forms panel*/
 
 $(document).on('input', 'div.dataTables_filter input', function(event) {
 	var probability=$('#txtProbability');
@@ -47,4 +47,4 @@ $(document).on('click', '#saleStageList>thead>tr>th:nth-child(2),#saleStageList>
 });
 
 
-/////Fin hide forms panel
+/*/////Fin hide forms panel*/

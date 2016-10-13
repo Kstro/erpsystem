@@ -10,7 +10,8 @@ $(document).ready(function() {
         var id=$('#txtId');
         var name=$('#txtName');
         var table = $('#PriorityList').DataTable();
-        var errores = 0; //Contador de errores, para antes de la persistencia
+        var errores = 0;
+/*        //Contador de errores, para antes de la persistencia*/
 
         $('.validateInput').each(function() {
             console.log($(this).val());
@@ -66,14 +67,14 @@ $(document).ready(function() {
        
     });     
     
-    /////Persist datatable (Edit method)
+    /*/////Persist datatable (Edit method)*/
     $(document).on('click', '#PriorityList>tbody>tr>td:nth-child(2)', function(event) {
-        /////Definición de variables
+        /*/////Definición de variables*/
         var text = $(this).prop('tagName');
         var id=$(this).parent().children().first().children().attr('id');
         var idForm=$('#txtId').val();
         
-        //Cambiar nombre del panel heading para Modify
+        /*//Cambiar nombre del panel heading para Modify*/
         $('.pnHeadingLabelAdd').addClass('hidden');
         $('.pnHeadingLabelEdit').removeClass('hidden');
         
@@ -105,7 +106,7 @@ $(document).ready(function() {
 
         }					
     });
-    /////Fin definición persist data (Edit method)
+    /*/////Fin definición persist data (Edit method)*/
     
     $(document).on('click', '.chkItem', function(event) {
         var contador = 0;
@@ -144,7 +145,7 @@ $(document).ready(function() {
         }
     });
     
-    /////Persist datatable (Delete method)
+    /*/////Persist datatable (Delete method)*/
     $(document).on('click', '.btDelete', function(event) {
         var btn = $(this).button('loading');
         
@@ -158,7 +159,7 @@ $(document).ready(function() {
         }).then(function(isConfirm) {
             if (isConfirm) {
                 console.log('if');
-                /////Definición de variables
+                /*/////Definición de variables*/
                 var id=$(this).children().first().children().attr('id');
                 var ids=[];
                 var table = $('#PriorityList').DataTable();
@@ -203,5 +204,5 @@ $(document).ready(function() {
             }
         });
     });
-    /////Fin definición persist data (Delete method)
+    /*/////Fin definición persist data (Delete method)*/
 });

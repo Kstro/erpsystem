@@ -4,9 +4,9 @@ $(document).ready(function() {
 	$("#txtId").val('');
 	
 	var numAddress = 0;
-	/////Persist datatable (Save method)
+	/*/////Persist datatable (Save method)*/
 	
-	// console.log(filesSelectedPrev[0]);
+	/*// console.log(filesSelectedPrev[0]);*/
 	
 	$(document).on('click', '#btnSaveTop', function(event) {
 		$('#frmTasks').submit();
@@ -14,89 +14,218 @@ $(document).ready(function() {
 
 	
 	$('#frmTasks').on('submit',(function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		event.preventDefault();
 		var $btn = $('#btnSave').button('loading');
-  		var errores = 0;//Contador de errores, para antes de la persistencia
+		var $btn1 = $('#btnSaveTop').button('loading');
+  		var errores = 0;
+  		/*//Contador de errores, para antes de la persistencia*/
+  		var idUser=[];
+  		var textFechaInicio= $('#txtFechaInicio').val();
+  		var textFechaFin=$('#txtFechaFin').val();
+  		var idAct=$('#txtId').val();
 		$('.validateInput').each(function() {
 		 	if (!required($(this))) {
 		 		$(this).addClass('errorform');
 		 		errores++;
 		 	}
 		});
-		if (errores==0) {
-			$.ajax({
-				url: Routing.generate('admin_tasks_save_ajax'), // Url to which the request is send
-				type: "POST",             // Type of request to be send, called as method
-				data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-				contentType: false,       // The content type used when sending data to the server.
-				cache: false,             // To unable request pages to be cached
-				processData:false,        // To send DOMDocument or non processed data file it is set to false
-				success: function(data)   // A function to be called if request succeeds
-				{
-					//$('#loading').hide();
-					// $("#message").html(data);
-					$("#txtId").val(data.id);
-					if(data.msg){
-						swal('',data.msg,'success');
-						var table = $('#tasksList').DataTable();
-						//id.val(data.id1);
-						// $('#txtId').val('');
-						// $('#txtName').val('');
-						// $('#txtProbability').val('10');
-						// probability.slider('setValue', 10);
-						$('.btnAddPage').click();
-						$btn.button('reset');
-						$('.btnAddPage').removeClass('hidden');
-							
 
+		$('.validateSelect').each(function() {
+		 	if (!required($(this))) {
+		 		$(this).next().children().children().addClass('errorform');
+		 		errores++;
+		 	}
+		});
+
+		var dataForm = new FormData(this);
+
+		if (errores==0) {
+
+			$('.dpbResponsable').each(function() {
+			 	id = $(this).val();
+			 	idUser.push(id);
+			});
+			console.log(idUser);
+
+			$.ajax({
+				url: Routing.generate('admin_check_availability_user_ajax'),
+				type: 'POST',
+				data: {param0: idAct,param1: idUser,param2:textFechaInicio,param3:textFechaFin},
+				success: function(data)   
+				{
+					if(data.conflict){
+						console.log(data.conflict);
+						var cancelLabel = $('#cancelLabel').html();
+						var cancelButtonText = $('#cancelButtonText').html();
+						/*// var removeButton = $('#removeButton').html();*/
+						var alternateconfirmButtonText = $('#alternateconfirmButtonText').html();
+						$btn.button('reset');
+						$btn1.button('reset');
+						swal({
+				                        title: "",
+				                        text: data.conflict,
+				                        type: "info",
+				                        showCancelButton: true,
+				                        confirmButtonText: alternateconfirmButtonText,
+				                        cancelButtonText: cancelButtonText,
+				                        reverseButtons: true,
+				                        showLoaderOnConfirm: true,
+				                        preConfirm: function(email) {
+						    return new Promise(function(resolve, reject) {
+								$.ajax({
+									url: Routing.generate('admin_tasks_save_ajax'),
+									type: "POST",       
+									data: dataForm,
+									contentType: false,    
+									cache: false,         
+									processData:false,    
+									success: function(data)
+									{
+										/*//$('#loading').hide();*/
+										/*// $("#message").html(data);*/
+										$("#txtId").val(data.id);
+										if(data.msg){
+											swal('',data.msg,'success');
+											var table = $('#tasksList').DataTable();
+											/*//id.val(data.id1);*/
+											/*// $('#txtId').val('');*/
+											/*// $('#txtName').val('');*/
+											/*// $('#txtProbability').val('10');*/
+											/*// probability.slider('setValue', 10);*/
+											$('.btnAddPage').click();
+											
+											$('.btnAddPage').removeClass('hidden');
+											table.ajax.reload();		
+											/*// $("#calendar").fullCalendar('rerenderEvents');*/
+											/*// console.log('sdcscds'+$('#calendar').length);*/
+										}
+										if(data.error){
+											/*// console.log(data.id);*/
+											swal('',data.error,'error');	
+										}
+										$btn.button('reset');
+										$btn1.button('reset');
+										if ($('#calendar').length!=0) {
+											$("#calendar").fullCalendar('refetchEvents');	
+										}
+										/*// console.log('updata table');*/
+										/*// console.log(table);*/
+									},
+									error:function(data) {
+										/* Act on the event */
+										$btn.button('reset');
+										$btn1.button('reset');
+									}
+								});
+						    });
+						  },
+						  allowOutsideClick: false
+						}).then(function(email) {
+						  /*// swal({*/
+						  /*//   type: 'success',*/
+						  /*//   title: 'Ajax request finished!',*/
+						  /*//   html: 'Submitted email: ' + email*/
+						  /*// });*/
+						 /*//  	$btn.button('reset');*/
+							/*// $btn1.button('reset');*/
+						});
+					}/*/////if conflict*/
+					else{
+						if (data.msga=='') {
+							$.ajax({
+								url: Routing.generate('admin_tasks_save_ajax'), 
+								type: "POST",          
+								data: dataForm, 
+								contentType: false,     
+								cache: false,         
+								processData:false,      
+								success: function(data)  
+								{
+									/*//$('#loading').hide();*/
+									/*// $("#message").html(data);*/
+									$("#txtId").val(data.id);
+									if(data.msg){
+										swal('',data.msg,'success');
+										var table = $('#tasksList').DataTable();
+										/*//id.val(data.id1);*/
+										/*// $('#txtId').val('');*/
+										/*// $('#txtName').val('');*/
+										/*// $('#txtProbability').val('10');*/
+										/*// probability.slider('setValue', 10);*/
+										$('.btnAddPage').click();
+										
+										$('.btnAddPage').removeClass('hidden');
+										table.ajax.reload();
+										/*//$("#calendar").fullCalendar('rerenderEvents');*/
+										$("#calendar").fullCalendar('refetchEvents');		
+
+									}
+									if(data.error){
+										/*// console.log(data.id);*/
+										swal('',data.error,'error');
+										
+									}
+									
+									$btn.button('reset');
+									$btn1.button('reset');
+									/*// console.log('updata table');*/
+									/*// console.log(table);*/
+								},
+								error:function(data) {
+									/* Act on the event */
+									$btn.button('reset');
+									$btn1.button('reset');
+								}
+							});
+						}
 					}
 					if(data.error){
-						// console.log(data.id);
+						/*// console.log(data.id);*/
 						swal('',data.error,'error');
-						$btn.button('reset');
+						
 					}
-					//table.ajax.reload();
-					$btn.button('reset');
-					// console.log('updata table');
-					// console.log(table);
+					/*// console.log('updata table');*/
+					/*// console.log(table);*/
 				},
 				error:function(data) {
 					/* Act on the event */
 					$btn.button('reset');
+					$btn1.button('reset');
 				}
 			});
+			/*// return false;*/
 		}
 		else {
 			var requiredFields = $('.requiredFields').html();
 			swal('',requiredFields,'error');
 			$btn.button('reset');
+			$btn1.button('reset');
 		}
 		event.preventDefault();
 		return false;
 	}));
-	/////Fin definición persist data (Save method)
+	/*/////Fin definición persist data (Save method)*/
 
-
-	/////Persist datatable (Edit method)
+	/*/////Persist datatable (Edit method)*/
 	$(document).on('click', '#tasksList>tbody>tr>td:nth-child(2),#tasksList>tbody>tr>td:nth-child(3),#tasksList>tbody>tr>td:nth-child(4),#tasksList>tbody>tr>td:nth-child(5),#tasksList>tbody>tr>td:nth-child(6),#tasksList>tbody>tr>td:nth-child(7)', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
-		// console.log(text);
+		/*// console.log(text);*/
 		var id=$(this).parent().children().first().children().attr('id');
-		// console.log(id);
-		// var idArray = id.split('-');
-		// console.log(idArray);
+		/*// console.log(id);*/
+		/*// var idArray = id.split('-');*/
+		/*// console.log(idArray);*/
 		var idForm=$('#txtId1').val();
-		// var idForm=$('#txtId2').val();
+		/*// var idForm=$('#txtId2').val();*/
 		var selected = 0;
-		//Cambiar nombre del panel heading para Modify
+		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
 
-		// console.log(id);
-		// console.log(idArray[0]);
-		// console.log(idArray[1]);
+		/*// console.log(id);*/
+		/*// console.log(idArray[0]);*/
+		/*// console.log(idArray[1]);*/
 		$('.chkItem').each(function() {
 			if ($(this).is(':checked')) {
 				selected++;
@@ -108,28 +237,75 @@ $(document).ready(function() {
 				type: 'POST',
 				data: {param1: id},
 				success:function(data){
+
 					if(data.error){
 						swal('',data.error,'error');
 						id.val(data.id);
 					}
 					else{
-						if (data.estado!=1) {//Finalizado 1 por defecto en la base
-							// console.log(data);
+						if (data.cuentaId!=0) {
+							console.log('if');
+							/*// $('#cuentaActividades').select2('destroy');*/
+							/*// $('#cuentaActividades').val(data.cuentaId).trigger('change');	*/
+							$('#cuentaActividades').html('<option value='+data.cuentaId+'>'+data.cuentaNombre+'</option>');
+							/*// $('#cuentaActividades').select2({
+						 //                 ajax: {
+						 //                        url: Routing.generate('busqueda_cuenta_select_info'),
+						 //                        dataType: 'json',
+						 //                        delay: 250,
+						 //                        data: function (params) {
+						 //                          return {
+						 //                            q: params.term, // search term
+						 //                            page: params.page
+						 //                          };
+						 //                        },
+						 //                        processResults: function (data, params) {
+						 //                                            var select2Data = $.map(data.data, function (obj) {
+						 //                                                obj.id = obj.id;
+						 //                                                obj.text = obj.nombre;
+
+						 //                                                return obj;
+						 //                                            });
+
+						 //                                            return {
+						 //                                                results: select2Data
+						                                                
+						 //                                            };
+						 //                                        },
+						 //                        cache: true
+						 //                      },
+						 //                      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+						 //                      minimumInputLength: 1,
+						 //                      templateResult: formatRepo, // omitted for brevity, see the source of this page
+						 //                      // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+						 //                    });*/
+						}
+						else{
+							console.log('else');
+							$('#cuentaActividades').html('<option value="0"></option>');
+						}
+
+						
+						if (data.estado!=0) {
+						/*//Cancelado 3 por defecto en la base
+							// console.log(data);*/
 							$('#txtId').val(data.id);
 							$('#txtName').val(data.nombre);
 							$('#txtDescripcion').val(data.descripcion);
 							$('#txtFechaInicio').val(data.fechaInicio);
 							$('#txtFechaFin').val(data.fechaFin);
 							
+
 							
-							// console.log(data.personaArray);
+							
+							/*// console.log(data.personaArray);*/
 							var numPersonas = data.personaArray.length;
 							
 							$('#estado').val(data.estado).change().trigger("change");
-							// Direcciones
+							/*// Direcciones*/
 							for (var i = 0; i < numPersonas; i++) {
-								// console.log(i);
-								// console.log(data.addressArray[i]);
+								/*// console.log(i);*/
+								/*// console.log(data.addressArray[i]);*/
 								switch(i){
 									case 0:
 										$(".firstResponsable").val(data.personaArray[i]).trigger("change");
@@ -147,10 +323,18 @@ $(document).ready(function() {
 							
 							$('#pnAdd').show();
 							$('.btnAddPage').addClass('hidden');
-							$('#tasksList').parent().toggle();
+							$('#tasksList').parent().hide();
 							$('#btnBack').removeClass('hidden');
 							$('#btnCancelTop').removeClass('hidden');
-							$('#btnSaveTop').removeClass('hidden');
+							if (data.estado==3) {/*//Cancelado 3 por defecto en la base*/
+								$('#btnSave').addClass('hidden');
+								$('#btnSaveTop').addClass('hidden');
+							}
+							else{
+								$('#btnSave').removeClass('hidden');
+								$('#btnSaveTop').removeClass('hidden');
+							}
+							
 						} else {
 							var taskNoEdit = $('#taskNoEdit').html();
 							swal('',data.nombre+' '+taskNoEdit,'error');
@@ -159,7 +343,7 @@ $(document).ready(function() {
 				},
 				error:function(data){
 					if(data.error){
-						// console.log(data.id);
+						/*// console.log(data.id);*/
 						swal('',data.error,'error');
 					}
 				}
@@ -171,13 +355,13 @@ $(document).ready(function() {
 			}
 		}
 	});
-	/////Fin definición persist data (Edit method)
+	/*/////Fin definición persist data (Edit method)*/
 
 
-	/////Persist datatable (Delete method)
+	/*/////Persist datatable (Delete method)*/
 	$(document).on('click', '.btnDelete', function(event) {
 		var $btn = $(this).button('loading');
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		var ids=[];
 		var table = $('#tasksList').DataTable();
@@ -186,10 +370,10 @@ $(document).ready(function() {
 				ids.push($(this).parent().attr('id'));
 			}
 		});	
-		// console.log(ids);
+		/*// console.log(ids);*/
 		var cancelLabel = $('#cancelLabel').html();
 		var cancelButtonText = $('#cancelButtonText').html();
-		// var removeButton = $('#removeButton').html();
+		/*// var removeButton = $('#removeButton').html();*/
 		var alternateconfirmButtonText = $('#alternateconfirmButtonText').html();
 		
 		swal({
@@ -200,9 +384,10 @@ $(document).ready(function() {
                         confirmButtonText: alternateconfirmButtonText,
                         cancelButtonText: cancelButtonText,
                         reverseButtons: true,
-                    }).then(function(isConfirm) {
-                        if (isConfirm) {
-                            	$.ajax({
+                        showLoaderOnConfirm: true,
+                        preConfirm: function(email) {
+		    return new Promise(function(resolve, reject) {
+				$.ajax({
 					url: Routing.generate('admin_task_cancel_ajax'),
 					type: 'POST',
 					data: {param1: ids},
@@ -222,24 +407,64 @@ $(document).ready(function() {
 					},
 					error:function(data){
 						if(data.error){
-							// console.log(data.id);
+							/*// console.log(data.id);*/
 							swal('',data.error,'error');
 						}
 						$btn.button('reset');
 					}
-				});
-                            		$('.btnDelete').addClass('hidden');
-				$('.btnAddPage').removeClass('hidden');
-                        	}
-                    });
+				});      
+		    });
+		  },
+		  allowOutsideClick: false,
+		}).then(function(email) {
+		  swal({
+		    type: 'success',
+		    title: 'Ajax request finished!',
+		    html: 'Submitted email: ' + email
+		  });
+		});
+
+                   
+    /*//                 }).then(function(isConfirm) {
+    //                     if (isConfirm) {
+    //                         	$.ajax({
+				// 	url: Routing.generate('admin_task_cancel_ajax'),
+				// 	type: 'POST',
+				// 	data: {param1: ids},
+				// 	success:function(data){
+				// 		if(data.error){
+				// 			swal('',data.error,'error');
+				// 		}
+				// 		else{
+				// 			$('#txtId').val(data.id);
+				// 			$('#txtName').val(data.name);
+				// 			$('.chkItemAll').prop({'checked': false});
+				// 			$btn.button('reset');
+				// 			table.ajax.reload();
+				// 			swal('',data.msg,'success');
+				// 		}
+				// 		$('#pnAdd').slideUp();
+				// 	},
+				// 	error:function(data){
+				// 		if(data.error){
+				// 			// console.log(data.id);
+				// 			swal('',data.error,'error');
+				// 		}
+				// 		$btn.button('reset');
+				// 	}
+				// });
+    //                         		$('.btnDelete').addClass('hidden');
+				// $('.btnAddPage').removeClass('hidden');
+    //                     	}
+    //                 });*/
                 	$btn.button('reset');		
 	});
-	/////Fin definición persist data (Delete method)
+	/*/////Fin definición persist data (Delete method)*/
 
 
-	/////Select checkboxes (All)
+	/*/////Select checkboxes (All)*/
 	$(document).on('click', '.chkItemAll', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		$('#txtId').val('');
 		$('#txtName').val('');
@@ -259,21 +484,21 @@ $(document).ready(function() {
 			});
 		}			
 	});
-	/////Fin select checkboxes (All)
+	/*/////Fin select checkboxes (All)*/
 
 
-	/////Select checkboxes (Single)
+	/*/////Select checkboxes (Single)*/
 	$(document).on('click', '.chkItem', function(event) {
 
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		var total=0;
 		var selected=0;
 		$('#pnAdd').slideUp();
-		// console.log(text);
+		/*// console.log(text);*/
 		if (text=='INPUT' ) {
 			var id=$(this).parent().attr('id');
-			// var probability=$('#txtProbability');
+			/*// var probability=$('#txtProbability');*/
 			if ($(this).is(':checked')) {
 				$('.btnAddPage').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');
@@ -300,27 +525,27 @@ $(document).ready(function() {
 			$('.chkItemAll').prop({'checked': false});	
 		}
 	});
-	/////Fin select checkboxes (Single)
+	/*/////Fin select checkboxes (Single)*/
 
-	/////Contadores para agregar o eliminar personas
+	/*/////Contadores para agregar o eliminar personas*/
 	var numPersonas = 0;
 	
 	
 	$('.dpbResponsable').each(function(index, el) {
 		numPersonas++;
 	});
-	/////Fin de contadores para agregar o eliminar personas
+	/*/////Fin de contadores para agregar o eliminar personas*/
 
 
-	/////Agregar/remover personas
+	/*/////Agregar/remover personas*/
 	$(document).on('click', '#plusPersona', function(event) {
 		numPersonas++;
 		var personas = $('.firstResponsable').html();
 		var tipoRecordatorio = $('.firstTipoRecordatorio').html();
 		var tiempoRecordatorio = $('.firstTiempoRecordatorio').html();
-		// console.log(personas);
-		// console.log(tipoRecordatorio);
-		// console.log(tiempoRecordatorio);
+		/*// console.log(personas);*/
+		/*// console.log(tipoRecordatorio);*/
+		/*// console.log(tiempoRecordatorio);*/
 		$('.responsable').append('<div style="margin-top:27px;"><select id="persona-'+numPersonas+'" style="width:100%;margin-top:25px !important;" name="responsable[]" class="input-sm form-control validateInput ">'+personas+'</select></div>');
 		$('.tipoRecordatorio').append('<div style="margin-top:27px;"><select id="types-'+numPersonas+'" style="width:100%;margin-top:25px !important;" name="tipoRecordatorio[]" class="input-sm form-control validateInput ">'+tipoRecordatorio+'</select></div>');
 		$('.tiempoRecordatorio').append('<div style="margin-top:27px;"><select id="times-'+numPersonas+'" style="width:100%;margin-top:25px !important;" name="tiempoRecordatorio[]" class="input-sm form-control validateInput ">'+tiempoRecordatorio+'</select></div>');
@@ -339,7 +564,7 @@ $(document).ready(function() {
 		$(this).remove();
 		return false;
 	});
-	/////Fin de agregar/remover telefonos
+	/*/////Fin de agregar/remover telefonos*/
 
 
 });	

@@ -10,20 +10,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% endblock %}
     {% block css -%}
-        <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
+        {# <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
         <link rel="stylesheet" href="{{ asset('Resources/fullcalendar/css/fullcalendar.print.css') }}" media="print"/>
-        <link rel="stylesheet" href="{{ asset('Resources/jquery-ui/themes/base/jquery-ui.css') }}"  media="all"/>
+        <link rel="stylesheet" href="{{ asset('Resources/jquery-ui/themes/base/jquery-ui.css') }}"  media="all"/> #}
+        <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" />
         {#<link rel="stylesheet" href="{{ asset('Resources/bootstrap-3/css/bootstrap.css') }}"  media="all"/>#}
     {%- endblock %}
     {% block js -%}
-        <script type="text/javascript" src="{{ asset('Resources/bootstrap-3/js/jquery.min.js') }}"></script>  
+        {#<script type="text/javascript" src="{{ asset('Resources/bootstrap-3/js/jquery.min.js') }}"></script>  #}
         
-        {#<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script type="text/javascript" src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>        #}
+        
+        
+        <script type="text/javascript" src="{{ asset('Resources/jquery/jquery310.min.js') }}"></script>
+        
+        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script type="text/javascript" src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>        
         <script type="text/javascript" src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
-        <script src="{{ asset('bundles/adesignscalendar/js/fullcalendar/jquery.fullcalendar.min.js') }}"></script>
-        <script src="{{ asset('Resources/jquery-ui/ui/jquery-ui.js') }}"></script>
-{#        <script type="text/javascript" src="{{ asset('Resources/jquery-ui/ui/jquery-ui.js') }}"></script>#}
+        
+        
+        {#<script src="{{ asset('Resources/jquery-ui/ui/jquery-ui.js') }}"></script>#}
+        <script type="text/javascript" src="{{ asset('Resources/jquery-ui/ui/jquery-ui.js') }}"></script>
     {%- endblock %}
      
 {% endblock %}

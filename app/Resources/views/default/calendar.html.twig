@@ -1,0 +1,352 @@
+{% extends ":layout:calendar.html.twig" %} 
+
+{% block bodycontenido %}
+    <style>
+        .modal-footer{
+            border-top:none;
+        }
+        .footer{
+            background: #F5F7FA;
+        }
+    </style>
+    
+{% include 'ADesignsCalendarBundle::calendar.html.twig' %}
+{% endblock %}
+
+
+{% block jquery -%}
+<script type="text/javascript">     
+var calendario = null;
+var sucursal = $('#sucursal').val();
+//var fechaInicio = new Date();
+//var fechaFin = new Date();
+var hoyFiltro = new Date();
+///var fechaInicio= $('#fechaInicio').val();
+//var fechaFin= $('#fechaFin').val();
+                                    
+                var ddFiltro = hoyFiltro.getDate();
+                var mmFiltro = hoyFiltro.getMonth()+1; //hoy es 0!
+                var yyyyFiltro = hoyFiltro.getFullYear();
+                //alert(view.name);
+                if(ddFiltro<10) {
+                    ddFiltro='0'+ddFiltro;
+                } 
+
+                if(mmFiltro<10) {
+                    mmFiltro='0'+mmFiltro;
+                } 
+
+                hoyFiltro = yyyyFiltro+'-'+mmFiltro+'-'+ddFiltro;
+                //hoyFiltro = ddFiltro+'-'+mmFiltro+'-'+yyyyFiltro;
+
+//alert(hoyFiltro);
+var user=0;
+var i=0;
+var paciente="";
+var sources=new Array();
+var source = 
+    {
+        url: Routing.generate('fullcalendar_loader')+'?sucursal='+sucursal,
+        type: 'POST',
+        data: {
+            filtro: 1
+        },
+        error: function() {
+            bootbox.alert('Se produjo un error al recuperar los datos del calendario, recargue la página!');
+        }
+        
+    };
+/*var sourceSuc = 
+    {
+        url: Routing.generate('fullcalendar_loader_suc'),
+        type: 'POST',
+        data: {
+            filtro: 1
+        },
+        error: function() {
+            bootbox.alert('Se produjo un error al recuperar los datos del calendario, recargue la página!');
+        }
+        
+    };
+  */  
+  
+  function tog(v){return v?'addClass':'removeClass';} 
+    $(document).on('input', '.clearable', function(){
+        $(this)[tog(this.value)]('x');
+    }).on('mousemove', '.x', function( e ){
+        $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+    }).on('touchstart click', '.onX', function( ev ){
+        ev.preventDefault();
+        $(this).removeClass('x onX').val('').change();
+    });
+  
+  $(document).on('change','#filtroSucursales',function(){
+        
+            setsource();
+        //calendario.fullCalendar('removeEvents');    
+	//calendario.fullCalendar('removeEventSource',source);
+//	calendario.fullCalendar('addEventSource', source);
+        
+        //alert('dcdsc');
+
+        
+
+    });
+    $(document).on('click','.userFilter',function(){
+        user=$(this).parent().attr('id');
+        console.log(user);
+        
+        setsource();
+        //return false;
+    });
+$(document).ready(function() {        
+    // page is now ready, initialize the calendar...
+    Date.prototype.timeNow = function () {
+         return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes()/* +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds()*/;
+    }
+    $("#nombrePaciente").tooltip({
+ 
+        // place tooltip on the right edge
+        position: "center right",
+
+        // a little tweaking of the position
+        offset: [-2, 10],
+
+        // use the built-in fadeIn/fadeOut effect
+        effect: "fade",
+
+        // custom opacity setting
+        opacity: 0.7
+ 
+    });
+    //var horaInicial=null;
+    $(document).on('click','#botonBuscar', function(event){
+        {#if($(this).val()==''){
+            //paciente = $(this).val();
+            setsource();
+        }#}
+        setsource();
+    });
+{#    sucursal = $('#filtroSucursales').val();#}
+    sucursal = $('#sucursal').val();
+    //fechaInicio= $('#fechaInicio').val();
+    //fechaFin= $('#fechaFin').val();
+    var fecha=null;
+    //$('#filtroSucursales').change();
+    //alert(hoy);
+    calendario = $('#calendar-holder').fullCalendar({
+        
+        header: {
+            left: 'prev,next, today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        buttonText: {
+            today:    'Hoy',
+            month:    'Mes',
+            week:     'Semana',
+            day:      'Día'
+        },
+        default: "es",
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+        lazyFetching: true,
+        // defaultView: 'agendaDay',
+        editable: true,
+        disableResizing:true,
+        eventDurationEditable:false,
+        weekends: true,
+        weekNumbers: true,
+        firstDay: 0,
+        // slotMinutes: 30,
+        axisFormat: 'H:mm',
+        firstHour: 6,
+        //displayEventTime: false,
+        timeFormat: '',
+        //height:'auto',
+        minTime: '06:00:00',
+        maxTime: '23:00:00',
+        allDaySlot: true,
+        selectable: true,
+        selectHelper: true,
+        eventClick: function ( event, jsEvent, view )  {
+                    /////Ejecutar funcion para ver detalle de evento
+                    
+
+                    // $$.ajax({
+                    //     url: '/path/to/file',
+                    //     type: 'default GET (Other values: POST)',
+                    //     dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+                    //     data: {param1: 'value1'},
+                    // })
+                    // .done(function() {
+                    //     console.log("success");
+                    // })
+                    // .fail(function() {
+                    //     console.log("error");
+                    // })
+                    // .always(function() {
+                    //     console.log("complete");
+                    // });
+                    
+                    console.log(event);
+                    var stdate = moment(event.start).format('DD-MM-YYYY');
+                    var enddate = moment(event.end).format('DD-MM-YYYY');
+                    var sthour = moment(event.start).format('hh:mm');
+                    var endhour = moment(event.end).format('hh:mm');
+                    console.log("Hora inicio "+sthour);
+                    console.log("Hora fin "+endhour);
+                    
+
+                                      
+                    // console.log(revertFunc);
+                    console.log(jsEvent);
+                    // console.log(ui);
+                    console.log("Fecha inicio "+stdate);
+                    console.log("Fecha fin "+enddate);
+                    
+
+
+                    $.ajax({
+                        url: Routing.generate('admin_calendar_get_event_index'),
+                        type: 'POST',
+                        data: {param1: event.id,param2: stdate+' '+sthour,param3: enddate+' '+endhour,param4: event.url},
+                        success:function(data){
+                            console.log(data);
+                            // if(data.error){
+                            //     swal('',data.error,'error');
+                            // }
+                            // else{
+                            //     $('#txtId').val(data.id);
+                            //     $('#txtName').val(data.name);
+                            //     $('.chkItemAll').prop({'checked': false});
+                            //     $btn.button('reset');
+                            //     table.ajax.reload();
+                            //     swal('',data.msg,'success');
+                            // }
+                            // $('#pnAdd').slideUp();
+                        },
+                        error:function(data){
+                            // if(data.error){
+                            //     // console.log(data.id);
+                            //     swal('',data.error,'error');
+                            // }
+                            // $btn.button('reset');
+                        }
+                    });
+
+
+                    return false;
+                },
+                select: function( startDate, endDate, allDay, jsEvent, view ){
+                    // var stdate = $.fullCalendar.formatDate(startDate,'dd-MM-yyyy');
+                    // var stdate2 = $.fullCalendar.formatDate(startDate,'yyyy-MM-dd');
+                    // var endate = $.fullCalendar.formatDate(endDate,'dd-MM-yyyy');
+                    // var starttm = $.fullCalendar.formatDate(startDate,'HH:mm');
+                    // var endtm = $.fullCalendar.formatDate(endDate,'HH:mm');
+                    // var day = $.fullCalendar.formatDate(startDate,'dddd'); 
+                    // var element = $(jsEvent.srcElement);
+                    //fecha=$.fullCalendar.formatDate(startDate,'dd-MM-yyyy');
+                
+                },
+            
+                //eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ) { version mas reciente de fullcalendar
+                eventDrop: function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) { 
+                    var stdate = moment(event.start).format('YYYY-MM-DD');
+                    var enddate = moment(event.end).format('YYYY-MM-DD');
+                    var sthour = moment(event.start).format('hh:mm');
+                    var endhour = moment(event.end).format('hh:mm');
+                    
+                    // var starttm = $.fullCalendar.formatDate(event.start,'HH:mm');
+                    // var endtm = $.fullCalendar.formatDate(event.end,'HH:mm');    
+                    // var err = 0;
+                    console.log(event);
+                    if(!allDay){
+                        console.log("Hora inicio "+sthour);
+                        console.log("Hora fin "+endhour);
+                        
+                        console.log("Delta: "+dayDelta);
+                        console.log("Delta: "+ui);
+                                          
+                        console.log(revertFunc);
+                        console.log(jsEvent);
+                        console.log(view.month);
+                        console.log("Fecha inicio "+stdate);
+                        console.log("Fecha fin "+enddate);
+                    }
+                    else{
+                        revertFunc();
+                        
+                    }
+                    
+                    
+                },
+
+                dayClick: function(date, jsEvent, view) {
+                    //alert('Clicked on: '+date);
+                    //fecha=new Date(fecha);
+                    //alert('Clicked on: '+fecha);
+                    //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+                    calendario.fullCalendar( 'changeView', 'agendaDay' );
+                    calendario.fullCalendar('gotoDate', date);
+
+                },
+
+
+            }); //FIN DE LA CONFIGURACION DEL CALENDARIO
+    calendario.fullCalendar('removeEventSource',source);
+    calendario.fullCalendar('removeEvents');
+    //$('#0').click();
+                setsource();
+    
+    
+    
+    
+});//FIN
+
+function setsource(){
+  //	calendario.fullCalendar('removeEventSource',source);
+//  	calendario.fullCalendar('removeEventSource',source2);
+  	calendario.fullCalendar('removeEventSource');
+//	$('#calendar-holder').fullCalendar( 'removeEvents').fullCalendar('removeEventSources');
+	sucursal = $('#filtroSucursales').val();
+        console.log("sucursal: "+sucursal);
+        //paciente = $('#nombrePaciente').val();
+        //alert(Routing.generate('fullcalendar_loader')+'?sucursal='+sucursal);
+        calendario.fullCalendar('removeEvents');
+        fechaInicio= $('#fechaInicio').val();
+        fechaFin= $('#fechaFin').val();
+        paciente=$('#nombrePaciente').val();
+        console.log(fechaInicio);
+        console.log(fechaFin);
+        for(j=0;j<sources.length;j++){
+            console.log(j);
+            calendario.fullCalendar('removeEventSource',sources[j]);
+            //sources.remove(j);
+        }
+        console.log(sources[0]);
+        var source2 = 
+            {
+                url: Routing.generate('fullcalendar_loader')+'?sucursal='+sucursal+'&user='+user+'&paciente='+paciente,
+                type: 'POST',
+                data: {
+                    filtro: 1
+                },
+                error: function() {
+                    bootbox.alert('Se produjo un error al recuperar los datos del calendario, recargue la página!');
+                }
+
+            };
+        sources.push(source2);
+        calendario.fullCalendar('addEventSource', source2);
+        
+  	calendario.fullCalendar('removeEvents');    
+
+	
+	//calendario.fullCalendar('addEventSource', source2);
+  }
+</script> 
+{% endblock %}

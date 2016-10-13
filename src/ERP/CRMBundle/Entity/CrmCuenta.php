@@ -409,7 +409,7 @@ class CrmCuenta
      *
      * @return Correo
      */
-    public function setCorreo(\ERP\CRMBundle\Entity\CrmCorreo $correo = null)
+    public function setCorreo(\ERP\CRMBundle\Entity\CtlCorreo $correo = null)
     {
         $this->correo = $correo;
 

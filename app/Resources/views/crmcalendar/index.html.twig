@@ -1,0 +1,517 @@
+{% extends ':layout:layouterp.html.twig' %}
+
+
+{% block title -%}<title>{{tituloCalendar}}</title>{% endblock %}
+{% block customcss %}
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    {# <link rel="stylesheet" href="{{ asset('bundles/adesignscalendar/css/fullcalendar/fullcalendar.css') }}" /> #}
+    <link rel="stylesheet" href="{{asset('Resources/fullcalendar300/fullcalendar.min.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('Resources/bootstrap/css/datetime.min.css') }}" />
+    <style type="text/css">
+        .errorform{
+            border: 1px solid #F00 !important;
+        }
+    </style>
+{% endblock %}
+{% block descripcion %}
+     <div class="col-md-5">
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCalendar}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionCalendar}}</p>
+          <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
+          <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+          <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
+          <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
+          <p id="confirmMoveEvents" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmMoveEvents}}</p>
+          <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEdit}}</p>
+          <p id="fechaAnterior" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{serverFechaAnterior}}</p>
+     </div>
+{% endblock %}
+{% block acciones %}
+     <div class="col-md-7 text-right panel-body">
+       
+       <div class="col-md-12">
+          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
+          <button type="button" class="btnAddPage btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">{{add}}</button>
+          <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
+          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
+          {# <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button> #}
+          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{cancel}}</button>
+          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
+          </div>
+     </div>
+{% endblock acciones %}
+{% block navegacion %}
+            <div class="col-md-12" style="margin-bottom:20px;">
+                <label class="pull-left">{{filterLabel}}</label>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12" >
+                <label class="pull-left">{{filterActivityLabel}}</label>
+                <select id="filterTipoActividad" style="width:100%;">
+                    <option value="0">{{allFilter}}</option>
+                    {% for item in actividades %}
+                        <option value="{{item.id}}">{{item.nombre}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12" style="margin-top:20px;">
+                <label class="pull-left">{{filterUserLabel}}</label>
+                <select id="filterPersona" style="width:100%;">
+                        <option value="0">{{allFilter}}</option>
+                        {% for item in personas %}
+                            <option value="{{item.id}}">{{item.persona.nombre}}</option>
+                        {% endfor %}
+                </select>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12" style="margin-top:20px;">
+            <label class="pull-left">{{filterCuentaLabel}}</label>
+            <select id="filterCuentaActividades" style="width:100%;">
+                    <option value="0">{{allFilter}}</option>
+                    {# {% for item in cuentas %} #}
+                        {# <option value="{{item.id}}">{{item.persona.nombre}}</option> #}
+                    {# {% endfor %} #}
+            </select>
+        </div>
+{% endblock navegacion %}
+
+{% block contenido %}
+        {% include ':crmactividad:task.html.twig' %}
+        <div class="row" {# style="border-left:1px solid #D3D3D3;" #}>
+        {# {% include ':crmactividad:task.html.twig' %} #}
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-xs-12">
+            <dir class="clearfix"></dir>
+            <div id="calendar" style="margin-top:-40px;"></div> 
+            <div style="margin-bottom:100px;" class="clearfix"></div>
+            {# {% include 'ADesignsCalendarBundle::calendar.html.twig' %} #}
+            {# {% include ':default:calendar.html.twig' %} #}
+            {# {% include 'DGPlusbelleBundle:Default:calendar.html.twig' %}        #}
+        </div>
+    </div>
+
+    
+{% endblock %}
+{% block js_extend %}
+    
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/task/task.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/task/taskCal.js') }}"></script>
+
+
+    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/collapse.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/transition.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/datetime.js') }}"></script>
+    
+     
+    
+    <script type="text/javascript" src="{{ asset('Resources/fullcalendar300/fullcalendar.min.js') }}"></script>
+    {# // <script type='text/javascript' src="{{ asset('Resources/fullcalendar300/gcal.js') }}"></script> #}
+    <script type="text/javascript">
+        var calendario = null;
+        var user=0;
+        var i=0;
+        var paciente="";
+        var sources=new Array();
+        var sucursal = $('#sucursal').val();
+        
+        // $('#modal').modal();
+        $(document).ready(function() {
+
+            var source = 
+                    {
+                        url: Routing.generate('fullcalendar_loader'),
+                        type: 'POST',
+                        data: {
+                            filtro: 1
+                        },
+                        error: function() {
+                            // bootbox.alert('Se produjo un error al recuperar los datos del calendario, recargue la página!');
+                            console.log('Se produjo un error al recuperar los datos del calendario, recargue la página!');
+                        }
+                        
+                    };
+
+            calendario = $('#calendar').fullCalendar({
+                            header: {
+                                
+                                left: 'title',
+                                right: 'month,agendaWeek,agendaDay, prev,next'
+                            },
+                            lazyFetching: true,
+                            // googleCalendarApiKey: 'AIzaSyBcQtDPhk5fjQmvkkuKBjMbwjhzVOdyeSY',
+                            // eventSources: [
+                                // {
+                                //     googleCalendarId: 'abcd1234@group.calendar.google.com'
+                                // },
+                                // {
+                                    //googleCalendarId: 'digitalitygarage.com_lsqj0gmej50b4p5m12b88e06kc@group.calendar.google.com',
+                                    // googleCalendarId: 'fbk7pcdkcncqo0f3ur264nimsk@group.calendar.google.com',
+                                    // className: 'nice-event'
+                                // }
+                            // ],
+                            startParam:'startDate',/////Es necesario definirlo para que en el listener obtener los parametros, sino da problemas con el listener del fullcalendar bundle
+                            endParam:'endDate',/////Es necesario definirlo para que en el listener obtener los parametros, sino da problemas con el listener del fullcalendar bundle
+                            // lazyFetching: false,
+                            // defaultView: 'agendaDay',
+                            editable: true,
+                            disableResizing:true,
+                            eventDurationEditable:false,
+                            weekends: true,
+                            weekNumbers: false,
+                            firstDay: 0,
+                            slotMinutes: 30,
+                            // slotLabelFormat: 'HH:mm',
+                            firstHour: 6,
+                            displayEventTime: false,
+                            
+                            //height:'auto',
+                            minTime: '06:00',
+                            maxTime: '23:00',
+                            // allDaySlot: true,
+                            selectable: true,
+                            selectHelper: true,
+                            slotEventOverlap:false,
+                            dayClick: function(date, jsEvent, view) {
+                                if (view.name==='month') {
+                                    calendario.fullCalendar( 'changeView', 'agendaDay' );
+                                    calendario.fullCalendar('gotoDate', date);
+                                } 
+                            },
+                            /////Function para dar click en un espacio del form
+                            select: function( start, end, jsEvent, view ){
+                                if (view.name!=='month') {
+                                    
+                                    console.log(start.format('YYYY-MM-DD HH:mm')); 
+                                    var today = new Date();
+                                    var dd = today.getDate();
+                                    var mm = today.getMonth()+1; //January is 0!
+                                    var yyyy = today.getFullYear();
+                                    var horas = today.getHours();
+                                    var minutes = today.getMinutes();
+                                    var fechaAterior = $('#fechaAnterior').html();
+
+                                    if(dd<10) {
+                                        dd='0'+dd
+                                    } 
+
+                                    if(mm<10) {
+                                        mm='0'+mm
+                                    } 
+
+                                    if (horas<10) {
+                                        horas="0"+horas;
+                                    }
+
+                                    today = yyyy+'-'+mm+'-'+dd+" "+horas+":"+minutes;
+                                    // console.log(today);
+
+                                    if (start.format('YYYY-MM-DD HH:mm')<today) {
+                                        /////Alerta de que no se puede crear un evento 
+                                        swal('',fechaAterior,'error');
+                                    } 
+                                    else {
+                                        /////Crear evento
+                                        $('#txtFechaInicio').val(start.format('YYYY-MM-DD HH:mm'));
+                                        $('#txtFechaFin').val(end.format('YYYY-MM-DD HH:mm'));
+                                        // console.log("fin: "+end.format('YYYY-MM-DD HH:mm'));
+                                        // if(end){
+
+                                        // }
+
+                                        $('.btnAddPage').click();
+
+                                    }
+                                }
+                                                                   
+                            },
+
+                            /////Function para arrastrar un evento del calendario
+                            eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
+                                console.log(view.name);
+                                console.log(delta);
+                                console.log("Id: "+event.id);
+                                console.log(event.title);
+                                var func = revertFunc;
+                                var cancelLabel = $('#cancelLabel').html();
+                                var cancelButtonText = $('#cancelButtonText').html();
+                                // var removeButton = $('#removeButton').html();
+                                var alternateconfirmButtonText = $('#alternateconfirmButtonText').html(); 
+                                var confirmMoveEvents = $('#confirmMoveEvents').html(); 
+                                swal({
+                                        title: "",
+                                        text: confirmMoveEvents,
+                                        type: "info",
+                                        showCancelButton: true,
+                                        confirmButtonText: alternateconfirmButtonText,
+                                        cancelButtonText: cancelButtonText,
+                                        reverseButtons: true,
+                                        showLoaderOnConfirm: true,
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        preConfirm: function(email) {
+                                            return new Promise(function(resolve, reject) {
+                                                    var idUser=[];/////Vacio para decirle al controller que es una reprogramación del evento
+                                            var textFechaInicio= $('#txtFechaInicio').val();
+                                            var textFechaFin=$('#txtFechaFin').val();
+                                            var idAct=$('#txtId').val();
+                                            if (view.name=='month') {
+                                                    $.ajax({
+                                                        url: Routing.generate('admin_check_availability_user_ajax'), // Url to which the request is send
+                                                        type: 'POST',
+                                                        data: {param0: event.id,param1: idUser,param2:event.start.format('YYYY-MM-DD HH:mm'),param3:event.end.format('YYYY-MM-DD HH:mm')},
+                                                        success: function(data)   // A function to be called if request succeeds
+                                                        {
+                                                            
+                                                            if(data.error){
+                                                                revertFunc();
+                                                                swal('',data.error,'error');
+                                                            }
+                                                            else{
+                                                                if(data.conflict){
+                                                                swal({
+                                                                                title: "",
+                                                                                text: data.conflict,
+                                                                                type: "info",
+                                                                                showCancelButton: true,
+                                                                                confirmButtonText: alternateconfirmButtonText,
+                                                                                cancelButtonText: cancelButtonText,
+                                                                                reverseButtons: true,
+                                                                                showLoaderOnConfirm: true,
+                                                                                allowOutsideClick: false,
+                                                                                preConfirm: function(email) {
+                                                                                    return new Promise(function(resolve, reject) {
+                                                                                        /////Ajax de actualizar
+                                                                                          $.ajax({
+                                                                                                url: Routing.generate('admin_tasks_rescheduled_ajax'), // Url to which the request is send
+                                                                                                type: "POST",             // Type of request to be send, called as method
+                                                                                                data: {param1: event.id,param2: event.start.format('YYYY-MM-DD HH:mm'),param3:event.end.format('YYYY-MM-DD HH:mm')},
+                                                                                                success: function(data)   // A function to be called if request succeeds
+                                                                                                {
+                                                                                                    if(data.msg){
+                                                                                                        swal('',data.msg,'success');
+                                                                                                    }
+                                                                                                    if(data.error){
+                                                                                                        revertFunc();
+                                                                                                        swal('',data.error,'error');
+                                                                                                    }
+                                                                                                    //////Actualizar evento en el calendario
+                                                                                                    // console.log(data.title);
+                                                                                                    event.title=data.title;
+                                                                                                    calendario.fullCalendar('updateEvent', event);
+                                                                                                },
+                                                                                                error:function(data) {
+                                                                                                    revertFunc();
+                                                                                                }
+                                                                                            });
+                                                                                    });
+                                                                                  },
+                                                                    }).then(function() {
+                                                                          
+                                                                            // console.log('actualizado');
+                                                                    }, function(dismiss) {
+                                                                          // dismiss can be 'cancel', 'overlay',
+                                                                          // 'close', and 'timer'
+                                                                          /////Regresa el evento a su posicion inicial (datos de la base)
+                                                                          if (dismiss === 'cancel') {
+                                                                            revertFunc();
+                                                                          }
+                                                                 });
+                                                                }/////If conflicts
+                                                                else{
+                                                                    /////Ajax de actualizar
+                                                                          $.ajax({
+                                                                                url: Routing.generate('admin_tasks_rescheduled_ajax'), // Url to which the request is send
+                                                                                type: "POST",             // Type of request to be send, called as method
+                                                                                data: {param1: event.id,param2: event.start.format('YYYY-MM-DD HH:mm'),param3:event.end.format('YYYY-MM-DD HH:mm')},
+                                                                                success: function(data)   // A function to be called if request succeeds
+                                                                                {
+                                                                                    if(data.msg){
+                                                                                        swal('',data.msg,'success');
+                                                                                    }
+                                                                                    if(data.error){
+                                                                                        revertFunc();
+                                                                                        swal('',data.error,'error');
+                                                                                    }
+                                                                                    //////Actualizar evento en el calendario
+                                                                                    //console.log(data.title);
+                                                                                    event.title=data.title;
+                                                                                    calendario.fullCalendar('updateEvent', event);
+                                                                                },
+                                                                                error:function(data) {
+                                                                                    revertFunc();
+                                                                                }
+                                                                            });
+                                                                            // console.log('actualizado');
+                                                                }
+                                                            }
+                                                        },
+                                                        error:function(data) {
+                                                            revertFunc();
+                                                        }
+                                                    });/////fin if check disponibilidad ajax
+                                            }/////if view
+                                            });
+                                      },
+                                    }).then(function() {
+                                          /////Ajax de conflicts
+                                            
+                                        }, function(dismiss) {
+                                          // dismiss can be 'cancel', 'overlay',
+                                          // 'close', and 'timer'
+                                          /////Regresa el evento a su posicion inicial (datos de la base)
+                                          if (dismiss === 'cancel') {
+                                            revertFunc();
+                                          }
+                                     });
+                            }/////Event drop
+                    });/////Fin de calendario
+            // calendario.fullCalendar('addEventSource', source);
+
+            setsource();     
+            $('.cal').removeClass('hidden');
+
+            $('.firstResponsable').select2();
+            $('.firstTipoRecordatorio').select2();
+            $('.firstTiempoRecordatorio').select2();
+            $('.firstPriority').select2();
+            $('#tipoActividades').select2();
+            $('#filterTipoActividad').select2();
+            $('#filterPersona').select2();
+            $('#cuentaActividades, #filterCuentaActividades').select2({
+                 ajax: {
+                        url: Routing.generate('busqueda_cuenta_select_info'),
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                          return {
+                            q: params.term, // search term
+                            page: params.page
+                          };
+                        },
+                        processResults: function (data, params) {
+                                            var select2Data = $.map(data.data, function (obj) {
+                                                obj.id = obj.id;
+                                                obj.text = obj.nombre
+
+                                                return obj;
+                                            });
+
+                                            return {
+                                                results: select2Data
+                                                {#pagination: {
+                                                    more: (params.page * 30) < data.total_count
+                                                }#}
+                                            };
+                                        },
+                        cache: true
+                      },
+                      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                      minimumInputLength: 1,
+                      templateResult: formatRepo, // omitted for brevity, see the source of this page
+                      // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+                    });
+
+
+
+           
+
+
+
+            /////Por defecto seran pendientes el estado de las actividades
+            $("#estado").val(2).trigger("change");
+
+            $('#datetimepicker1').datetimepicker({
+                format: 'Y-MM-DD HH:mm',
+                allowInputToggle:true,
+                ignoreReadonly:true,
+                // minDate: Date(),
+            });
+            $('#datetimepicker2').datetimepicker({
+                format: 'Y-MM-DD HH:mm',
+                allowInputToggle: true,
+                ignoreReadonly:true,
+                useCurrent: false //Important! See issue #1075
+            });
+
+            $("#datetimepicker1").on("dp.change", function (e) {
+                   $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepicker2").on("dp.change", function (e) {
+                //$('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+            });
+
+            $("#filterTipoActividad, #filterPersona, #filterCuentaActividades").on("change", function (e) {
+                    setsource();
+            });
+    
+});
+
+
+         function formatRepo (data) {
+                if(data.nombre){
+                    // console.log('sdcsda');
+                    var markup = "<div class='select2-result-repository clearfix'>" +
+                                 "<div class='select2-result-repository__meta'>" +
+                                 "<div class='select2-result-repository__title'>" + data.nombre+"</div>" +
+                                 "</div></div>";
+                } else {
+                    var markup = "";
+                }
+                return markup;
+            }
+
+            function formatRepoSelection (data) {
+                if(data.nombre){
+                    // console.log('a');
+                    return data.nombre;
+                } else {
+                    return "Realice una búsqueda (Ctrl+g)"; 
+                }    
+            }
+
+        function setsource(){
+            calendario.fullCalendar('removeEventSource');
+            sucursal = $('#filtroSucursales').val();
+            console.log("sucursal: "+sucursal);
+            calendario.fullCalendar('removeEvents');
+            fechaInicio= $('#fechaInicio').val();
+            fechaFin= $('#fechaFin').val();
+            filterCuentaId=$('#filterCuentaActividades').val();
+            var filterTipo = $('#filterTipoActividad').val();
+            var filterPersona = $('#filterPersona').val();
+            console.log(fechaInicio);
+            console.log(fechaFin);
+            for(j=0;j<sources.length;j++){
+                console.log(j);
+                calendario.fullCalendar('removeEventSource',sources[j]);
+                //sources.remove(j);
+            }
+            console.log(sources[0]);
+            var source2 = 
+                {
+                    url: Routing.generate('fullcalendar_loader')+'?param1='+filterTipo+'&param2='+filterPersona+'&param3='+filterCuentaId,
+                    type: 'POST',
+                    data: {
+                        filtro: 1
+                    },
+                    error: function() {
+                        // bootbox.alert('Se produjo un error al recuperar los datos del calendario, recargue la página!');
+                        console.log('Se produjo un error al recuperar los datos del calendario, recargue la página!');
+                    }
+
+                };
+            sources.push(source2);
+            calendario.fullCalendar('addEventSource', source2);
+            
+        calendario.fullCalendar('removeEvents');        
+
+
+
+      }
+    </script>
+{% endblock %}

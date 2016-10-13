@@ -1,12 +1,16 @@
 $(document).ready(function() {
+	var activeAjaxConnections=0;
+	var numPedidos=0;
+	var dataId=0;
+	// var table= $('#providersList').dataTable();
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
 	var numAddress = 0;
-	/////Persist datatable (Save method)
+	/*/////Persist datatable (Save method)*/
 	var filesSelectedPrev = document.getElementById("file").files;
-	// console.log(filesSelectedPrev[0]);
+	/*// console.log(filesSelectedPrev[0]);*/
 	
 	$(document).on('click', '#btnSaveTop', function(event) {
 		$('#frmProvider').submit();
@@ -21,9 +25,9 @@ $(document).ready(function() {
 		          var fileReader = new FileReader();
 		          if ((filesSelected[0].size<=4096000)){
 		          	fileReader.onload = function(fileLoadedEvent) {
-			          	srcData = fileLoadedEvent.target.result; // <--- data: base64
+			          	srcData = fileLoadedEvent.target.result;
 			            	$('#imgTest').attr('src', srcData);
-			        	}		        	
+			        	};		        	
 			        	var imgBase64 = $('#imgTest').attr('src');
 			        	fileReader.readAsDataURL(fileToLoad);
 				$('#imgTest').show();
@@ -36,119 +40,165 @@ $(document).ready(function() {
 		          }
 	});
 	$('#frmProvider').on('submit',(function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		event.preventDefault();
 		var $btn = $('#btnSave').button('loading');
-  		var errores = 0;//Contador de errores, para antes de la persistencia
+		var $btnT = $('#btnSaveTop').button('loading');
+  		var errores = 0;
+  		/*//Contador de errores, para antes de la persistencia*/
+  		var erroresEmail = 0;
+  		/*//Contador de errores, para antes de la persistencia*/
 		$('.validateInput').each(function() {
 		 	if (!required($(this))) {
 		 		$(this).addClass('errorform');
 		 		errores++;
 		 	}
 		});
+
 		if (errores==0) {
-			$.ajax({
-				url: Routing.generate('admin_provider_save_ajax'), // Url to which the request is send
-				type: "POST",             // Type of request to be send, called as method
-				data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-				contentType: false,       // The content type used when sending data to the server.
-				cache: false,             // To unable request pages to be cached
-				processData:false,        // To send DOMDocument or non processed data file it is set to false
-				success: function(data)   // A function to be called if request succeeds
-				{
-					//$('#loading').hide();
-					$("#message").html(data);
-					$("#txtId1").val(data.id1);
-					$("#txtId2").val(data.id2);
-					if(data.msg){
-						swal('',data.msg,'success');
-						var table = $('#providersList').DataTable();
-						//id.val(data.id1);
-						$('#txtId').val('');
-						$('#txtName').val('');
-						// $('#txtProbability').val('10');
-						// probability.slider('setValue', 10);
-						$('.btnAddPage').click();
+			if (erroresEmail==0) {
+				$.ajax({
+					url: Routing.generate('admin_provider_save_ajax'),
+					type: "POST",            
+					data: new FormData(this),
+					contentType: false,      
+					cache: false,            
+					processData:false,     
+					success: function(data)  
+					{
+						/*//$('#loading').hide();*/
+						$("#message").html(data);
+						$("#txtId1").val(data.id1);
+						$("#txtId2").val(data.id2);
+						if(data.msg){
+							swal('',data.msg,'success');
+							var table = $('#providersList').DataTable();
+							/*//id.val(data.id1);*/
+							$('#txtId').val('');
+							$('#txtName').val('');
+							/*// $('#txtProbability').val('10');*/
+							/*// probability.slider('setValue', 10);*/
+							$('.btnAddPage').click();
+							$btn.button('reset');
+							$btnT.button('reset');
+						}
+						if(data.error){
+							/*// console.log(data.id);*/
+							swal('',data.error,'error');
+							$btn.button('reset');
+							$btnT.button('reset');
+						}
+						table.ajax.reload();
 						$btn.button('reset');
-					}
-					if(data.error){
-						// console.log(data.id);
-						swal('',data.error,'error');
+						$btnT.button('reset');
+						$('#btnSaveTop').addClass('hidden');
+						$('#btnCancelTop').addClass('hidden');
+						$('.btnAddPage').removeClass('hidden');
+						/*// $('#comentarios').show();
+						// $('#wallmessages').show();
+						// $('#btnLoadMore').show();
+						// console.log('updata table');*/
+						/*// console.log(table);*/
+					},
+					error:function(data) {
+						/* Act on the event */
 						$btn.button('reset');
+						$btnT.button('reset');
 					}
-					table.ajax.reload();
-					$btn.button('reset');
-					// console.log('updata table');
-					// console.log(table);
-				},
-				error:function(data) {
-					/* Act on the event */
-					$btn.button('reset');
-				}
-			});
+				});
+			}
+			else{
+				var emailFields = $('.emailFields').html();
+				swal('',emailFields,'error');
+				$btn.button('reset');
+				$btnT.button('reset');	
+			}
 		}
 		else {
 			var requiredFields = $('.requiredFields').html();
 			swal('',requiredFields,'error');
 			$btn.button('reset');
+			$btnT.button('reset');
 		}
 		event.preventDefault();
 		return false;
 	}));
-	/////Fin definición persist data (Save method)
+	/*/////Fin definición persist data (Save method)*/
 
 
-	/////Persist datatable (Edit method)
+	/*/////Persist datatable (Edit method)*/
 	$(document).on('click', '#providersList>tbody>tr>td:nth-child(2),#providersList>tbody>tr>td:nth-child(3),#providersList>tbody>tr>td:nth-child(4),#providersList>tbody>tr>td:nth-child(5)', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
+		/*// $(this).css('cursor', 'progress');*/
+		var objectThis = $(this);
+		/*$('#providersList').prop('disabled', true);*/
 		var text = $(this).prop('tagName');
-		// console.log(text);
+		var objClicked = $(this);
+		
+		numPedidos=1;
+		/*console.log('asdcdsc');*/
+		/*// return false;*/
+		/*se limpia el seguimineto previo*/
+		$('#comentarios').show();
+		$('#wallmessages').show();
+		$('#wallmessages').html('');
+		$('#primeraFecha').val('');
+		$('#iteracion').val(numPedidos);
 		var id=$(this).parent().children().first().children().attr('id');
-		// console.log(id);
+		/*// console.log(id);*/
 		var idArray = id.split('-');
-		// console.log(idArray);
+		/*// console.log(idArray);*/
 		var idForm=$('#txtId1').val();
-		// var idForm=$('#txtId2').val();
+		/*// var idForm=$('#txtId2').val();*/
 		var selected = 0;
-		//Cambiar nombre del panel heading para Modify
+		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
 
-		// console.log(id);
-		// console.log(idArray[0]);
-		// console.log(idArray[1]);
+		/*// console.log(id);*/
+		/*// console.log(idArray[0]);*/
+		/*// console.log(idArray[1]);*/
 		$('.chkItem').each(function() {
 			if ($(this).is(':checked')) {
 				selected++;
 			}
 		});	
-		if (text=='TD' && id!=idForm && selected==0) {
+		console.log(activeAjaxConnections);
+		if (text=='TD' && id!=idForm && selected==0 && activeAjaxConnections==0) {
+			activeAjaxConnections=1;
+			objClicked.off('click');
+			objClicked.css('cursor','progress');
 			$.ajax({
 				url: Routing.generate('admin_provider_retrieve_ajax'),
-				type: 'POST',
+				type: 'GET',
 				data: {param1: idArray[0],param2:idArray[1]},
 				success:function(data){
 					if(data.error){
+						activeAjaxConnections=0;
 						swal('',data.error,'error');
 						id.val(data.id);
+						$('#addTag').addClass('hidden');
+						$('#addedTags').addClass('hidden');
+						$('#filterTag').removeClass('hidden');
+						objClicked.on('click');
 					}
 					else{
-						// console.log(data);
+						/*// console.log(data);*/
 						$('#txtId1').val(data.id1);
 						$('#txtId2').val(data.id2);
 						$('#dpbTitulo').val(data.titulo);
 						$('#txtName').val(data.nombre);
 						$('#txtApellido').val(data.apellido);
 						$('#txtCompania').val(data.compania);
-						// console.log(data.addressArray);
+						/*// console.log(data.addressArray);*/
 						var numDirecciones = data.addressArray.length;
 						var numTelefonos = data.phoneArray.length;
 						var numCorreos = data.emailArray.length;
 						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
-						// Direcciones
+						/*// Direcciones*/
 						for (var i = 0; i < numDirecciones; i++) {
-							// console.log(i);
-							// console.log(data.addressArray[i]);
+							/*// console.log(i);*/
+							/*// console.log(data.addressArray[i]);*/
 							switch(i){
 								case 0:
 									$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
@@ -163,10 +213,10 @@ $(document).ready(function() {
 								break;
 							}
 						}
-						// Telefonos
+						/*// Telefonos*/
 						for (var i = 0; i < numTelefonos; i++) {
-							// console.log(i);
-							// console.log(data.addressArray[i]);
+							/*// console.log(i);*/
+							/*// console.log(data.addressArray[i]);*/
 							switch(i){
 								case 0:
 									$(".firstPhoneType").val(data.typePhoneArray[i]).trigger("change");
@@ -176,7 +226,7 @@ $(document).ready(function() {
 								break;
 								default:
 									$('#plusPhone').click();
-									//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();
+									/*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
 									$('#types-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
 									
 									$('#phones-'+(numPhones)).val(data.phoneArray[i]);
@@ -184,10 +234,10 @@ $(document).ready(function() {
 								break;
 							}
 						}
-						// Correos
+						/*// Correos*/
 						for (var i = 0; i < numCorreos; i++) {
-							// console.log(i);
-							// console.log(data.addressArray[i]);
+							/*// console.log(i);*/
+							/*// console.log(data.addressArray[i]);*/
 							switch(i){
 								case 0:
 									$('.txtEmailFirst').val(data.emailArray[i]);
@@ -198,7 +248,12 @@ $(document).ready(function() {
 								break;
 							}
 						}
-						$('#imgTest').attr('src','../../../photos/proveedor/'+data.src);
+						if(data.src!=''){
+							$('#imgTest').attr('src','../../../photos/proveedor/'+data.src);	
+						}
+						else{
+							$('#imgTest').attr('src','http://placehold.it/250x250');
+						}
 
 						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
 						$('.dpbIndustria').val(data.industria).change().trigger("change");
@@ -206,17 +261,33 @@ $(document).ready(function() {
 						$('.txtWebsite').val(data.website);
 						$('#pnAdd').show();
 						$('.btnAddPage').addClass('hidden');
-						$('#providersList').parent().toggle();
+						$('#providersList').parent().hide();
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-					}					
+						seguimiento(data.id1, numPedidos,null);
+						cargarTags();
+						/*//seguimientoComet(data.id1);*/
+						$('#addTag').removeClass('hidden');
+						$('#addedTags').removeClass('hidden');
+						$('#filterTag').addClass('hidden');
+						
+					}	
+					objClicked.on('click');
+					activeAjaxConnections=0;
+					objClicked.css('cursor', 'pointer');
 				},
 				error:function(data){
 					if(data.error){
-						// console.log(data.id);
+						/*// console.log(data.id);*/
 						swal('',data.error,'error');
 					}
+					$('#addTag').addClass('hidden');
+					$('#addedTags').addClass('hidden');
+					$('#filterTag').removeClass('hidden');
+					objClicked.on('click');
+					activeAjaxConnections=0;
+					objClicked.css('cursor', 'pointer');					
 				}
 			});
 		} 
@@ -226,13 +297,13 @@ $(document).ready(function() {
 			}
 		}
 	});
-	/////Fin definición persist data (Edit method)
+	/*/////Fin definición persist data (Edit method)*/
 
 
-	/////Persist datatable (Delete method)
-	$(document).on('click', '.btnDelete', function(event) {
+	/*/////Convertir en cliente*/
+	$(document).on('click', '.btnAction', function(event) {
 		var $btn = $(this).button('loading');
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		var ids=[];
 		var table = $('#providersList').DataTable();
@@ -241,7 +312,77 @@ $(document).ready(function() {
 				ids.push($(this).parent().attr('id'));
 			}
 		});	
-		// console.log(ids);
+		/*// console.log(ids);*/
+		/*// var probability=$('#txtProbability');*/
+		var convertLabel = $('#convertLabel').html();
+		var cancelButtonText = $('#cancelButtonText').html();
+		/*// var removeButton = $('#removeButton').html();*/
+		var alternateconfirmButtonText = $('#alternateconfirmButtonText').html();
+		swal({
+                        title: "",
+                        text: convertLabel,
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonText: alternateconfirmButtonText,
+                        cancelButtonText: cancelButtonText,
+                        reverseButtons: true,
+                    }).then(function(isConfirm) {
+                        if (isConfirm) {
+				$.ajax({
+				 	url: Routing.generate('admin_provider_to_cliente_convert_ajax'),
+				 	type: 'POST',
+				 	data: {param1: ids},
+				 	success:function(data){
+				 		if(data.error){
+				 			swal('',data.error,'error');
+				 		}
+				 		else{
+				 			$('#txtId').val(data.id);
+				 			$('#txtName').val(data.name);
+							$('.chkItemAll').prop({'checked': false});
+				 			$btn.button('reset');
+							table.ajax.reload();
+				 			swal('',data.msg,'success');
+				 		}
+				 		$('#pnAdd').slideUp();
+				 		/*//$('.btnAdd').click();*/
+				 		/*//table.ajax.reload();*/
+				 	},
+				 	error:function(data){
+				 		if(data.error){
+				 			/*console.log(data.id);*/
+				 			swal('',data.error,'error');
+				 			$btn.button('reset');
+				 		}
+				 		$btn.button('reset');
+				 	}
+				});
+				$('.btnDelete').addClass('hidden');
+				$('.btnAction').addClass('hidden');
+				$('.btnAddPage').removeClass('hidden');
+			}
+			else{
+				$btn.button('reset');
+			}
+		});
+		$btn.button('reset');
+	});
+	/*/////Fin de convertir en cliente*/
+
+
+	/*/////Persist datatable (Delete method)*/
+	$(document).on('click', '.btnDelete', function(event) {
+		var $btn = $(this).button('loading');
+		/*/////Definición de variables*/
+		var id=$(this).children().first().children().attr('id');
+		var ids=[];
+		var table = $('#providersList').DataTable();
+		$('.chkItem').each(function() {
+			if ($(this).is(':checked')) {
+				ids.push($(this).parent().attr('id'));
+			}
+		});	
+		/*// console.log(ids);*/
 		swal({
                         title: "",
                         text: "Remove selected rows?",
@@ -279,17 +420,18 @@ $(document).ready(function() {
 					}
 				});
                             		$('.btnDelete').addClass('hidden');
+                            		$('.btnAction').addClass('hidden');
 				$('.btnAddPage').removeClass('hidden');
                         	}
                     });
                 	$btn.button('reset');		
 	});
-	/////Fin definición persist data (Delete method)
+	/*/////Fin definición persist data (Delete method)*/
 
 
-	/////Select checkboxes (All)
+	/*/////Select checkboxes (All)*/
 	$(document).on('click', '.chkItemAll', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		$('#txtId').val('');
 		$('#txtName').val('');
@@ -298,6 +440,7 @@ $(document).ready(function() {
 			$('.chkItem').each(function() {
 				$('.btnAddPage').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');
+				$('.btnAction').removeClass('hidden');
 				$(this).prop({'checked': true});
 			});	
 		} 
@@ -305,33 +448,35 @@ $(document).ready(function() {
 			$('.chkItem').each(function() {
 				$('.btnAddPage').removeClass('hidden');
 				$('.btnDelete').addClass('hidden');
+				$('.btnAction').addClass('hidden');
 				$(this).prop({'checked': false});
 			});
 		}			
 	});
-	/////Fin select checkboxes (All)
+	/*/////Fin select checkboxes (All)*/
 
 
-	/////Select checkboxes (Single)
+	/*/////Select checkboxes (Single)*/
 	$(document).on('click', '.chkItem', function(event) {
-
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		var total=0;
 		var selected=0;
 		$('#pnAdd').slideUp();
-		console.log(text);
+		/*console.log(text);*/
 		if (text=='INPUT' ) {
 			var id=$(this).parent().attr('id');
-			// var probability=$('#txtProbability');
+			/*// var probability=$('#txtProbability');*/
 			if ($(this).is(':checked')) {
 				$('.btnAddPage').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');
+				$('.btnAction').removeClass('hidden');
 				$(this).prop({'checked': true});
 			} 
 			else {
 				$('.btnAddPage').removeClass('hidden');
 				$('.btnDelete').addClass('hidden');
+				$('.btnAction').addClass('hidden');
 				$(this).prop({'checked': false});
 			}$('.chkItem').each(function() {
 				total++;
@@ -339,10 +484,10 @@ $(document).ready(function() {
 					selected++;
 					$('.btnAddPage').addClass('hidden');
 					$('.btnDelete').removeClass('hidden');
+					$('.btnAction').removeClass('hidden');
 				}
 			});	
 		}
-		
 		if(total==selected){
 			$('.chkItemAll').prop({'checked': true});
 		}
@@ -350,9 +495,9 @@ $(document).ready(function() {
 			$('.chkItemAll').prop({'checked': false});	
 		}
 	});
-	/////Fin select checkboxes (Single)
+	/*/////Fin select checkboxes (Single)*/
 
-	/////Contadores para agregar o eliminar telefono, email y direccion
+	/*/////Contadores para agregar o eliminar telefono, email y direccion*/
 	var numPhones = 0;
 	var numEmail = 0;
 	
@@ -365,10 +510,10 @@ $(document).ready(function() {
 	$('.txtAddress').each(function(index, el) {
 		numAddress++;
 	});
-	/////Fin de contadores para agregar o eliminar telefono, email y direccion
+	/*/////Fin de contadores para agregar o eliminar telefono, email y direccion*/
 
 
-	/////Agregar/remover telefonos
+	/*/////Agregar/remover telefonos*/
 	$(document).on('click', '#plusPhone', function(event) {
 		numPhones++;
 		var optionsPhoneType = $('.firstPhoneType').html();
@@ -388,10 +533,10 @@ $(document).ready(function() {
 		$('#deletePhone-'+numDelArray[1]).remove();
 		return false;
 	});
-	/////Fin de agregar/remover telefonos
+	/*/////Fin de agregar/remover telefonos*/
 
 
-	/////Agregar/remover email
+	/*/////Agregar/remover email*/
 	$(document).on('click', '#plusEmail', function(event) {
 		numEmail++;
 		
@@ -407,10 +552,10 @@ $(document).ready(function() {
 		
 		return false;
 	});
-	/////Fin de agregar/remover email
+	/*/////Fin de agregar/remover email*/
 
 
-	/////Agregar/remover direccion
+	/*/////Agregar/remover direccion*/
 	$(document).on('click', '#plusAddress', function(event) {
 		numAddress++;
 		var optionsCity = $('.dpbCityFirst').html();
@@ -418,7 +563,7 @@ $(document).ready(function() {
 		$('.address').append('<input style="margin-top:25px ;" id="address-'+numAddress+'" type="text" name="address[]" class="input-sm form-control validateInput txtAddress">');
 		$('.city').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="input-sm form-control dpbCity">'+optionsCity+' </select></div>');
 		$('.state').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="input-sm form-control dpbState">'+optionsState+' </select></div>');
-		//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');
+		/*//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');*/
 		$('.addAddress').append('<button id="deleteAddress-'+numAddress+'" style="margin-top:25px;" class="btn removeAddress btn-danger"><i class="fa fa-remove"></i></button>');
 		$('#city-'+numAddress).select2();
 		$('#state-'+numAddress).select2();
@@ -433,31 +578,33 @@ $(document).ready(function() {
 		$(this).remove();
 		return false;
 	});
-	/////Fin de agregar/remover direccion
+	/*/////Fin de agregar/remover direccion*/
 
 
-	/////Agregar/remover direccion
+	/*/////Agregar/remover direccion*/
 	$(document).on('change', '.dpbStateFirst,.dpbState', function(event) {		
-		var id=$(this).val();//Valor id estado
-		var idHtml=$(this).attr('id');//Valor id objecto html
-		// console.log(id);
-		// console.log(idHtml);
+		var id=$(this).val();
+		/*//Valor id estado*/
+		var idHtml=$(this).attr('id');
+		/*//Valor id objecto html*/
+		/*// console.log(id);*/
+		/*// console.log(idHtml);*/
 		var domElement=$(this);
 		if (idHtml=='') {
 			$.ajax({
 				url: Routing.generate('admin_provider_search_cities_ajax'),
-				type: 'POST',
+				type: 'GET',
 				data: {param1: id},
 				success:function(data){
 					if(data.error){
 						swal('',data.error,'error');
 					}
 					else{
-						// console.log(data.ciudades[0]);
+						/*// console.log(data.ciudades[0]);*/
 					}
-					// console.log(data.ciudades[0][0]);
-					// console.log(data.ciudades[0][1]);
-					// console.log('assax'+data.ciudades.length);
+					/*// console.log(data.ciudades[0][0]);*/
+					/*// console.log(data.ciudades[0][1]);*/
+					/*// console.log('assax'+data.ciudades.length);*/
 					$('.dpbCityFirst').select2('destroy');
 					$('.dpbCityFirst').html('');
 					for (var i = 0; i <data.ciudades.length; i++) {
@@ -469,11 +616,11 @@ $(document).ready(function() {
 						}
 					}
 					$('.dpbCityFirst').select2();
-					//$('#pnAdd').slideUp();
+					/*//$('#pnAdd').slideUp();*/
 				},
 				error:function(data){
 					if(data.error){
-						// console.log(data.id);
+						/*// console.log(data.id);*/
 						swal('',data.error,'error');
 					}
 					$btn.button('reset');
@@ -482,24 +629,24 @@ $(document).ready(function() {
 		} else {
 			$.ajax({
 				url: Routing.generate('admin_provider_search_cities_ajax'),
-				type: 'POST',
+				type: 'GET',
 				data: {param1: id},
 				success:function(data){
 					if(data.error){
 						swal('',data.error,'error');
 					}
 					else{
-						// console.log(data.ciudades[0]);
+						/*// console.log(data.ciudades[0]);*/
 					}
-					// console.log(data.ciudades[0][0]);
-					// console.log(data.ciudades[0][1]);
-					// console.log('assax'+data.ciudades.length);
+					/*// console.log(data.ciudades[0][0]);*/
+					/*// console.log(data.ciudades[0][1]);*/
+					/*// console.log('assax'+data.ciudades.length);*/
 					var idHtmlArray=idHtml.split('-');
-					// console.log(idHtml);
-					// console.log(idHtmlArray);
+					/*// console.log(idHtml);*/
+					/*// console.log(idHtmlArray);*/
 					$('#city-'+idHtmlArray[1]).select2('destroy');
 					$('#city-'+idHtmlArray[1]).html('');
-					// console.log('#city-'+idHtmlArray[1]);
+					/*// console.log('#city-'+idHtmlArray[1]);*/
 					for (var i = 0; i <data.ciudades.length; i++) {
 						if (i==0) {
 							$('#city-'+idHtmlArray[1]).append('<option selected value="'+data.ciudades[0][0]+'">'+data.ciudades[0][1]+'</option>');
@@ -509,7 +656,7 @@ $(document).ready(function() {
 						}
 					}
 					$('#city-'+idHtmlArray[1]).select2();
-					//$('#pnAdd').slideUp();
+					/*//$('#pnAdd').slideUp();*/
 				},
 				error:function(data){
 					if(data.error){
@@ -522,5 +669,11 @@ $(document).ready(function() {
 		}
 		return false;
 	});
-	/////Fin de agregar/remover direccion
+	/*/////Fin de agregar/remover direccion*/
+
+
+
+
+
+
 });	

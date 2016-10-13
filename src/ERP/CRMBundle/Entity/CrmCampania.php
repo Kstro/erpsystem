@@ -45,14 +45,14 @@ class CrmCampania
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_inicio", type="date", nullable=false)
+     * @ORM\Column(name="fecha_inicio", type="datetime", nullable=false)
      */
     private $fechaInicio;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_fin", type="date", nullable=false)
+     * @ORM\Column(name="fecha_fin", type="datetime", nullable=false)
      */
     private $fechaFin;
 
@@ -62,6 +62,13 @@ class CrmCampania
      * @ORM\Column(name="estado", type="boolean", nullable=false)
      */
     private $estado;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado_campania", type="string", nullable=false)
+     */
+    private $estadoCampania;
 
     /**
      * @var \CrmTipoCampania
@@ -244,5 +251,31 @@ class CrmCampania
     public function getTipoCampania()
     {
         return $this->tipoCampania;
+    }
+
+
+
+
+    /**
+     * Set estadoCampania
+     *
+     * @param string $estadoCampania
+     * @return CrmCampania
+     */
+    public function setEstadoCampania($estadoCampania)
+    {
+        $this->estadoCampania = $estadoCampania;
+
+        return $this;
+    }
+
+    /**
+     * Get estadoCampania
+     *
+     * @return string 
+     */
+    public function getEstadoCampania()
+    {
+        return $this->estadoCampania;
     }
 }

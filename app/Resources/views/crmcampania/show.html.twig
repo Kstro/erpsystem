@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CrmCampania</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ crmCampanium.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ crmCampanium.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ crmCampanium.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Fecharegistro</th>
+                <td>{% if crmCampanium.fechaRegistro %}{{ crmCampanium.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechainicio</th>
+                <td>{% if crmCampanium.fechaInicio %}{{ crmCampanium.fechaInicio|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechafin</th>
+                <td>{% if crmCampanium.fechaFin %}{{ crmCampanium.fechaFin|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{% if crmCampanium.estado %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_campaigns_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_campaigns_edit', { 'id': crmCampanium.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

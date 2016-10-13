@@ -1,0 +1,150 @@
+{# {% extends 'base.html.twig' %} #}
+
+{% extends ':layout:layouterp.html.twig' %}
+
+
+{% block title -%}<title>{{tituloSocio}}</title>{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    <style type="text/css">
+        .errorform{
+            border: 1px solid #F00 !important;
+        }
+    </style>
+{% endblock %}
+{% block navegacion %}
+            {% include ':crm_dashboard:crm_menu.html.twig' %}
+              {% for tipo in tiposCuenta if tipo.id>4 %}
+                {# {% include ':crm_dashboard:crm_menu.html.twig' %} #}
+                <a href="{{path('admin_accounts_index',{nombre:tipo.nombre})|lower}}" class="leftnava">
+                    <li class="leftnav left {% if opcion is defined and tipo.nombre==opcion  %}active {% endif %}">
+                        {{tipo.nombre}}
+                        <span class="pull-right right">
+                            <i class="{% if opcion is defined and tipo.nombre==opcion  %}fa fa-arrow-right {% endif %}"></i>
+                        </span>
+                    </li>
+                </a>
+            {% endfor %}
+{% endblock %}
+{% block descripcion %}
+     <div class="col-md-5">
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSocio}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionSocio}}</p>
+          {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
+            <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
+            <p id="convertLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{convertLabel}}</p>
+            <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+            <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
+            <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
+     </div>
+
+{% endblock %}
+{% block acciones %}
+     <div class="col-md-7 text-right panel-body">
+          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
+          <button data-loading-text="Loading..." autocomplete="off" class="btnAddPage btn btn-sm btn-primary btn-flat">{{add}}</button>
+          <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
+          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
+                            
+          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
+          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{actionClients}}</button>
+     </div>
+{% endblock acciones %}
+
+{% block contenido %}
+    <div class="row">
+        {% include ':crmcuenta:provider.html.twig' %}
+
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-xs-12">
+            <table id="socioList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+                  
+                <thead>
+                    <tr role="row">
+                        <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameSocio}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaSocio}}</th>
+                        
+                        <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailSocio}}</th>
+                        <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneSocio}}</th>
+                        <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{industriaSocio}}</th>
+                    </tr>
+                </thead>      
+             </table>
+        </div>
+    </div>
+
+    
+{% endblock %}
+{% block js_extend %}
+    
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/socio/socio.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/socio/socio.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            /////Definición datatable
+            var table = $('#socioList').DataTable({
+                dom:'ftp',
+                "processing": false,
+                "serverSide": true,
+                "ajax": {
+                    "url": '{{path('admin_socio_data')}}',
+                    "type": 'GET'
+                },
+                "columns": [
+                    { "data": "chk" },
+                    { "data": "name" },
+                    { "data": "account" },
+                    { "data": "email" },
+                    { "data": "phone" },
+                    { "data": "industry" },
+
+                    // { "data": "probability" },
+                    // { "data": "state" }
+                    // { "data": "actions" }
+                ],
+                "order":[1,'asc'],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                    
+                ],
+                "language": {
+                    "info": "{{dtInfo}} _PAGE_ de _PAGES_",
+                    "infoEmpty": "{{dtInfoEmpty}}",
+                    "emptyTable": "{{dtEmptyTable}}",
+                    "paginate": { 
+                        "next": "{{dtNext}}",
+                        "previous": "{{dtPrev}}"
+                    },
+                    "processing": "{{dtProcessing}}",
+                    "search": "{{dtSearch}}",
+                    "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
+                }
+            });
+            //Buscar hasta que se presione enter
+            $('#providersList_filter input').unbind();
+            $('#providersList_filter input').bind('keyup', function(e) {
+                if(e.keyCode == 13) {
+                    table.search( this.value ).draw();
+                    // $('.chkItem').prop({'checked': false});
+                }
+                else{
+                    $('.btnAction').addClass('hidden');
+                    $('.chkItem').prop({'checked': false});  
+                }
+                $('.chkItemAll').prop({'checked': false});
+            });
+            /////Fin definición datatable
+
+            $('#dpbTitulo').select2();
+            $('.dpbTipoPhone').select2();
+            $('.dpbTipoPersona').select2();
+            $('.dpbIndustria').select2();
+        });
+    </script>
+     
+{% endblock %}

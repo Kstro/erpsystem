@@ -36,6 +36,20 @@ class CrmActividad
     private $descripcion;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="google_id", type="text", length=65535, nullable=true)
+     */
+    private $googleId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="direccion", type="text", length=65535, nullable=true)
+     */
+    private $direccion;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
@@ -105,6 +119,21 @@ class CrmActividad
 
 
 
+
+
+    /**
+     * @var \CrmCuenta
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCuenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cuenta", referencedColumnName="id")
+     * })
+     */
+    private $cuenta;
+
+
+
+
     /**
      * Get id
      *
@@ -159,6 +188,30 @@ class CrmActividad
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+
+
+    /**
+     * Set googleId
+     *
+     * @param string $googleId
+     * @return CrmActividad
+     */
+    public function setGoogleId($googleId)
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    /**
+     * Get googleId
+     *
+     * @return string 
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
     }
 
     /**
@@ -344,4 +397,61 @@ class CrmActividad
     {
         return $this->sucursal;
     }
+
+
+
+
+
+    /**
+     * Set cuenta
+     *
+     * @param \ERP\CRMBundle\Entity\CrmCuenta $cuenta
+     * @return CrmCasoCuenta
+     */
+    public function setCuenta(\ERP\CRMBundle\Entity\CrmCuenta $cuenta = null)
+    {
+        $this->cuenta = $cuenta;
+
+        return $this;
+    }
+
+    /**
+     * Get cuenta
+     *
+     * @return \ERP\CRMBundle\Entity\CrmCuenta 
+     */
+    public function getCuenta()
+    {
+        return $this->cuenta;
+    }
+
+
+
+
+     /**
+     * Set direccion
+     *
+     * @param string $direccion
+     * @return CrmActividad
+     */
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return string 
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+
+
+
 }

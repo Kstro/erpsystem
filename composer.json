@@ -18,7 +18,9 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
-        "beberlei/DoctrineExtensions": "*"
+        "beberlei/DoctrineExtensions": "*",
+        "djamy/google-calendar-bundle":"dev-master",
+        "adesigns/calendar-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

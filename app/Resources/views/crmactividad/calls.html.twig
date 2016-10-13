@@ -1,0 +1,119 @@
+<div class="col-md-12 col-xs-12">
+            <div id="pnAdd" class="panel panel-default" style="display:none;">
+                    <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+                    <div class="panel-body">
+                        <form id="frmCalls"  method="post" enctype="multipart/form-data">
+                        <div class="col-md-6">
+                            <label>{{nameLlamadas}}</label>
+                            <label class="hidden requiredFields">{{requiredFields}}</label>
+                            <input id="txtId" type="hidden" name="id" class="input-sm form-control">
+                            
+                            <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="col-md-6 estado noCal hidden">
+                            <label >{{estadoLlamadas}}</label>
+                            <select style="width:100%;" id="estado" name="estado" class=" noCal input-sm form-control validateSelect dpbCity dpbCityFirst">
+                                {% for estado in estados %}
+                                    <option value={{estado.id}}>{{estado.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 estado cal hidden">
+                            <label >{{estadoLlamadas}}</label>
+                            <select style="width:100%;" id="tipoActividades" name="tipoActividades" class=" cal input-sm form-control validateSelect dpbTipoActividad dpbTipoActividad">
+                                {% for actividad in actividades %}
+                                    <option value={{actividad.id}}>{{actividad.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="clearfix"></div> 
+                        <div class="col-md-12" style="margin-top:20px;">
+                            <label >{{cuentaActividad}}</label>
+                            <select style="width:100%;" id="cuentaActividades" name="cuentaActividades" class="cal input-sm form-control validateSelect dpbCuentaActividad dpbFirstCuentaActividad">
+                                <option value="0"></option>
+                                {# {% for actividad in actividades %}
+                                    <option value={{actividad.id}}>{{actividad.nombre}}</option>
+                                {% endfor %} #}
+                            </select>
+                        </div>
+                        <div class="clearfix"></div> 
+                        <div class="col-md-12" style="margin-top:20px;">
+                            <label>{{descripcionFormLlamadas}}</label>
+                            <textarea id="txtDescripcion" type="text" name="descripcion" class="input-sm form-control "></textarea>
+                        </div   >
+                        <div class="clearfix"></div> 
+                        <div class="col-md-6 inicio" style="margin-top:20px;">
+                            <label>{{fechaInicioLlamadas}}</label>
+                            {# <input type="text" name="inicio[]" class="input-sm form-control validateInput txtInicio "> #}
+                            {# <input type="text" name="inicio[]" class="input-sm form-control validateInput txtInicio "> #}
+                             <div class='input-group date' id='datetimepicker1'>
+                                <input id="txtFechaInicio" readonly type='text' class="form-control" name="inicio[]"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 fin" style="margin-top:20px;">
+                            <label>{{fechaFinLlamadas}}</label>
+                            {# <inpt type="text" name="fin[]" class="input-sm form-control validateInput txtFin "> #}
+                             <div class='input-group date' id='datetimepicker2'>
+                                <input id="txtFechaFin" readonly type='text' class="form-control txtFin" name="fin[]"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        {# <div class="clearfix"></div>  #}
+                        
+                        
+                        
+                        
+                     
+                        <div class="clearfix"></div>
+                        <div class="col-md-4 responsable" style="margin-top:20px;">
+                            <label>{{responsableLlamadas}}</label>
+                            <select style="margin-top:25px; width:100%;" type="text" name="responsable[]" class="input-sm form-control validateInput dpbResponsable firstResponsable">
+                                {% for persona in personas %}
+                                        <option value={{persona.id}}>{{persona.persona.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 tipoRecordatorio" style="margin-top:20px;">
+                            <label>{{recordatorioLlamadas}}</label>
+                            <select style="margin-top:25px; width:100%;" type="text" name="tipoRecordatorio[]" class="input-sm form-control validateInput dpbTipoRecordatorio firstTipoRecordatorio">
+                                {% for recordatorio in recordatorios %}
+                                        <option value={{recordatorio.id}}>{{recordatorio.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2 tiempoRecordatorio" style="margin-top:20px;">
+                            <label>{{tiempoRecordatorioLlamadas}}</label>
+                            <select style="margin-top:25px; width:100%;" type="text" name="tiempoRecordatorio[]" class="input-sm form-control validateInput dpbTiempoRecordatorio firstTiempoRecordatorio">
+                                {% for tiempo in tiempos %}
+                                        <option value={{tiempo.id}}>{{tiempo.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-1 addPersona" style="margin-top:20px;">
+                            <button id="plusPersona" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <div class="col-md-3 prioridad" style="margin-top:20px;">
+                            <label>{{prioridadLlamadas}}</label>
+                            <select style="margin-top:25px; width:100%;" type="text" name="prioridad" class="input-sm form-control validateInput dpbPriority firstPriority">
+                                {% for prio in prioridad %}
+                                        <option value={{prio.id}}>{{prio.nombre}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                        <div class="clearfix"></div> 
+                        <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                                <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
+                                <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                            </div>
+                        </div>
+                        </form>
+                    {# <div class="panel-footer">Panel Footer</div> #}
+            </div>
+</div>

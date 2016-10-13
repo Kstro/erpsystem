@@ -1,12 +1,13 @@
 $(document).ready(function() {
-	/////Persist datatable (Save method)
+	/*/////Persist datatable (Save method)*/
 	$(document).on('click', '#btnSave', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var $btn = $(this).button('loading');
     		var id=$('#txtId');
 		var name=$('#txtName');
 		var table = $('#campaignList').DataTable();
-		var errores = 0;//Contador de errores, para antes de la persistencia
+		var errores = 0;
+		/*//Contador de errores, para antes de la persistencia*/
 		$('.validateInput').each(function() {
 			if (!required($(this))) {
 				errores++;
@@ -45,21 +46,21 @@ $(document).ready(function() {
 			var requiredFields = $('.requiredFields').html();
 			swal('',requiredFields,'error');
 			$btn.button('reset');
-			//console.log('error');
+			/*//console.log('error');*/
 		}
 	});
-	/////Fin definición persist data (Save method)
+	/*/////Fin definición persist data (Save method)*/
 
 
-	/////Persist datatable (Edit method)
+	/*/////Persist datatable (Edit method)*/
 	$(document).on('click', '#campaignList>tbody>tr>td:nth-child(2)', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		console.log(text);
 		var id=$(this).parent().children().first().children().attr('id');
 		var idForm=$('#txtId').val();
 		var selected = 0;
-		//Cambiar nombre del panel heading para Modify
+		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
 		$('.chkItem').each(function() {
@@ -99,13 +100,13 @@ $(document).ready(function() {
 			}
 		}
 	});
-	/////Fin definición persist data (Edit method)
+	/*/////Fin definición persist data (Edit method)*/
 
 
-	/////Persist datatable (Delete method)
+	/*/////Persist datatable (Delete method)*/
 	$(document).on('click', '.btnDelete', function(event) {
 		var $btn = $(this).button('loading');
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		var ids=[];
 		var table = $('#campaignList').DataTable();
@@ -115,7 +116,7 @@ $(document).ready(function() {
 			}
 		});	
 		console.log(ids);
-		// var probability=$('#txtProbability');
+		/*// var probability=$('#txtProbability');*/
 
 
 		swal({
@@ -146,9 +147,9 @@ $(document).ready(function() {
 						}
 						
 						$('#pnAdd').slideUp();
-						//$('.btnAdd').click();
+						/*//$('.btnAdd').click();*/
 
-						//table.ajax.reload();
+						/*//table.ajax.reload();*/
 					},
 					error:function(data){
 						if(data.error){
@@ -156,7 +157,7 @@ $(document).ready(function() {
 							swal('',data.error,'error');
 							$btn.button('reset');
 						}
-						//$btn.button('reset');
+						/*//$btn.button('reset');*/
 					}
 				});
                             		$('.btnDelete').addClass('hidden');
@@ -167,18 +168,18 @@ $(document).ready(function() {
                 	$btn.button('reset');
 		
 	});
-	/////Fin definición persist data (Delete method)
+	/*/////Fin definición persist data (Delete method)*/
 
 
-	/////Select checkboxes (All)
+	/*/////Select checkboxes (All)*/
 	$(document).on('click', '.chkItemAll', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
-		// var probability=$('#txtProbability');
+		/*// var probability=$('#txtProbability');*/
 
 		$('#txtId').val('');
 		$('#txtName').val('');
-		// probability.slider('setValue', 14);
+		/*// probability.slider('setValue', 14);*/
 		$('#pnAdd').slideUp();
 		if ($(this).is(':checked')) {
 			$('.chkItem').each(function() {
@@ -197,13 +198,13 @@ $(document).ready(function() {
 		
 		
 	});
-	/////Fin select checkboxes (All)
+	/*/////Fin select checkboxes (All)*/
 
 
-	/////Select checkboxes (Single)
+	/*/////Select checkboxes (Single)*/
 	$(document).on('click', '.chkItem', function(event) {
 
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		var total=0;
 		var selected=0;
@@ -211,7 +212,7 @@ $(document).ready(function() {
 		console.log(text);
 		if (text=='INPUT' ) {
 			var id=$(this).parent().attr('id');
-			// var probability=$('#txtProbability');
+			/*// var probability=$('#txtProbability');*/
 			if ($(this).is(':checked')) {
 				$('.btnAdd').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');
@@ -238,5 +239,5 @@ $(document).ready(function() {
 			$('.chkItemAll').prop({'checked': false});	
 		}
 	});
-	/////Fin select checkboxes (Single)
+	/*/////Fin select checkboxes (Single)*/
 });	

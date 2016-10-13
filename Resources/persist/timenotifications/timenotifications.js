@@ -1,14 +1,15 @@
 $(document).ready(function() {
-	/////Persist datatable (Save method)
+	/*/////Persist datatable (Save method)*/
 	$(document).on('click', '#btnSave', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var $btn = $(this).button('loading');
     		var id=$('#txtId');
 		var name=$('#txtName');
 		var duration=$('#txtDuration');
 		var unit = $('#dpbUnidad');
 		var table = $('#timeNotificationList').DataTable();
-		var errores = 0;//Contador de errores, para antes de la persistencia
+		var errores = 0;
+		/*//Contador de errores, para antes de la persistencia*/
 		$('.validateInput').each(function() {
 			if (!required($(this))) {
 				errores++;
@@ -47,22 +48,22 @@ $(document).ready(function() {
 			var requiredFields = $('.requiredFields').html();
 			swal('',requiredFields,'error');
 			$btn.button('reset');
-			//console.log('error');
+			/*//console.log('error');*/
 		}
 	});
-	/////Fin definición persist data (Save method)
+	/*/////Fin definición persist data (Save method)*/
 
 
-	/////Persist datatable (Edit method)
+	/*/////Persist datatable (Edit method)*/
 	$(document).on('click', '#timeNotificationList>tbody>tr>td:nth-child(2), #timeNotificationList>tbody>tr>td:nth-child(3), #timeNotificationList>tbody>tr>td:nth-child(4)', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		console.log(text);
 		var id=$(this).parent().children().first().children().attr('id');
 		var idForm=$('#txtId').val();
-		// var probability=$('#txtProbability');
+		/*// var probability=$('#txtProbability');*/
 		var selected = 0;
-		//Cambiar nombre del panel heading para Modify
+		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
 		$('.chkItem').each(function() {
@@ -86,7 +87,7 @@ $(document).ready(function() {
 						$('#txtName').val(data.name);
 						$('#txtDuration').val(data.duration);
 						$('#dpbUnidad').val(data.unit).change();
-						// probability.slider('setValue', data.probability);
+						/*// probability.slider('setValue', data.probability);*/
 						$('#pnAdd').slideDown();
 					}					
 					
@@ -105,13 +106,13 @@ $(document).ready(function() {
 			}
 		}
 	});
-	/////Fin definición persist data (Edit method)
+	/*/////Fin definición persist data (Edit method)*/
 
 
-	/////Persist datatable (Delete method)
+	/*/////Persist datatable (Delete method)*/
 	$(document).on('click', '.btnDelete', function(event) {
 		var $btn = $(this).button('loading');
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		var ids=[];
 		
@@ -121,7 +122,7 @@ $(document).ready(function() {
 			}
 		});	
 		console.log(ids);
-		// var probability=$('#txtProbability');
+		/*// var probability=$('#txtProbability');*/
 		swal({
                         title: "",
                         text: "Remove selected rows?",
@@ -151,9 +152,9 @@ $(document).ready(function() {
 						}
 						
 						$('#pnAdd').slideUp();
-						//$('.btnAdd').click();
+						/*//$('.btnAdd').click();*/
 
-						//table.ajax.reload();
+						/*//table.ajax.reload();*/
 					},
 					error:function(data){
 						if(data.error){
@@ -161,7 +162,7 @@ $(document).ready(function() {
 							swal('',data.error,'error');
 							$btn.button('reset');
 						}
-						//$btn.button('reset');
+						/*//$btn.button('reset');*/
 					}
 				});
 				$('.btnDelete').addClass('hidden');
@@ -173,12 +174,12 @@ $(document).ready(function() {
 		});
 		$btn.button('reset');
 	});
-	/////Fin definición persist data (Delete method)
+	/*/////Fin definición persist data (Delete method)*/
 
 
-	/////Select checkboxes (All)
+	/*/////Select checkboxes (All)*/
 	$(document).on('click', '.chkItemAll', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		var probability=$('#txtProbability');
 
@@ -203,13 +204,13 @@ $(document).ready(function() {
 		
 		
 	});
-	/////Fin select checkboxes (All)
+	/*/////Fin select checkboxes (All)*/
 
 
-	/////Select checkboxes (Single)
+	/*/////Select checkboxes (Single)*/
 	$(document).on('click', '.chkItem', function(event) {
 
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		var selected = 0;
 		var total=0;
@@ -247,5 +248,5 @@ $(document).ready(function() {
 		}
 
 	});
-	/////Fin select checkboxes (Single)
+	/*/////Fin select checkboxes (Single)*/
 });	

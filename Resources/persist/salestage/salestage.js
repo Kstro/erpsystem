@@ -1,14 +1,16 @@
 $(document).ready(function() {
-	/////Persist datatable (Save method)
+	/*/////Persist datatable (Save method)*/
 	$(document).on('click', '#btnSave', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var $btn = $(this).button('loading');
+		var $btnT = $('#btnSaveTop').button('loading');
     		var id=$('#txtId');
 		var name=$('#txtName');
 		var probability=$('#txtProbability');
 		var state = $('#txtState');
 		var table = $('#saleStageList').DataTable();
-		var errores = 0;//Contador de errores, para antes de la persistencia
+		var errores = 0;
+		/*//Contador de errores, para antes de la persistencia*/
 		$('.validateInput').each(function() {
 			if (!required($(this))) {
 				errores++;
@@ -29,12 +31,14 @@ $(document).ready(function() {
 						probability.slider('setValue', 10);
 						$('.btnAdd').click();
 						$btn.button('reset');
+						$btnT.button('reset');
 						table.ajax.reload();
 					}
 					if(data.error){
 						console.log(data.id);
 						swal('',data.error,'error');
 						$btn.button('reset');
+						$btnT.button('reset');
 					}
 					
 				},
@@ -44,6 +48,7 @@ $(document).ready(function() {
 						swal('',data.error,'error');
 					}
 					$btn.button('reset');
+					$btnT.button('reset');
 				}
 			});
 		}
@@ -51,22 +56,23 @@ $(document).ready(function() {
 			var requiredFields = $('.requiredFields').html();
 			swal('',requiredFields,'error');
 			$btn.button('reset');
-			//console.log('error');
+			$btnT.button('reset');
+			/*//console.log('error');*/
 		}
 	});
-	/////Fin definición persist data (Save method)
+	/*/////Fin definición persist data (Save method)*/
 
 
-	/////Persist datatable (Edit method)
+	/*/////Persist datatable (Edit method)*/
 	$(document).on('click', '#saleStageList>tbody>tr>td:nth-child(2), #saleStageList>tbody>tr>td:nth-child(3), #saleStageList>tbody>tr>td:nth-child(4)', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		console.log(text);
 		var id=$(this).parent().children().first().children().attr('id');
 		var idForm=$('#txtId').val();
 		var probability=$('#txtProbability');
 		var selected = 0;
-		//Cambiar nombre del panel heading para Modify
+		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
 		$('.chkItem').each(function() {
@@ -107,13 +113,13 @@ $(document).ready(function() {
 			}
 		}
 	});
-	/////Fin definición persist data (Edit method)
+	/*/////Fin definición persist data (Edit method)*/
 
 
-	/////Persist datatable (Delete method)
+	/*/////Persist datatable (Delete method)*/
 	$(document).on('click', '.btnDelete', function(event) {
 		var $btn = $(this).button('loading');
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		var ids=[];
 		var table = $('#saleStageList').DataTable();
@@ -123,10 +129,10 @@ $(document).ready(function() {
 			}
 		});	
 		console.log(ids);
-		// var probability=$('#txtProbability');
+		/*// var probability=$('#txtProbability');*/
 		var cancelLabel = $('#removeLabel').html();
 		var cancelButtonText = $('#cancelButtonText').html();
-		// var removeButton = $('#removeButton').html();
+		/*/ var removeButton = $('#removeButton').html();*/
 		var confirmButtonText = $('#confirmButtonText').html();
 		
 		swal({
@@ -157,9 +163,9 @@ $(document).ready(function() {
 						}
 						
 						$('#pnAdd').slideUp();
-						//$('.btnAdd').click();
+						/*//$('.btnAdd').click();*/
 
-						//table.ajax.reload();
+						/*//table.ajax.reload();*/
 					},
 					error:function(data){
 						if(data.error){
@@ -167,7 +173,7 @@ $(document).ready(function() {
 							swal('',data.error,'error');
 							$btn.button('reset');
 						}
-						//$btn.button('reset');
+						/*//$btn.button('reset');*/
 					}
 				});
 				$('.btnDelete').addClass('hidden');
@@ -179,12 +185,12 @@ $(document).ready(function() {
 		});
 		$btn.button('reset');
 	});
-	/////Fin definición persist data (Delete method)
+	/*/////Fin definición persist data (Delete method)*/
 
 
-	/////Select checkboxes (All)
+	/*/////Select checkboxes (All)*/
 	$(document).on('click', '.chkItemAll', function(event) {
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var id=$(this).children().first().children().attr('id');
 		var probability=$('#txtProbability');
 
@@ -209,13 +215,13 @@ $(document).ready(function() {
 		
 		
 	});
-	/////Fin select checkboxes (All)
+	/*/////Fin select checkboxes (All)*/
 
 
-	/////Select checkboxes (Single)
+	/*/////Select checkboxes (Single)*/
 	$(document).on('click', '.chkItem', function(event) {
 
-		/////Definición de variables
+		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		var selected = 0;
 		var total=0;
@@ -253,5 +259,5 @@ $(document).ready(function() {
 		}
 
 	});
-	/////Fin select checkboxes (Single)
+	/*/////Fin select checkboxes (Single)*/
 });	

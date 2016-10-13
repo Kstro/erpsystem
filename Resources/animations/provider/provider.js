@@ -1,15 +1,22 @@
-/////Show forms panel
+/*/////Show forms panel*/
 
 $(document).on('click', '.btnAddPage', function(event) {
-	//console.log('add');
+	/*//console.log('add');*/
 	var id = $('#txtId1').val();
-	
-	// console.log("ID: "+id);
-	//Cambiar nombre del panel heading para add (Inserción)
+	$('#comentarios').hide();
+	$('#wallmessages').hide();
+	$('#btnLoadMore').hide();
+
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#filterTag').addClass('hidden');
+
+	/*// console.log("ID: "+id);*/
+	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');
 	$('.pnHeadingLabelEdit').addClass('hidden');
 	if (id!='') {
-		// console.log("if");
+		/*// console.log("if");*/
 		limpiarCampos();
 		$('#btnBack').removeClass('hidden');
 		$('#btnCancelTop').removeClass('hidden');
@@ -17,10 +24,10 @@ $(document).on('click', '.btnAddPage', function(event) {
 		$(this).addClass('hidden');
 	}
 	else{
-		// console.log("else");
-		// limpiarCampos();
-		$('#pnAdd').toggle();
-		$('#providersList').parent().toggle();
+		/*// console.log("else");*/
+		/*// limpiarCampos();*/
+		$('#pnAdd').show();
+		$('#providersList').parent().hide();
 	}
 	$('#btnSaveTop').removeClass('hidden');
 	$('#btnCancelTop').removeClass('hidden');
@@ -28,17 +35,17 @@ $(document).on('click', '.btnAddPage', function(event) {
 	$('#txtName').focus();
 });
 
-/////Fin show forms panel
+/*/////Fin show forms panel*/
 
-/////Hide forms panel
+/*/////Hide forms panel*/
 
 $(document).on('input', 'div.dataTables_filter input', function(event) {
-	//console.log('add');
+	/*//console.log('add');*/
 	$('#txtId').val('');
 	$('#txtName').val('');
 	$('#txtDuracion').val('');
 	$('#pnAdd').slideUp();
-	// $('.chkItemAll').prop({'checked': false});
+	/*// $('.chkItemAll').prop({'checked': false});*/
 	$('.btnAddPage').removeClass('hidden');
 	$('.btnDelete').addClass('hidden');
 	$('#btnBack').addClass('hidden');
@@ -48,7 +55,10 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 
 
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
-	// console.log('cancel');
+	/*// console.log('cancel');*/
+	$('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
 	limpiarCampos();
 	return false;
 	
@@ -74,7 +84,7 @@ function limpiarCampos(){
 	$('.txtEmailFirst').val('');
 	$('#imgTest').attr('src','http://placehold.it/250x250');
 	$('#file').val('');
-
+	$('#wallmessages').html('');
 	$('.validateInput').each(function(index, el) {
 		$(this).removeClass('errorform');
 	});
@@ -94,8 +104,8 @@ function limpiarCampos(){
 	$('#btnBack').addClass('hidden');
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
-	$('#pnAdd').toggle();
-	$('#providersList').parent().toggle();
+	$('#pnAdd').hide();
+	$('#providersList').parent().show();
 }
 
-/////Fin hide forms panel
+/*/////Fin hide forms panel*/

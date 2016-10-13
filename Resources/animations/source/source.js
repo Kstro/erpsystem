@@ -1,7 +1,7 @@
 $(document).on('click', '.btAdd', function(event) {
     var id = $('#txtId').val();
 
-    //Cambiar nombre del panel heading para add (Inserción)
+    /*//Cambiar nombre del panel heading para add (Inserción)*/
     $('.pnHeadingLabelAdd').removeClass('hidden');
     $('.pnHeadingLabelEdit').addClass('hidden');
 
