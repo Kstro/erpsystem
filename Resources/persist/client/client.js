@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
+        var numPedidos=0;
 	$("#txtId1").val('');
 	$("#txtId2").val('');
 	var numAddress = 0;
@@ -141,6 +142,17 @@ $(document).ready(function() {
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
 
+
+                numPedidos=1;
+                mostrarocultar(numPedidos);
+		/*console.log('asdcdsc');*/
+		/*// return false;*/
+		/*se limpia el seguimineto previo*/
+		$('#comentarios').show();
+		$('#wallmessages').show();
+		$('#wallmessages').html('');
+		$('#primeraFecha').val('');
+		$('#iteracion').val(numPedidos);
 		/*// console.log(id);*/
 		console.log(idArray[0]);
 		console.log(idArray[1]);
@@ -242,6 +254,12 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
+                                                seguimiento(data.id1, numPedidos,null);
+						cargarTags();
+						/*//seguimientoComet(data.id1);*/
+						$('#addTag').removeClass('hidden');
+						$('#addedTags').removeClass('hidden');
+						$('#filterTag').addClass('hidden');
 					}					
 				},
 				error:function(data){
@@ -254,7 +272,7 @@ $(document).ready(function() {
 		} 
 		else {
 			if(id==idForm && selected==0){
-				$('#pnAdd').slideDown();
+                            $('#pnAdd').slideDown();
 			}
 		}
 	});

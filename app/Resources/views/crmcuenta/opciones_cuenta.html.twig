@@ -1,0 +1,37 @@
+<div class="row">
+            <div class="col-md-12 col-xs-12">            
+                {% include ':crm_dashboard:crm_menu.html.twig' %}
+                  {% for tipo in tiposCuenta if tipo.id>4 %}
+                    {# {% include ':crm_dashboard:crm_menu.html.twig' %} #}
+                    <a href="{{path('admin_accounts_index',{nombre:tipo.nombre})|lower}}" class="leftnava">
+                        <li class="leftnav left {% if opcion is defined and tipo.nombre==opcion  %}active {% endif %}">
+                            {{tipo.nombre}}
+                            <span class="pull-right">
+                                <i class="{% if opcion is defined and tipo.nombre==opcion  %}fa fa-arrow-right {% endif %}"></i>
+                            </span>
+                        </li>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="clearfix"></div>
+            <hr>
+            <div class="col-md-12 col-xs-12 hidden" id="filterTag">
+                <label>{{filterLabel}}</label>
+                <select id="selectTags" style="width:100%">
+                    <option value="0">{{allFilter}}</option>
+                    {% for tag in etiquetas %}
+                        {# <a href="" id="{{tag.id}}">{{tag.nombre}}</a> #}
+                        <option value="{{tag.id}}">{{tag.nombre}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="clearfix"></div>
+            <div id="addedTags" class="hidden">
+                
+                
+            </div>
+            <div class="clearfix"></div>
+            <div id="addTag" class="hidden" style="margin-top:5px;">
+                <div class="col-xs-12"><input maxlength="19" placeholder="{{add}}..." style="font-style:italic;border: 0px solid #FFF;" class="input-sm form-control" id="addTagForm" type="text" ></div>
+            </div>
+        </div>

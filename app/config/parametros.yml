@@ -404,6 +404,7 @@ parameters:
         app.encabezadoTipoCuenta: Account type
         app.descripcionTipoCuenta: Add, modify or delete Account type.
         app.nameTipoCuenta: Name
+        app.menuTipoCuenta: Account types
         #Fuentes de origen (CRUD)
         app.tituloFuenteOrigen: CRM | Origin sources management
         app.encabezadoFuenteOrigen: Origin sources catalog

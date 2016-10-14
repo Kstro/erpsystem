@@ -56,6 +56,8 @@ class CrmClientesController extends Controller
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
             $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
+            //Tipos de etiqueta
+            $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
             return $this->render('crmcuenta/index_cliente.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
@@ -66,7 +68,8 @@ class CrmClientesController extends Controller
                 'satisfaccion'=>$satisfaccion,
                 'tiposTelefono'=>$tiposTelefono,
                 'tiposCuenta'=>$tiposCuenta,
-                'menuClienteA' => 3,
+                'etiquetas'=>$etiquetas,
+                'menuClienteA' => 1,
             ));
         
         } catch (\Exception $e) {  
@@ -198,7 +201,7 @@ class CrmClientesController extends Controller
     /**
      * List all accounts, cliente, cliente potrencial, proveedor, etc
      *
-     * @Route("/clients/data/list", name="admin_cliente2_data")
+     * @Route("/clients/data/list", name="admin_cliente2_data",  options={"expose"=true}))
      */
     public function dataclientsAction(Request $request)
     {
@@ -207,7 +210,7 @@ class CrmClientesController extends Controller
                 $draw = $request->query->get('draw');
                 $longitud = $request->query->get('length');
                 $busqueda = $request->query->get('search');
-                
+                $tagId = $request->query->get('param1');
                 $em = $this->getDoctrine()->getEntityManager();
                 
                 $sql = "SELECT obj.id as id FROM ERPCRMBundle:CrmCuenta obj "
@@ -243,42 +246,107 @@ class CrmClientesController extends Controller
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){
-                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                    if ($tagId==0) {
+                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
-                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
-                                        WHERE c.tipo_cuenta=3 AND per.id<>1 AND c.estado=1 
-                                        GROUP BY 1
-                                        HAVING CONCAT(name,' ',email,' ',phone,' ',dateReg) LIKE upper('%".$busqueda['value']."%') ORDER BY ". $orderByText." ".$orderDir;
-                            $stmt = $em->getConnection()->prepare($sql);
-                            $stmt->execute();
-                            $row['data'] = $stmt->fetchAll();
-                            $row['recordsFiltered']= count($row['data']);
-                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                        WHERE c.tipo_cuenta=3 AND  per.id<>1 AND c.estado=1 AND e.id =".$tagId."
+                                            GROUP BY 1
+                                            HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                            ORDER BY ". $orderByText." ".$orderDir;
+                                $stmt = $em->getConnection()->prepare($sql);
+                                $stmt->execute();
+                                $row['data'] = $stmt->fetchAll();
+                                $row['recordsFiltered']= count($row['data']);
+                                $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
-                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
-                                        WHERE c.tipo_cuenta=3 AND per.id<>1 AND c.estado=1 
+                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                        WHERE c.tipo_cuenta=3 AND per.id<>1 AND c.estado=1 AND e.id =".$tagId."
+                                            GROUP BY 1
+                                            HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                            ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
+                                $stmt = $em->getConnection()->prepare($sql);
+                                $stmt->execute();
+                                $row['data'] = $stmt->fetchAll();
+                    }
+                    else{
+                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                                        FROM crm_contacto_cuenta cc
+                                        INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
+                                        INNER JOIN crm_contacto con on(cc.contacto=con.id)
+                                        INNER JOIN ctl_persona per on(con.persona=per.id)
+                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                        WHERE c.tipo_cuenta=3 AND  per.id<>1 AND c.estado=1 AND e.id =".$tagId."
                                         GROUP BY 1
-                                        HAVING CONCAT(name,' ',email,' ',phone,' ',dateReg) LIKE upper('%".$busqueda['value']."%') ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
-                            $stmt = $em->getConnection()->prepare($sql);
-                            $stmt->execute();
-                            $row['data'] = $stmt->fetchAll();
+                                        HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                        ORDER BY ". $orderByText." ".$orderDir;
+                                    $stmt = $em->getConnection()->prepare($sql);
+                                    $stmt->execute();
+                                    $row['data'] = $stmt->fetchAll();
+                                    $row['recordsFiltered']= count($row['data']);
+                                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                                        FROM crm_contacto_cuenta cc
+                                        INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
+                                        INNER JOIN crm_contacto con on(cc.contacto=con.id)
+                                        INNER JOIN ctl_persona per on(con.persona=per.id)
+                                                INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                                INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                                WHERE c.tipo_cuenta=1 AND per.id<>1 AND c.estado=1 AND e.id =".$tagId."
+                                                GROUP BY 1
+                                                HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                                ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
+                                    $stmt = $em->getConnection()->prepare($sql);
+                                    $stmt->execute();
+                                    $row['data'] = $stmt->fetchAll();
+                    }
                 }
-                else{
-                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                else{ 
+                    if ($tagId==0) {
+                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
                                         INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
-                                        WHERE  c.tipo_cuenta=3
+                                        WHERE per.id<>1 AND c.estado=1 AND c.tipo_cuenta=3
                                         GROUP BY 1
                                         ORDER BY ". $orderByText." ".$orderDir;
+                    }
+                    else{
+                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                                        FROM crm_contacto_cuenta cc
+                                        INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                        INNER JOIN crm_contacto con on(cc.contacto=con.id)
+                                        INNER JOIN ctl_persona per on(con.persona=per.id)
+                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                        WHERE per.id<>1 AND c.estado=1 AND c.tipo_cuenta=3 AND e.id=".$tagId."
+                                        GROUP BY 1
+                                        ORDER BY ". $orderByText." ".$orderDir;
+                    }
+//                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+//                                        FROM crm_contacto_cuenta cc
+//                                        INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+//                                        INNER JOIN crm_contacto con on(cc.contacto=con.id)
+//                                        INNER JOIN ctl_persona per on(con.persona=per.id)
+//                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+//                                        WHERE  c.tipo_cuenta=3
+//                                        GROUP BY 1
+//                                        ORDER BY ". $orderByText." ".$orderDir;
                             $stmt = $em->getConnection()->prepare($sql);
                             $stmt->execute();
                             $row['data'] = $stmt->fetchAll();

@@ -54,6 +54,8 @@ class CrmSocioController extends Controller
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
             $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1),array('id'=>'asc'));
+            //Tipos de etiqueta
+            $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
             return $this->render('crmcuenta/index_socio.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
@@ -63,6 +65,7 @@ class CrmSocioController extends Controller
                 'industrias'=>$industrias,
                 'tiposTelefono'=>$tiposTelefono,
                 'tiposCuenta'=>$tiposCuenta,
+                'etiquetas'=>$etiquetas,
                 'menuSocioA' => 1,
             ));
         

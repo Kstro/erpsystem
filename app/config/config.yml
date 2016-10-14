@@ -453,7 +453,8 @@ twig:
         encabezadoTipoCuenta: '%app.encabezadoTipoCuenta%'
         descripcionTipoCuenta: '%app.descripcionTipoCuenta%'
         nameTipoCuenta: '%app.nameTipoCuenta%'
-
+        menuTipoCuenta: '%app.menuTipoCuenta%'
+        
         #Fuentes de origen (CRUD)
         tituloFuenteOrigen: '%app.tituloFuenteOrigen%'
         encabezadoFuenteOrigen: '%app.encabezadoFuenteOrigen%'

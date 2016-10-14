@@ -130,20 +130,18 @@ $(document).ready(function() {
 	$(document).on('click', '#providersList>tbody>tr>td:nth-child(2),#providersList>tbody>tr>td:nth-child(3),#providersList>tbody>tr>td:nth-child(4),#providersList>tbody>tr>td:nth-child(5)', function(event) {
 		/*/////Definición de variables*/
 		/*// $(this).css('cursor', 'progress');*/
+                
 		var objectThis = $(this);
 		/*$('#providersList').prop('disabled', true);*/
 		var text = $(this).prop('tagName');
 		var objClicked = $(this);
 		
 		numPedidos=1;
+                mostrarocultar(numPedidos);
 		/*console.log('asdcdsc');*/
 		/*// return false;*/
 		/*se limpia el seguimineto previo*/
-		$('#comentarios').show();
-		$('#wallmessages').show();
-		$('#wallmessages').html('');
-		$('#primeraFecha').val('');
-		$('#iteracion').val(numPedidos);
+		
 		var id=$(this).parent().children().first().children().attr('id');
 		/*// console.log(id);*/
 		var idArray = id.split('-');

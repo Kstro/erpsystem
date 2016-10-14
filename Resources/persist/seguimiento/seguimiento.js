@@ -2,13 +2,26 @@ $(document).ready(function() {
 	/*/////Cargar mas historial*/
 
 	$(document).on('click', '#btnLoadMore', function(event) {
-		numPedidos =$('#iteracion').val();
+		var numPedidos =$('#iteracion').val();
 		var idForm=$('#txtId1').val();
+                console.log("iform"+idForm);
+                console.log("pedidos"+numPedidos);
 		seguimiento(idForm,numPedidos,$(this));
 		return false;
 	});
 	/*/////Fin de agregar/remover direccion*/
 });
+
+function mostrarocultar(numPedidos){
+    /*console.log('asdcdsc');*/
+    /*// return false;*/
+    /*se limpia el seguimineto previo*/
+    $('#comentarios').show();
+    $('#wallmessages').show();
+    $('#wallmessages').html('');
+    $('#primeraFecha').val('');
+    $('#iteracion').val(numPedidos);
+}
 
 function seguimiento(dataId, iteracion,boton){
 	if (boton!=null) {
