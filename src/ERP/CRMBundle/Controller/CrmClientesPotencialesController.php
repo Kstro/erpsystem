@@ -61,6 +61,8 @@ class CrmClientesPotencialesController extends Controller
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
             $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
+            //Tipos de etiqueta
+            $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
             return $this->render('crmcuenta/index_cliente_potencial.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
@@ -73,6 +75,7 @@ class CrmClientesPotencialesController extends Controller
                 'fuentes'=>$fuentes,
                 'tiposTelefono'=>$tiposTelefono,
                 'tiposCuenta'=>$tiposCuenta,
+                'etiquetas'=>$etiquetas,
                 'menuClientePotencialA' => 2,
             ));
         

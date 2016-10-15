@@ -3,6 +3,8 @@ $(document).ready(function() {
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
+        var numPedidos=0;
+        var activeAjaxConnections=0;
 	var numAddress = 0;
 	/*/////Persist datatable (Save method)*/
 	var filesSelectedPrev = document.getElementById("file").files;
@@ -129,12 +131,14 @@ $(document).ready(function() {
 		var idArray = id.split('-');
 		/*// console.log(idArray);*/
 		var idForm=$('#txtId1').val();
+                var objClicked = $(this);
 		/*// var idForm=$('#txtId2').val();*/
 		var selected = 0;
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
-
+                numPedidos=1;
+                mostrarocultar(numPedidos);
 		/*// console.log(id);*/
 		/*// console.log(idArray[0]);*/
 		/*// console.log(idArray[1]);*/
@@ -144,6 +148,8 @@ $(document).ready(function() {
 			}
 		});	
 		if (text=='TD' && id!=idForm && selected==0) {
+                        objClicked.off('click');
+			objClicked.css('cursor','progress');
 			$.ajax({
 				url: Routing.generate('admin_partner_retrieve_ajax'),
 				type: 'POST',
@@ -152,6 +158,7 @@ $(document).ready(function() {
 					if(data.error){
 						swal('',data.error,'error');
 						id.val(data.id);
+                                                objClicked.on('click');
 					}
 					else{
 						/*// console.log(data);*/
@@ -236,13 +243,28 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-					}					
+                                                seguimiento(data.id1, numPedidos,null);
+						cargarTags();
+						/*//seguimientoComet(data.id1);*/
+						$('#addTag').removeClass('hidden');
+						$('#addedTags').removeClass('hidden');
+						$('#filterTag').addClass('hidden');
+					}		
+                                        objClicked.on('click');
+					activeAjaxConnections=0;
+					objClicked.css('cursor', 'pointer');
 				},
 				error:function(data){
 					if(data.error){
 						// console.log(data.id);
 						swal('',data.error,'error');
 					}
+                                        $('#addTag').addClass('hidden');
+					$('#addedTags').addClass('hidden');
+					$('#filterTag').removeClass('hidden');
+					objClicked.on('click');
+					activeAjaxConnections=0;
+					objClicked.css('cursor', 'pointer');	
 				}
 			});
 		} 

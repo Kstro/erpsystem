@@ -32,7 +32,7 @@ class CrmTipoCampaniaController extends Controller
 
         return $this->render('crmtipocampania/index.html.twig', array(
             // 'crmTipoCampanias' => $crmTipoCampanias,
-            'menuCampaniaA' => true,
+            'menuTipoCampaniaA' => true,
         ));
     }
 

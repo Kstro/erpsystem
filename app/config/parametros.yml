@@ -144,7 +144,7 @@ parameters:
         app.probabilityEtapa: Probability
         #Campanias
         app.tituloCampania: CRM | Campaign types management
-        app.menuCampania: Cmpgn types mgmt.
+        app.menuCampania: Cmpgn mgmt.
         app.encabezadoCampania: Campaigns list
         app.descripcionCampania: Add, modify or delete campaign.
         app.nameCampania: Name

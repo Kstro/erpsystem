@@ -5,7 +5,7 @@
                     <div class="panel-body">
                         <form id="frmProvider"  method="post" enctype="multipart/form-data">
                         <div class="col-md-2">
-                            <label>{{tratoClientePotencial}}</label>
+                            <label>{{tratoProveedor}}</label>
                             <select style="margin-top:45px !important;" id="dpbTitulo" type="text" name="titulo" class="input-sm form-control validateSelect">
                                 {% for item in items %}
                                     <option value="{{item.id}}">{{item.abreviatura}}</option>
@@ -13,30 +13,31 @@
                             </select>
                         </div>
                         <div class="col-md-5">
-                            <label>{{nombreClientePotencial}}</label>
+                            <label>{{nombreProveedor}}</label>
                             <label class="hidden requiredFields">{{requiredFields}}</label>
                             <label class="hidden emailFields">{{emailFields}}</label>
                             <input id="txtId1" type="hidden" name="id1" class="input-sm form-control">
                             <input id="txtId2" type="hidden" name="id2" class="input-sm form-control">
                             <input id="iteracion" type="hidden" name="iteracion" class="input-sm form-control">
+                            <input id="primeraFecha" type="hidden" name="iteracion" class="input-sm form-control">
                             <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
                         </div>
                         <div class="col-md-5">
-                            <label>{{apellidoClientePotencial}}</label>
+                            <label>{{apellidoProveedor}}</label>
                             <input id="txtApellido" type="text" name="apellido" class="input-sm form-control validateInput">
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-md-7" style="margin-top:20px;">
-                            <label>{{companiaNombreClientePotencial}}</label>
+                            <label>{{companiaNombreProveedor}}</label>
                             <input id="txtCompania" type="text" name="compania" class="input-sm form-control validateInput">
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-md-7 address" style="margin-top:20px;">
-                            <label>{{direccionClientePotencial}}</label>
+                            <label>{{direccionProveedor}}</label>
                             <input type="text" name="address[]" class="input-sm form-control validateInput txtAddress txtAddressFirst">
                         </div>
                         <div class="col-md-2 state" style="margin-top:20px;">
-                            <label>{{departamentoClientePotencial}}</label>
+                            <label>{{departamentoProveedor}}</label>
                             {# <input type="text" name="" class="input-sm form-control validateInput txtState"> #}
                             <select style="width:100%;" id name="addressDepartamento[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
                                     {% for estado in estados %}
@@ -45,7 +46,7 @@
                             </select>
                         </div>
                         <div class="col-md-2 city" style="margin-top:20px;">
-                            <label>{{ciudadClientePotencial}}</label>
+                            <label>{{ciudadProveedor}}</label>
                             <select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
                                 {% for ciudad in ciudades %}
                                     <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
@@ -58,7 +59,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-md-2 phonesType" style="margin-top:20px;">
-                            <label>{{phoneClientePotencial}}</label>
+                            <label>{{phoneProveedor}}</label>
                             <select style="margin-top:25px; width:100%;" type="text" name="phoneType[]" class="input-sm form-control validateInput dpbTipoPhone firstPhoneType">
                                 {% for tipo in tiposTelefono %}
                                         <option value={{tipo.id}}>{{tipo.nombre}}</option>
@@ -69,14 +70,14 @@
                             <input style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone firstPhoneTxt">
                         </div>
                         <div class="col-md-2 phonesExtension" style="margin-top:20px;">
-                            <label>{{extensionClientePotencial}}</label>
+                            <label>{{extensionProveedor}}</label>
                             <input type="text" name="phoneExt[]" class="input-sm form-control  txtExtension firstPhoneExtension">
                         </div>
                         <div class="col-md-1 addPhone" style="margin-top:20px;">
                             <button id="plusPhone" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
                         </div>
-                        <div class="col-md-4 emailText " style="margin-top:20px;">
-                            <label>{{emailClientePotencial}}</label>
+                        <div class="col-md-4 emailText" style="margin-top:20px;">
+                            <label>{{emailProveedor}}</label>
                             <input type="text" name="email[]" class="input-sm form-control  txtEmail txtEmailFirst validateInput validateInputEmail">
                         </div>
                         <div class="col-md-1 addEmail" style="margin-top:20px;">
@@ -85,7 +86,7 @@
                         <div class="clearfix"></div>
                         
                         <div class="col-md-12" style="margin-top:40px;">
-                            <label>{{fotoClientePotencial}}</label>
+                            <label>{{fotoProveedor}}</label>
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-md-6" style="margin-top:20px;">
@@ -101,12 +102,12 @@
                         <div class="col-md-6" style="margin-top:20px;">
                             <div class="col-md-12">
                                 <div class="col-md-4">
-                                    <label >{{interesClientePotencial}}</label>
+                                    <label >{{tipoPersonaProveedor}}</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select style="margin-top:25px; width:100%;" type="text" name="interes" class="input-sm form-control validateInput dpbInteres">
-                                        {% for ind in interes %}
-                                            <option value={{ind.id}}>{{ind.nombre}}</option>
+                                    <select style="margin-top:25px; width:100%;" type="text" name="persona" class="input-sm form-control validateInput dpbTipoPersona">
+                                        {% for persona in personas %}
+                                            <option value={{persona.id}}>{{persona.nombre}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -114,12 +115,12 @@
                             <div class="clearfix"></div> 
                             <div class="col-md-12" style="margin-top:25px;">
                                 <div class="col-md-4">
-                                    <label >{{statusClientePotencial}}</label>
+                                    <label >{{industriaProveedor}}</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select style="margin-top:25px; width:100%;" type="text" name="estadoCli" class="input-sm form-control validateInput dpbEstado">
-                                        {% for sCli in estadosCli %}
-                                            <option value={{sCli.id}}>{{sCli.nombre}}</option>     
+                                    <select style="margin-top:25px; width:100%;" type="text" name="industria" class="input-sm form-control validateInput dpbIndustria">
+                                        {% for industria in industrias %}
+                                            <option value={{industria.id}}>{{industria.nombre}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -127,41 +128,44 @@
                             <div class="clearfix"></div> 
                             <div class="col-md-12" style="margin-top:25px;">
                                 <div class="col-md-4">
-                                    <label >{{origenClientePotencial}}</label>
+                                    <label >{{sitioWebProveedor}}</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select style="margin-top:25px; width:100%;" type="text" name="fuente" class="input-sm form-control validateInput dpbFuente">
-                                        {% for fuente in fuentes %}
-                                            <option value={{fuente.id}}>{{fuente.nombre}}</option>
-                                        {% endfor %}
-                                    </select>
+                                    <input type="text" name="website" class="input-sm form-control txtWebsite">
                                 </div>
-                            </div>
-                            <div class="clearfix"></div> 
-                            <div class="col-md-12" style="margin-top:25px;">
-                                <div class="col-md-4">
-                                    <label >{{campaniaClientePotencial}}</label>
-                                </div>
-                                <div class="col-md-8">
-                                    <select style="margin-top:25px; width:100%;" type="text" name="campania" class="input-sm form-control validateInput dpbCampania">
-                                        {% for camp in campanias %}
-                                            <option value="{{camp.id}}">{{camp.nombre}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            
+                            </div>                               
                         </div>
-                        <div class="clearfix"></div>
-                        <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
-                            <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
-                            <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
-                        </div>
+                            <div class="clearfix"></div> 
+                            <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                                <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
+                                <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                            </div>
                         </form>
-                    {# <div class="panel-footer">Panel Footer</div> #}
-                    
                         </div>
-                    </div>
-                    {% include ':crmcuenta:comments_section.html.twig' %}
+                        
+                    {# <div class="panel-footer">Panel Footer</div> #}
+
+                </div>
+                  
+    {# <div class="page-header">
+        <h1 id="">Timeline</h1>
+    </div> #}
+
+
+        {% include ':crmcuenta:comments_section.html.twig' %}
+    
+            {#<div class="qa-message-list" id="wallmessages">
+
+            </div>
         </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-xs-12 text-center" style="margin:20px 0;">
+            <button id="btnLoadMore" class="btn btn-default pull-center">Load more</button>
+        </div>#}
+    </div>
 </div>
+
+
+
+
+

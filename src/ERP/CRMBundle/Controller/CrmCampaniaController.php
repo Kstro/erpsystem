@@ -38,7 +38,7 @@ class CrmCampaniaController extends Controller
             'campanias' => $campanias,
             'personas' => $personas,
             // 'crmTipoCampanias' => $crmTipoCampanias,
-            'menuTipoCampaniaA' => true,
+            'menuCampaniaA' => true,
         ));
     }
 

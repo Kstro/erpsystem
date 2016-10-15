@@ -1,5 +1,6 @@
 <div class="col-md-12 col-xs-12">
-            <div id="pnAdd" class="panel panel-default" style="display:none;">
+            <div id="pnAdd" style="display:none;">
+                <div class="panel panel-default">
                     <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
                     <div class="panel-body">
                         <form id="frmProvider"  method="post" enctype="multipart/form-data">
@@ -17,6 +18,7 @@
                             <label class="hidden emailFields">{{emailFields}}</label>
                             <input id="txtId1" type="hidden" name="id1" class="input-sm form-control">
                             <input id="txtId2" type="hidden" name="id2" class="input-sm form-control">
+                            <input id="iteracion" type="hidden" name="iteracion" class="input-sm form-control">
                             <input id="txtTipoAccount" type="hidden" name="tipoAccount" class="input-sm form-control" value="{{opcion}}">
                             <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
                         </div>
@@ -131,6 +133,9 @@
                             </div>
                         </div>
                         </form>
+                    </div>
+                            
                     {# <div class="panel-footer">Panel Footer</div> #}
+                     {% include ':crmcuenta:comments_section.html.twig' %}
             </div>
 </div>
