@@ -8,7 +8,9 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    photo.proveedor: %kernel.root_dir%/../photos/proveedor/
+    photo.cuentas: %kernel.root_dir%/../photos/accounts/
+    files.cuentas: %kernel.root_dir%/../files/accounts/
+    files.actividades: %kernel.root_dir%/../files/activities/
 
 framework:
     #esi:             ~
@@ -54,6 +56,8 @@ twig:
         serverMsgDelete: '%app.serverMsgDelete%'
         serverMsgConverted: '%app.serverMsgConverted%'
         serverError: '%app.serverError%'
+        serverFileAttached: '%app.serverFileAttached%'
+        serverFileAttachedDel: '%app.serverFileAttachedDel%'
         serverSeguimientoLongitud: '%app.serverSeguimientoLongitud%'
         serverConflictRow: '%app.serverConflictRow%'
         serverDateConflict: '%app.serverDateConflict%'
@@ -85,6 +89,10 @@ twig:
         convertLabel: '%app.convertLabel%'
         #removeLabel
         removeLabel: '%app.removeLabel%'
+        #removeFile
+        removeFile: '%app.removeFile%'
+        #removedFile
+        removedFile: '%app.removedFile%'
         #cancelButtonText
         cancelButtonText: '%app.cancelButtonText%'
         #confirmButtonText
@@ -115,6 +123,9 @@ twig:
 
         #Botones
         add: '%app.add%'
+        addFile: '%app.addFile%'
+        loadMoreComments: '%app.loadMoreComments%'
+        loadMoreFiles: '%app.loadMoreFiles%'
         delete: '%app.delete%'
         back: '%app.back%'
         show: '%app.show%'

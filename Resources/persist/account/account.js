@@ -242,6 +242,15 @@ $(document).ready(function() {
 							$('#imgTest').attr('src','http://placehold.it/250x250');
 						}
 
+
+                                                var addItem = '';
+                                                for (var i = 0; i < data.tags.length; i++) {
+                                                    /*console.log(i);*/
+                                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                                                    $('#addedTags').append(addItem);
+                                                }
+
+
 						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
 						$('.dpbIndustria').val(data.industria).change().trigger("change");
 												
@@ -252,8 +261,9 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-                                                seguimiento(data.id1, numPedidos,null);
-						cargarTags();
+                                                /*seguimiento(data.id1, numPedidos,null);*/
+                                                seguimientoGeneral(data.id, numPedidos,null,1);
+						/*cargarTags();*/
 						/*//seguimientoComet(data.id1);*/
 						$('#addTag').removeClass('hidden');
 						$('#addedTags').removeClass('hidden');

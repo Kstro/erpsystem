@@ -2,7 +2,8 @@ $(document).ready(function() {
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
 	$("#txtId").val('');
-	
+        $('.btnAddCommentGen').attr('id',2);
+	var numPedidos=0;
 	var numAddress = 0;
 	/*/////Persist datatable (Save method)*/
 	
@@ -222,7 +223,10 @@ $(document).ready(function() {
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
-
+                
+                numPedidos=1;
+                mostrarocultar(numPedidos);
+                
 		/*// console.log(id);*/
 		/*// console.log(idArray[0]);*/
 		/*// console.log(idArray[1]);*/
@@ -339,7 +343,42 @@ $(document).ready(function() {
 							var taskNoEdit = $('#taskNoEdit').html();
 							swal('',data.nombre+' '+taskNoEdit,'error');
 						}
-					}					
+                                                for (var i = 0; i < data.docs.length; i++) {
+                                                    /*console.log(i);*/
+                                                    if(data.docs[i].estado==1){
+                                                        var addItem='<div class="col-xs-1" style="vertical-align:middle;">';
+                                                        
+                                                            addItem+='<a id="'+data.docs[i].id+'" href="" class="fileDelete">';
+                                                                                                                
+                                                            addItem+='<i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i>';
+                                                        
+                                                            addItem+='</a>';
+                                                                                                                
+
+                                                        addItem+='</div><div class="col-xs-10">';
+                                                        
+                                                            addItem+='<a target="_blank" href="../../../files/activities/';
+                                                            addItem+=data.docs[i].nombre;
+                                                            addItem+='">';
+                                                        
+                                                        addItem+=data.docs[i].nombre;
+                                                     
+                                                            addItem+='</a>';
+                                                     
+                                                        addItem+='</div>';
+                                                        $('#addedFiles').append(addItem);
+                                                    }
+                                                }
+//                                                seguimientoActividad(data.id, numPedidos,null);
+                                                seguimientoGeneral(data.id, numPedidos,null,2);
+                                                $('#addTag').removeClass('hidden');
+                                                $('#addedTags').removeClass('hidden');
+                                                $('#addedFiles').removeClass('hidden');
+                                                $('#filterTag').addClass('hidden');
+                                                $('#addFile').removeClass('hidden');
+                                                $('#btnLoadMore').removeClass('hidden');
+					}
+                                        
 				},
 				error:function(data){
 					if(data.error){
@@ -396,12 +435,12 @@ $(document).ready(function() {
 							swal('',data.error,'error');
 						}
 						else{
-							$('#txtId').val(data.id);
-							$('#txtName').val(data.name);
-							$('.chkItemAll').prop({'checked': false});
-							$btn.button('reset');
-							table.ajax.reload();
-							swal('',data.msg,'success');
+                                                    $('#txtId').val(data.id);
+                                                    $('#txtName').val(data.name);
+                                                    $('.chkItemAll').prop({'checked': false});
+                                                    $btn.button('reset');
+                                                    table.ajax.reload();
+                                                    swal('',data.msg,'success');
 						}
 						$('#pnAdd').slideUp();
 					},

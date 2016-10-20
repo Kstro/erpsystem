@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
+use ERP\CRMBundle\Entity\CrmActividad;
+use ERP\CRMBundle\Entity\CrmComentarioActividad;
 use ERP\CRMBundle\Entity\CtlPersona;
 use ERP\CRMBundle\Entity\CrmContacto;
 use ERP\CRMBundle\Entity\CrmContactoCuenta;
@@ -833,7 +835,7 @@ class CrmCuentaController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -1026,7 +1028,7 @@ class CrmCuentaController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -1224,6 +1226,20 @@ class CrmCuentaController extends Controller
                 
                 $data['id1']=$crmCuentaObj->getId();
                 $data['id2']=$crmCuentaObj->getId();
+                
+                              
+                
+                
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaCuenta ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.cuenta c "
+                            ." WHERE c.id=:idCuenta";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                
+                $data['tags']=$tags;
+                
             }
             else{
                 $data['error']="Error";
@@ -1490,7 +1506,7 @@ class CrmCuentaController extends Controller
 
 
 
-/**
+    /**
      * Add comment providers
      *
      * @Route("/providers/comment/add", name="admin_providers_comment_add_ajax",  options={"expose"=true}))
@@ -1519,6 +1535,7 @@ class CrmCuentaController extends Controller
                 $crmComentarioCuenta->setFechaRegistro($fechaRegistro);
                 $crmComentarioCuenta->setCuenta($cuentaObj);
                 $crmComentarioCuenta->setUsuario($usuarioObj);
+                $crmComentarioCuenta->setTipoComentario(1);//Comentario
 
                 $em->persist($crmComentarioCuenta);
                 $em->flush();
@@ -1532,6 +1549,7 @@ class CrmCuentaController extends Controller
                 // die();
                 $data['usuario']=$usuarioObj->getPersona()->getNombre().' '.$usuarioObj->getPersona()->getApellido();
                 $data['comentario']=$comment;
+                $data['tipocomentario']=$crmComentarioCuenta->getTipoComentario();
                 $data['fecha']=$fechaRegistro->format('Y-m-d H:i');
                 $data['numeroItems']=$reg[0]['total'];
                 //$data['usuario']=$usuario->getPersona()->getNombre().' '.$usuario->getPersona()->getApellido();
@@ -1563,12 +1581,6 @@ class CrmCuentaController extends Controller
         return $response;
         
     }
-
-
-
-
-
-
 
 
 
@@ -1857,7 +1869,7 @@ class CrmCuentaController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -2050,7 +2062,7 @@ class CrmCuentaController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -2243,8 +2255,15 @@ class CrmCuentaController extends Controller
                 $data['id1']=$crmCuentaObj->getId();
                 $data['id2']=$crmCuentaObj->getId();
 
-
-
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaCuenta ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.cuenta c "
+                            ." WHERE c.id=:idCuenta";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                
+                $data['tags']=$tags;
                 
             }
             else{
@@ -2320,6 +2339,7 @@ class CrmCuentaController extends Controller
             $idCuenta=$request->get("param1"); /////Id de la cuenta que se esta viendo
             // $longitud=$request->get("param2"); /////Numero de items a recuperar por click
             $longitud = $this->getParameter('app.serverSeguimientoLongitud'); /////Numero de items a recuperar por click y al inicio
+            $files = $this->getParameter('app.serverFileAttached'); /////
             $numPedidos=$request->get("param2"); /////Numero de veces solicitado, para el paginado
             // sleep ( 5 );
             $inicio=($longitud*$numPedidos)-$longitud;
@@ -2328,6 +2348,7 @@ class CrmCuentaController extends Controller
             $stmt = $em->getConnection()->prepare($sql);
             $stmt->execute();
             $data['data']= $stmt->fetchAll();
+            $data['files']= $files;
             // return new Response(json_encode($data));
         } catch (\Exception $e) {
             $data['error']=$e->getMessage();
@@ -2335,6 +2356,8 @@ class CrmCuentaController extends Controller
         $response->setData($data);
         return $response;
     }
+    
+    
 
 
      /**
