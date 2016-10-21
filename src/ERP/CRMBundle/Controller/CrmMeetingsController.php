@@ -538,7 +538,7 @@ class CrmMeetingsController extends Controller
     /**
      * Retrieve calls
      *
-     * @Route("/calls/retrieve", name="admin_calls_retrieve_ajax",  options={"expose"=true}))
+     * @Route("/meetings/retrieve", name="admin_meetings_retrieve_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function retrieveajaxAction(Request $request)
@@ -625,6 +625,15 @@ class CrmMeetingsController extends Controller
                     $data['tiempoRecordatorioArray']=[];
                 }
                 $data['id']=$idAct;
+                
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoActividad doc"
+                            ." JOIN doc.actividad c "
+                            ." WHERE c.id=:idAct ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                                    ->setParameters(array('idAct'=>$idAct))
+                                    ->getResult();
+                
+                $data['docs']=$docs;
             }
             else{
                 $data['error']="Error";

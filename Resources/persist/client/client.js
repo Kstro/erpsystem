@@ -2,6 +2,7 @@ $(document).ready(function() {
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
         var numPedidos=0;
+        $('.btnAddCommentGen').attr('id',1);
 	$("#txtId1").val('');
 	$("#txtId2").val('');
 	var numAddress = 0;
@@ -151,6 +152,8 @@ $(document).ready(function() {
 		$('#comentarios').show();
 		$('#wallmessages').show();
 		$('#wallmessages').html('');
+		$('#addedTags').html('');//limpiar tags anteriores
+		$('#addedFiles').html('');//limpiar archivos anteriores
 		$('#primeraFecha').val('');
 		$('#iteracion').val(numPedidos);
 		/*// console.log(id);*/
@@ -238,7 +241,7 @@ $(document).ready(function() {
 							}
 						}
 						if(data.src!=''){
-							$('#imgTest').attr('src','../../../photos/proveedor/'+data.src);	
+							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
 						}
 						else{
 							$('#imgTest').attr('src','http://placehold.it/250x250');
@@ -254,12 +257,50 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-                                                seguimiento(data.id1, numPedidos,null);
-						cargarTags();
+                                                /*seguimiento(data.id1, numPedidos,null);*/
+                                                seguimientoGeneral(data.id1, numPedidos,null,1);
+						/*cargarTags();*/
+                                                var addItem = '';
+                                                for (var i = 0; i < data.tags.length; i++) {
+                                                    /*console.log(i);*/
+                                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                                                    $('#addedTags').append(addItem);
+                                                }
+                                                
+                                                for (var i = 0; i < data.docs.length; i++) {
+                                                    /*console.log(i);*/
+                                                    if(data.docs[i].estado==1){
+                                                        var addItem='<div class="col-xs-1" style="vertical-align:middle;">';
+                                                        
+                                                            addItem+='<a id="'+data.docs[i].id+'" href="" class="fileDelete">';
+                                                                                                                
+                                                            addItem+='<i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i>';
+                                                        
+                                                            addItem+='</a>';
+                                                                                                                
+
+                                                        addItem+='</div><div class="col-xs-10">';
+                                                        
+                                                            addItem+='<a target="_blank" href="../../../files/accounts/';
+                                                            addItem+=data.docs[i].nombre;
+                                                            addItem+='">';
+                                                        
+                                                        addItem+=data.docs[i].nombre;
+                                                     
+                                                            addItem+='</a>';
+                                                     
+                                                        addItem+='</div>';
+                                                        $('#addedFiles').append(addItem);
+                                                    }
+                                                }
+                                                
 						/*//seguimientoComet(data.id1);*/
 						$('#addTag').removeClass('hidden');
 						$('#addedTags').removeClass('hidden');
+						$('#addedFiles').removeClass('hidden');
 						$('#filterTag').addClass('hidden');
+                                                $('#addFile').removeClass('hidden');
+                                                $('#btnLoadMoreFiles').removeClass('hidden');
 					}					
 				},
 				error:function(data){

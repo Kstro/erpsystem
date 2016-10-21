@@ -9,7 +9,9 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    photo.proveedor: %kernel.root_dir%/../photos/proveedor/
+    photo.cuentas: %kernel.root_dir%/../photos/accounts/
+    files.cuentas: %kernel.root_dir%/../files/accounts/
+    files.actividades: %kernel.root_dir%/../files/activities/
 
 framework:
     #esi:             ~
@@ -54,7 +56,9 @@ twig:
         serverCancel: '%app.serverCancel%'
         serverMsgDelete: '%app.serverMsgDelete%'
         serverError: '%app.serverError%'
-        
+        serverFileAttached: '%app.serverFileAttached%'
+        serverFileAttachedDel: '%app.serverFileAttachedDel%'
+        serverSeguimientoLongitud: '%app.serverSeguimientoLongitud%'
         serverConflictRow: '%app.serverConflictRow%'
         serverDateConflict: '%app.serverDateConflict%'
         serverFechaAnterior: '%app.serverFechaAnterior%'
@@ -97,10 +101,31 @@ twig:
         checkCaptcha: '%app.checkCaptcha%'
         invalidCaptcha: '%app.invalidCaptcha%'
         
-        #loginMessages - Español
-        usernameInvalidateEs: '%app.usernameInvalidate%'
-        checkCaptchaEs: '%app.checkCaptchaEs%'
-        invalidCaptchaEs: '%app.invalidCaptchaEs%'
+        #form validations
+        #requiredFields
+        requiredFields: '%app.requiredFields%'
+        #emailFields
+        emailFields: '%app.emailFields%'
+        #cancelLabel
+        cancelLabel: '%app.cancelLabel%'
+        #convert
+        convertLabel: '%app.convertLabel%'
+        #removeLabel
+        removeLabel: '%app.removeLabel%'
+        #removeFile
+        removeFile: '%app.removeFile%'
+        #removedFile
+        removedFile: '%app.removedFile%'
+        #cancelButtonText
+        cancelButtonText: '%app.cancelButtonText%'
+        #confirmButtonText
+        confirmButtonText: '%app.confirmButtonText%'
+        #alternateconfirmButtonText
+        alternateconfirmButtonText: '%app.alternateconfirmButtonText%'
+        #imageError
+        imageError: '%app.imageError%'
+        #requiredFields
+        select2Label: '%app.select2Label%'
         
         #Form Validations
         
@@ -186,6 +211,9 @@ twig:
         
         #Botones - Ingles
         add: '%app.add%'
+        addFile: '%app.addFile%'
+        loadMoreComments: '%app.loadMoreComments%'
+        loadMoreFiles: '%app.loadMoreFiles%'
         delete: '%app.delete%'
         back: '%app.back%'
         show: '%app.show%'

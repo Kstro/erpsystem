@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
+        $('.btnAddCommentGen').attr('id',1);
         var numPedidos=0;
         var activeAjaxConnections=0;
 	var numAddress = 0;

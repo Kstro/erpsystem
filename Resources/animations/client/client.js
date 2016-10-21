@@ -5,9 +5,10 @@ $(document).on('click', '.btnAddPage', function(event) {
 	var id = $('#txtId1').val();
 	$('#comentarios').hide();
 	$('#wallmessages').hide();
-	$('#btnLoadMore').hide();
 
+        $('#btnLoadMore').hide();
 	$('#addTag').addClass('hidden');
+	$('#addFile').addClass('hidden');
 	$('#addedTags').addClass('hidden');
 	$('#filterTag').addClass('hidden');
 	/*// console.log("ID: "+id);*/
@@ -58,6 +59,9 @@ $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
         $('#filterTag').removeClass('hidden');
 	$('#addTag').addClass('hidden');
 	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMoreFiles').addClass('hidden');
 	limpiarCampos();
 	return false;
 	
@@ -72,7 +76,7 @@ $(document).on('click', '#clienteList>thead>tr>th:gt(0)', function(event) {
 
 
 function limpiarCampos(){
-	$('#txtId').val('');
+	$('#txtId1').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');

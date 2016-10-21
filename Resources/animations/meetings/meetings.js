@@ -6,6 +6,13 @@ $(document).on('click', '.btnAddPage', function(event) {
 	/*// $('.noCal').removeClass('hidden');*/
 	/*// $('#estado').val(2).trigger('change');*/
 	
+        
+        $('#btnLoadMoreAct').hide();
+	$('#addTag').addClass('hidden');
+	$('#addFile').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#filterTag').addClass('hidden');
 	/*// console.log("ID: "+id);*/
 	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');
@@ -60,6 +67,12 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	
 	/*// console.log('cancel');*/
+        $('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMore').addClass('hidden');
 	limpiarCampos();
 	return false;
 	

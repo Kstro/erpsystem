@@ -2,8 +2,9 @@ $(document).ready(function() {
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
 	$("#txtId").val('');
-	
+	$('.btnAddCommentGen').attr('id',3);/*Campañas*/
 	var numAddress = 0;
+        var numPedidos = 0;
 	/*/////Persist datatable (Save method)*/
 	
 	/*// console.log(filesSelectedPrev[0]);*/
@@ -97,6 +98,7 @@ $(document).ready(function() {
 		var idForm=$('#txtId1').val();
 		/*// var idForm=$('#txtId2').val();*/
 		var selected = 0;
+                numPedidos=1;
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
@@ -144,12 +146,12 @@ $(document).ready(function() {
 							$('#btnCancelTop').removeClass('hidden');
 							/*// console.log('end');*/
 
-							var numDirecciones = data.responsables.length;
+							/*var numDirecciones = data.responsables.length;
 
 							for (var i = 0; i < numDirecciones; i++) {
-								/*// console.log(i);*/
+								/* console.log(i);*/
 								/*// console.log(data.addressArray[i]);*/
-								switch(i){
+								/*switch(i){
 									case 0:
 										$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
 										$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
@@ -162,14 +164,40 @@ $(document).ready(function() {
 										$('#address-'+(numAddress)).val(data.addressArray[i]);
 									break;
 								}
-							}
+							}*/
+                                                    for (var i = 0; i < data.docs.length; i++) {
+                                                        /*console.log(i);*/
+                                                        if(data.docs[i].estado==1){
+                                                            var addItem='<div class="col-xs-1" style="vertical-align:middle;">';
+
+                                                                addItem+='<a id="'+data.docs[i].id+'" href="" class="fileDelete">';
+
+                                                                addItem+='<i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i>';
+
+                                                                addItem+='</a>';
+
+
+                                                            addItem+='</div><div class="col-xs-10">';
+
+                                                                addItem+='<a target="_blank" href="../../../files/accounts/';
+                                                                addItem+=data.docs[i].nombre;
+                                                                addItem+='">';
+
+                                                            addItem+=data.docs[i].nombre;
+
+                                                                addItem+='</a>';
+
+                                                            addItem+='</div>';
+                                                            $('#addedFiles').append(addItem);
+                                                        }
+                                                    }
 						}
 						else{
 							/*// console.log('else');*/
 							$('#cuentaActividades').html('<option value="0"></option>');
 						}
 						
-
+                                                
 						
 						/*// if (data.estado!=0) {*/
 						/*// //Cancelado 3 por defecto en la base*/
@@ -222,7 +250,14 @@ $(document).ready(function() {
 						// 	var taskNoEdit = $('#taskNoEdit').html();
 						// 	swal('',data.nombre+' '+taskNoEdit,'error');
 						// }*/
-					}					
+					}	
+                                        seguimientoGeneral(data.id, numPedidos,null,3);
+                                        $('#addTag').removeClass('hidden');
+                                        $('#addedTags').removeClass('hidden');
+                                        $('#addedFiles').removeClass('hidden');
+                                        $('#filterTag').addClass('hidden');
+                                        $('#addFile').removeClass('hidden');
+                                        $('#btnLoadMore').removeClass('hidden');
 				},
 				error:function(data){
 					if(data.error){

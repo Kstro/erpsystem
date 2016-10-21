@@ -1,0 +1,17 @@
+<div class="row">
+    <div style="margin-top:10px;" class="clearfix"></div>
+    <hr>
+    <div class="clearfix"></div>
+    <div id="addFile" class="col-md-12 col-xs-12 pull-right hidden">
+        <form id="frmFiles"  method="post" enctype="multipart/form-data">
+            <label class="" style="cursor: pointer;">
+                {{addFile}} (max. 2MB)<br><input style="display:none;margin-top:25px;" type="file" name="file" id="fileAttached" class=" btn-file btn file">
+            </label>
+        </form>
+    </div>
+    <div id="addedFiles" class=""></div>
+    <div class="clearfix"></div>
+    {#<div class="col-md-12 col-xs-12 text-center" style="margin:20px 0;">
+        <button id="btnLoadMoreFiles" class="btn btn-default pull-center">{{loadMoreFiles}}</button>
+    </div>#}
+</div>

@@ -34,6 +34,13 @@ class CrmDocumentoAdjuntoActividad
      * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
      */
     private $fechaRegistro;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
 
     /**
      * @var \CtlUsuario
@@ -157,5 +164,30 @@ class CrmDocumentoAdjuntoActividad
     public function getActividad()
     {
         return $this->actividad;
+    }
+    
+    
+    
+    /**
+     * Set estado
+     *
+     * @param integer $estado
+     * @return CrmDocumentoAdjuntoActividad
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return CrmDocumentoAdjuntoActividad
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }

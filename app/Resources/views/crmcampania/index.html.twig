@@ -3,9 +3,16 @@
 {# {% block navegacion %}
     {% include ':crmcampaniaReg:menu_actividades.html.twig' %}
 {% endblock %} #}
+
+{% block navegacion %}
+        {#{% include ':crmcuenta:opciones_cuenta.html.twig' %}#}
+        {% include ':crmcuenta:add_files.html.twig' %}
+{% endblock %}
+
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
     <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/timeline/timeline.css') }}">
     <style type="text/css">
         .errorform{
             border: 1px solid #F00 !important;
@@ -18,6 +25,8 @@
           <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionCampaniaReg}}</p>
           <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
           <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+          <p id="removeFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeFile}}</p>
+          <p id="removedFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removedFile}}</p>
           <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
           <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
           <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEdit}}</p>
@@ -62,6 +71,14 @@
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/datetime.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/fullcalendar300/fullcalendar.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('Resources/bootstrap/css/datetime.min.css') }}" />
+    
+    
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
+    
+    
     <script type="text/javascript">
         $(document).ready(function() {
             $('.noCal').removeClass('hidden');

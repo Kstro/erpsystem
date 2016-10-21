@@ -19,6 +19,7 @@
                             <input id="txtId1" type="hidden" name="id1" class="input-sm form-control">
                             <input id="txtId2" type="hidden" name="id2" class="input-sm form-control">
                             <input id="iteracion" type="hidden" name="iteracion" class="input-sm form-control">
+                            <input id="txtTipoComment" type="hidden" name="txtTipoComment" class="input-sm form-control" value="1">
                             <input id="txtTipoAccount" type="hidden" name="tipoAccount" class="input-sm form-control" value="{{opcion}}">
                             <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
                         </div>
@@ -136,6 +137,6 @@
                     </div>
                             
                     {# <div class="panel-footer">Panel Footer</div> #}
-                     {% include ':crmcuenta:comments_section.html.twig' %}
+                     {% include ':crmcomentarios:comments_section.html.twig' %}
             </div>
 </div>

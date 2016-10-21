@@ -587,7 +587,7 @@ class CrmClientesPotencialesController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -792,7 +792,7 @@ class CrmClientesPotencialesController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -997,7 +997,17 @@ class CrmClientesPotencialesController extends Controller
                 
                 
                 $data['id1']=$crmCuentaObj->getId();
-                $data['id2']=$crmCuentaObj->getId();
+                $data['id2']=$ctlPersonaObj->getId();
+                
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaCuenta ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.cuenta c "
+                            ." WHERE c.id=:idCuenta";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                
+                $data['tags']=$tags;
             }
             else{
                 $data['error']="Error";

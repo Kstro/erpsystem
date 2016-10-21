@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
+        $('.btnAddCommentGen').attr('id',1);
 	var numAddress = 0;
         var numPedidos=0;
 	/*/////Persist datatable (Save method)*/
@@ -142,6 +143,7 @@ $(document).ready(function() {
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
+                $('#addedTags').html('');
                 numPedidos=1;
                 mostrarocultar(numPedidos);
 		/*// console.log(id);*/
@@ -231,7 +233,7 @@ $(document).ready(function() {
 							}
 						}
 						if(data.src!=''){
-							$('#imgTest').attr('src','../../../photos/proveedor/'+data.src);	
+							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
 						}
 						else{
 							$('#imgTest').attr('src','http://placehold.it/250x250');
@@ -249,8 +251,15 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-                                                seguimiento(data.id1, numPedidos,null);
-						cargarTags();
+                                                /*seguimiento(data.id1, numPedidos,null);*/
+                                                seguimientoGeneral(data.id1, numPedidos,null,1);
+						/*cargarTags();*/
+                                                var addItem = '';
+                                                for (var i = 0; i < data.tags.length; i++) {
+                                                    /*console.log(i);*/
+                                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                                                    $('#addedTags').append(addItem);
+                                                }
 						/*//seguimientoComet(data.id1);*/
 						$('#addTag').removeClass('hidden');
 						$('#addedTags').removeClass('hidden');
