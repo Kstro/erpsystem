@@ -12,8 +12,8 @@ parameters:
     photo.proveedor: %kernel.root_dir%/../photos/proveedor/
     photo.cuentas: %kernel.root_dir%/../photos/accounts/
     files.cuentas: %kernel.root_dir%/../files/accounts/
-    files.actividades: %kernel.root_dir%/../files/activities/
-    files.actividades: %kernel.root_dir%/../files/activities/
+    files.activities: %kernel.root_dir%/../files/activities/
+    files.campaigns: %kernel.root_dir%/../files/campaigns/
 
 framework:
     #esi:             ~
