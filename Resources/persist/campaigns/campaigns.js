@@ -98,6 +98,8 @@ $(document).ready(function() {
 		var idForm=$('#txtId1').val();
 		/*// var idForm=$('#txtId2').val();*/
 		var selected = 0;
+                $('#addedFiles').html('');
+                $('#wallmessages').html('');
                 numPedidos=1;
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');

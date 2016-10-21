@@ -231,6 +231,7 @@ function seguimientoActividad(dataId, iteracion,boton){
 
 function seguimientoGeneral(dataId, iteracion,boton,tipoComment){
         tipo=tipoComment;
+        console.log('seguimiento Gen');
 	if (boton!=null) {
 		boton.button('loading');	
 	}

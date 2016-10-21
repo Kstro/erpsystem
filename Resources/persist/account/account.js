@@ -164,6 +164,7 @@ $(document).ready(function() {
 				type: 'POST',
 				data: {param1: idArray[0],param2:idArray[1]},
 				success:function(data){
+                                            
 					if(data.error){
 						swal('',data.error,'error');
 						id.val(data.id);
@@ -173,6 +174,7 @@ $(document).ready(function() {
 						objClicked.on('click');
 					}
 					else{
+                                                
 						/*// console.log(data);*/
 						$('#txtId1').val(data.id1);
 						$('#txtId2').val(data.id2);
@@ -263,7 +265,9 @@ $(document).ready(function() {
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
                                                 /*seguimiento(data.id1, numPedidos,null);*/
-                                                seguimientoGeneral(data.id, numPedidos,null,1);
+                                                console.log(data.id);
+                                                console.log(data.numPedidos);
+                                                seguimientoGeneral(idArray[0], numPedidos,null,1);
 						/*cargarTags();*/
 						/*//seguimientoComet(data.id1);*/
 						$('#addTag').removeClass('hidden');
