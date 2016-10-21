@@ -19,6 +19,8 @@ parameters:
         app.serverMsgCancel: ¡Cancelled!
         app.serverCancel: already cancelled!
         app.serverError: Error!
+        app.serverFileAttached: File attached
+        app.serverFileAttachedDel: File attached deleted
         
         #app.serverConflictRow: Selected users have an event at the scheduled date and time. Do you wish to continue?
         app.serverConflictRow: Persons delegated to this event has scheduled another event or events on the same date and time. Do you wish to continue?
@@ -44,10 +46,18 @@ parameters:
         #form validations
         #requiredFields
         app.requiredFields: ¡Fields in red are required!
+        #emailFields
+        app.emailFields: ¡Invalid email address!
         #remove Labels
         app.removeLabel: Remove selected rows?
+        #remove Files
+        app.removeFile: Remove file
+        #removed Files
+        app.removedFile: removed
         #cancel Labels
         app.cancelLabel: Cancel selected tasks?
+        #convert clients Labels
+        app.convertLabel: Convert into clients?
         #cancelButtonText
         app.cancelButtonText: Cancel
         #confirmButtonText
@@ -80,12 +90,16 @@ parameters:
 
         #botones
         app.add: Add
+        app.addFile: Add file
+        app.loadMoreComments: Load more
+        app.loadMoreFiles: Load files attached
         app.back: Back
         app.delete: Delete
         app.show: Show
         app.action: Action
         app.save: Save
         app.cancel: Cancel
+        app.actionClients: Convert into clients
         app.pnHeadingLabelAdd: Add
         app.pnHeadingLabelEdit: Edit
         app.pnHeadingLabelComment: Add comment
@@ -271,8 +285,8 @@ parameters:
 
         #Tareas
         app.tituloTareas: CRM | Task
-        app.menuTareas: Activities mgmt.
-        app.encabezadoTareas: Notifications
+        app.menuTareas: Tasks mgmt.
+        app.encabezadoTareas: Tasks
         app.descripcionTareas: Add, modify or delete tasks.
         app.nameTareas: Name
         app.tipoTareas: Task type
@@ -280,6 +294,7 @@ parameters:
         app.estadoTareas: Status
         app.responsableTareas: Director
         app.recordatorioTareas: Reminders
+        app.tiempoRecordatorioTareas: Time
         app.fechaInicioTareas: Start date
         app.fechaFinTareas: End date
         app.fechaCancelTareas: Cancel date
@@ -287,9 +302,8 @@ parameters:
         app.descripcionFormTareas: Description
         app.prioridadTareas: Priority
         app.taskNoEdit: can't be modified
-        
-        app.cuentaActividad: Account
 
+        app.cuentaActividad: Account
 
         #Llamadas
         app.tituloLlamadas: CRM | Calls
@@ -422,6 +436,7 @@ parameters:
         app.encabezadoTipoCuenta: Account type
         app.descripcionTipoCuenta: Add, modify or delete Account type.
         app.nameTipoCuenta: Name
+        app.menuTipoCuenta: Account types
         
         #Fuentes de origen (CRUD)
         app.tituloFuenteOrigen: CRM | Origin sources management

@@ -9,8 +9,10 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    photo.proveedor: %kernel.root_dir%/../photos/proveedor/
     photo.cuentas: %kernel.root_dir%/../photos/accounts/
     files.cuentas: %kernel.root_dir%/../files/accounts/
+    files.actividades: %kernel.root_dir%/../files/activities/
     files.actividades: %kernel.root_dir%/../files/activities/
 
 framework:
@@ -56,9 +58,7 @@ twig:
         serverCancel: '%app.serverCancel%'
         serverMsgDelete: '%app.serverMsgDelete%'
         serverError: '%app.serverError%'
-        serverFileAttached: '%app.serverFileAttached%'
-        serverFileAttachedDel: '%app.serverFileAttachedDel%'
-        serverSeguimientoLongitud: '%app.serverSeguimientoLongitud%'
+        
         serverConflictRow: '%app.serverConflictRow%'
         serverDateConflict: '%app.serverDateConflict%'
         serverFechaAnterior: '%app.serverFechaAnterior%'
@@ -67,7 +67,7 @@ twig:
         filterLabel: '%app.filterLabel%'
         filterActivityLabel: '%app.filterActivityLabel%'
         filterUserLabel: '%app.filterUserLabel%'
-        filterUserLabel: '%app.filterCuentaLabel%'
+        filterCuentaLabel: '%app.filterCuentaLabel%'
         
         
         #serverMesages - Español
@@ -101,31 +101,10 @@ twig:
         checkCaptcha: '%app.checkCaptcha%'
         invalidCaptcha: '%app.invalidCaptcha%'
         
-        #form validations
-        #requiredFields
-        requiredFields: '%app.requiredFields%'
-        #emailFields
-        emailFields: '%app.emailFields%'
-        #cancelLabel
-        cancelLabel: '%app.cancelLabel%'
-        #convert
-        convertLabel: '%app.convertLabel%'
-        #removeLabel
-        removeLabel: '%app.removeLabel%'
-        #removeFile
-        removeFile: '%app.removeFile%'
-        #removedFile
-        removedFile: '%app.removedFile%'
-        #cancelButtonText
-        cancelButtonText: '%app.cancelButtonText%'
-        #confirmButtonText
-        confirmButtonText: '%app.confirmButtonText%'
-        #alternateconfirmButtonText
-        alternateconfirmButtonText: '%app.alternateconfirmButtonText%'
-        #imageError
-        imageError: '%app.imageError%'
-        #requiredFields
-        select2Label: '%app.select2Label%'
+        #loginMessages - Español
+        usernameInvalidateEs: '%app.usernameInvalidate%'
+        checkCaptchaEs: '%app.checkCaptchaEs%'
+        invalidCaptchaEs: '%app.invalidCaptchaEs%'
         
         #Form Validations
         
@@ -134,15 +113,26 @@ twig:
         #requiredFields - Español
         requiredFieldsEs: '%app.requiredFieldsEs%'
         
+        #emailFields
+        emailFields: '%app.emailFields%'
+        
         #cancelLabel - Ingles
         cancelLabel: '%app.cancelLabel%'
         #cancelLabel - Español
         cancelLabelEs: '%app.cancelLabelEs%'
         
+        #convert
+        convertLabel: '%app.convertLabel%'
+        
         #removeLabel - Ingles
         removeLabel: '%app.removeLabel%'
         #removeLabel - Español
         removeLabelEs: '%app.removeLabelEs%'
+        
+        #removeFile
+        removeFile: '%app.removeFile%'
+        #removedFile
+        removedFile: '%app.removedFile%'
         
         #cancelButtonText - Ingles
         cancelButtonText: '%app.cancelButtonText%'
@@ -218,11 +208,13 @@ twig:
         back: '%app.back%'
         show: '%app.show%'
         action: '%app.action%'
+        actionClients: '%app.actionClients%'
         save: '%app.save%'
         cancel: '%app.cancel%'
         
         #Botones - Español
         addEs: '%app.addEs%'
+#        addFileEs: '%app.addFileEs%'
         deleteEs: '%app.deleteEs%'
         backEs: '%app.backEs%'
         showEs: '%app.showEs%'
@@ -423,11 +415,13 @@ twig:
         fechaFinFilterDashboardEs: '%app.fechaFinFilterDashboardEs%'
 
         #Proveedor - Ingles
-        tituloProveedor: '%app.tituloProveedor%'        
+        tituloProveedor: '%app.tituloProveedor%'
+        
         companiaNombreProveedor: '%app.companiaNombreProveedor%'
         menuProveedor: '%app.menuProveedor%'
         encabezadoProveedor: '%app.encabezadoProveedor%'
         descripcionProveedor: '%app.descripcionProveedor%'
+        cuentaProveedor: '%app.cuentaProveedor%'
         nameProveedor: '%app.nameProveedor%'
         nombreProveedor: '%app.nombreProveedor%'
         apellidoProveedor: '%app.apellidoProveedor%'
@@ -596,6 +590,7 @@ twig:
         estadoTareas: '%app.estadoTareas%'
         responsableTareas: '%app.responsableTareas%'
         recordatorioTareas: '%app.recordatorioTareas%'
+        tiempoRecordatorioTareas: '%app.tiempoRecordatorioTareas%'
         fechaInicioTareas: '%app.fechaInicioTareas%'
         fechaCancelTareas: '%app.fechaCancelTareas%'
         estado: '%app.estadoTareas%'
@@ -603,6 +598,7 @@ twig:
         descripcionFormTareas: '%app.descripcionFormTareas%'
         prioridadTareas: '%app.prioridadTareas%'
         taskNoEdit: '%app.taskNoEdit%'
+        
         cuentaActividad: '%app.cuentaActividad%'
         
         #Tareas (actividades) - Español
@@ -875,6 +871,7 @@ twig:
         encabezadoTipoCuenta: '%app.encabezadoTipoCuenta%'
         descripcionTipoCuenta: '%app.descripcionTipoCuenta%'
         nameTipoCuenta: '%app.nameTipoCuenta%'
+        menuTipoCuenta: '%app.menuTipoCuenta%'
         
         #Tipo de cuenta (CRUD) - Español
         tituloTipoCuentaEs: '%app.tituloTipoCuentaEs%'
