@@ -88,6 +88,16 @@ class CrmOportunidad
      * })
      */
     private $estadoOportunidad;
+    
+    /**
+     * @var \CrmCuenta
+     *
+     * @ORM\ManyToOne(targetEntity="CrmCuenta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cuenta", referencedColumnName="id")
+     * })
+     */
+    private $cuenta;
 
 
 
@@ -283,5 +293,32 @@ class CrmOportunidad
     public function getEstadoOportunidad()
     {
         return $this->estadoOportunidad;
+    }
+    
+    /**
+     * Set cuenta
+     *
+     * @param \ERP\CRMBundle\Entity\CrmCuenta $cuenta
+     * @return CrmOportunidad
+     */
+    public function setCuenta(\ERP\CRMBundle\Entity\CrmCuenta $cuenta = null)
+    {
+        $this->cuenta = $cuenta;
+
+        return $this;
+    }
+
+    /**
+     * Get cuenta
+     *
+     * @return \ERP\CRMBundle\Entity\CrmCuenta 
+     */
+    public function getCuenta()
+    {
+        return $this->cuenta;
+    }
+    
+    public function __toString() {
+        return $this->nombre ? $this->nombre : '';
     }
 }

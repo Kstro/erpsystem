@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
-    - { resource: parametros.yml }
+    - { resource: parametrosEn.yml }
+    - { resource: parametrosEs.yml }
     - { resource: security.yml }
     - { resource: services.yml }
 
@@ -8,8 +9,10 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    photo.proveedor: %kernel.root_dir%/../photos/proveedor/
     photo.cuentas: %kernel.root_dir%/../photos/accounts/
     files.cuentas: %kernel.root_dir%/../files/accounts/
+    files.actividades: %kernel.root_dir%/../files/activities/
     files.actividades: %kernel.root_dir%/../files/activities/
 
 framework:
@@ -46,7 +49,7 @@ twig:
         nombre: '%app.nombre%'
         tituloHome: '%app.tituloHome%'
 
-        #serverMesages
+        #serverMesages - Ingles
         serverOffline: '%app.serverOffline%'
         serverDuplicateName: '%app.serverDuplicateName%'
         serverMsgSave: '%app.serverMsgSave%'
@@ -54,11 +57,8 @@ twig:
         serverMsgCancel: '%app.serverMsgCancel%'
         serverCancel: '%app.serverCancel%'
         serverMsgDelete: '%app.serverMsgDelete%'
-        serverMsgConverted: '%app.serverMsgConverted%'
         serverError: '%app.serverError%'
-        serverFileAttached: '%app.serverFileAttached%'
-        serverFileAttachedDel: '%app.serverFileAttachedDel%'
-        serverSeguimientoLongitud: '%app.serverSeguimientoLongitud%'
+        
         serverConflictRow: '%app.serverConflictRow%'
         serverDateConflict: '%app.serverDateConflict%'
         serverFechaAnterior: '%app.serverFechaAnterior%'
@@ -69,47 +69,109 @@ twig:
         filterUserLabel: '%app.filterUserLabel%'
         filterCuentaLabel: '%app.filterCuentaLabel%'
         
-
+        
+        #serverMesages - Español
+        serverOfflineEs: '%app.serverOfflineEs%'
+        serverDuplicateNameEs: '%app.serverDuplicateNameEs%'
+        serverMsgSaveEs: '%app.serverMsgSaveEs%'
+        serverMsgUpdateEs: '%app.serverMsgUpdateEs%'
+        serverMsgCancelEs: '%app.serverMsgCancelEs%'
+        serverCancelEs: '%app.serverCancelEs%'
+        serverMsgDeleteEs: '%app.serverMsgDeleteEs%'
+        serverErrorEs: '%app.serverErrorEs%'
+        
+        serverConflictRowEs: '%app.serverConflictRowEs%'
+        serverDateConflictEs: '%app.serverDateConflictEs%'
+        serverFechaAnteriorEs: '%app.serverFechaAnteriorEs%'
+        confirmMoveEventsEs: '%app.confirmMoveEventsEs%'
+        allFilterEs: '%app.allFilterEs%'
+        filterLabelEs: '%app.filterLabelEs%'
+        filterActivityLabelEs: '%app.filterActivityLabelEs%'
+        filterUserLabelEs: '%app.filterUserLabelEs%'
+        filterCuentaLabelEs: '%app.filterCuentaLabelEs%'
+        
         #google calendar ID
         googlecalendar: '%app.googlecalendar%'
         
-        #loginMessages
+        #Numero de items a recuperar en el seguimiento para cada modulo que lo necesite
+        serverSeguimientoLongitud: '%app.serverSeguimientoLongitud%'
+        
+        #loginMessages - Ingles
         usernameInvalidate: '%app.usernameInvalidate%'
         checkCaptcha: '%app.checkCaptcha%'
         invalidCaptcha: '%app.invalidCaptcha%'
         
-        #form validations
-        #requiredFields
-        requiredFields: '%app.requiredFields%'
+        #loginMessages - Español
+        usernameInvalidateEs: '%app.usernameInvalidate%'
+        checkCaptchaEs: '%app.checkCaptchaEs%'
+        invalidCaptchaEs: '%app.invalidCaptchaEs%'
+        
+        #Form Validations
+        
+        #requiredFields - Ingles
+        requiredFields: '%app.requiredFields%'        
+        #requiredFields - Español
+        requiredFieldsEs: '%app.requiredFieldsEs%'
+        
         #emailFields
         emailFields: '%app.emailFields%'
-        #cancelLabel
+        
+        #cancelLabel - Ingles
         cancelLabel: '%app.cancelLabel%'
+        #cancelLabel - Español
+        cancelLabelEs: '%app.cancelLabelEs%'
+        
         #convert
         convertLabel: '%app.convertLabel%'
-        #removeLabel
+        
+        #removeLabel - Ingles
         removeLabel: '%app.removeLabel%'
+        #removeLabel - Español
+        removeLabelEs: '%app.removeLabelEs%'
+        
         #removeFile
         removeFile: '%app.removeFile%'
         #removedFile
         removedFile: '%app.removedFile%'
-        #cancelButtonText
-        cancelButtonText: '%app.cancelButtonText%'
-        #confirmButtonText
-        confirmButtonText: '%app.confirmButtonText%'
-        #alternateconfirmButtonText
-        alternateconfirmButtonText: '%app.alternateconfirmButtonText%'
-        #imageError
-        imageError: '%app.imageError%'
-        #requiredFields
-        select2Label: '%app.select2Label%'
         
+        #cancelButtonText - Ingles
+        cancelButtonText: '%app.cancelButtonText%'
+        #cancelButtonText - Español
+        cancelButtonTextEs: '%app.cancelButtonTextEs%'
+        
+        #confirmButtonText - Ingles
+        confirmButtonText: '%app.confirmButtonText%'
+        #confirmButtonText - Español
+        confirmButtonTextEs: '%app.confirmButtonTextEs%'
+        
+        #alternateconfirmButtonText - Ingles
+        alternateconfirmButtonText: '%app.alternateconfirmButtonText%'
+        #alternateconfirmButtonText - Español
+        alternateconfirmButtonText: '%app.alternateconfirmButtonText%'
+        
+        #imageError - Ingles
+        imageError: '%app.imageError%'
+        #imageError - Español
+        imageErrorEs: '%app.imageErrorEs%'
+        
+        #requiredFields - Ingles
+        select2Label: '%app.select2Label%'
+        #requiredFields - Español
+        select2LabelEs: '%app.select2LabelEs%'
+        
+        # Opciones de usuario - Ingles
         editPass: '%app.editPass%'
         showLog: '%app.showLog%'
         settings: '%app.settings%'
         logOut: '%app.logOut%'
+        
+        # Opciones de usuario - Español
+        editPassEs: '%app.editPassEs%'
+        showLogEs: '%app.showLogEs%'
+        settingsEs: '%app.settingsEs%'
+        logOutEs: '%app.logOutEs%'
 
-        #datatables
+        #datatables - Ingles
         dtInfo: '%app.dtInfo%'
         dtInfoEmpty: '%app.dtInfoEmpty%'
         dtEmptyTable: '%app.dtEmptyTable%'
@@ -120,8 +182,24 @@ twig:
         dtLengthMenu: '%app.dtLengthMenu%'
         dtZeroRecords: '%app.dtZeroRecords%'
 
-
-        #Botones
+        #datatables - Español
+        dtInfoEs: '%app.dtInfoEs%'
+        dtInfoEmptyEs: '%app.dtInfoEmptyEs%'
+        dtEmptyTableEs: '%app.dtEmptyTableEs%'
+        dtNextEs: '%app.dtNexteS%'
+        dtPrevEs: '%app.dtPrevEs%'
+        dtProcessingEs: '%app.dtProcessingEs%'
+        dtSearchEs: '%app.dtSearchEs%'
+        dtLengthMenuEs: '%app.dtLengthMenuEs%'
+        dtZeroRecordsEs: '%app.dtZeroRecordsEs%'
+        
+        #Opcion del select - Ingles
+        selectOption: '%app.selectOption%'
+        
+        #Opcion del select - Español
+        selectOptionEs: '%app.selectOptionEs%'
+        
+        #Botones - Ingles
         add: '%app.add%'
         addFile: '%app.addFile%'
         loadMoreComments: '%app.loadMoreComments%'
@@ -133,16 +211,34 @@ twig:
         actionClients: '%app.actionClients%'
         save: '%app.save%'
         cancel: '%app.cancel%'
+        
+        #Botones - Español
+        addEs: '%app.addEs%'
+#        addFileEs: '%app.addFileEs%'
+        deleteEs: '%app.deleteEs%'
+        backEs: '%app.backEs%'
+        showEs: '%app.showEs%'
+        actionEs: '%app.actionEs%'
+        saveEs: '%app.saveEs%'
+        cancelEs: '%app.cancelEs%'
 
-        #Tooltips
+        #Tooltips - Ingles
         accountsTooltip: '%app.accountsTooltip%'
         saleStagesTooltip: '%app.saleStagesTooltip%'
         activitiesTooltip: '%app.activitiesTooltip%'
         calendarTooltip: '%app.calendarTooltip%'
         settingsTooltip: '%app.settingsTooltip%'
         reportsTooltip: '%app.reportsTooltip%'
+        
+        #Tooltips - Español
+        accountsTooltipEs: '%app.accountsTooltipEs%'
+        saleStagesTooltipEs: '%app.saleStagesTooltipEs%'
+        activitiesTooltipEs: '%app.activitiesTooltipEs%'
+        calendarTooltipEs: '%app.calendarTooltipEs%'
+        settingsTooltipEs: '%app.settingsTooltipEs%'
+        reportsTooltipEs: '%app.reportsTooltipEs%'
 
-        #icons
+        #icons 
         accountsIcon: '%app.accountsIcon%'
         saleStagesIcon: '%app.saleStagesIcon%'
         activitiesIcon: '%app.activitiesIcon%'
@@ -150,24 +246,93 @@ twig:
         settingsIcon: '%app.settingsIcon%'
         reportsIcon: '%app.reportsIcon%'
         
-        #Wizard de configuracion inicial
+        # Wizard de configuracion inicial - Ingles
         tituloWizard: '%app.tituloWizard%'
         encabezadoWizard: '%app.encabezadoWizard%'
         step1Wizard: '%app.step1Wizard%'
         step2Wizard: '%app.step2Wizard%'
         step3Wizard: '%app.step3Wizard%'
         step4Wizard: '%app.step4Wizard%'
+        step5Wizard: '%app.step5Wizard%'
+        textoBienvenida: '%app.textoBienvenida%'
+        btnWelcome: '%app.btnWelcome%'
         btnSaveandContWizard: '%app.btnSaveandContWizard%'
         btnPreviousWizard: '%app.btnPreviousWizard%'
         btnSkipWizard: '%app.btnSkipWizard%'
         btnCompletedWizard: '%app.btnCompletedWizard%'
+        languageWizard: '%app.languageWizard%'
+        englishLanguageWizard: '%app.englishLanguageWizard%'
+        spanishLanguageWizard: '%app.spanishLanguageWizard%'
+        companyNameWizard: '%app.companyNameWizard%'
+        companyIndustryWizard: '%app.companyIndustryWizard%'
+        companyAddressWizard: '%app.companyAddressWizard%'
+        userAddressWizard: '%app.userAddressWizard%'
+        companyStateWizard: '%app.companyStateWizard%'
+        companyCityWizard: '%app.companyCityWizard%'
+        tratoPWizard: '%app.tratoPWizard%'
+        nombrePersonaWizard: '%app.nombrePersonaWizard%'
+        apellidoPersonaWizard: '%app.apellidoPersonaWizard%'
+        usernameWizard: '%app.usernameWizard%'
+        passwordWizard: '%app.passwordWizard%'
+        repeatPasswordWizard: '%app.repeatPasswordWizard%'
+        generoPersonaWizard: '%app.generoPersonaWizard%'
+        extensionWizard: '%app.extensionWizard%'
+        emailWizard: '%app.emailWizard%'
+        phoneWizard: '%app.phoneWizard%'
+        
+        #Wizard de configuracion inicial - Español
+        tituloWizardEs: '%app.tituloWizardEs%'
+        encabezadoWizardEs: '%app.encabezadoWizardEs%'
+        step1WizardEs: '%app.step1WizardEs%'
+        step2WizardEs: '%app.step2WizardEs%'
+        step3WizardEs: '%app.step3WizardEs%'
+        step4WizardEs: '%app.step4WizardEs%'
+        step5WizardEs: '%app.step5WizardEs%'
+        textoBienvenidaEs: '%app.textoBienvenidaEs%'
+        btnWelcomeEs: '%app.btnWelcomeEs%'
+        btnSaveandContWizardEs: '%app.btnSaveandContWizardEs%'
+        btnPreviousWizardEs: '%app.btnPreviousWizardEs%'
+        btnSkipWizardEs: '%app.btnSkipWizardEs%'
+        btnCompletedWizardEs: '%app.btnCompletedWizardEs%'
+        languageWizardEs: '%app.languageWizardEs%'
+        englishLanguageWizardEs: '%app.englishLanguageWizardEs%'
+        spanishLanguageWizardEs: '%app.spanishLanguageWizardEs%'
+        companyNameWizardEs: '%app.companyNameWizardEs%'
+        companyIndustryWizardEs: '%app.companyIndustryWizardEs%'
+        companyAddressWizardEs: '%app.companyAddressWizardEs%'
+        userAddressWizardEs: '%app.userAddressWizardEs%'
+        companyStateWizardEs: '%app.companyStateWizardEs%'
+        companyCityWizardEs: '%app.companyCityWizardEs%'
+        tratoPWizardEs: '%app.tratoPWizardEs%'
+        nombrePersonaWizardEs: '%app.nombrePersonaWizardEs%'
+        apellidoPersonaWizardEs: '%app.apellidoPersonaWizardEs%'
+        usernameWizardEs: '%app.usernameWizardEs%'
+        passwordWizardEs: '%app.passwordWizardEs%'
+        repeatPasswordWizardEs: '%app.repeatPasswordWizardES%'
+        generoPersonaWizardEs: '%app.generoPersonaWizardEs%'
+        extensionWizardEs: '%app.extensionWizardEs%'
+        emailWizardEs: '%app.emailWizardEs%'
+        phoneWizardEs: '%app.phoneWizardEs%'
 
-        #Encabezados panel
+        #Generos (Opciones) - Ingles
+        masculino: '%app.masculino%'
+        femenino: '%app.femenino%'
+        
+        #Generos (Opciones) - Español
+        masculinoEs: '%app.masculinoEs%'
+        femeninoEs: '%app.femeninoEs%'
+
+        #Encabezados panel - Ingles
         pnHeadingLabelAdd: '%app.pnHeadingLabelAdd%'
         pnHeadingLabelEdit: '%app.pnHeadingLabelEdit%'
         pnHeadingLabelComment: '%app.pnHeadingLabelComment%'
+        
+        #Encabezados panel - Español
+        pnHeadingLabelAddEs: '%app.pnHeadingLabelAddEs%'
+        pnHeadingLabelEditEs: '%app.pnHeadingLabelEditEs%'
+        pnHeadingLabelCommentEs: '%app.pnHeadingLabelCommentEs%'
 
-        #Etapas de ventas
+        #Etapas de ventas - Ingles
         tituloEtapa: '%app.tituloEtapa%'
         menuEtapa: '%app.menuEtapa%'
         encabezadoEtapa: '%app.encabezadoEtapa%'
@@ -175,31 +340,57 @@ twig:
         nameEtapa: '%app.nameEtapa%'
         probabilityEtapa: '%app.probabilityEtapa%'
         
-        #Campanias
+        #Etapas de ventas - Español
+        tituloEtapaEs: '%app.tituloEtapaEs%'
+        menuEtapaEs: '%app.menuEtapaEs%'
+        encabezadoEtapaEs: '%app.encabezadoEtapaEs%'
+        descripcionEtapaEs: '%app.descripcionEtapaEs%'
+        nameEtapaEs: '%app.nameEtapaEs%'
+        probabilityEtapaEs: '%app.probabilityEtapaEs%'
+        
+        #Campanias - Ingles
         tituloCampania: '%app.tituloCampania%'
         menuCampania: '%app.menuCampania%'
         encabezadoCampania: '%app.encabezadoCampania%'
         descripcionCampania: '%app.descripcionCampania%'
         nameCampania: '%app.nameCampania%'
-
-
-        #TipoCampanias
+        
+        #Campanias - Español
+        tituloCampaniaEs: '%app.tituloCampaniaEs%'
+        menuCampaniaEs: '%app.menuCampaniaEs%'
+        encabezadoCampaniaEs: '%app.encabezadoCampaniaEs%'
+        descripcionCampaniaEs: '%app.descripcionCampaniaEs%'
+        nameCampaniaEs: '%app.nameCampaniaEs%'
+        
+        #TipoCampanias - Ingles
         tituloTipoCampania: '%app.tituloTipoCampania%'
         menuTipoCampania: '%app.menuTipoCampania%'
         encabezadoTipoCampania: '%app.encabezadoTipoCampania%'
         descripcionTipoCampania: '%app.descripcionTipoCampania%'
         nameTipoCampania: '%app.nameTipoCampania%'
+        
+        #TipoCampanias - Español
+        tituloTipoCampaniaEs: '%app.tituloTipoCampaniaEs%'
+        menuTipoCampaniaEs: '%app.menuTipoCampaniaEs%'
+        encabezadoTipoCampaniaEs: '%app.encabezadoTipoCampaniaEs%'
+        descripcionTipoCampaniaEs: '%app.descripcionTipoCampaniaEs%'
+        nameTipoCampaniaEs: '%app.nameTipoCampaniaEs%'
 
-        #Nivel de satisfaccion
+        #Nivel de satisfaccion - Ingles
         tituloSatisfaccion: '%app.tituloSatisfaccion%'
         menuSatisfaccion: '%app.menuSatisfaccion%'
         encabezadoSatisfaccion: '%app.encabezadoSatisfaccion%'
         descripcionSatisfaccion: '%app.descripcionSatisfaccion%'
         nameSatisfaccion: '%app.nameSatisfaccion%'
-
-
-
-        #dashboard
+        
+        #Nivel de satisfaccion - Español
+        tituloSatisfaccionEs: '%app.tituloSatisfaccionEs%'
+        menuSatisfaccionEs: '%app.menuSatisfaccionEs%'
+        encabezadoSatisfaccionEs: '%app.encabezadoSatisfaccionEs%'
+        descripcionSatisfaccionEs: '%app.descripcionSatisfaccionEs%'
+        nameSatisfaccionEs: '%app.nameSatisfaccionEs%'
+        
+        #Dashboard - Ingles
         tituloDashboard: '%app.tituloDashboard%'
         encabezadoDashboard: '%app.encabezadoDashboard%'
         descripcionDashboard: '%app.descripcionDashboard%'
@@ -210,11 +401,20 @@ twig:
         tipoCuentaFilterDashboard: '%app.tipoCuentaFilterDashboard%'
         fechaInicioFilterDashboard: '%app.fechaInicioFilterDashboard%'
         fechaFinFilterDashboard: '%app.fechaFinFilterDashboard%'
+        
+        #Dashboard - Español
+        tituloDashboardEs: '%app.tituloDashboardEs%'
+        encabezadoDashboardEs: '%app.encabezadoDashboardEs%'
+        descripcionDashboardEs: '%app.descripcionDashboardEs%'
+        nameDashboardEs: '%app.nameDashboardEs%'
+        tipoCuentaDashboardEs: '%app.tipoCuentaDashboardEs%'
+        telefonoDashboardEs: '%app.telefonoDashboardEs%'
+        fechaDashboardEs: '%app.fechaDashboardEs%'
+        tipoCuentaFilterDashboardEs: '%app.tipoCuentaFilterDashboardEs%'
+        fechaInicioFilterDashboardEs: '%app.fechaInicioFilterDashboardEs%'
+        fechaFinFilterDashboardEs: '%app.fechaFinFilterDashboardEs%'
 
-
-
-
-        #Proveedor
+        #Proveedor - Ingles
         tituloProveedor: '%app.tituloProveedor%'
         
         companiaNombreProveedor: '%app.companiaNombreProveedor%'
@@ -237,10 +437,31 @@ twig:
         industriaProveedor: '%app.industriaProveedor%'
         sitioWebProveedor: '%app.sitioWebProveedor%'
         inputFileLabel: '%app.inputFileLabel%'
-
-        #Socio
-        tituloSocio: '%app.tituloSocio%'
         
+        #Proveedor - Español
+        tituloProveedorEs: '%app.tituloProveedorEs%'        
+        companiaNombreProveedorEs: '%app.companiaNombreProveedorEs%'
+        menuProveedorEs: '%app.menuProveedorEs%'
+        encabezadoProveedorEs: '%app.encabezadoProveedorEs%'
+        descripcionProveedorEs: '%app.descripcionProveedorEs%'
+        nameProveedorEs: '%app.nameProveedorEs%'
+        nombreProveedorEs: '%app.nombreProveedorEs%'
+        apellidoProveedorEs: '%app.apellidoProveedorEs%'
+        tratoProveedorEs: '%app.tratoProveedorEs%'
+        extensionProveedorEs: '%app.extensionProveedorEs%'
+        emailProveedorEs: '%app.emailProveedorEs%'
+        phoneProveedorEs: '%app.phoneProveedorEs%'
+        direccionProveedorEs: '%app.direccionProveedorEs%'
+        fotoProveedorEs: '%app.fotoProveedorEs%'
+        ciudadProveedorEs: '%app.ciudadProveedorEs%'
+        departamentoProveedorEs: '%app.departamentoProveedorEs%'
+        tipoPersonaProveedorEs: '%app.tipoPersonaProveedorEs%'
+        industriaProveedorEs: '%app.industriaProveedorEs%'
+        sitioWebProveedorEs: '%app.sitioWebProveedorEs%'
+        inputFileLabelEs: '%app.inputFileLabelEs%'
+        
+        #Socio - Ingles
+        tituloSocio: '%app.tituloSocio%'
         companiaNombreSocio: '%app.companiaNombreSocio%'
         menuSocio: '%app.menuSocio%'
         encabezadoSocio: '%app.encabezadoSocio%'
@@ -261,10 +482,32 @@ twig:
         industriaSocio: '%app.industriaSocio%'
         sitioWebSocio: '%app.sitioWebSocio%'
         inputFileLabel: '%app.inputFileLabel%'
-
-        #Proveedor
-        tituloAccount: '%app.tituloAccount%'
         
+        #Socio - Español
+        tituloSocioEs: '%app.tituloSocioEs%'
+        companiaNombreSocioEs: '%app.companiaNombreSocioEs%'
+        menuSocioEs: '%app.menuSocioEs%'
+        encabezadoSocioEs: '%app.encabezadoSocioEs%'
+        descripcionSocioEs: '%app.descripcionSocioEs%'
+        cuentaSocioEs: '%app.cuentaSocioEs%'
+        nameSocioEs: '%app.nameSocioEs%'
+        nombreSocioEs: '%app.nombreSocioEs%'
+        apellidoSocioEs: '%app.apellidoSocioEs%'
+        tratoSocioEs: '%app.tratoSocioEs%'
+        extensionSocioEs: '%app.extensionSocioEs%'
+        emailSocioEs: '%app.emailSocioEs%'
+        phoneSocioEs: '%app.phoneSocioEs%'
+        direccionSocioEs: '%app.direccionSocioEs%'
+        fotoSocioEs: '%app.fotoSocioEs%'
+        ciudadSocioEs: '%app.ciudadSocioEs%'
+        departamentoSocioEs: '%app.departamentoSocioEs%'
+        tipoPersonaSocioEs: '%app.tipoPersonaSocioEs%'
+        industriaSocioEs: '%app.industriaSocioEs%'
+        sitioWebSocioEs: '%app.sitioWebSocioEs%'
+        inputFileLabelEs: '%app.inputFileLabelEs%'
+        
+        #Cuentas - Ingles
+        tituloAccount: '%app.tituloAccount%'        
         companiaNombreAccount: '%app.companiaNombreAccount%'
         menuAccount: '%app.menuAccount%'
         encabezadoAccount: '%app.encabezadoAccount%'
@@ -286,7 +529,30 @@ twig:
         sitioWebAccount: '%app.sitioWebAccount%'
         inputFileLabel: '%app.inputFileLabel%'
         
-        #Tiempo notificaciones
+        #Cuentas - Español
+        tituloAccountEs: '%app.tituloAccount%Es'        
+        companiaNombreAccountEs: '%app.companiaNombreAccountEs%'
+        menuAccountEs: '%app.menuAccountEs%'
+        encabezadoAccountEs: '%app.encabezadoAccountEs%'
+        descripcionAccountEs: '%app.descripcionAccountEs%'
+        cuentaAccountEs: '%app.cuentaAccountEs%'
+        nameAccountEs: '%app.nameAccountEs%'
+        nombreAccountEs: '%app.nombreAccountEs%'
+        apellidoAccountEs: '%app.apellidoAccountEs%'
+        tratoAccountEs: '%app.tratoAccountEs%'
+        extensionAccountEs: '%app.extensionAccountEs%'
+        emailAccountEs: '%app.emailAccountEs%'
+        phoneAccountEs: '%app.phoneAccountEs%'
+        direccionAccountEs: '%app.direccionAccountEs%'
+        fotoAccountEs: '%app.fotoAccountEs%'
+        ciudadAccountEs: '%app.ciudadAccountEs%'
+        departamentoAccountEs: '%app.departamentoAccountEs%'
+        tipoPersonaAccountEs: '%app.tipoPersonaAccountEs%'
+        industriaAccountEs: '%app.industriaAccountEs%'
+        sitioWebAccountEs: '%app.sitioWebAccountEs%'
+        inputFileLabelEs: '%app.inputFileLabelEs%'
+        
+        #Tiempo notificaciones - Ingles
         tituloTiempoNotificacion: '%app.tituloTiempoNotificacion%'
         menuTiempoNotificacion: '%app.menuTiempoNotificacion%'
         encabezadoTiempoNotificacion: '%app.encabezadoTiempoNotificacion%'
@@ -299,8 +565,20 @@ twig:
         mesesTiempoNotificacion: '%app.mesesTiempoNotificacion%'
         aniosTiempoNotificacion: '%app.aniosTiempoNotificacion%'
 
-
-        #Tareas (actividades)
+        #Tiempo notificaciones - Español
+        tituloTiempoNotificacionEs: '%app.tituloTiempoNotificacionEs%'
+        menuTiempoNotificacionEs: '%app.menuTiempoNotificacionEs%'
+        encabezadoTiempoNotificacionEs: '%app.encabezadoTiempoNotificacionEs%'
+        descripcionTiempoNotificacionEs: '%app.descripcionTiempoNotificacionEs%'
+        nameTiempoNotificacionEs: '%app.nameTiempoNotificacionEs%'
+        duracionTiempoNotificacionEs: '%app.duracionTiempoNotificacionEs%'
+        unidadTiempoNotificacionEs: '%app.unidadTiempoNotificacionEs%'
+        minutosTiempoNotificacionEs: '%app.minutosTiempoNotificacionEs%'
+        diasTiempoNotificacionEs: '%app.diasTiempoNotificacionEs%'
+        mesesTiempoNotificacionEs: '%app.mesesTiempoNotificacionEs%'
+        aniosTiempoNotificacionEs: '%app.aniosTiempoNotificacionEs%'
+        
+        #Tareas (actividades) - Ingles
         tituloTareas: '%app.tituloTareas%'
         menuTareas: '%app.menuTareas%'
         encabezadoTareas: '%app.encabezadoTareas%'
@@ -322,9 +600,29 @@ twig:
         taskNoEdit: '%app.taskNoEdit%'
         
         cuentaActividad: '%app.cuentaActividad%'
-
-
-        #Llamadas (actividades)
+        
+        #Tareas (actividades) - Español
+        tituloTareasEs: '%app.tituloTareasEs%'
+        menuTareasEs: '%app.menuTareasEs%'
+        encabezadoTareasEs: '%app.encabezadoTareasEs%'
+        descripcionTareasEs: '%app.descripcionTareasEs%'
+        descripcionFormTareasEs: '%app.descripcionFormTareasEs%'
+        nameTareasEs: '%app.nameTareasEs%'
+        tipoTareasEs: '%app.tipoTareasEs%'
+        prioridadTareasEs: '%app.prioridadTareasEs%'
+        estadoTareasEs: '%app.estadoTareasEs%'
+        responsableTareasEs: '%app.responsableTareasEs%'
+        recordatorioTareasEs: '%app.recordatorioTareasEs%'
+        fechaInicioTareasEs: '%app.fechaInicioTareasEs%'
+        fechaCancelTareasEs: '%app.fechaCancelTareasEs%'
+        estadoEs: '%app.estadoTareasEs%'
+        fechaFinTareasEs: '%app.fechaFinTareasEs%'
+        descripcionFormTareasEs: '%app.descripcionFormTareasEs%'
+        prioridadTareasEs: '%app.prioridadTareasEs%'
+        taskNoEditEs: '%app.taskNoEditEs%'
+        cuentaActividadEs: '%app.cuentaActividadEs%'
+        
+        #Llamadas (actividades) - Ingles
         tituloLlamadas: '%app.tituloLlamadas%'
         menuLlamadas: '%app.menuLlamadas%'
         encabezadoLlamadas: '%app.encabezadoLlamadas%'
@@ -339,14 +637,32 @@ twig:
         tiempoRecordatorioLlamadas: '%app.tiempoRecordatorioLlamadas%'
         fechaInicioLlamadas: '%app.fechaInicioLlamadas%'
         fechaCancelLlamadas: '%app.fechaCancelLlamadas%'
-        # estado: '%app.estadoLlamadas%'
         fechaFinLlamadas: '%app.fechaFinLlamadas%'
         descripcionFormLlamadas: '%app.descripcionFormLlamadas%'
         prioridadLlamadas: '%app.prioridadLlamadas%'
         taskNoEdit: '%app.taskNoEdit%'
-
-
-        #Campaigns
+        
+        #Llamadas (actividades) - Español
+        tituloLlamadasEs: '%app.tituloLlamadasEs%'
+        menuLlamadasEs: '%app.menuLlamadasEs%'
+        encabezadoLlamadasEs: '%app.encabezadoLlamadasEs%'
+        descripcionLlamadasEs: '%app.descripcionLlamadasEs%'
+        descripcionFormLlamadasEs: '%app.descripcionFormLlamadasEs%'
+        nameLlamadasEs: '%app.nameLlamadasEs%'
+        tipoLlamadasEs: '%app.tipoLlamadasEs%'
+        prioridadLlamadasEs: '%app.prioridadLlamadasEs%'
+        estadoLlamadasEs: '%app.estadoLlamadasEs%'
+        responsableLlamadasEs: '%app.responsableLlamadasEs%'
+        recordatorioLlamadasEs: '%app.recordatorioLlamadasEs%'
+        tiempoRecordatorioLlamadasEs: '%app.tiempoRecordatorioLlamadasEs%'
+        fechaInicioLlamadasEs: '%app.fechaInicioLlamadasEs%'
+        fechaCancelLlamadasEs: '%app.fechaCancelLlamadasEs%'
+        fechaFinLlamadasEs: '%app.fechaFinLlamadasEs%'
+        descripcionFormLlamadasEs: '%app.descripcionFormLlamadasEs%'
+        prioridadLlamadasEs: '%app.prioridadLlamadasEs%'
+        taskNoEditEs: '%app.taskNoEditEs%'
+        
+        #Campaigns - Ingles
         tituloCampaniaReg: '%app.tituloCampaniaReg%'
         menuCampaniaReg: '%app.menuCampaniaReg%'
         encabezadoCampaniaReg: '%app.encabezadoCampaniaReg%'
@@ -362,13 +678,33 @@ twig:
         fechaRegistroCampaniaReg: '%app.fechaRegistroCampaniaReg%'
         fechaInicioCampaniaReg: '%app.fechaInicioCampaniaReg%'
         fechaCancelCampaniaReg: '%app.fechaCancelCampaniaReg%'
-        # estado: '%app.estadoCampaniaReg%'
         fechaFinCampaniaReg: '%app.fechaFinCampaniaReg%'
         descripcionFormCampaniaReg: '%app.descripcionFormCampaniaReg%'
         prioridadCampaniaReg: '%app.prioridadCampaniaReg%'
         taskNoEdit: '%app.taskNoEdit%'
-
-        #Reuniones (actividades)
+        
+        #Campaigns - Español
+        tituloCampaniaRegEs: '%app.tituloCampaniaRegEs%'
+        menuCampaniaRegEs: '%app.menuCampaniaRegEs%'
+        encabezadoCampaniaRegEs: '%app.encabezadoCampaniaRegEs%'
+        descripcionCampaniaRegEs: '%app.descripcionCampaniaRegEs%'
+        descripcionFormCampaniaRegEs: '%app.descripcionFormCampaniaRegEs%'
+        nameCampaniaRegEs: '%app.nameCampaniaRegEs%'
+        tipoCampaniaRegEs: '%app.tipoCampaniaRegEs%'
+        prioridadCampaniaRegEs: '%app.prioridadCampaniaRegEs%'
+        estadoCampaniaRegEs: '%app.estadoCampaniaRegEs%'
+        responsableCampaniaRegEs: '%app.responsableCampaniaRegEs%'
+        recordatorioCampaniaRegEs: '%app.recordatorioCampaniaRegEs%'
+        tiempoRecordatorioCampaniaRegEs: '%app.tiempoRecordatorioCampaniaRegEs%'
+        fechaRegistroCampaniaRegEs: '%app.fechaRegistroCampaniaRegEs%'
+        fechaInicioCampaniaRegEs: '%app.fechaInicioCampaniaRegEs%'
+        fechaCancelCampaniaRegEs: '%app.fechaCancelCampaniaRegEs%'
+        fechaFinCampaniaRegEs: '%app.fechaFinCampaniaRegEs%'
+        descripcionFormCampaniaRegEs: '%app.descripcionFormCampaniaRegEs%'
+        prioridadCampaniaRegEs: '%app.prioridadCampaniaRegEs%'
+        taskNoEditEs: '%app.taskNoEditEs%'
+        
+        #Reuniones (actividades) - Ingles
         tituloReuniones: '%app.tituloReuniones%'
         menuReuniones: '%app.menuReuniones%'
         encabezadoReuniones: '%app.encabezadoReuniones%'
@@ -384,14 +720,33 @@ twig:
         tiempoRecordatorioReuniones: '%app.tiempoRecordatorioReuniones%'
         fechaInicioReuniones: '%app.fechaInicioReuniones%'
         fechaCancelReuniones: '%app.fechaCancelReuniones%'
-        # estado: '%app.estadoReuniones%'
         fechaFinReuniones: '%app.fechaFinReuniones%'
         descripcionFormReuniones: '%app.descripcionFormReuniones%'
         prioridadReuniones: '%app.prioridadReuniones%'
         taskNoEdit: '%app.taskNoEdit%'
 
-
-        #Cliente potencial
+        #Reuniones (actividades) - Español
+        tituloReunionesEs: '%app.tituloReunionesEs%'
+        menuReunionesEs: '%app.menuReunionesEs%'
+        encabezadoReunionesEs: '%app.encabezadoReunionesEs%'
+        descripcionReunionesEs: '%app.descripcionReunionesEs%'
+        direccionReunionesEs: '%app.direccionReunionesEs%'
+        descripcionFormReunionesEs: '%app.descripcionFormReunionesEs%'
+        nameReunionesEs: '%app.nameReunionesEs%'
+        tipoReunionesEs: '%app.tipoReunionesEs%'
+        prioridadReunionesEs: '%app.prioridadReunionesEs%'
+        estadoReunionesEs: '%app.estadoReunionesEs%'
+        responsableReunionesEs: '%app.responsableReunionesEs%'
+        recordatorioReunionesEs: '%app.recordatorioReunionesEs%'
+        tiempoRecordatorioReunionesEs: '%app.tiempoRecordatorioReunionesEs%'
+        fechaInicioReunionesEs: '%app.fechaInicioReunionesEs%'
+        fechaCancelReunionesEs: '%app.fechaCancelReunionesEs%'
+        fechaFinReunionesEs: '%app.fechaFinReunionesEs%'
+        descripcionFormReunionesEs: '%app.descripcionFormReunionesEs%'
+        prioridadReunionesEs: '%app.prioridadReunionesEs%'
+        taskNoEditEs: '%app.taskNoEditEs%'
+        
+        #Cliente potencial - Ingles
         tituloClientePotencial: '%app.tituloClientePotencial%'
         menuClientePotencial: '%app.menuClientePotencial%'
         menuClientePotencial: '%app.menuClientePotencial%'
@@ -402,7 +757,6 @@ twig:
         phoneClientePotencial: '%app.phoneClientePotencial%'
         industriaClientePotencial: '%app.industriaClientePotencial%'
         descripcionClientePotencial: '%app.descripcionClientePotencial%'
-
 
         nombreClientePotencial: '%app.nombreClientePotencial%'
         companiaNombreClientePotencial: '%app.companiaNombreClientePotencial%'
@@ -421,12 +775,38 @@ twig:
         departamentoClientePotencial: '%app.departamentoClientePotencial%'
         interesClientePotencial: '%app.interesClientePotencial%'
         fuenteClientePotencial: '%app.fuenteClientePotencial%'
+        
+        #Cliente potencial - Español
+        tituloClientePotencialEs: '%app.tituloClientePotencialEs%'
+        menuClientePotencialEs: '%app.menuClientePotencialEs%'
+        menuClientePotencialEs: '%app.menuClientePotencialEs%'
+        encabezadoClientePotencialEs: '%app.encabezadoClientePotencialEs%'
+        nameClientePotencialEs: '%app.nameClientePotencialEs%'
+        cuentaClientePotencialEs: '%app.cuentaClientePotencialEs%'
+        emailClientePotencialEs: '%app.emailClientePotencialEs%'
+        phoneClientePotencialEs: '%app.phoneClientePotencialEs%'
+        industriaClientePotencialEs: '%app.industriaClientePotencialEs%'
+        descripcionClientePotencialEs: '%app.descripcionClientePotencialEs%'
 
-
-
-
-    
-        #cliente
+        nombreClientePotencialEs: '%app.nombreClientePotencialEs%'
+        companiaNombreClientePotencialEs: '%app.companiaNombreClientePotencialEs%'
+        apellidoClientePotencialEs: '%app.apellidoClientePotencialEs%'
+        tratoClientePotencialEs: '%app.tratoClientePotencialEs%'
+        
+        extensionClientePotencialEs: '%app.extensionClientePotencialEs%'
+        statusClientePotencialEs: '%app.statusClientePotencialEs%'
+        origenClientePotencialEs: '%app.origenClientePotencialEs%'
+        statusClientePotencialEs: '%app.statusClientePotencialEs%'
+        campaniaClientePotencialEs: '%app.campaniaClientePotencialEs%'
+        
+        direccionClientePotencialEs: '%app.direccionClientePotencialEs%'
+        fotoClientePotencialEs: '%app.fotoClientePotencialEs%'
+        ciudadClientePotencialEs: '%app.ciudadClientePotencialEs%'
+        departamentoClientePotencialEs: '%app.departamentoClientePotencialEs%'
+        interesClientePotencialEs: '%app.interesClientePotencialEs%'
+        fuenteClientePotencialEs: '%app.fuenteClientePotencialEs%'
+        
+         #cliente - Ingles
         tituloCliente: '%app.tituloCliente%'
         companiaNombreCliente: '%app.companiaNombreCliente%'
         menuCliente: '%app.menuCliente%'
@@ -449,40 +829,129 @@ twig:
         fechaRegistroCliente: '%app.fechaRegistroCliente%'
         sitioWebCliente: '%app.sitioWebCliente%'
         estadoCliente: '%app.estadoCliente%'
-    
-
-        #Fullcalendar
+        
+        #cliente - Español
+        tituloClienteEs: '%app.tituloClienteEs%'
+        companiaNombreClienteEs: '%app.companiaNombreClienteEs%'
+        menuClienteEs: '%app.menuClienteEs%'
+        encabezadoClienteEs: '%app.encabezadoClienteEs%'
+        descripcionClienteEs: '%app.descripcionClienteEs%'
+        cuentaClienteEs: '%app.cuentaClienteEs%'
+        nameClienteEs: '%app.nameClienteEs%'
+        nombreClienteEs: '%app.nombreClienteEs%'
+        apellidoClienteEs: '%app.apellidoClienteEs%'
+        tratoClienteEs: '%app.tratoClienteEs%'
+        phoneClienteEs: '%app.phoneClienteEs%'
+        extensionClienteEs: '%app.extensionClienteEs%'
+        emailClienteEs: '%app.emailClienteEs%'
+        direccionClienteEs: '%app.direccionClienteEs%'
+        fotoClienteEs: '%app.fotoClienteEs%'
+        ciudadClienteEs: '%app.ciudadClienteEs%'
+        departamentoClienteEs: '%app.departamentoClienteEs%'
+        tipoPersonaClienteEs: '%app.tipoPersonaClienteEs%'
+        industriaClienteEs: '%app.industriaClienteEs%'
+        fechaRegistroClienteEs: '%app.fechaRegistroClienteEs%'
+        sitioWebClienteEs: '%app.sitioWebClienteEs%'
+        estadoClienteEs: '%app.estadoClienteEs%'
+        
+        #Fullcalendar - Ingles
         tituloCalendar: '%app.tituloCalendar%'
         menuCalendar: '%app.menuCalendar%'
         encabezadoCalendar: '%app.encabezadoCalendar%'
         descripcionCalendar: '%app.descripcionCalendar%'
-
-
-
-        #Tipo de cuenta (CRUD)
+        
+        #Fullcalendar - Español
+        tituloCalendarEs: '%app.tituloCalendarEs%'
+        menuCalendarEs: '%app.menuCalendarEs%'
+        encabezadoCalendarEs: '%app.encabezadoCalendarEs%'
+        descripcionCalendarEs: '%app.descripcionCalendarEs%'
+        
+        #Tipo de cuenta (CRUD) - Ingles
         tituloTipoCuenta: '%app.tituloTipoCuenta%'
         encabezadoTipoCuenta: '%app.encabezadoTipoCuenta%'
         descripcionTipoCuenta: '%app.descripcionTipoCuenta%'
         nameTipoCuenta: '%app.nameTipoCuenta%'
         menuTipoCuenta: '%app.menuTipoCuenta%'
         
-        #Fuentes de origen (CRUD)
+        #Tipo de cuenta (CRUD) - Español
+        tituloTipoCuentaEs: '%app.tituloTipoCuentaEs%'
+        encabezadoTipoCuentaEs: '%app.encabezadoTipoCuentaEs%'
+        descripcionTipoCuentaEs: '%app.descripcionTipoCuentaEs%'
+        nameTipoCuentaEs: '%app.nameTipoCuentaEs%'
+
+        #Fuentes de origen (CRUD) - Ingles
         tituloFuenteOrigen: '%app.tituloFuenteOrigen%'
         encabezadoFuenteOrigen: '%app.encabezadoFuenteOrigen%'
         descripcionFuenteOrigen: '%app.descripcionFuenteOrigen%'
         nameFuenteOrigen: '%app.nameFuenteOrigen%'
         
-        #Prioridad (CRUD)
+        #Fuentes de origen (CRUD) - Español
+        tituloFuenteOrigenEs: '%app.tituloFuenteOrigenEs%'
+        encabezadoFuenteOrigenEs: '%app.encabezadoFuenteOrigenEs%'
+        descripcionFuenteOrigenEs: '%app.descripcionFuenteOrigenEs%'
+        nameFuenteOrigenEs: '%app.nameFuenteOrigenEs%'
+        
+        #Prioridad (CRUD) - Ingles
         tituloPrioridad: '%app.tituloPrioridad%'
         encabezadoPrioridad: '%app.encabezadoPrioridad%'
         descripcionPrioridad: '%app.descripcionPrioridad%'
         namePrioridad: '%app.namePrioridad%'
+        
+        #Prioridad (CRUD) - Español
+        tituloPrioridadEs: '%app.tituloPrioridadEs%'
+        encabezadoPrioridadEs: '%app.encabezadoPrioridadEs%'
+        descripcionPrioridadEs: '%app.descripcionPrioridadEs%'
+        namePrioridadEs: '%app.namePrioridadEs%'
 
-        #Login
+        #Login - Ingles
         tituloLogin: '%app.tituloLogin%'        
         usernameTxt: '%app.usernameTxt%'        
-        passwordTxt: '%app.passwordTxt%'        
+        passwordTxt: '%app.passwordTxt%'   
         
+        #Oportunidades - Ingles
+        tituloOportunidad: '%app.tituloOportunidad%'
+        menuOportunidad: '%app.menuOportunidad%'
+        encabezadoOportunidad: '%app.encabezadoOportunidad%'
+        descripcionOportunidad: '%app.descripcionOportunidad%'
+        campaniaOportunidad: '%app.campaniaOportunidad%'
+        nameOportunidad: '%app.nameOportunidad%'
+        tipoCuentaOportunidad: '%app.tipoCuentaOportunidad%'
+        cuentaOportunidad: '%app.cuentaOportunidad%'
+        etapaOportunidad: '%app.etapaOportunidad%'
+        fechaCierreOportunidad: '%app.fechaCierreOportunidad%'
+        fechaRegistroOportunidad: '%app.fechaRegistroOportunidad%'
+        probabilidadOportunidad: '%app.probabilidadOportunidad%'
+        errorProbabilidad: '%app.errorProbabilidad%'
+        fuenteOportunidad: '%app.fuenteOportunidad%'
+        descriptionOportunidad: '%app.descriptionOportunidad%'
+        assignedUserOportunidad: '%app.assignedUserOportunidad%'
+        hayProductosOportunidad: '%app.hayProductosOportunidad%'
+        addRowOportunidad: '%app.addRowOportunidad%'
+        
+        #Oportunidades - Español
+        tituloOportunidadEs: '%app.tituloOportunidadEs%'
+        menuOportunidadEs: '%app.menuOportunidadEs%'
+        encabezadoOportunidadEs: '%app.encabezadoOportunidadEs%'
+        descripcionOportunidadEs: '%app.descripcionOportunidadEs%'
+        campaniaOportunidadEs: '%app.campaniaOportunidadEs%'
+        nameOportunidadEs: '%app.nameOportunidadEs%'
+        tipoCuentaOportunidadEs: '%app.tipoCuentaOportunidadEs%'
+        cuentaOportunidadEs: '%app.cuentaOportunidadEs%'
+        etapaOportunidadEs: '%app.etapaOportunidadEs%'
+        fechaCierreOportunidadEs: '%app.fechaCierreOportunidadEs%'
+        fechaRegistroOportunidadEs: '%app.fechaRegistroOportunidadEs%'
+        probabilidadOportunidadEs: '%app.probabilidadOportunidadEs%'
+        errorProbabilidadEs: '%app.errorProbabilidadEs%'
+        fuenteOportunidadEs: '%app.fuenteOportunidadEs%'
+        descriptionOportunidadEs: '%app.descriptionOportunidadEs%'
+        assignedUserOportunidadEs: '%app.assignedUserOportunidadEs%'
+        hayProductosOportunidadEs: '%app.hayProductosOportunidadEs%'
+        addRowOportunidadEs: '%app.addRowOportunidadEs%'
+        
+        #Login - Español
+        tituloLoginEs: '%app.tituloLoginEs%'        
+        usernameTxtEs: '%app.usernameTxtEs%'        
+        passwordTxtEs: '%app.passwordTxtEs%' 
         
         
         

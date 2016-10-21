@@ -50,6 +50,12 @@ span.round-tab {
 span.round-tab i{
     color:#555555;
 }
+
+.icono {
+    position: relative;
+    top: 30%;
+}
+
 .wizard li.active span.round-tab {
     background: #fff;
     border: 2px solid #5bc0de;
@@ -59,13 +65,28 @@ span.round-tab i{
     color: #5bc0de;
 }
 
+span.exito {
+    color: #0d864a;
+}
+
+span.exito {
+    background: #fff;
+    border: 2px solid #0d864a;
+}
+
+li.active {
+    background-color: #fff;
+    border-bottom-color: transparent;
+    border-bottom: 1px solid #ddd;
+}
+
 span.round-tab:hover {
     color: #333;
     border: 2px solid #333;
 }
 
 .wizard .nav-tabs > li {
-    width: 25%;
+    width: 20%;
 }
 
 .wizard li:after {
@@ -106,6 +127,7 @@ span.round-tab:hover {
 .wizard .tab-pane {
     position: relative;
     padding-top: 50px;
+    background-color: #fff;
 }
 
 .wizard h3 {
@@ -226,8 +248,6 @@ span.round-tab:hover {
 .accordion-content td{
 	border-bottom:1px solid #dcdcdc;
 }
-
-
 
 @media( max-width : 585px ) {
 

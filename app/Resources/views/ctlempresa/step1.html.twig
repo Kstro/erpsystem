@@ -1,0 +1,81 @@
+<div class="col-md-12">
+        <form method="post" {#action="{% block form_action %}{{ path("admin_wizard_register_step1") }}{% endblock %}"#} id="frmEmpresaWizard" role="form">  
+        <div class="row">
+            <input id="idEmpresa" type="hidden" name="idEmpresa" class="input-sm form-control">
+            <div class="col-md-7">                                                    
+                <label class="companyNameWizard control-label">{{companyNameWizard}}</label>
+                <input type="text" name ="companyName" class="form-control validateInputCia" />                                                   
+            </div>
+            <div class="col-md-5">
+                <label class="companyIndustryWizard control-label">{{companyIndustryWizard}}</label>
+                <select style="width:100%;" type="text" id="industria" name="industria" class="input-sm form-control validateInputCia dpbIndustria">
+                    {% for industria in industrias %}
+                        <option value={{industria.id}}>{{industria.nombre}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-7 address" style="margin-top:5px;">
+                <label class="companyAddressWizard">{{companyAddressWizard}}</label>
+                <input type="text" name="addressCia[]" class="input-sm form-control validateInputCia txtAddressCia txtAddressFirst">
+            </div>
+            <div class="col-md-2 state" style="margin-top:5px;">
+                <label class="companyStateWizard">{{companyStateWizard}}</label>
+                <select style="width:100%;" id="addressDepartamentoCia" name="addressDepartamentoCia[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
+                    {% for estado in estados %}
+                        <option value={{estado.id}}>{{estado.nombre}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 city" style="margin-top:5px;">
+                <label class="companyCityWizard">{{companyCityWizard}}</label>
+                <select style="width:100%;" id="addressCityCia" name="addressCityCia[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
+                    {% for ciudad in ciudades %}
+                        <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-1 addAddress" style="margin-top:5px;">
+                <button id="plusAddressCompanyCia" style="margin-top:25px;" class="plusAddressCompanyCia btn btn-success"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>   
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-2 phonesType" style="margin-top:20px;">
+                <label class="phoneWizard">{{phoneWizard}}</label>
+                <select style="width:100%;" type="text" id="phoneTypeCia" name="phoneTypeCia[]" class="input-sm form-control validateInputCia dpbTipoPhone firstPhoneType">
+                    {% for tipo in tiposTelefono %}
+                        <option value={{tipo.id}}>{{tipo.nombre}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 phonesText" style="margin-top:20px;">
+                <input style="margin-top:25px;" type="text" name="phoneCia[]" class="input-sm form-control validateInputCia txtPhoneCia firstPhoneTxt">
+            </div>
+            <div class="col-md-2 phonesExtension" style="margin-top:20px;">
+                <label class="extensionWizard">{{extensionWizard}}</label>
+                <input type="text" name="phoneExtCia[]" class="input-sm form-control  txtExtension firstPhoneExtension">
+            </div>
+            <div class="col-md-1 addPhone" style="margin-top:20px;">
+                <button id="plusPhoneCia" style="margin-top:25px;" class="plusPhoneCia btn btn-success"><i class="fa fa-plus"></i></button>
+            </div>
+            <div class="col-md-4 emailText" style="margin-top:20px;">
+                <label class="emailWizard">{{emailWizard}}</label>
+                <input type="text" name="emailCia[]" class="input-sm form-control  txtEmailCia txtEmailFirst validateInputCia">
+            </div>
+            <div class="col-md-1 addEmail" style="margin-top:20px;">
+                <button id="plusEmailCia" style="margin-top:25px;" class="plusEmailCia btn btn-success"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-md-12">
+                <ul class="list-inline pull-right">
+                    {#<li><button type="button" class="btn btn-default btn-sm prev-step">{{btnPreviousWizard}}</button></li>#}
+                    <li><button id="btnStep1" type="button" class="btn btn-primary btn-sm next-step">{{btnSaveandContWizard}}</button></li>
+                </ul>
+            </div>
+        </div>
+    </form>        
+</div>
