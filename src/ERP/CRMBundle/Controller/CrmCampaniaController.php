@@ -513,9 +513,16 @@ class CrmCampaniaController extends Controller
                 
                 // var_dump($data);
                 // die();
-
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoCampania doc "
+                            ."JOIN doc.campania c "
+                            ."WHERE c.id=:idCuenta ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$id))
+                                    ->getResult();
                 
-
+                $data['docs']=$docs;
+                
+                //var_dump($data);
             }
             else{
                 $data['error']="Error";

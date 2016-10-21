@@ -2,6 +2,7 @@ $(document).ready(function() {
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
         var numPedidos=0;
+        $('.btnAddCommentGen').attr('id',1);
 	$("#txtId1").val('');
 	$("#txtId2").val('');
 	var numAddress = 0;

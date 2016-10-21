@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
+use ERP\CRMBundle\Entity\CrmComentarioCampania;
 use ERP\CRMBundle\Entity\CrmActividad;
 use ERP\CRMBundle\Entity\CrmComentarioActividad;
 use ERP\CRMBundle\Entity\CtlPersona;
@@ -24,14 +25,14 @@ use ERP\CRMBundle\Form\CrmCuentaType;
 /**
  * Files controller.
  *
- * @Route("/files/handler")
+ * @Route("/comments/handler")
  */
 class CrmComentarioController extends Controller {
     
     /**
      * Add comment providers
      *
-     * @Route("/general/comment/add", name="admin_actividad_comment_add_ajax",  options={"expose"=true}))
+     * @Route("/general/comment/add", name="admin_general_comment_add_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function commentajaxactAction(Request $request)
@@ -52,12 +53,12 @@ class CrmComentarioController extends Controller {
                 
                 // $usuarioObj = $em->getRepository('ERPCRMBundle:CtlUsuario')->find($idCuenta);
 
-
+                $crmComentario = null;
                 
-                
+                //echo "cac";
                 switch($tipoComment){
                     case 1:///// CRM - Cuenta
-                        $crmComentario= new CrmComentarioActividad();
+                        $crmComentario= new CrmComentarioCuenta();
                         $actObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($id);
                         $crmComentario->setCuenta($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimiento where cuenta=".$id;
@@ -69,7 +70,10 @@ class CrmComentarioController extends Controller {
                         $sql="SELECT COUNT(*) as total FROM seguimientoact where actividad=".$id;
                         break;
                     case 3:///// CRM - Campaña
-                        $crmComentario->setActividad($actObj);
+                        $crmComentario= new CrmComentarioCampania();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($id);
+                        $crmComentario->setCampania($actObj);
+                        $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
                         break;
                 }
                 
@@ -98,6 +102,7 @@ class CrmComentarioController extends Controller {
                 
                 $response->setData($data); 
             } catch (\Exception $e) {
+                echo "'".$e->getLine()."'";
                 if(method_exists($e,'getErrorCode')){
                     switch (intval($e->getErrorCode()))
                         {

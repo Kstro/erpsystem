@@ -124,9 +124,12 @@ $(document).ready(function() {
                 var tipoComment = $(this).attr('id');
 		var commentDom = $('#txtAddComment');
 		var comment = $('#txtAddComment').val();
-		var id=$('#txtId').val();
-		
-		
+		var id=$('#txtId1').val();
+                console.log("id act: "+id);
+		if (typeof id=== 'undefined') {
+                        id= $('#txtId').val();
+                }
+		console.log("id act: "+id);
 		primerItem = $('#primerItem');
 		if (!required(commentDom)) {
 			$(commentDom).addClass('errorform');
@@ -143,8 +146,9 @@ $(document).ready(function() {
 
 function agregarComentario($btn,id,comment,tipoComment){
     var item='';
+    console.log('asdcadc '+id);
     $.ajax({
-            url: Routing.generate('admin_actividad_comment_add_ajax'),
+            url: Routing.generate('admin_general_comment_add_ajax'),
             type: "POST",            
             data: {param1:id,param2:comment,param3:tipoComment},
             success: function(data)  

@@ -39,7 +39,7 @@ class CrmSeguimientoController extends Controller {
             $response = new JsonResponse();
             $id=$request->get("param1"); /////Id de la cuenta que se esta viendo
             $longitud = $this->getParameter('app.serverSeguimientoLongitud'); /////Numero de items a recuperar por click y al inicio
-            $files = $this->getParameter('app.serverFileAttached'); /////
+            //$files = $this->getParameter('app.serverFileAttached'); /////
             $numPedidos=$request->get("param2"); /////Numero de veces solicitado, para el paginado
             $tipoComment=$request->get("param3"); /////Parametro para identificar a que tabla va el comentario
             // sleep ( 5 );
@@ -56,12 +56,12 @@ class CrmSeguimientoController extends Controller {
                     $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
                 case 3:///// CRM - Campañas
-                    $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                    $sql="SELECT * FROM seguimientocmp where campania=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
                 case 4:///// CRM - 
                     $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
-                case 5:///// CRM -
+                case 5:///// CRM - 
                     $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
             }
@@ -69,7 +69,7 @@ class CrmSeguimientoController extends Controller {
             $stmt = $em->getConnection()->prepare($sql);
             $stmt->execute();
             $data['data']= $stmt->fetchAll();
-            $data['files']= $files;
+            //$data['files']= $files;
             // return new Response(json_encode($data));
         } catch (\Exception $e) {
             $data['error']=$e->getMessage();

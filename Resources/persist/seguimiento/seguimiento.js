@@ -5,23 +5,16 @@ $(document).ready(function() {
 	$(document).on('click', '#btnLoadMore', function(event) {
 		var numPedidos =$('#iteracion').val();
 		var idForm=$('#txtId1').val();
-                console.log("iform"+idForm);
-                console.log("pedidos"+numPedidos);
+                if (typeof idForm=== 'undefined') {
+                    idForm= $('#txtId').val();
+                }
+                console.log("iform gen "+idForm);
+                console.log("pedidos gen "+numPedidos);
 		seguimientoGeneral(idForm,numPedidos,$(this),tipo);
 		return false;
 	});
 	/*/////Fin de agregar/remover direccion*/
-	/*/////Cargar mas historial actividad*/
-
-	$(document).on('click', '#btnLoadMoreAct', function(event) {
-		var numPedidos =$('#iteracion').val();
-		var idForm=$('#txtId').val();
-                console.log("iform"+idForm);
-                console.log("pedidos"+numPedidos);
-		seguimientoActividad(idForm,numPedidos,$(this));
-		return false;
-	});
-	/*/////Fin de agregar/remover direccion actividad*/
+	
 });
 
 function mostrarocultar(numPedidos){

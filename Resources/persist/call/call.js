@@ -2,8 +2,7 @@ $(document).ready(function() {
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
 	$("#txtId").val('');
-        $('.btnAddComment\n\
-    Gen').attr('id',2);
+        $('.btnAddCommentGen').attr('id',2);
 	var numPedidos = 0;
 	var numAddress = 0;
 	/*/////Persist datatable (Save method)*/

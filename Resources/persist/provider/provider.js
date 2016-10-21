@@ -3,6 +3,7 @@ $(document).ready(function() {
 	var numPedidos=0;
 	var dataId=0;
 	// var table= $('#providersList').dataTable();
+        $('.btnAddCommentGen').attr('id',1);
 	$('.dpbCityFirst').select2();
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');

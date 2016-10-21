@@ -55,6 +55,11 @@ $(document).ready(function() {
         $('#frmFiles').on('submit',(function(event) {
             var formData = new FormData(this);
             var idCuenta = $('#txtId1').val();
+            /*console.log(idCuenta);*/
+            if (typeof idCuenta=== 'undefined') {
+                idCuenta = $('#txtId').val();
+            }
+            /*console.log(idCuenta);*/
             var tipoComment = $('#txtTipoComment').val();
             formData.append('param1',idCuenta);
             formData.append('param2',tipoComment);
@@ -137,13 +142,16 @@ function deleteFiles(idDom){
 	var idString=idDom.attr('id');
 	var id2=$('#txtId1').val();
 	/*console.log(idString);*/
-	
+	if (typeof id2=== 'undefined') {
+                id2= $('#txtId').val();
+        }
+        var tipoComment = $('#txtTipoComment').val();
 	var deleteDomX = idDom.parent();
 	var deleteDomLabel = idDom.parent().next();
 	$.ajax({
 		url: Routing.generate('admin_files_delete_ajax'),
 		type: 'POST',
-		data: {param1: idString,param2: id2},
+		data: {param1: idString,param2: id2,param3:tipoComment},
 		success:function(data){
 			if (data.error) {
 				swal('',data.error,'error');

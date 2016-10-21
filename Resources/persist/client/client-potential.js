@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
+        $('.btnAddCommentGen').attr('id',1);
 	var numAddress = 0;
         var numPedidos=0;
 	/*/////Persist datatable (Save method)*/

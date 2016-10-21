@@ -9,8 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoActividad;
+use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCampania;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
+use ERP\CRMBundle\Entity\CrmComentarioCampania;
 use ERP\CRMBundle\Form\CtlRolType;
 
 /**
@@ -107,14 +109,17 @@ class CrmFilesController extends Controller
                 switch($tipoComment){
                     case 1:///// CRM - Cuentas
                         $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($id);
+                        $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoCuenta doc";
                         //$sql="SELECT * FROM seguimiento where cuenta=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                         break;
                     case 2:///// CRM - Actividades
                         $cuentaObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($id);
+                        $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoActividad doc";
                         //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                         break;
                     case 3:///// CRM - Campañas
-                        $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                        $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($id);
+                        $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoCampania doc";
                         break;
                     case 4:///// CRM - 
                         $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
@@ -124,10 +129,13 @@ class CrmFilesController extends Controller
                         break;
                 }
                 
-                
+                $idMax = $em->createQuery($sql)
+                                    //->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                $nombreId = intval($idMax[0][1]);
                 $usuarioObj = $this->get('security.token_storage')->getToken()->getUser();
                 
-                if(count($cuentaObj)!=0){/////
+                //if(count($cuentaObj)!=0){/////
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
                     if ($nombreTmp!='') {
@@ -143,11 +151,7 @@ class CrmFilesController extends Controller
                         //$nombreArchivo =$fecha.".".$extension;
                         $nombreArchivo =$nombreTmp.".".$extension;
                         
-                        $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoCuenta doc";
-                        $id = $em->createQuery($sql)
-                                    //->setParameters(array('idCuenta'=>$idCuenta))
-                                    ->getResult();
-                        $nombreId = intval($id[0][1]);
+                        
                         
                         $nombreArchivo = $nombreId.'-'.substr($nombreTmp, 0, 16).'.'.$extension;
                         //var_dump($nombreArchivo);
@@ -163,7 +167,8 @@ class CrmFilesController extends Controller
                                     $crmFile->setActividad($cuentaObj);
                                     break;
                                 case 3:///// CRM - Campañas
-                                    //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                                    $crmFile= new CrmDocumentoAdjuntoCampania();
+                                    $crmFile->setCampania($cuentaObj);
                                     break;
                                 case 4:///// CRM - 
                                     //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
@@ -171,10 +176,7 @@ class CrmFilesController extends Controller
                                 case 5:///// CRM -
                                     //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                                     break;
-                            }
-                            
-                            
-                            
+                            }                            
                             $crmFile->setUsuario($usuarioObj);
                             $crmFile->setFechaRegistro(new \DateTime('now'));
                             $crmFile->setSrc($nombreArchivo);
@@ -192,7 +194,7 @@ class CrmFilesController extends Controller
                     } else {//Foto vacia
                         //var_dump('No file');
                     }
-                }
+                //}
                 $response->setData($data); 
             } catch (\Exception $e) {
 //                var_dump($e->getMessage());
@@ -339,46 +341,59 @@ class CrmFilesController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $id=$request->get("param1");
                 $idCuenta=$request->get("param2");
-                $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoCuenta')->find($id);
-                //$tagObj=
-                /*var_dump($etiqueta);
-                die();*/
-                //$data['deletedetiqueta']='';
+                $tipoComment=$request->get("param3");
+                $actObj=null;
+                    //$crmComentarioCuenta = new CrmComentarioCuenta();
+                $fechaRegistro = new \DateTime('now');
+                $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
+                switch($tipoComment){
+                    case 1:///// CRM - Cuenta
+                        $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoCuenta')->find($id);
+                        $crmComentario= new CrmComentarioActividad();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
+                        $crmComentario->setCuenta($actObj);
+                        $sql="SELECT COUNT(*) as total FROM seguimiento where cuenta=".$id;
+                        break;
+                    case 2:///// CRM - Actividad
+                        $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoActividad')->find($id);
+                        $crmComentario= new CrmComentarioActividad();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idCuenta);
+                        $crmComentario->setActividad($actObj);
+                        $sql="SELECT COUNT(*) as total FROM seguimientoact where actividad=".$id;
+                        break;
+                    case 3:///// CRM - Campaña
+                        $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoCampania')->find($id);
+
+                        $crmComentario= new CrmComentarioCampania();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($idCuenta);
+                        $crmComentario->setCampania($actObj);
+                        $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
+                        break;
+                }
                 if(count($docObj)!=0){
                     $em->getConnection()->beginTransaction();
                     $docObj->setEstado(0);
                     $em->merge($docObj);
                     $em->flush();
-                    
-                    $crmComentarioCuenta = new CrmComentarioCuenta();
-                    $fechaRegistro = new \DateTime('now');
-                    
-                    $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
-                    
                     $comment = $this->getParameter('app.serverFileAttachedDel').' '.$docObj->getSrc();
-                    $crmComentarioCuenta->setComentario($comment);
-                    $crmComentarioCuenta->setFechaRegistro($fechaRegistro);
-                    $crmComentarioCuenta->setCuenta($cuentaObj);
-                    $crmComentarioCuenta->setUsuario($usuarioObj);
-                    $crmComentarioCuenta->setTipoComentario(2);/////Archivos
-    
-                    $em->persist($crmComentarioCuenta);
+                    $crmComentario->setComentario($comment);
+                    $crmComentario->setFechaRegistro($fechaRegistro);
+                    $crmComentario->setUsuario($usuarioObj);
+                    $crmComentario->setTipoComentario(2);/////Archivos
+                    $em->persist($crmComentario);
                     $em->flush();
-                    
-                    
                     $data['usuario']=$usuarioObj->getPersona()->getNombre().' '.$usuarioObj->getPersona()->getApellido();
                     $data['comentario']=$comment;
-                    $data['tipocomentario']=$crmComentarioCuenta->getTipoComentario();
+                    $data['tipocomentario']=$crmComentario->getTipoComentario();
                     $data['fecha']=$fechaRegistro->format('Y-m-d H:i');
                     //$data['numeroItems']=$reg[0]['total'];
-                    
-                    
                     $em->getConnection()->commit();
                     $em->close();
                 }
                 $data['deleted']='';
                 $response->setData($data); 
             } catch (\Exception $e) {
+                //var_dump($e);
                 $em->getConnection()->rollback();
                 $em->close();
                 if(method_exists($e,'getErrorCode')){
