@@ -46,12 +46,28 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $company = $em->getRepository('ERPCRMBundle:CtlEmpresa')->findAll();
-        
+        $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findAll();
+        $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
+        $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll(array('estado'=>1));
+        $estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
+        $ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
         
         if($company === NULL || $company == NULL){
-            return $this->render('ctlempresa/wizard.html.twig');           
+            return $this->render('ctlempresa/wizard.html.twig', array(
+                'items'=>$items,
+                'tiposTelefono'=>$tiposTelefono,
+                'industrias'=>$industrias,
+                'estados'=>$estados,
+                'ciudades'=>$ciudades
+            ));           
          } elseif (!$company[0]->getWizard()) {    
-             return $this->render('ctlempresa/wizard.html.twig');           
+             return $this->render('ctlempresa/wizard.html.twig', array(
+                'items'=>$items,
+                'tiposTelefono'=>$tiposTelefono,
+                'industrias'=>$industrias,
+                'estados'=>$estados,
+                'ciudades'=>$ciudades
+            ));           
         } else {
             return $this->redirect($this->generateUrl('erpdg_login'));
         }                
