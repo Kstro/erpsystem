@@ -1,8 +1,6 @@
-{# {% extends 'base.html.twig' %} #}
-
+{#% extends 'base.html.twig' %#}
 {% extends ':layout:layouterp.html.twig' %}
-
-{% block title -%}<title>{{tituloAccount}}</title>{% endblock %}
+{% block title -%}<title>{{tituloCaso}}</title>{% endblock %}
 
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
@@ -17,12 +15,13 @@
     </style>
 {% endblock %}
 {% block navegacion %}
-        {% include ':crmcuenta:opciones_cuenta.html.twig' %}
+        {% include ':crmactividad:menu_actividades.html.twig' %}
+        <br>
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-            <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{# {{encabezadoAccount}} #}{{opcion}}</p>
-            <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionAccount}} {{opcion}}</p>
+            <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCaso}} </p>
+           <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTipoCaso}} </p>
           {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
             <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
             <p id="convertLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{convertLabel}}</p>
@@ -41,71 +40,65 @@
                             
           <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
           <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
-          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{actionClients}}</button>
+      
 
      </div>
 {% endblock acciones %}
-
 {% block contenido %}
     <div class="row">
-        {% include ':crmcuenta:account.html.twig' %}
-
+        {% include ':crmcaso:new.html.twig' %}
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
-            <table id="accountsList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
-                <thead>
-                    <tr role="row">
-                        <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameAccount}}</th>
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaAccount}}</th>
-                        
-                        <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailAccount}}</th>
-                        <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneAccount}}</th>
-                        <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{industriaAccount}}</th>
-                    </tr>
-                </thead>
-             </table>
-        </div>
-    </div>
-    
+            <table id="caseList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+        <thead>
+            <tr role="row">
+                <th style="text-align:left;width:3%;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                <th style="text-align:left;width:25%;">Name</th>
+                <th style="text-align:left;width:15%;">Status</th>
+                <th style="text-align:left;width:10%;">Priority</th>
+                <th style="text-align:left;width:22%;">Account</th>
+                <!-- th style="text-align:left;width:10%;">Type case</th -->
+                <th style="text-align:left;width:25%;">Assigned user</th>
+                 
+            </tr>
+        </thead>
+    </table>
 {% endblock %}
 {% block js_extend %}
     
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/casetype/account.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/animations/casetype/account.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/case/case.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/case/case.js') }}"></script>
+
     <script type="text/javascript">
+            
         $(document).ready(function() {
-            /////Definición datatable
-            $('#filterTag').removeClass('hidden');
+            
+             $('#dpTipo').select2();
+             $('#dpUser').select2();
+             $('#dpPrioridad').select2();
+             $('#dpCuenta').select2();
             var valor = $('#selectTags').val();
-            var table = $('#accountsList').DataTable({
+            var table = $('#caseList').DataTable({
                 dom:'ftp',
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{path('admin_accounts_data')}}?param1'+valor,
+                    "url": '{{path('admin_case_data')}}'+"?param1="+valor,
                     "type": 'GET'
                 },
                 "columns": [
                     { "data": "chk" },
                     { "data": "name" },
+                    { "data": "estado" },
+                    { "data": "prioridad" },
                     { "data": "account" },
-                    { "data": "email" },
-                    { "data": "phone" },
-                    { "data": "industry" },
-
-                    // { "data": "probability" },
-                    // { "data": "state" }
-                    // { "data": "actions" }
+                    /*{ "data": "tipo" },*/
+                    { "data": "usuario" }
                 ],
-                "order":[1,'asc'],
+                "order":[1,'desc'],
                 "columnDefs": [
-                    { "orderable": false, "targets": 0 }
+                    { "orderable": false, "targets": 0}
                     
                 ],
                 "language": {
@@ -122,8 +115,8 @@
                 }
             });
             //Buscar hasta que se presione enter
-            $('#accountsList_filter input').unbind();
-            $('#accountsList_filter input').bind('keyup', function(e) {
+            $('#caseList_filter input').unbind();
+            $('#caseList_filter input').bind('keyup', function(e) {
                 if(e.keyCode == 13) {
                     table.search( this.value ).draw();
                     // $('.chkItem').prop({'checked': false});
@@ -135,15 +128,7 @@
                 $('.chkItemAll').prop({'checked': false});
             });
             /////Fin definición datatable
-            
-            $(document).on('change', '#selectTags', function(event) {
-                valor = $(this).val();
-                var url = Routing.generate('admin_accounts_data')+"?param1="+valor;
-                table.ajax.url(url).load();
-            });
-            
-            
-            
+  
         });
     </script>
      
