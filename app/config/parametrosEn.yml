@@ -438,6 +438,24 @@ parameters:
         app.nameTipoCuenta: Name
         app.menuTipoCuenta: Account types
         
+         #Tipo de caso (CRUD)
+        app.tituloTipoCaso: CRM | Case type management
+        app.encabezadoTipoCaso: Case type
+        app.descripcionTipoCaso: Add, modify or delete Case type.
+        app.nameTipoCaso: Name
+        app.menuTipoCaso: Case types
+        
+        #Caso (CRUD)
+        app.tituloCaso: CRM | Case  management
+        app.encabezadoCaso: Case 
+        app.descripcionCaso: Add, modify or delete Case type.
+        app.nameCaso: Name
+        app.fragmentCaso: Description
+        app.typeCaso: Type
+        app.PriorityCaso: Priority
+        app.userCaso: Assigned user
+        app.menuCaso: Case 
+        
         #Fuentes de origen (CRUD)
         app.tituloFuenteOrigen: CRM | Origin sources management
         app.encabezadoFuenteOrigen: Origin sources catalog

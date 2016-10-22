@@ -424,6 +424,24 @@ parameters:
         app.encabezadoPrioridad: Priorities catalog
         app.descripcionPrioridad: Add, modify or delete priorities.
         app.namePrioridad: Name
+        
+        #Tipo de caso (CRUD)
+        app.tituloTipoCaso: CRM | Case type management
+        app.encabezadoTipoCaso: Case type
+        app.descripcionTipoCaso: Add, modify or delete Case type.
+        app.nameTipoCaso: Name
+        app.menuTipoCaso: Case types
+        
+        #Caso (CRUD)
+        app.tituloCaso: CRM | Case  management
+        app.encabezadoCaso: Case 
+        app.descripcionCaso: Add, modify or delete Case type.
+        app.nameCaso: Name
+        app.fragmentCaso: Description
+        app.typeCaso: Type
+        app.PriorityCaso: Priority
+        app.userCaso: Assigned user
+        app.menuCaso: Case 
 
        
         #Login

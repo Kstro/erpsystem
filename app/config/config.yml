@@ -878,6 +878,25 @@ twig:
         encabezadoTipoCuentaEs: '%app.encabezadoTipoCuentaEs%'
         descripcionTipoCuentaEs: '%app.descripcionTipoCuentaEs%'
         nameTipoCuentaEs: '%app.nameTipoCuentaEs%'
+        
+         #Tipo de caso (CRUD)
+        tituloTipoCaso: '%app.tituloTipoCaso%'
+        encabezadoTipoCaso: '%app.encabezadoTipoCaso%'
+        descripcionTipoCaso: '%app.descripcionTipoCaso%'
+        nameTipoCaso: '%app.nameTipoCaso%'
+        menuTipoCaso: '%app.menuTipoCaso%'
+        
+         #caso (CRUD)
+        tituloCaso: '%app.tituloCaso%'
+        encabezadoCaso: '%app.encabezadoCaso%'
+        descripcionCaso: '%app.descripcionCaso%'
+        nameCaso: '%app.nameCaso%'
+        fragmentCaso: '%app.fragmentCaso%'
+        typeCaso: '%app.typeCaso%'
+        PriorityCaso: '%app.PriorityCaso%'
+        userCaso: '%app.userCaso%'
+        menuCaso: '%app.menuCaso%'
+
 
         #Fuentes de origen (CRUD) - Ingles
         tituloFuenteOrigen: '%app.tituloFuenteOrigen%'

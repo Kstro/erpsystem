@@ -65,7 +65,12 @@ class CrmCaso
      */
     private $prioridad;
 
-
+/**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=true)
+     */
+    private $estado;
 
     /**
      * Get id
@@ -190,5 +195,28 @@ class CrmCaso
     public function getPrioridad()
     {
         return $this->prioridad;
+    }
+    
+     /**
+     * Set estado
+     *
+     * @param boolean $estado
+     * @return CrmCaso
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return integer 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }

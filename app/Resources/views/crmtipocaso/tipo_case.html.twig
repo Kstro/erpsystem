@@ -1,0 +1,27 @@
+<div class="col-md-12 col-xs-12">
+            <div id="pnAdd" style="display:none;">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+                    <div class="panel-body">
+                        <form id="frmCase"  method="post" enctype="multipart/form-data">
+                   <input id="txtId" type="hidden" name="id" class="input-sm form-control">
+                        <div class="col-md-5">
+                            <label>{{nameAccount}}</label>
+                            <label class="hidden requiredFields">{{requiredFields}}</label>
+         
+                            <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
+                        </div>
+                   
+                        
+                            <div class="clearfix"></div> 
+                            <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                                <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
+                                <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                            </div>
+                             </form>
+                        </div>
+                       
+                             </div>
+         
+            </div>
+</div>
