@@ -73,7 +73,7 @@ $(document).on('click', '#providersList>thead>tr>th:gt(0)', function(event) {
 
 
 function limpiarCampos(){
-	$('#txtId').val('');
+	$('#txtId1').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');

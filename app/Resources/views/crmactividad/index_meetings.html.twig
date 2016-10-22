@@ -5,11 +5,13 @@
 
 {% block navegacion %}
     {% include ':crmactividad:menu_actividades.html.twig' %}
+    {% include ':crmcuenta:add_files.html.twig' %}
 {% endblock %}
 
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
     <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/timeline/timeline.css') }}">
     <style type="text/css">
         .errorform{
             border: 1px solid #F00 !important;
@@ -72,9 +74,13 @@
 {% block js_extend %}
     
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/meetings/meetings.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/animations/meetings/meetings.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/meetings/meetings.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/meetings/meetings.js') }}"></script>
 
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/collapse.js') }}"></script>

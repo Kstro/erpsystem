@@ -1,13 +1,14 @@
 <div class="row">
+    
             <div class="col-md-12 col-xs-12">            
                 {% include ':crm_dashboard:crm_menu.html.twig' %}
                   {% for tipo in tiposCuenta if tipo.id>4 %}
                     {# {% include ':crm_dashboard:crm_menu.html.twig' %} #}
                     <a href="{{path('admin_accounts_index',{nombre:tipo.nombre})|lower}}" class="leftnava">
-                        <li class="leftnav left {% if opcion is defined and tipo.nombre==opcion  %}active {% endif %}">
+                        <li class="leftnav left {% if opcion is defined and tipo.nombre|lower==opcion|lower  %}active {% endif %}">
                             {{tipo.nombre}}
                             <span class="pull-right">
-                                <i class="{% if opcion is defined and tipo.nombre==opcion  %}fa fa-arrow-right {% endif %}"></i>
+                                <i class="{% if opcion is defined and tipo.nombre|lower==opcion|lower %}fa fa-arrow-right {% endif %}"></i>
                             </span>
                         </li>
                     </a>

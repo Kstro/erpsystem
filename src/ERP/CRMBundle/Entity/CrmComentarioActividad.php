@@ -34,6 +34,15 @@ class CrmComentarioActividad
      * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
      */
     private $fechaRegistro;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_comentario", type="integer", nullable=false)
+     */
+    private $tipoComentario;
+    
 
     /**
      * @var \CrmActividad
@@ -158,4 +167,28 @@ class CrmComentarioActividad
     {
         return $this->usuario;
     }
+    
+    /**
+     * Set tipoComentario
+     *
+     * @param string $tipoComentario
+     * @return CrmComentarioActividad
+     */
+    public function setTipoComentario($tipoComentario)
+    {
+        $this->tipoComentario = $tipoComentario;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoComentario
+     *
+     * @return string 
+     */
+    public function getTipoComentario()
+    {
+        return $this->tipoComentario;
+    }
+    
 }

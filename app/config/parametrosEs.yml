@@ -1,0 +1,505 @@
+# This file is auto-generated during the composer install
+parameters:
+    #labels
+        app.pais: 
+        app.nombre: 
+        app.urlParam: 
+        app.protocolo: 
+    #Titulos página
+        #backend
+
+        #serverMesages
+        app.serverOfflineEs: Servidor desconectado
+        app.serverDuplicateNameEs: Valor duplicado
+        app.serverMsgSaveEs: ¡Guardado!
+        app.servermsgupdateEs: ¡Actualizado!
+        app.serverMsgDeleteEs: ¡Eliminado!
+        app.serverMsgCancelEs: ¡Cancelado!
+        app.serverCancelEs: ¡Ya cancelado!
+        app.serverErrorEs: ¡Error!
+        
+        #app.serverConflictRow: Selected users have an event at the scheduled date and time. Do you wish to continue?
+        app.serverConflictRowEs: Las personas delegadas para este evento han sido programadas a   otro evento o eventos en la misma fecha y hora. ¿Desea continuar?
+        app.serverDateConflictEs: ¡Fecha y hora no válida!
+        app.serverFechaAnteriorEs: No se permite programar eventos antes de la fecha y hora actual
+        app.confirmMoveEventsEs: ¿Le gustaría cambiar la fecha y hora de este evento?
+        app.allFilterEs: Todo
+        app.filterLabelEs: Filtrado por:
+        app.filterActivityLabelEs: Tipo
+        app.filterUserLabelEs: Persona
+        app.filterCuentaLabelEs: Nombre de la cuenta
+        
+        #loginMessages
+        app.usernameInvalidateEs: Lo sentimos, su nombre de usuario no se encuentra registrado.
+        app.checkCaptchaEs: Por favor, compruebe mediante captcha.
+        app.invalidCaptchaEs: Captcha invalido.
+        
+        #frontend
+
+        #form validations
+        #requiredFields
+        app.requiredFieldsEs: ¡Campos en rojo, son requeridos!
+        #remove Labels
+        app.removeLabelEs: ¿Desea eliminar las filas seleccionadas?
+        #cancel Labels
+        app.cancelLabelEs: ¿Desea cancelar las tareas seleccionadas?
+        #cancelButtonText
+        app.cancelButtonTextEs: Cancelar
+        #confirmButtonText
+        app.confirmButtonTextEs: Eliminar
+        #alternateconfirmButtonText
+        app.alternateconfirmButtonTextEs: Continuar
+        #imageError
+        app.imageErrorEs: ¡La imagen es demasiado grande!
+        #select2
+        app.select2LabelEs: Buscar... (Ctrl+g)
+        
+        app.editPassEs: Editar contraseña
+        app.showLogEs: Mostrar registro
+        app.settingsEs: Ajustes
+        app.logOutEs: Cerrar sesión
+
+        #datatables
+        app.dtInfoEs: Mostrando página
+        app.dtInfoEmptyEs: 
+        app.dtZeroRecordsEs: Datos no encontrados 
+        app.dtEmptyTableEs: Datos no encontrados
+        app.dtNextEs: Próximo
+        app.dtPrevEs: Previo
+        app.dtProcessingEs: Procesando...
+        app.dtSearchEs: Buscar:
+        app.dtLengthMenuEs: Mostrar
+        
+        #Opcion del select
+        app.selectOptionEs: Seleccione una opción
+
+        #botones
+        app.addEs: Agregar
+        app.backEs: Regresar
+        app.deleteEs: Elminar
+        app.showEs: Mostrar
+        app.actionEs: Acción
+        app.saveEs: Guardar
+        app.cancelEs: Cancelar
+        app.pnHeadingLabelAddEs: Agregar
+        app.pnHeadingLabelEditEs: Editar
+        app.pnHeadingLabelCommentEs: Agregar comentario
+
+        #Tooltips
+        app.accountsTooltipEs: CRM
+        app.saleStagesTooltipEs: Ventas
+        app.activitiesTooltipEs: Actividades
+        app.calendarTooltipEs: Calendario
+        app.settingsTooltipEs: Ajustes
+        app.reportsTooltipEs: Reportes
+        
+        #icons
+        app.accountsIcon: 1.png
+        app.saleStagesIcon: 2.png
+        app.activitiesIcon: 3.png
+        app.calendarIcon: 4.png
+        app.settingsIcon: 5.png
+        app.reportsIcon: 6.png
+        
+        #Wizard de configuracion inicial
+        app.encabezadoWizardEs: Configuración
+        app.tituloWizardEs:  Sistema CRM | Configuración
+        app.step1WizardEs: Bienvenido/a al Sistema CRM Texto de bienvenida
+        app.step2WizardEs: Información de la empresa
+        app.step3WizardEs: Información del usuario administrador
+        app.step4WizardEs: Logo de la empresa
+        app.step5WizardEs: Completado
+        app.btnWelcomeEs: Iniciar configuración inicial
+        app.textoBienvenidaEs: Texto de bienvenida
+        app.btnSaveandContWizardEs: Guardar y continuar
+        app.btnPreviousWizardEs: Previo
+        app.btnSkipWizardEs: Omitir
+        app.btnCompletedWizardEs: Finalizar
+        app.languageWizardEs: Idioma
+        app.englishLanguageWizardEs: Inglés
+        app.spanishLanguageWizardEs: Español
+        app.companyNameWizardEs: Nombre de la empresa
+        app.companyIndustryWizardEs: Industria
+        app.companyAddressWizardEs: Dirección de la empresa
+        app.userAddressWizardEs: Dirección del usuario
+        app.companyStateWizardEs: Estado/Departamento
+        app.companyCityWizardEs: Ciudad
+        app.tratoPWizardEs: Titulo
+        app.nombrePersonaWizardEs: Nombres
+        app.apellidoPersonaWizardEs: Apellidos
+        app.usernameWizardEs: Nombre de usuario
+        app.passwordWizardEs: Contraseña
+        app.repeatPasswordWizardEs: Repita la contraseña
+        app.generoPersonaWizardEs: Género
+        app.phoneWizardEs: Teléfono
+        app.extensionWizardEs: Extensión
+        app.emailWizardEs: Correo electrónico
+        
+        #Dashboard
+        app.tituloDashboardEs: CRM | Opciones
+        app.encabezadoDashboardEs: CRM Opciones
+        app.descripcionDashboardEs: .
+        app.nameDashboardEs: Nombre
+        app.tipoCuentaDashboardEs: Tipo de cuenta
+        app.telefonoDashboardEs: Telefono
+        app.fechaDashboardEs: Fecha de registro
+        app.tipoCuentaFilterDashboardEs: Nombres
+        app.fechaInicioFilterDashboardEs: Titulo
+        app.fechaFinFilterDashboardEs: Título
+        
+        #Generos (Opciones)
+        app.masculinoEs: Masculino
+        app.femeninoEs: Femenino
+        
+        #tituloPrincipal
+        app.tituloHomeEs:  Sistema CRM 
+        
+        #Etapas de ventas
+        app.tituloEtapaEs: CRM | Gestón de etapas de venta
+        app.menuEtapaEs: Gestión de etapas de ventas.
+        app.encabezadoEtapaEs: Listado de las etapas de venta
+        app.descripcionEtapaEs: Registrar, actualizar o eliminar las etapas de venta.
+        app.nameEtapaEs: Nombre
+        app.probabilityEtapaEs: Probabilidad
+        
+        #Campanias
+        app.tituloCampaniaEs: CRM | Gestión de campaña
+        app.menuCampaniaEs: Gestión de campañas.
+        app.encabezadoCampaniaEs: Listado de los campañas.
+        app.descripcionCampaniaEs: Registrar, actualizar o eliminar las campañas.
+        app.nameCampaniaEs: Nombre
+        
+        #TipoCampanias
+        app.tituloTipoCampaniaEs: CRM | Gestión de tipos de campañas
+        app.menuTipoCampaniaEs: Admon. tipos cam.
+        app.encabezadoTipoCampaniaEs: Listado de tipos de campaña
+        app.descripcionTipoCampaniaEs: Registrar, actualizar o eliminar los tipos de campaña.
+        app.nameTipoCampaniaEs: Name
+        
+        #Nivel de satisfaccion
+        app.tituloSatisfaccionEs: CRM | Nivel de satisfacción del cliente
+        app.menuSatisfaccionEs: Gestión Nivel de satisfacción del cliente.
+        app.encabezadoSatisfaccionEs: Nivel de satisfacción del cliente.
+        app.descripcionSatisfaccionEs: Registrar, actualizar o eliminar los niveles de satisfacción del cliente.
+        app.nameSatisfaccionEs: Nombre
+        
+        #Proveedor
+        app.tituloProveedorEs: CRM | Proveedores
+        app.companiaNombreProveedorEs: Nombre de empresa
+        app.menuProveedorEs: Admon. de proveedores
+        app.encabezadoProveedorEs: Proveedores
+        app.descripcionProveedorEs: Registrar, modificar y eliminar proveedores
+        app.cuentaProveedorEs: Cuenta
+        app.nameProveedorEs: Nombre
+        app.nombreProveedorEs: Nombres
+        app.apellidoProveedorEs: Apellidos
+        app.tratoProveedorEs: Título
+        app.phoneProveedorEs: Telefono
+        app.extensionProveedorEs: Extensión
+        app.emailProveedorEs: Correo electrónico
+        app.direccionProveedorEs: Dirección
+        app.fotoProveedorEs: Foto
+        app.ciudadProveedorEs: Ciudad
+        app.departamentoProveedorEs: Estado
+        app.tipoPersonaProveedorEs: Persona
+        app.industriaProveedorEs: Industria
+        app.sitioWebProveedorEs: Sitio web
+        app.inputFileLabelEs: Explorar
+
+        #Socio
+        app.tituloSocioEs: CRM | Socios
+        app.companiaNombreSocioEs: Nombre de empresa
+        app.menuSocioEs: Admon. de socios
+        app.encabezadoSocioEs: Socios
+        app.descripcionSocioEs: Registrar, modificar y eliminar cuentas.
+        app.cuentaSocioEs: Cuenta
+        app.nameSocioEs: Nombre
+        app.nombreSocioEs: Nombres
+        app.apellidoSocioEs: Apellidos
+        app.tratoSocioEs: Titulo
+        app.phoneSocioEs: Telefono
+        app.extensionSocioEs: Extension
+        app.emailSocioEs: Correo electrónico
+        app.direccionSocioEs: Dirección
+        app.fotoSocioEs: Foto
+        app.ciudadSocioEs: Ciudad
+        app.departamentoSocioEs: Stado
+        app.tipoPersonaSocioEs: Persona
+        app.industriaSocioEs: Industria
+        app.sitioWebSocioEs: Website
+        app.inputFileLabelEs: Explorar
+
+        #Cuentas
+        app.tituloAccountEs: CRM | Cuentas
+        app.companiaNombreAccountEs: Nombre de cuenta
+        app.menuAccountEs: Admon. de cuentas
+        app.encabezadoAccountEs: Cuentas
+        app.descripcionAccountEs: Registrar, modificar y eliminar cuentas.
+        app.cuentaAccountEs: Cuenta
+        app.nameAccountEs: Nombre
+        app.nombreAccountEs: Nombres
+        app.apellidoAccountEs: Apellidos
+        app.tratoAccountEs: Titulo
+        app.phoneAccountEs: Telefono
+        app.extensionAccountEs: Extension
+        app.emailAccountEs: Correo electrónico
+        app.direccionAccountEs: Dirección
+        app.fotoAccountEs: Foto
+        app.ciudadAccountEs: Ciudad
+        app.departamentoAccountEs: Estado
+        app.tipoPersonaAccountEs: Persona
+        app.industriaAccountEs: Industria
+        app.sitioWebAccountEs: Sitio web
+        app.inputFileLabelEs: Explorar
+        
+        #Tiempo notificaciones
+        app.tituloTiempoNotificacionEs: CRM | Tiempo de notificación
+        app.menuTiempoNotificacionEs: Gestión de tiempos de notificación.
+        app.encabezadoTiempoNotificacionEs: Notificaciones
+        app.descripcionTiempoNotificacionEs: Registrar, actualizar o eliminar los tiempos de notificación.
+        app.nameTiempoNotificacionEs: Descripción
+        app.duracionTiempoNotificacionEs: Duración
+        app.unidadTiempoNotificacionEs: Unidad de tiempo
+        app.minutosTiempoNotificacionEs: Minutos
+        app.diasTiempoNotificacionEs: Días
+        app.mesesTiempoNotificacionEs: Meses
+        app.aniosTiempoNotificacionEs: Años
+
+
+        #Tareas
+        app.tituloTareasEs: CRM | Tareas
+        app.menuTareasEs: Gestión de tareas.
+        app.encabezadoTareasEs: Tareas
+        app.descripcionTareasEs: Registrar, actualizar o eliminar tareas.
+        app.nameTareasEs: Nombre
+        app.tipoTareasEs: Tipo de actividad
+        app.prioridadTareasEs: Prioridad
+        app.estadoTareasEs: Estado
+        app.responsableTareasEs: Director
+        app.recordatorioTareasEs: Recordatorios
+        app.fechaInicioTareasEs: Fecha de inicio
+        app.fechaFinTareasEs: Fecha de fin
+        app.fechaCancelTareasEs: Fecha de cancelación
+        app.estadoEs: Estado
+        app.descripcionFormTareasEs: Descripción
+        app.prioridadTareasEs: Prioridad
+        app.taskNoEditEs: No puede ser modificado
+        
+        app.cuentaActividadEs: Cuenta
+
+
+        #Llamadas
+        app.tituloLlamadasEs: CRM | Llamadas
+        app.menuLlamadasEs: Admon llamadas.
+        app.encabezadoLlamadasEs: Llamadas
+        app.descripcionLlamadasEs: Registrar, modificar y eliminar llamadas.
+        app.nameLlamadasEs: Nombre
+        app.tipoLlamadasEs: Tipo de llamada
+        app.prioridadLlamadasEs: Prioridad
+        app.estadoLlamadasEs: Estado
+        app.responsableLlamadasEs: Director
+        app.recordatorioLlamadasEs: Recordatorios
+        app.tiempoRecordatorioLlamadasEs: Tiempo
+        app.fechaInicioLlamadasEs: Fecha de inicio
+        app.fechaFinLlamadasEs: Fecha de fin
+        app.fechaCancelLlamadasEs: Fecha de cancelación
+        app.estadoEs: Estado
+        app.descripcionFormLlamadasEs: Descripción
+        app.prioridadLlamadasEs: Prioridad
+        app.taskNoEditEs: No puede ser modificado
+
+        app.cuentaActividadEs: Cuenta
+        
+        #Campania
+        app.tituloCampaniaRegEs: CRM | Campañas
+        app.menuCampaniaRegEs: Admon. campañas.
+        app.encabezadoCampaniaRegEs: Campañas
+        app.descripcionCampaniaRegEs: Registrar, modificar y eliminar campañas.
+        app.nameCampaniaRegEs: Nombre
+        app.tipoCampaniaRegEs: Tipo de campaña
+        app.prioridadCampaniaRegEs: Prioridad
+        app.estadoCampaniaRegEs: Estado
+        app.responsableCampaniaRegEs: Director
+        app.recordatorioCampaniaRegEs: Recordatorios
+        app.tiempoRecordatorioCampaniaRegEs: Tiempo
+        app.fechaRegistroCampaniaRegEs: Fecha de registro
+        app.fechaInicioCampaniaRegEs: Fecha de inicio
+        app.fechaFinCampaniaRegEs: Fecha de fin
+        app.fechaCancelCampaniaRegEs: Fecha de cancelación
+        app.estadoEs: Estado
+        app.descripcionFormCampaniaRegEs: Descripción
+        app.prioridadCampaniaRegEs: Prioridad
+        app.taskNoEditEs: No puede ser modificado
+
+        app.cuentaActividadEs: Cuenta
+    
+
+        #Reuniones
+        app.tituloReunionesEs: CRM | Reuniones
+        app.menuReunionesEs: Admon reuniones.
+        app.encabezadoReunionesEs: Reuniones
+        app.direccionReunionesEs: Ubicación del evento
+        app.descripcionReunionesEs: Registrar, modificar y eliminar reuniones.
+        app.nameReunionesEs: Nombre
+        app.tipoReunionesEs: Tipo de reuniones
+        app.prioridadReunionesEs: Prioridad
+        app.estadoReunionesEs: Estado
+        app.responsableReunionesEs: Director
+        app.recordatorioReunionesEs: Recordatorios
+        app.tiempoRecordatorioReunionesEs: Tiempo
+        app.fechaInicioReunionesEs: Fecha de inicio
+        app.fechaFinReunionesEs: Fecha de fin
+        app.fechaCancelReunionesEs: Fecha de cancelación
+        app.estadoEs: Estado
+        app.descripcionFormReunionesEs: Descripción
+        app.prioridadReunionesEs: Prioridad
+        app.taskNoEditEs: No puede ser modificado
+              
+        #Cliente potencial
+        app.tituloClientePotencialEs: CRM | Cliente potencial
+        app.menuClientePotencialEs: Cliente potencial
+        app.encabezadoClientePotencialEs: Cliente potencial.
+        app.descripcionClientePotencialEs: Cliente potencial.
+        app.nameClientePotencialEs: Nombre.
+        app.cuentaClientePotencialEs: Tipo de cuenta
+        app.emailClientePotencialEs: Correo electrónico
+        app.phoneClientePotencialEs: Telefono
+        app.industriaClientePotencialEs: Industria
+
+        app.companiaNombreClientePotencialEs: Empresa
+        app.nombreClientePotencialEs: Nombres
+        app.apellidoClientePotencialEs: Apellidos
+        app.tratoClientePotencialEs: Título
+        
+        app.extensionClientePotencialEs: Extensión
+        app.statusClientePotencialEs: Estado
+        app.origenClientePotencialEs: Fuente
+        app.campaniaClientePotencialEs: Campaña
+        
+        app.direccionClientePotencialEs: Dirección
+        app.fotoClientePotencialEs: Foto
+        app.ciudadClientePotencialEs: Ciudad
+        app.departamentoClientePotencialEs: Estado
+        app.interesClientePotencialEs: Nivel de interes
+        app.fuenteClientePotencialEs: Fuente
+        app.inputFileLabelEs: Explorar
+        
+        #Adomon. clientes
+        app.tituloClienteEs: CRM | Clientes
+        app.companiaNombreClienteEs: Nombre de empresa
+        app.menuClienteEs: Admon de clientes.
+        app.encabezadoClienteEs: Clientes
+        app.descripcionClienteEs: Registrar, modificar y eliminar clientes.
+        app.cuentaClienteEs: Cuenta
+        app.nameClienteEs: Nombre
+        app.nombreClienteEs: Nombres
+        app.apellidoClienteEs: Apellidos
+        app.tratoClienteEs: Título
+        app.phoneClienteEs: Telefono
+        app.extensionClienteEs: Extensión
+        app.emailClienteEs: Correo electrónico
+        app.direccionClienteEs: Dirección
+        app.fotoClienteEs: Foto
+        app.ciudadClienteEs: Ciudad
+        app.departamentoClienteEs: Estado
+        app.tipoPersonaClienteEs: Persona
+        app.industriaClienteEs: Industria
+        app.fechaRegistroClienteEs: Cliente desde
+        app.sitioWebClienteEs: Sitio web
+        app.estadoClienteEs: Satisfacción
+                
+        #Fullcalendar
+        app.tituloCalendarEs: CRM | Calendario
+        app.menuCalendarEs: Calendario
+        app.encabezadoCalendarEs: Actividades programadas
+        app.descripcionCalendarEs: Revisar tareas, llamadas, reuniones.
+        
+        #Tipo de cuenta (CRUD)
+        app.tituloTipoCuentaEs: CRM | Gestión de tipos de cuenta
+        app.encabezadoTipoCuentaEs: Tipos de cuenta
+        app.descripcionTipoCuentaEs:  Registrar, actualizar o eliminar tipos de cuenta.
+        app.nameTipoCuentaEs: Nombre
+        
+        #Fuentes de origen (CRUD)
+        app.tituloFuenteOrigenEs: CRM | Gestión de fuentes de origen
+        app.encabezadoFuenteOrigenEs: Catálogo de fuentes de origen
+        app.descripcionFuenteOrigenEs: Registrar, actualizar o eliminar fuentes de origen.
+        app.nameFuenteOrigenEs: Nombre
+        
+        #Prioridad (CRUD)
+        app.tituloPrioridadEs: CRM | Gestión de prioridades
+        app.encabezadoPrioridadEs: Catálogo de prioridades
+        app.descripcionPrioridadEs: Registrar, actualizar o eliminar prioridades.
+        app.namePrioridadEs: Nombre
+
+        #Oportunidades
+        app.tituloOportunidadEs: CRM | Gestión de oportunidades de venta
+        app.menuOportunidadEs: Admon. oportunidades.
+        app.encabezadoOportunidadEs: Listado de oportunidades de venta
+        app.descripcionOportunidadEs: Registrar, actualizar o eliminar oportunidades de venta.
+        
+        app.nameOportunidadEs: Nombre
+        app.tipoCuentaOportunidadEs: Tipo de cuenta
+        app.cuentaOportunidadEs: Nombre de cuenta
+        app.etapaOportunidadEs: Etapa de venta
+        app.fechaCierreOportunidadEs: Fecha de cierre
+        app.fechaRegistroOportunidadEs: Fecha de registro
+        
+        app.probabilidadOportunidadEs: Probabilidad
+        app.errorProbabilidadEs: Debe ser mayor o igual que 0.00 y menor o igualque 100.00
+        app.fuenteOportunidadEs: Fuente
+        app.descriptionOportunidadEs: Descripción
+        app.campaniaOportunidadEs: Campaña
+        app.assignedUserOportunidadEs: Persona asignada
+        app.hayProductosOportunidadEs: Con productos / servicios
+        app.addRowOportunidadEs: Nueva fila
+        app.productoOportunidadEs: Producto
+        app.cantidadOportunidadEs: Cantidad
+       
+        #Login
+        app.tituloLoginEs: Sistema CRM | Inicio de sesión
+        app.usernameTxtEs: Nombre de usuario
+        app.passwordTxtEs: Contraseña
+       
+        #perfil
+        app.perfilEs: e
+        app.perfilPublicoEs: e
+        app.verficarmeAbogadoEs: e
+        app.verficarmeNotarioEs: e
+        app.miSuscripcionesEs: e
+        app.miEmpresaEs: e
+        app.ajustesCuentaEs: e
+        app.miBlogEs: e
+        app.centroPreguntasEs: e
+        app.cambiarPassEs: e
+        #administración
+        app.abogadosRegEs: s
+        app.aprobacionPagosEs: s
+        app.aprobacionAbogadosEs: s
+        app.verificarAbogadosEs: s
+        app.verificarNotariosEs: s
+        app.facturacionEs: s
+        app.aprobarPreguntasEs: s
+        app.correoAdminEs: s
+        app.promocionesEs: s
+    #Imagenes
+        app.logoBlogEs: er
+        app.logoPanelEs: er
+        app.logoBlancoEs: er
+        app.logoColorEs: er
+        app.logoPublicidadEs: er
+        app.logoRegistroEs: er
+        app.suscripcionBotonEs: er
+        app.cancelarSuscripcionBotonEs: er
+        app.metodoPagoEs: er
+    #Correos
+        app.correoInfoEs: w
+        app.correoEs: w
+    #Codigo de área (Telefono)
+        app.codigoParamEs: w
+    #Coordenadas pais (Para la empresa, predeterminar un punto de partida en el pais)
+        app.coordenadasLatitudEs: w
+        app.coordenadasLongitudEs: w
+    #Otros
+        app.facebookEs: w
+        

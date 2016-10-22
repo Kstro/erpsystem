@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
+        $('.btnAddCommentGen').attr('id',1);
 	var numAddress = 0;
         var numPedidos=0;
 	/*/////Persist datatable (Save method)*/
@@ -163,6 +164,7 @@ $(document).ready(function() {
 				type: 'POST',
 				data: {param1: idArray[0],param2:idArray[1]},
 				success:function(data){
+                                            
 					if(data.error){
 						swal('',data.error,'error');
 						id.val(data.id);
@@ -172,6 +174,7 @@ $(document).ready(function() {
 						objClicked.on('click');
 					}
 					else{
+                                                
 						/*// console.log(data);*/
 						$('#txtId1').val(data.id1);
 						$('#txtId2').val(data.id2);
@@ -242,6 +245,15 @@ $(document).ready(function() {
 							$('#imgTest').attr('src','http://placehold.it/250x250');
 						}
 
+
+                                                var addItem = '';
+                                                for (var i = 0; i < data.tags.length; i++) {
+                                                    /*console.log(i);*/
+                                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                                                    $('#addedTags').append(addItem);
+                                                }
+
+
 						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
 						$('.dpbIndustria').val(data.industria).change().trigger("change");
 												
@@ -252,8 +264,11 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-                                                seguimiento(data.id1, numPedidos,null);
-						cargarTags();
+                                                /*seguimiento(data.id1, numPedidos,null);*/
+                                                console.log(data.id);
+                                                console.log(data.numPedidos);
+                                                seguimientoGeneral(idArray[0], numPedidos,null,1);
+						/*cargarTags();*/
 						/*//seguimientoComet(data.id1);*/
 						$('#addTag').removeClass('hidden');
 						$('#addedTags').removeClass('hidden');

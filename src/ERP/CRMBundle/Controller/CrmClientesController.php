@@ -364,19 +364,16 @@ class CrmClientesController extends Controller
                         default :
                             $row['data'][0]['name'] = $e->getMessage();                           
                         break;
-                    }               
+                    }
                     $row['data'][0]['chk'] ='';
                     
                     $row['recordsFiltered']= 0;
-                    }                                    
+                    }
                     else{
                             $data['error']=$e->getMessage();
                     }
-                return new Response(json_encode($row));            
+                return new Response(json_encode($row));
         }
-    
-        
-                
     }
 
 
@@ -600,7 +597,7 @@ class CrmClientesController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -788,14 +785,14 @@ class CrmClientesController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                         
-                    }                
+                    }
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -987,6 +984,27 @@ class CrmClientesController extends Controller
                 // $data['src']=$crmFotoObj[0]->getSrc();
                 $data['titulo']=$ctlPersonaObj->getTratamientoProtocolario()->getId();
                 $data['pesona']=$ctlPersonaObj->getId();
+                
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaCuenta ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.cuenta c "
+                            ." WHERE c.id=:idCuenta";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                
+                $data['tags']=$tags;
+                
+                
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoCuenta doc"
+                            ." JOIN doc.cuenta c "
+                            ." WHERE c.id=:idCuenta ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                
+                $data['docs']=$docs;
+                
                 if($crmCuentaObj->getNivelSatisfaccion()!=null){
                     $data['satisfaccion']=$crmCuentaObj->getNivelSatisfaccion()->getId();
                 }

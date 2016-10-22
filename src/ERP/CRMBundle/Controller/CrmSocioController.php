@@ -635,7 +635,7 @@ class CrmSocioController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -828,7 +828,7 @@ class CrmSocioController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];

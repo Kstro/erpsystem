@@ -1,0 +1,13 @@
+<div class="col-md-12">
+    <form action="{% block form_action %}{{ path("admin_wizard_register_step3") }}{% endblock %}" method="post" id="frmLogoWizard" role="form">
+        <div class="row">
+            <input id="idLogoEmpresa" type="hidden" name="" class="input-sm form-control">
+            
+            <ul class="list-inline pull-right">
+                <li><button type="button" class="btn btn-default btn-sm prev-step">{{btnPreviousWizard}}</button></li>
+                <li><button type="button" class="btn btn-default btn-sm next-step">{{btnSkipWizard}}</button></li>
+                <li><button id="btnStep3" type="button" class="btn btn-primary btn-info-full btn-sm next-step">{{btnSaveandContWizard}}</button></li>
+            </ul>
+        </div>
+    </form>
+</div>
