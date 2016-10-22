@@ -521,7 +521,7 @@ class CrmCampaniaController extends Controller
                                     ->getResult();
                 
                 $data['docs']=$docs;
-                
+                $data['path'] = 'campaigns';
                 //var_dump($data);
             }
             else{
@@ -532,7 +532,7 @@ class CrmCampaniaController extends Controller
             $response->setData($data); 
             
         } catch (\Exception $e) {
-            var_dump($e);
+            //var_dump($e);
             if(method_exists($e,'getErrorCode')){ 
                 switch (intval($e->getErrorCode()))
                         {

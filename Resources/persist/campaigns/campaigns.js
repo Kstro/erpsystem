@@ -100,6 +100,8 @@ $(document).ready(function() {
 		var selected = 0;
                 $('#addedFiles').html('');
                 $('#wallmessages').html('');
+                $('#wallmessages').removeClass('hidden');
+                $('#comentarios').removeClass('hidden');
                 numPedidos=1;
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
@@ -181,7 +183,7 @@ $(document).ready(function() {
 
                                                             addItem+='</div><div class="col-xs-10">';
 
-                                                                addItem+='<a target="_blank" href="../../../files/accounts/';
+                                                                addItem+='<a target="_blank" href="../../../files/'+data.path+'/';
                                                                 addItem+=data.docs[i].nombre;
                                                                 addItem+='">';
 
@@ -252,7 +254,7 @@ $(document).ready(function() {
 						// 	var taskNoEdit = $('#taskNoEdit').html();
 						// 	swal('',data.nombre+' '+taskNoEdit,'error');
 						// }*/
-					}	
+					}
                                         seguimientoGeneral(data.id, numPedidos,null,3);
                                         $('#addTag').removeClass('hidden');
                                         $('#addedTags').removeClass('hidden');

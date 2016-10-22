@@ -44,18 +44,21 @@ class CrmSeguimientoController extends Controller {
             $tipoComment=$request->get("param3"); /////Parametro para identificar a que tabla va el comentario
             // sleep ( 5 );
             
-            
+            $data['path']='';
             
             $inicio=($longitud*$numPedidos)-$longitud;
             $em = $this->getDoctrine()->getEntityManager();
             switch($tipoComment){
                 case 1:///// CRM - Cuentas
+                    $data['path'].='accounts';
                     $sql="SELECT * FROM seguimiento where cuenta=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
                 case 2:///// CRM - Actividades
+                    $data['path'].='activities';
                     $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
                 case 3:///// CRM - Campañas
+                    $data['path'].='campaigns';
                     $sql="SELECT * FROM seguimientocmp where campania=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
                 case 4:///// CRM - 
