@@ -471,6 +471,8 @@ parameters:
         app.assignedUserOportunidad: Assigned user
         app.hayProductosOportunidad: With products / services
         app.addRowOportunidad: Add row
+        app.productoOportunidad: Product
+        app.cantidadOportunidad: Quantity
        
         #Login
         app.tituloLogin: CRM Systems | Login

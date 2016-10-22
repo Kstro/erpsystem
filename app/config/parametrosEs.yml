@@ -453,6 +453,8 @@ parameters:
         app.assignedUserOportunidadEs: Persona asignada
         app.hayProductosOportunidadEs: Con productos / servicios
         app.addRowOportunidadEs: Nueva fila
+        app.productoOportunidadEs: Producto
+        app.cantidadOportunidadEs: Cantidad
        
         #Login
         app.tituloLoginEs: Sistema CRM | Inicio de sesión
