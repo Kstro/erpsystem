@@ -4,6 +4,17 @@ $(document).on('click', '.btnAddPage', function(event) {
 	
 	var id = $('#txtId').val();
 	
+        var numPedidos=0;
+        
+        $('#btnLoadMoreGen').hide();
+	$('#addTag').addClass('hidden');
+	$('#addFile').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#wallmessages').addClass('hidden');
+	$('#comentarios').addClass('hidden');
+	$('#filterTag').addClass('hidden');
+        
 	$('.pnHeadingLabelAdd').removeClass('hidden');
 	$('.pnHeadingLabelEdit').addClass('hidden');
 	if (id!='') {

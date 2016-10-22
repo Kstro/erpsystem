@@ -295,7 +295,7 @@ function seguimientoGeneral(dataId, iteracion,boton,tipoComment){
                                                     
 							item+='<div class="pull-right"><i class="fa fa-file"></i></div>';
                                                         if(data.data[i].estado==1){
-                                                            item+='</div><div class="qa-message-content">'+ data.files+' <a target="_blank" href="../../../files/accounts/'+data.data[i].comentario+'">'+data.data[i].comentario+'</a></div></div></div>';
+                                                            item+='</div><div class="qa-message-content">'+ data.files+' <a target="_blank" href="../../../files/'+data.path+'/'+data.data[i].comentario+'">'+data.data[i].comentario+'</a></div></div></div>';
                                                         }
                                                         else{
                                                             item+='</div><div class="qa-message-content">'+ data.files+' '+ data.data[i].comentario+'</div></div></div>';
