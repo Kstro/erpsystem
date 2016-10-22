@@ -88,7 +88,7 @@
                 </div>
             </div>
             <div class="col-md-4 checkbox text-right" style="margin-top:45px;">
-                <label><input type="checkbox" value="">{{hayProductosOportunidad}}</label>
+                <label><input  name="hayProductos" type="checkbox" value="">{{hayProductosOportunidad}}</label>
             </div>
             <div class="clearfix"></div>
             <div id="productos" class="hidden">
@@ -96,8 +96,34 @@
                     <hr>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-md-6 pull-right text-right" style="margin-top:10px;">
-                    <button id="btnAddRow" class="btn btn-sm btn-default">{{addRowOportunidad}}</button>
+                <div class="col-md-12 col-xs-12" style="margin-top: 10px; margin-bottom: 15px;">                
+                    <button id="btnAddRow" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> {{addRowOportunidad}}</button>                    
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-offset-1 col-sm-11">
+                    <hr>
+                </div>
+                <div class="col-sm-offset-1 col-sm-7 text-center">
+                    <label class="control-label">{{productoOportunidad}}</label>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <label class="control-label">{{cantidadOportunidad}}</label>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-offset-1 col-sm-11">
+                    <hr>
+                </div>
+                <div class="clearfix"></div>
+                <div class="removeRow col-sm-1">
+                    <button id="deleteProd-0" class="btn removeProd btn-danger hidden"><i class="fa fa-remove"></i></button>
+                </div>
+                <div class="producto col-sm-7">
+                    <div id="producto-0" >
+                        <select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto input-sm form-control validateSelectP"></select>
+                    </div>
+                </div>
+                <div class="cantidad col-sm-4">
+                    <input id="txtCantidad-0" type="text" name="cantidad[]" class="cant input-sm form-control text-center validateInput" value="1" min="1">                                                       
                 </div>
             </div>
             <div class="clearfix"></div>

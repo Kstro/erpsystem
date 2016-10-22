@@ -927,6 +927,8 @@ twig:
         assignedUserOportunidad: '%app.assignedUserOportunidad%'
         hayProductosOportunidad: '%app.hayProductosOportunidad%'
         addRowOportunidad: '%app.addRowOportunidad%'
+        productoOportunidad: '%app.productoOportunidad%'
+        cantidadOportunidad: '%app.cantidadOportunidad%'
         
         #Oportunidades - Español
         tituloOportunidadEs: '%app.tituloOportunidadEs%'
@@ -947,6 +949,8 @@ twig:
         assignedUserOportunidadEs: '%app.assignedUserOportunidadEs%'
         hayProductosOportunidadEs: '%app.hayProductosOportunidadEs%'
         addRowOportunidadEs: '%app.addRowOportunidadEs%'
+        productoOportunidadEs: '%app.productoOportunidadEs%'
+        cantidadOportunidadEs: '%app.cantidadOportunidadEs%'
         
         #Login - Español
         tituloLoginEs: '%app.tituloLoginEs%'        

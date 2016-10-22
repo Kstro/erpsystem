@@ -4,6 +4,7 @@ $(document).ready(function() {
     $('#etapaVenta').select2();
     $('#fuente').select2();
     $('#campania').select2();
+    $('#sProducto-0').select2();
     $('.firstResponsable').select2();
     
     $('#txtProbability').numeric('.'); 
@@ -47,6 +48,14 @@ $(document).ready(function() {
         allowInputToggle:true,
         ignoreReadonly:true,
         // minDate: Date(),
+    });
+    
+    $("input[name='hayProductos']").change(function(){
+        if ($(this).is(':checked')) {
+            $('#productos').removeClass('hidden');	
+        } else {
+            $('#productos').addClass('hidden');
+        }
     });
     
     
