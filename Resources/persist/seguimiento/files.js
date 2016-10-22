@@ -77,7 +77,7 @@ $(document).ready(function() {
                     }
                     else{
                         var item='';
-                        var addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.idFileg+'" href="/files/accounts/'+data.nombreFile+'" class="fileDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10"><a target="_blank" href="../../../files/accounts/'+data.nombreFile+'">'+data.nombreFile+'</a></div>';
+                        var addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.idFileg+'" href="'+data.path+data.nombreFile+'" class="fileDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10"><a target="_blank" href="../../../'+data.path+data.nombreFile+'">'+data.nombreFile+'</a></div>';
                         $('#addedFiles').prepend(addItem);
                         
                         var fechaRecuperada = data.fecha; 
@@ -90,7 +90,7 @@ $(document).ready(function() {
                         }
                         item+='<div class="user-detail pull-left"><h5 class="handle">'+data.usuario+'</h5><div class="post-meta"><div class="asker-meta"><span class="qa-message-what"></span><span class="qa-message-when">';
                         item+='<span class="qa-message-when-data">'+momentFecha+'</span></span><span class="qa-message-who"><span class="qa-message-who-pad"></span><span class="qa-message-who-data"></span>';
-                        item+='</span></div></div></div><div class="pull-right"><i class="fa fa-file"></i></div></div><div class="qa-message-content"><a href="/files/accounts/'+data.nombreFile+'">'+data.nombreFile+'</a></div></div></div>';
+                        item+='</span></div></div></div><div class="pull-right"><i class="fa fa-file"></i></div></div><div class="qa-message-content"><a href="../../../'+data.path+data.nombreFile+'">'+data.nombreFile+'</a></div></div></div>';
                         $('#wallmessages').prepend(item);
                     }
                 },

@@ -11,31 +11,31 @@ $(document).ready(function() {
 	/*// console.log(filesSelectedPrev[0]);*/
 	
 	$(document).on('click', '#btnSaveTop', function(event) {
-		$('#frmProvider').submit();
+            $('#frmProvider').submit();
 	});
 
 	$(document).on('change', '#file', function(event) {
-		var filesSelected = document.getElementById("file").files;
-		if(filesSelectedPrev[0]=="undefined"){
-			filesSelectedPrev = document.getElementById("file").files;
-		}
-			var fileToLoad = filesSelected[0];
-		          var fileReader = new FileReader();
-		          if ((filesSelected[0].size<=4096000)){
-		          	fileReader.onload = function(fileLoadedEvent) {
-			          	srcData = fileLoadedEvent.target.result; 
-			            	$('#imgTest').attr('src', srcData);
-			        	};
-			        	var imgBase64 = $('#imgTest').attr('src');
-			        	fileReader.readAsDataURL(fileToLoad);
-				$('#imgTest').show();
-		          }
-		          else{
-		          	$(this).val('');
-		          	$('#imgTest').attr('src', '');
-		          	$('#imgTest').hide();
-		          	swal('',$('.imageError').html(),'error');
-		          }
+            var filesSelected = document.getElementById("file").files;
+            if(filesSelectedPrev[0]=="undefined"){
+                    filesSelectedPrev = document.getElementById("file").files;
+            }
+            var fileToLoad = filesSelected[0];
+            var fileReader = new FileReader();
+            if ((filesSelected[0].size<=4096000)){
+                  fileReader.onload = function(fileLoadedEvent) {
+                          srcData = fileLoadedEvent.target.result; 
+                          $('#imgTest').attr('src', srcData);
+                          };
+                          var imgBase64 = $('#imgTest').attr('src');
+                          fileReader.readAsDataURL(fileToLoad);
+                  $('#imgTest').show();
+            }
+            else{
+                  $(this).val('');
+                  $('#imgTest').attr('src', '');
+                  $('#imgTest').hide();
+                  swal('',$('.imageError').html(),'error');
+            }
 	});
 	$('#frmProvider').on('submit',(function(event) {
 		/*/////Definición de variables*/
@@ -48,78 +48,78 @@ $(document).ready(function() {
 		/*//Contador de errores, para antes de la persistencia*/
 
 		$('.validateInput').each(function() {
-		 	if (!required($(this))) {
-		 		$(this).addClass('errorform');
-		 		errores++;
-		 	}
+                    if (!required($(this))) {
+                            $(this).addClass('errorform');
+                            errores++;
+                    }
 		});
 		$('.validateInputEmail').each(function() {
-		 	if (!isValidEmailAddress($(this).val())) {
-		 		$(this).addClass('errorform');
-		 		erroresEmail++;
-		 	}
+                    if (!isValidEmailAddress($(this).val())) {
+                        $(this).addClass('errorform');
+                        erroresEmail++;
+                    }
 		});
 		if (errores==0) {
-			if (erroresEmail==0) {
-				$.ajax({
-					url: Routing.generate('admin_cliente_potencial_save_ajax'),
-					type: "POST",
-					data: new FormData(this),
-					contentType: false,
-					cache: false,
-					processData:false,
-					success: function(data)
-					{
-						/*//$('#loading').hide();*/
-						$("#message").html(data);
-						$("#txtId1").val(data.id1);
-						$("#txtId2").val(data.id2);
-						if(data.msg){
-							swal('',data.msg,'success');
-							var table = $('#clientePotencialList').DataTable();
-							/*//id.val(data.id1);*/
-							$('#txtId').val('');
-							$('#txtName').val('');
-							/*// $('#txtProbability').val('10');*/
-							/*// probability.slider('setValue', 10);*/
-							$('.btnAddPage').click();
-							$btn.button('reset');
-							$btnT.button('reset');
-						}
-						if(data.error){
-							/*// console.log(data.id);*/
-							swal('',data.error,'error');
-							$btn.button('reset');
-							$btnT.button('reset');
-						}
-						table.ajax.reload();
-						$btn.button('reset');
-						$btnT.button('reset');
-						$('#btnSaveTop').addClass('hidden');
-						$('#btnCancelTop').addClass('hidden');
-						$('.btnAddPage').removeClass('hidden');
-						/*// console.log('updata table');*/
-						/*// console.log(table);*/
-					},
-					error:function(data) {
-						/* Act on the event */
-						$btn.button('reset');
-						$btnT.button('reset');
-					}
-				});
-			}
-			else{
-				var emailFields = $('.emailFields').html();
-				swal('',emailFields,'error');
-				$btn.button('reset');
-				$btnT.button('reset');	
-			}
+                    if (erroresEmail==0) {
+                        $.ajax({
+                            url: Routing.generate('admin_cliente_potencial_save_ajax'),
+                            type: "POST",
+                            data: new FormData(this),
+                            contentType: false,
+                            cache: false,
+                            processData:false,
+                            success: function(data)
+                            {
+                                    /*//$('#loading').hide();*/
+                                    $("#message").html(data);
+                                    $("#txtId1").val(data.id1);
+                                    $("#txtId2").val(data.id2);
+                                    if(data.msg){
+                                            swal('',data.msg,'success');
+                                            var table = $('#clientePotencialList').DataTable();
+                                            /*//id.val(data.id1);*/
+                                            $('#txtId').val('');
+                                            $('#txtName').val('');
+                                            /*// $('#txtProbability').val('10');*/
+                                            /*// probability.slider('setValue', 10);*/
+                                            $('.btnAddPage').click();
+                                            $btn.button('reset');
+                                            $btnT.button('reset');
+                                    }
+                                    if(data.error){
+                                            /*// console.log(data.id);*/
+                                            swal('',data.error,'error');
+                                            $btn.button('reset');
+                                            $btnT.button('reset');
+                                    }
+                                    table.ajax.reload();
+                                    $btn.button('reset');
+                                    $btnT.button('reset');
+                                    $('#btnSaveTop').addClass('hidden');
+                                    $('#btnCancelTop').addClass('hidden');
+                                    $('.btnAddPage').removeClass('hidden');
+                                    /*// console.log('updata table');*/
+                                    /*// console.log(table);*/
+                            },
+                            error:function(data) {
+                                    /* Act on the event */
+                                    $btn.button('reset');
+                                    $btnT.button('reset');
+                            }
+                        });
+                    }
+                    else{
+                            var emailFields = $('.emailFields').html();
+                            swal('',emailFields,'error');
+                            $btn.button('reset');
+                            $btnT.button('reset');	
+                    }
 		}
 		else {
-			var requiredFields = $('.requiredFields').html();
-			swal('',requiredFields,'error');
-			$btn.button('reset');
-			$btnT.button('reset');
+                    var requiredFields = $('.requiredFields').html();
+                    swal('',requiredFields,'error');
+                    $btn.button('reset');
+                    $btnT.button('reset');
 		}
 		event.preventDefault();
 		return false;
@@ -144,142 +144,143 @@ $(document).ready(function() {
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
                 $('#addedTags').html('');
+                $('#wallmessages').html('');
                 numPedidos=1;
                 mostrarocultar(numPedidos);
 		/*// console.log(id);*/
 		/*// console.log(idArray[0]);*/
 		/*// console.log(idArray[1]);*/
 		$('.chkItem').each(function() {
-			if ($(this).is(':checked')) {
-				selected++;
-			}
+                    if ($(this).is(':checked')) {
+                            selected++;
+                    }
 		});	
 		if (text=='TD' && id!=idForm && selected==0) {
-                        objClicked.off('click');
-			objClicked.css('cursor','progress');
-			$.ajax({
-				url: Routing.generate('admin_clients_potencial_retrieve_ajax'),
-				type: 'POST',
-				data: {param1: idArray[0],param2:idArray[1]},
-				success:function(data){
-					if(data.error){
-						swal('',data.error,'error');
-						id.val(data.id);
-					}
-					else{
-						/*// console.log(data);*/
-						$('#txtId1').val(data.id1);
-						$('#txtId2').val(data.id2);
-						$('#dpbTitulo').val(data.titulo);
-						$('#txtName').val(data.nombre);
-						$('#txtApellido').val(data.apellido);
-						$('#txtCompania').val(data.compania);
-						/*// console.log(data.addressArray);*/
-						var numDirecciones = data.addressArray.length;
-						var numTelefonos = data.phoneArray.length;
-						var numCorreos = data.emailArray.length;
-						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
-						/*// Direcciones*/
-						for (var i = 0; i < numDirecciones; i++) {
-							/*// console.log(i);*/
-							/*// console.log(data.addressArray[i]);*/
-							switch(i){
-								case 0:
-									$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
-									$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
-									$('.txtAddressFirst').val(data.addressArray[i]);
-								break;
-								default:
-									$('#plusAddress').click();
-									$("#state-"+(numAddress)).val(data.stateArray[i]).trigger("change");
-									$("#city-"+(numAddress)).val(data.cityArray[i]).trigger("change");
-									$('#address-'+(numAddress)).val(data.addressArray[i]);
-								break;
-							}
-						}
-						/*// Telefonos*/
-						for (var i = 0; i < numTelefonos; i++) {
-							/*// console.log(i);*/
-							/*// console.log(data.addressArray[i]);*/
-							switch(i){
-								case 0:
-									$(".firstPhoneType").val(data.typePhoneArray[i]).trigger("change");
-									
-									$('.firstPhoneTxt').val(data.phoneArray[i]);
-									$('.firstPhoneExtension').val(data.extPhoneArray[i]);
-								break;
-								default:
-									$('#plusPhone').click();
-									/*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
-									$('#types-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
-									
-									$('#phones-'+(numPhones)).val(data.phoneArray[i]);
-									$('#extension-'+(numPhones)).val(data.extPhoneArray[i]);
-								break;
-							}
-						}
-						/*// Correos*/
-						for (var i = 0; i < numCorreos; i++) {
-							/*// console.log(i);*/
-							/*// console.log(data.addressArray[i]);*/
-							switch(i){
-								case 0:
-									$('.txtEmailFirst').val(data.emailArray[i]);
-								break;
-								default:
-									$('#plusEmail').click();
-									$('#email-'+(numEmail)).val(data.emailArray[i]);
-								break;
-							}
-						}
-						if(data.src!=''){
-							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
-						}
-						else{
-							$('#imgTest').attr('src','http://placehold.it/250x250');
-						}
-
-						$('.dpbInteres').val(data.interes).change().trigger("change");
-						$('.dpbEstado').val(data.estado).change().trigger("change");
-						$('.dpbFuente').val(data.fuente).change().trigger("change");
-						/*// $('.dpbCampania').val(data.campania).change().trigger("change");*/
-												
-						
-						$('#pnAdd').show();
-						$('.btnAddPage').addClass('hidden');
-						$('#clientePotencialList').parent().hide();
-						$('#btnBack').removeClass('hidden');
-						$('#btnCancelTop').removeClass('hidden');
-						$('#btnSaveTop').removeClass('hidden');
-                                                /*seguimiento(data.id1, numPedidos,null);*/
-                                                seguimientoGeneral(data.id1, numPedidos,null,1);
-						/*cargarTags();*/
-                                                var addItem = '';
-                                                for (var i = 0; i < data.tags.length; i++) {
-                                                    /*console.log(i);*/
-                                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
-                                                    $('#addedTags').append(addItem);
+                    objClicked.off('click');
+                    objClicked.css('cursor','progress');
+                    $.ajax({
+                        url: Routing.generate('admin_clients_potencial_retrieve_ajax'),
+                        type: 'POST',
+                        data: {param1: idArray[0],param2:idArray[1]},
+                        success:function(data){
+                                if(data.error){
+                                        swal('',data.error,'error');
+                                        id.val(data.id);
+                                }
+                                else{
+                                        /*// console.log(data);*/
+                                        $('#txtId1').val(data.id1);
+                                        $('#txtId2').val(data.id2);
+                                        $('#dpbTitulo').val(data.titulo);
+                                        $('#txtName').val(data.nombre);
+                                        $('#txtApellido').val(data.apellido);
+                                        $('#txtCompania').val(data.compania);
+                                        /*// console.log(data.addressArray);*/
+                                        var numDirecciones = data.addressArray.length;
+                                        var numTelefonos = data.phoneArray.length;
+                                        var numCorreos = data.emailArray.length;
+                                        $('.dpbTipoPersona').val(data.entidad).change().trigger("change");
+                                        /*// Direcciones*/
+                                        for (var i = 0; i < numDirecciones; i++) {
+                                                /*// console.log(i);*/
+                                                /*// console.log(data.addressArray[i]);*/
+                                                switch(i){
+                                                        case 0:
+                                                                $(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
+                                                                $(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
+                                                                $('.txtAddressFirst').val(data.addressArray[i]);
+                                                        break;
+                                                        default:
+                                                                $('#plusAddress').click();
+                                                                $("#state-"+(numAddress)).val(data.stateArray[i]).trigger("change");
+                                                                $("#city-"+(numAddress)).val(data.cityArray[i]).trigger("change");
+                                                                $('#address-'+(numAddress)).val(data.addressArray[i]);
+                                                        break;
                                                 }
-						/*//seguimientoComet(data.id1);*/
-						$('#addTag').removeClass('hidden');
-						$('#addedTags').removeClass('hidden');
-						$('#filterTag').addClass('hidden');
-					}	
-                                        objClicked.on('click');
-					objClicked.css('cursor', 'pointer');
-				},
-				error:function(data){
-					if(data.error){
-						/*// console.log(data.id);*/
-						swal('',data.error,'error');
-					}
-                                        $('#addTag').addClass('hidden');
-					$('#addedTags').addClass('hidden');
-					$('#filterTag').removeClass('hidden');
-					objClicked.on('click');
-					objClicked.css('cursor', 'pointer');	
-				}
-			});
+                                        }
+                                        /*// Telefonos*/
+                                        for (var i = 0; i < numTelefonos; i++) {
+                                                /*// console.log(i);*/
+                                                /*// console.log(data.addressArray[i]);*/
+                                                switch(i){
+                                                        case 0:
+                                                                $(".firstPhoneType").val(data.typePhoneArray[i]).trigger("change");
+
+                                                                $('.firstPhoneTxt').val(data.phoneArray[i]);
+                                                                $('.firstPhoneExtension').val(data.extPhoneArray[i]);
+                                                        break;
+                                                        default:
+                                                                $('#plusPhone').click();
+                                                                /*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
+                                                                $('#types-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
+
+                                                                $('#phones-'+(numPhones)).val(data.phoneArray[i]);
+                                                                $('#extension-'+(numPhones)).val(data.extPhoneArray[i]);
+                                                        break;
+                                                }
+                                        }
+                                        /*// Correos*/
+                                        for (var i = 0; i < numCorreos; i++) {
+                                                /*// console.log(i);*/
+                                                /*// console.log(data.addressArray[i]);*/
+                                                switch(i){
+                                                        case 0:
+                                                                $('.txtEmailFirst').val(data.emailArray[i]);
+                                                        break;
+                                                        default:
+                                                                $('#plusEmail').click();
+                                                                $('#email-'+(numEmail)).val(data.emailArray[i]);
+                                                        break;
+                                                }
+                                        }
+                                        if(data.src!=''){
+                                                $('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
+                                        }
+                                        else{
+                                                $('#imgTest').attr('src','http://placehold.it/250x250');
+                                        }
+
+                                        $('.dpbInteres').val(data.interes).change().trigger("change");
+                                        $('.dpbEstado').val(data.estado).change().trigger("change");
+                                        $('.dpbFuente').val(data.fuente).change().trigger("change");
+                                        /*// $('.dpbCampania').val(data.campania).change().trigger("change");*/
+
+
+                                        $('#pnAdd').show();
+                                        $('.btnAddPage').addClass('hidden');
+                                        $('#clientePotencialList').parent().hide();
+                                        $('#btnBack').removeClass('hidden');
+                                        $('#btnCancelTop').removeClass('hidden');
+                                        $('#btnSaveTop').removeClass('hidden');
+                                        /*seguimiento(data.id1, numPedidos,null);*/
+                                        seguimientoGeneral(data.id1, numPedidos,null,1);
+                                        /*cargarTags();*/
+                                        var addItem = '';
+                                        for (var i = 0; i < data.tags.length; i++) {
+                                            /*console.log(i);*/
+                                            addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                                            $('#addedTags').append(addItem);
+                                        }
+                                        /*//seguimientoComet(data.id1);*/
+                                        $('#addTag').removeClass('hidden');
+                                        $('#addedTags').removeClass('hidden');
+                                        $('#filterTag').addClass('hidden');
+                                }	
+                                objClicked.on('click');
+                                objClicked.css('cursor', 'pointer');
+                        },
+                        error:function(data){
+                                if(data.error){
+                                        /*// console.log(data.id);*/
+                                        swal('',data.error,'error');
+                                }
+                                $('#addTag').addClass('hidden');
+                                $('#addedTags').addClass('hidden');
+                                $('#filterTag').removeClass('hidden');
+                                objClicked.on('click');
+                                objClicked.css('cursor', 'pointer');	
+                        }
+                    });
 		} 
 		else {
 			if(id==idForm && selected==0){

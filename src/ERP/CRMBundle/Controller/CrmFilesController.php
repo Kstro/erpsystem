@@ -108,16 +108,19 @@ class CrmFilesController extends Controller
                 
                 switch($tipoComment){
                     case 1:///// CRM - Cuentas
+                        $path = $this->getParameter('files.cuentas');
                         $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($id);
                         $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoCuenta doc";
                         //$sql="SELECT * FROM seguimiento where cuenta=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                         break;
                     case 2:///// CRM - Actividades
+                        $path = $this->getParameter('files.activities');
                         $cuentaObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($id);
                         $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoActividad doc";
                         //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                         break;
                     case 3:///// CRM - Campañas
+                        $path = $this->getParameter('files.campaigns');
                         $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($id);
                         $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoCampania doc";
                         break;
@@ -139,11 +142,7 @@ class CrmFilesController extends Controller
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
                     if ($nombreTmp!='') {
-                        //Buscar en la base la ciudad, primera iteracion debe buscar ciudad        
-                        $path = $this->getParameter('files.cuentas');
-//                        var_dump(basename($path.$_FILES['file']['name']).PHP_EOL);
-//                        die();
-                        //var_dump($path);
+                        
                         $fecha = date('Y-m-d-His');
                         $extensionTmp = $_FILES['file']['type'];
                         $extensionArray= explode('/', $extensionTmp);
@@ -156,19 +155,22 @@ class CrmFilesController extends Controller
                         $nombreArchivo = $nombreId.'-'.substr($nombreTmp, 0, 16).'.'.$extension;
                         //var_dump($nombreArchivo);
                         if(move_uploaded_file($_FILES['file']['tmp_name'], $path.$nombreArchivo)){
-                            
+                            $data['path']='/files/';
                             switch($tipoComment){
                                 case 1:///// CRM - Cuentas
                                     $crmFile= new CrmDocumentoAdjuntoCuenta();
                                     $crmFile->setCuenta($cuentaObj);
+                                    $data['path'].='accounts/';
                                     break;
                                 case 2:///// CRM - Actividades
                                     $crmFile= new CrmDocumentoAdjuntoActividad();
                                     $crmFile->setActividad($cuentaObj);
+                                    $data['path'].='activities/';
                                     break;
                                 case 3:///// CRM - Campañas
                                     $crmFile= new CrmDocumentoAdjuntoCampania();
                                     $crmFile->setCampania($cuentaObj);
+                                    $data['path'].='campaigns/';
                                     break;
                                 case 4:///// CRM - 
                                     //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;

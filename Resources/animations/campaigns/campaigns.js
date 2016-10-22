@@ -49,6 +49,12 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	
 	/*// console.log('cancel');*/
+        $('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMore').addClass('hidden');
 	limpiarCampos();
 	return false;
 	
