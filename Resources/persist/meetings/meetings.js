@@ -14,6 +14,7 @@ $(document).ready(function() {
 	});
 
 	
+        
 	$('#frmMeetings').on('submit',(function(event) {
 		/*/////Definición de variables*/
 		event.preventDefault();
