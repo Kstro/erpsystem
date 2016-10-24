@@ -180,8 +180,8 @@ parameters:
         app.probabilityEtapa: Probability
         
         #Campanias
-        app.tituloCampania: CRM | Campaign types management
-        app.menuCampania: Campaign types mgmt.
+        app.tituloCampania: CRM | Campaigns management
+        app.menuCampania: Campaigns mgmt.
         app.encabezadoCampania: Campaigns list
         app.descripcionCampania: Add, modify or delete campaign.
         app.nameCampania: Name
@@ -189,8 +189,8 @@ parameters:
         #TipoCampanias
         app.tituloTipoCampania: CRM | Campaign types management
         app.menuTipoCampania: Cmpgn types mgmt.
-        app.encabezadoTipoCampania: Campaigns list
-        app.descripcionTipoCampania: Add, modify or delete campaign.
+        app.encabezadoTipoCampania: Campaign types list
+        app.descripcionTipoCampania: Add, modify or delete campaign types.
         app.nameTipoCampania: Name
         
         #Nivel de satisfaccion
@@ -489,7 +489,7 @@ parameters:
         app.assignedUserOportunidad: Assigned user
         app.hayProductosOportunidad: With products / services
         app.addRowOportunidad: Add row
-        app.productoOportunidad: Product
+        app.productoOportunidad: Product / Service
         app.cantidadOportunidad: Quantity
        
         #Login

@@ -453,7 +453,7 @@ parameters:
         app.assignedUserOportunidadEs: Persona asignada
         app.hayProductosOportunidadEs: Con productos / servicios
         app.addRowOportunidadEs: Nueva fila
-        app.productoOportunidadEs: Producto
+        app.productoOportunidadEs: Producto / Servicio
         app.cantidadOportunidadEs: Cantidad
        
         #Login

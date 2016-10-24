@@ -30,6 +30,16 @@
 	    return pattern.test(emailAddress);
 	};
 
-
+        /////Funcion que verifica que se haya seleccionado una opcion de productos agregados
+	function requiredSelectP(object){
+            var valor = object.val();
+            if(valor=='' || valor == null || valor == 0){
+                object.next().children().children().addClass('errorform');
+                return false; /// Valor invalido
+            } 
+            else {
+                return true; /// Valor valido
+            }
+	}
 
 	$('.chkItemAll').prop({'checked': false});
