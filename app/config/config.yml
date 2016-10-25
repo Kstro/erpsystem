@@ -9,6 +9,7 @@ imports:
 parameters:
     locale: en
     photo.proveedor: %kernel.root_dir%/../photos/proveedor/
+    photo.contacto: %kernel.root_dir%/../photos/contacto/
 
 framework:
     #esi:             ~
@@ -250,6 +251,23 @@ twig:
         industriaSocio: '%app.industriaSocio%'
         sitioWebSocio: '%app.sitioWebSocio%'
         inputFileLabel: '%app.inputFileLabel%'
+
+        #Contacto
+        tituloContacto: '%app.tituloContacto%'
+        encabezadoContacto: '%app.encabezadoContacto%'
+        descripcionContacto: '%app.descripcionContacto%'
+        tratoContacto: '%app.tratoContacto%'
+        nombreContacto: '%app.nombreContacto%'    
+        apellidoContacto: '%app.apellidoContacto%'
+        companiaNombreContacto: '%app.companiaNombreContacto%'
+        direccionContacto: '%app.direccionContacto%'
+        departamentoContacto: '%app.departamentoContacto%' 
+        ciudadContacto: '%app.ciudadContacto%'
+        phoneContacto: '%app.phoneContacto%'
+        extensionContacto: '%app.extensionContacto%'   
+        emailContacto: '%app.emailContacto%'
+        fotoContacto: '%app.fotoContacto%'
+        nombreCompletoContacto: '%app.nombreCompletoContacto%'
 
         #Proveedor
         tituloAccount: '%app.tituloAccount%'

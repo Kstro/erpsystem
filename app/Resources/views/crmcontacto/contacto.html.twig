@@ -26,7 +26,11 @@
                         <div class="clearfix"></div> 
                         <div class="col-md-7" style="margin-top:20px;">
                             <label>{{companiaNombreContacto}}</label>
-                            <input id="txtCompania" type="text" name="compania" class="input-sm form-control validateInput">
+                            <select style="margin-top:25px; width:100%;" type="text" name="compania" class="input-sm form-control validateInput dpbCompanyFirst">
+                                {% for cuenta in crmCuentas %}
+                                        <option value={{cuenta.id}}>{{cuenta.nombre}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-md-7 address" style="margin-top:20px;">
