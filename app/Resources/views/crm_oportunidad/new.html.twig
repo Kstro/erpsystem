@@ -20,9 +20,7 @@
                 </div>
                 <div id="divCuentaOportunidad" class="col-md-4 col-xs-8 hidden">
                     <label>{{cuentaOportunidad}}</label>
-                    <select style="width:100%;" id="cuenta" name="cuenta" class="input-sm form-control ">
-
-                    </select>
+                    <select style="width:100%;" id="cuenta" name="cuenta" class="input-sm form-control "></select>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-md-5 col-xs-12" style="margin-top: 10px;">
@@ -97,16 +95,16 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-12 col-xs-12" style="margin-top: 10px; margin-bottom: 15px;">                
-                        <button id="btnAddRow" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> {{addRowOportunidad}}</button>                    
+                        <button id="btnAddRow" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i>{{addRowOportunidad}}</button>
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-sm-offset-1 col-sm-11">
                         <hr>
                     </div>
-                    <div class="col-sm-offset-1 col-sm-7 text-center">
+                    <div class="col-sm-offset-1 col-sm-8 text-center">
                         <label class="control-label">{{productoOportunidad}}</label>
                     </div>
-                    <div class="col-sm-4 text-center">
+                    <div class="col-sm-3 text-center">
                         <label class="control-label">{{cantidadOportunidad}}</label>
                     </div>
                     <div class="clearfix"></div>
@@ -117,12 +115,16 @@
                     <div class="removeRow col-sm-1">
                         <button id="deleteProd-0" class="btn removeProd btn-danger hidden"><i class="fa fa-remove"></i></button>
                     </div>
-                    <div class="producto col-sm-7">
+                    <div class="producto col-sm-8">
                         <div id="producto-0" >
-                            <select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto input-sm form-control "></select>
+                            <select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto input-sm form-control ">
+                                {% for producto in productos %}
+                                    <option value={{producto.id}}>{{producto.nombre}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
-                    <div class="cantidad col-sm-4">
+                    <div class="cantidad col-sm-3">
                         <input id="txtCantidad-0" type="text" name="cantidad[]" class="cant input-sm form-control text-right" value="1" min="1">                                                       
                     </div>
                 </div>

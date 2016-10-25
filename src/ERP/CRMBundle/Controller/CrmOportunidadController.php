@@ -25,31 +25,50 @@ class CrmOportunidadController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        try{
+            $em = $this->getDoctrine()->getManager();
 
-        //Fuentes
-        $fuentes = $em->getRepository('ERPCRMBundle:CtlFuente')->findBy(array('estado'=>1));
-        
-        //Tipos de cuenta
-        $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
-        
-        //Etapas de venta
-        $etapasVenta = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->findBy(array('estado'=>1));
-        
-        //Campañas
-        $campanias = $em->getRepository('ERPCRMBundle:CrmCampania')->findBy(array('estado'=>1));
-        
-        //Persona-usuarios
-        $personas = $em->getRepository('ERPCRMBundle:CtlUsuario')->findAll();
+            //Fuentes
+            $fuentes = $em->getRepository('ERPCRMBundle:CtlFuente')->findBy(array('estado'=>1));
 
-        return $this->render('crm_oportunidad/index.html.twig', array(
-            'tiposCuenta'=>$tiposCuenta,
-            'fuentes'=>$fuentes,
-            'etapasVenta'=>$etapasVenta,
-            'campanias'=>$campanias,
-            'personas'=>$personas,
-            'menuOportunidadesA' => true,
-        ));
+            //Tipos de cuenta
+            $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
+
+            //Etapas de venta
+            $etapasVenta = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->findBy(array('estado'=>1));
+
+            //Campañas
+            $campanias = $em->getRepository('ERPCRMBundle:CrmCampania')->findBy(array('estado'=>1));
+            
+            //Productos
+            $productos = $em->getRepository('ERPCRMBundle:CtlProducto')->findBy(array('estado'=>1));
+
+            //Persona-usuarios
+            $personas = $em->getRepository('ERPCRMBundle:CtlUsuario')->findAll();
+
+            return $this->render('crm_oportunidad/index.html.twig', array(
+                'tiposCuenta'=>$tiposCuenta,
+                'fuentes'=>$fuentes,
+                'etapasVenta'=>$etapasVenta,
+                'campanias'=>$campanias,
+                'productos'=>$productos,
+                'personas'=>$personas,
+                'menuOportunidadesA' => true,
+            ));
+        } catch (\Exception $e) {  
+            $response = new JsonResponse();
+            
+            if(method_exists($e,'getErrorCode')){ 
+                $serverOffline = $this->getParameter('app.serverOffline');
+                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+            }
+            else{
+                $data['error'] = $e->getMessage();  
+            }
+            $response->setData($data);
+            
+            return $response;                              
+        }
     }  
     
     /**
@@ -64,7 +83,7 @@ class CrmOportunidadController extends Controller
         $longitud = $request->query->get('length');
         $busqueda = $request->query->get('search');
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $rowsTotal = $em->getRepository('ERPCRMBundle:CrmOportunidad')->findAll();
         
         $row['draw']=$draw++;  
@@ -158,6 +177,466 @@ class CrmOportunidadController extends Controller
         
         return new Response(json_encode($row));
     }
+          
+    /**
+     * Save provider
+     *
+     * @Route("/save/ajax", name="admin_opportunity_save_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function saveOpportunityAjaxAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $response = new JsonResponse();
+                
+                //Captura de parametros
+                var_dump($_POST);
+                die();
+                
+                $idOportunidad = $_POST['txtId'];//id Oportunidad
+                $tipoCuenta = $_POST['tipoCuenta']; // Tipo de cuenta
+                $cuenta = $_POST['cuenta']; // Cuenta vinculada a la oportunidad.
+                $etapaVenta = $_POST['etapaVenta'];// Etapa que se encuentra la oportunidad de venta.
+                $probabilidad = $_POST['txtProbability'];// Probabilidad de que la venta se realice con exito.
+                $fechaRegistro = new \DateTime('now');// Fecha de registro de la oportunidad de venta.
+                $fechaCierre = $_POST['txtFechaCierre'];// fecha de cierre de la oportunidad de venta.
+                $descripcion = $_POST['descripcion'];// Descripcion de la oportunidad de venta.
+                $fuente = $_POST['fuente'];// Fuente de origen de la oportunidad de venta.
+                $campania = $_POST['campania'];// Campaña de donde se obtuvo la oportunidad de venta.
+                $estado = 1;//Estado
+                
+                //persona
+                $personaArray = $_POST['responsable'];// Array de personas asignadas a la oportunidad de venta.
+
+                //Cantidad y productos asociados a la oportunidad
+                $cantidadArray = $_POST['cantidad'];// Array de cantidad de cada producto.
+                $productosArray = $_POST['sProducto'];// Array de productos asociados  a la oportunidad de venta.
+
+                //Busqueda objetos a partir de ids
+                $industriaObj = $em->getRepository('ERPCRMBundle:CtlIndustria')->find($industriaId);
+                $tipoEntidadObj = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->find($tipoEntidadId);
+                $tratamientoProtocolarioObj = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->find($tratamientoProtocolarioId);
+                $crmTipoCuentaObj = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find(1); //Proveedor
+
+                if($idOportunidad == ''){
+
+                    //Tabla crmCuenta, ids
+                    $crmCuentaObj = new CrmCuenta();
+                    
+                    $crmCuentaObj->setTipoCuenta($crmTipoCuentaObj);
+                    $crmCuentaObj->setIndustria($industriaObj);
+                    $crmCuentaObj->setClientePotencial($clientePotencial);
+                    $crmCuentaObj->setNivelSatisfaccion($nivelSatisfaccion);
+                    $crmCuentaObj->setTipoEntidad($tipoEntidadObj);
+                    $crmCuentaObj->setNombre($nombreCuenta);
+                    $crmCuentaObj->setDescripcion($descripcionCuenta);
+                    $crmCuentaObj->setFechaRegistro($fechaRegistro);
+                    $crmCuentaObj->setSitioWeb($sitioWeb);
+                    $crmCuentaObj->setEstado(1);
+                                    
+                    //Persist crmCuentaObj
+                    $em->persist($crmCuentaObj);
+                    $em->flush();
+
+
+                    //Tabla ctlPersona
+                    $ctlPersonaObj = new CtlPersona();
+                    $ctlPersonaObj->setNombre($nombrePersona);
+                    $ctlPersonaObj->setApellido($apellidoPersona);
+                    $ctlPersonaObj->setGenero($genero);
+                    $ctlPersonaObj->setFechaRegistro($fechaRegistro);
+                    $ctlPersonaObj->setSucursal($sucursal);
+                    $ctlPersonaObj->setTratamientoProtocolario($tratamientoProtocolarioObj);
+
+                    //Persist ctlPersonaObj
+                    $em->persist($ctlPersonaObj);
+                    $em->flush();
+
+
+                    //Tabla crmContacto
+                    $crmContactoObj = new CrmContacto();
+                    $crmContactoObj->setEstado(1);
+                    $crmContactoObj->setPersona($ctlPersonaObj);//Set llave foranea de ctlPersonaObj
+                    
+                    //Persist crmContactoObj
+                    $em->persist($crmContactoObj);
+                    $em->flush();
+
+                    //Tabla crmContactoCuenta
+                    $crmContactoCuentaObj = new CrmContactoCuenta();
+                    $crmContactoCuentaObj->setCuenta($crmCuentaObj);
+                    $crmContactoCuentaObj->setContacto($crmContactoObj);
+                    
+                    //Persist crmContactoCuenta
+                    $em->persist($crmContactoCuentaObj);
+                    $em->flush();
+
+                    //Tabla ctlCorreo
+
+                    foreach ($emailArray as $key => $correo) {
+                        $ctlCorreoObj = new CtlCorreo();
+                        $ctlCorreoObj->setEmpresa(null);
+                        $ctlCorreoObj->setPersona(null);
+                        $ctlCorreoObj->setCuenta($crmCuentaObj);
+                        $ctlCorreoObj->setEmail($correo);
+                        $ctlCorreoObj->setEstado(1);
+                        //Persist ctlCorreo
+                        $em->persist($ctlCorreoObj);
+                        $em->flush();
+
+                    }
+
+
+                    //Tabla ctlTelefono
+                    $phoneLenght=count($phoneArray)-1;//Cantidad de telefono ingresados, menos 1 para index de array
+                    //var_dump($phoneTypeArray[0]);
+                    $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[0]);//Para definir la variable $ctlTipoTelefonoObj
+                    foreach ($phoneArray as $key => $phone) {
+                                          
+                        $ctlTelefonoObj = new CtlTelefono();
+                        $ctlTelefonoObj->setCuenta($crmCuentaObj);
+                        //var_dump($key);
+                        if ($key<$phoneLenght && $key!=0) {
+                            if ($phoneTypeArray[$key]==$phoneTypeArray[$key-1]) {
+                                //No buscar en la base el tipo de telefono
+                                $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
+                                //var_dump('no buscar base tipo telefono');
+                            } else {
+                                //Buscar en la base el tipo de telefono
+                                $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
+                                //var_dump('buscar base tipo telefono');
+                            }
+                         
+                        } else {
+                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
+                                //var_dump('no buscar base tipo telefono');
+                        }
+                        $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
+                        $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
+                        $ctlTelefonoObj->setPersona(null);
+                        $ctlTelefonoObj->setEmpresa(null);
+                        $ctlTelefonoObj->setSucursal(null);
+                        //Persist ctlTelefono
+                        $em->persist($ctlTelefonoObj);
+                        $em->flush();
+                    }
+
+                    //Tabla ctlDireccion
+                    $addressLenght=count($addressArray)-1;//Cantidad de direccion ingresados, menos 1 para index de array
+                    // var_dump(count($addressArray));
+                    // var_dump($addressLenght);
+                    foreach ($addressArray as $key => $val) {
+                                          
+                        $ctlDireccionObj = new CtlDireccion();
+                        $ctlDireccionObj->setCuenta($crmCuentaObj);
+                        if ($key<$addressLenght && $key!=0) {
+                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+                                //No buscar en la base ciudad
+                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+                            } else {
+                                //Buscar en la base la ciudad
+                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+                            }
+                         
+                        } else {
+                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+                        }
+                        $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setPersona(null);
+                        $ctlDireccionObj->setEmpresa(null);
+                        
+                        $ctlDireccionObj->setLatitud(0);
+                        $ctlDireccionObj->setLongitud(0);
+                        $ctlDireccionObj->setEstado(1);
+                        //Persist ctlDireccion
+                        $em->persist($ctlDireccionObj);
+                        $em->flush();
+                        
+                    }                
+
+                    //Manejo de imagen
+                    $nombreTmp = $_FILES['file']['name'];
+                    if ($nombreTmp!='') {
+                        //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+                        
+                        $path = $this->getParameter('photo.cuentas');
+                        //var_dump($path);
+                        $fecha = date('Y-m-d-H-i-s');
+                        $extensionTmp = $_FILES['file']['type'];
+                        $extensionArray= explode('/', $extensionTmp);
+                        $extension = $extensionArray[1];
+                        $nombreArchivo =$fecha.".".$extension;
+                        //var_dump($nombreArchivo);
+                        if(move_uploaded_file($_FILES['file']['tmp_name'], $path.$nombreArchivo)){
+                            $crmFoto = $em->getRepository('ERPCRMBundle:CrmFoto')->find($crmCuentaObj->getId());
+                            if (count($crmFoto)!=0) {
+                                //unlink($path.$crmFoto->getSrc());
+                                //crmFoto
+                                $crmFoto->setSrc($nombreArchivo);
+                                $em->merge($crmFoto);
+                                $em->flush();
+                            }
+                            else{
+                                //crmFoto
+                                $crmFoto = new CrmFoto();
+                                $crmFoto->setCuenta($crmCuentaObj);
+                                $crmFoto->setPersona(null);
+                                $crmFoto->setEstado(1);
+                                $crmFoto->setSrc($nombreArchivo);
+                                $em->persist($crmFoto);
+                                $em->flush();
+                            }
+                        }
+                        else{//Error al subir foto
+
+                        }
+                    } else {//Foto vacia
+                        //var_dump('No file');
+                    }
+                    $serverSave = $this->getParameter('app.serverMsgSave');
+                    $data['id1']=$crmCuentaObj->getId();
+                    $data['id2']=$ctlPersonaObj->getId();
+                    $data['msg']=$serverSave;
+                }//Fin de if id, inserción
+                //else para la modificación del objeto crmCuenta(proveedores) y sus tablas dependientes
+                else{
+                    // var_dump($phoneTypeArray);
+                    // die();
+                        $crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
+                        $crmCuentaObj->setTipoCuenta($crmTipoCuentaObj);
+                        $crmCuentaObj->setIndustria($industriaObj);
+                        $crmCuentaObj->setClientePotencial($clientePotencial);
+                        $crmCuentaObj->setNivelSatisfaccion($nivelSatisfaccion);
+                        $crmCuentaObj->setTipoEntidad($tipoEntidadObj);
+                        $crmCuentaObj->setNombre($nombreCuenta);
+                        $crmCuentaObj->setDescripcion($descripcionCuenta);
+                        // $crmCuentaObj->setFechaRegistro($fechaRegistro);
+                        $crmCuentaObj->setSitioWeb($sitioWeb);
+                        $crmCuentaObj->setEstado(1);
+                                        
+                        //Persist crmCuentaObj
+                        $em->merge($crmCuentaObj);
+                        $em->flush();
+                        // var_dump($idCuenta);
+                        //Eliminar telefonos
+                        $ctlTelefonoArrayObj = $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('cuenta'=>$idCuenta));
+                        foreach ($ctlTelefonoArrayObj as $key => $value) {
+                            $em->remove($value);
+                            $em->flush();
+                        }
+
+                        //Eliminar correos
+                        $ctlCorreoArrayObj = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('cuenta'=>$idCuenta));
+                        foreach ($ctlCorreoArrayObj as $key => $value) {
+                            $em->remove($value);
+                            $em->flush();
+                        }
+
+                        //Eliminar direccion
+                        $ctlDireccionArrayObj = $em->getRepository('ERPCRMBundle:CtlDireccion')->findBy(array('cuenta'=>$idCuenta));
+                        foreach ($ctlDireccionArrayObj as $key => $value) {
+                            $em->remove($value);
+                            $em->flush();
+                        }
+
+                        //Tabla ctlPersona
+                        $ctlPersonaObj = $em->getRepository('ERPCRMBundle:CtlPersona')->find($idPersona);
+                        $ctlPersonaObj->setNombre($nombrePersona);
+                        $ctlPersonaObj->setApellido($apellidoPersona);
+                        $ctlPersonaObj->setGenero($genero);
+                        // $ctlPersonaObj->setFechaRegistro($fechaRegistro);
+                        $ctlPersonaObj->setSucursal($sucursal);
+                        $ctlPersonaObj->setTratamientoProtocolario($tratamientoProtocolarioObj);
+
+                        //Persist ctlPersonaObj
+                        $em->merge($ctlPersonaObj);
+                        $em->flush();
+
+
+
+
+                        //Tabla ctlCorreo
+
+                    foreach ($emailArray as $key => $correo) {
+                        $ctlCorreoObj = new CtlCorreo();
+                        $ctlCorreoObj->setEmpresa(null);
+                        $ctlCorreoObj->setPersona(null);
+                        $ctlCorreoObj->setCuenta($crmCuentaObj);
+                        $ctlCorreoObj->setEmail($correo);
+                        $ctlCorreoObj->setEstado(1);
+                        //Persist ctlCorreo
+                        $em->persist($ctlCorreoObj);
+                        $em->flush();
+
+                    }
+
+
+                    //Tabla ctlTelefono
+                    $phoneLenght=count($phoneArray);//Cantidad de telefono ingresados, menos 1 para index de array
+                    //var_dump($phoneTypeArray[0]);
+                    $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[0]);//Para definir la variable $ctlTipoTelefonoObj
+
+                    foreach ($phoneArray as $key => $phone) {
+                            // var_dump('for');
+                        $ctlTelefonoObj = new CtlTelefono();
+                        $ctlTelefonoObj->setCuenta($crmCuentaObj);
+                        // var_dump("key".$key);
+                        // var_dump("\nphone length".$phoneLenght);
+                        // var_dump("\n expresion".($key<$phoneLenght && $key!=0));
+                        if ($key<$phoneLenght && $key!=0) {
+                            // var_dump('if');
+                            if ($phoneTypeArray[$key]==$phoneTypeArray[$key-1]) {
+                                //No buscar en la base el tipo de telefono
+                                $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
+                                //var_dump('no buscar base tipo telefono');
+                            } else {
+                                //Buscar en la base el tipo de telefono
+                                $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
+                                //var_dump('buscar base tipo telefono');
+                            }
+                         
+                        } else {
+                                // var_dump('else');
+                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
+                                //var_dump('no buscar base tipo telefono');
+                        }
+                        $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
+                        $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
+                        $ctlTelefonoObj->setPersona(null);
+                        $ctlTelefonoObj->setEmpresa(null);
+                        $ctlTelefonoObj->setSucursal(null);
+                        //Persist ctlTelefono
+                        $em->persist($ctlTelefonoObj);
+                        $em->flush();
+                    }
+
+                    //Tabla ctlDireccion
+                    $addressLenght=count($addressArray);//Cantidad de direccion ingresados, menos 1 para index de array
+                    foreach ($addressArray as $key => $phone) {
+                                          
+                        $ctlDireccionObj = new CtlDireccion();
+                        $ctlDireccionObj->setCuenta($crmCuentaObj);
+                        if ($key<$addressLenght && $key!=0) {
+                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+                                //No buscar en la base ciudad
+                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+                            } else {
+                                //Buscar en la base la ciudad
+                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+                            }
+                         
+                        } else {
+                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+                        }
+                        $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setPersona(null);
+                        $ctlDireccionObj->setEmpresa(null);
+                        
+                        $ctlDireccionObj->setLatitud(0);
+                        $ctlDireccionObj->setLongitud(0);
+                        $ctlDireccionObj->setEstado(1);
+                        //Persist ctlDireccion
+                        $em->persist($ctlDireccionObj);
+                        $em->flush();
+                        
+                    }                
+
+                    //Manejo de imagen
+                    $nombreTmp = $_FILES['file']['name'];
+                    if ($nombreTmp!='') {
+                        //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+                        
+                        $path = $this->getParameter('photo.cuentas');
+                        //var_dump($path);
+                        $fecha = date('Y-m-d-H-i-s');
+                        $extensionTmp = $_FILES['file']['type'];
+                        $extensionArray= explode('/', $extensionTmp);
+                        $extension = $extensionArray[1];
+                        $nombreArchivo =$fecha.".".$extension;
+                        //var_dump($nombreArchivo);
+                        if(move_uploaded_file($_FILES['file']['tmp_name'], $path.$nombreArchivo)){
+                            $crmFoto = $em->getRepository('ERPCRMBundle:CrmFoto')->findBy(array('cuenta'=>$idCuenta));
+                            if (count($crmFoto)!=0) {
+                                unlink($path.$crmFoto[0]->getSrc());
+                                //crmFoto
+                                $crmFoto[0]->setSrc($nombreArchivo);
+                                $em->merge($crmFoto[0]);
+                                $em->flush();
+                            }
+                            else{
+                                //crmFoto
+                                $crmFoto = new CrmFoto();
+                                $crmFoto->setCuenta($crmCuentaObj);
+                                $crmFoto->setPersona(null);
+                                $crmFoto->setEstado(1);
+                                $crmFoto->setSrc($nombreArchivo);
+                                $em->persist($crmFoto);
+                                $em->flush();
+                            }
+                        }
+                        else{//Error al subir foto
+
+                        }
+                    } else {//Foto vacia
+                        //var_dump('No file');
+                    }
+                        $serverSave = $this->getParameter('app.serverMsgUpdate');
+                        $data['msg']=$serverSave;
+                        $data['id1']=$idCuenta;
+                        $data['id2']=$idPersona;
+                }
+                $em->getConnection()->commit();
+                $em->close();
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                    $em->getConnection()->rollback();
+                    $em->close();
+                     // var_dump($e);
+                    if(method_exists($e,'getErrorCode')){
+                        switch (intval($e->getErrorCode())){
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            case 1062: 
+                                $serverDuplicate = $this->getParameter('app.serverDuplicateName');
+                                $data['error'] = $serverDuplicate."! CODE: ".$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = "Error CODE: ".$e->getMessage();
+                            break;
+                            }      
+                    }
+                    else{
+                            $data['error']=$e->getMessage();
+                    }
+                    $response->setData($data);
+            }
+        
+            
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
     
     /**
      * Search accounts
@@ -179,7 +658,7 @@ class CrmOportunidadController extends Controller
                     $array=array();
                     
                     foreach ($object as $key => $value) {
-                        $arrayAux=array();    
+                        $arrayAux = array();    
                         array_push($arrayAux, $value->getId());
                         array_push($arrayAux, $value->getNombre());
                         array_push($array, $arrayAux);

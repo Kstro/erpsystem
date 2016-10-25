@@ -177,10 +177,9 @@ $(document).ready(function() {
         numPersonas++;
         var personas = $('.firstResponsable').html();
         
-        $('.responsable').append('<div style="margin-top:27px;"><select id="persona-'+numPersonas+'" style="width:100%;margin-top:25px !important;" name="responsable[]" class="input-sm form-control validateInput ">'+personas+'</select></div>');
+        $('.responsable').append('<div style="margin-top:27px;"><select id="persona-'+numPersonas+'" style="width:100%;margin-top:25px !important;" name="responsable[]" class="input-sm form-control validateSelectP ">'+personas+'</select></div>');
         $('.addUser').append('<button id="deletePersona-'+numPersonas+'" style="margin-top:25px;" class="btn removePersona btn-danger"><i class="fa fa-remove"></i></button>');
         $('#persona-'+numPersonas).select2();
-
         
         return false;
     }); /* Fin de agregar personas */

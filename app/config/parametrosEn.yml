@@ -173,7 +173,7 @@ parameters:
         app.tituloHome:  CRM Systems
         #Etapas de ventas
         app.tituloEtapa: CRM | Sales stage management
-        app.menuEtapa: Sales stage mgmt.
+        app.menuEtapa: Sales stage.
         app.encabezadoEtapa: Sales stage list
         app.descripcionEtapa: Add, modify or delete sales stages.
         app.nameEtapa: Name
@@ -181,21 +181,21 @@ parameters:
         
         #Campanias
         app.tituloCampania: CRM | Campaigns management
-        app.menuCampania: Campaigns mgmt.
+        app.menuCampania: Campaigns.
         app.encabezadoCampania: Campaigns list
         app.descripcionCampania: Add, modify or delete campaign.
         app.nameCampania: Name
         
         #TipoCampanias
         app.tituloTipoCampania: CRM | Campaign types management
-        app.menuTipoCampania: Cmpgn types mgmt.
+        app.menuTipoCampania: Campaign types.
         app.encabezadoTipoCampania: Campaign types list
         app.descripcionTipoCampania: Add, modify or delete campaign types.
         app.nameTipoCampania: Name
         
         #Nivel de satisfaccion
         app.tituloSatisfaccion: CRM | Level of customer satisfaction
-        app.menuSatisfaccion: Lvl of customer satisfaction mgmt.
+        app.menuSatisfaccion: Lvl of customer satisfaction.
         app.encabezadoSatisfaccion: Level of customer satisfaction
         app.descripcionSatisfaccion: Add, modify or delete levels of customer satisfaction.
         app.nameSatisfaccion: Name
@@ -203,7 +203,7 @@ parameters:
         #Proveedor
         app.tituloProveedor: CRM | Providers
         app.companiaNombreProveedor: Company's name
-        app.menuProveedor: Providers mgmt.
+        app.menuProveedor: Providers.
         app.encabezadoProveedor: Providers
         app.descripcionProveedor: Add, modify or delete providers.
         app.cuentaProveedor: Account
@@ -226,7 +226,7 @@ parameters:
         #Socio
         app.tituloSocio: CRM | Partners
         app.companiaNombreSocio: Company's name
-        app.menuSocio: Partners mgmt.
+        app.menuSocio: Partners.
         app.encabezadoSocio: Partners
         app.descripcionSocio: Add, modify or delete partners.
         app.cuentaSocio: Account
@@ -249,7 +249,7 @@ parameters:
         #Accounts
         app.tituloAccount: CRM | Accounts
         app.companiaNombreAccount: Company's name
-        app.menuAccount: Accounts mgmt.
+        app.menuAccount: Accounts.
         app.encabezadoAccount: Account
         app.descripcionAccount: Add, modify or delete 
         app.cuentaAccount: Account
@@ -271,7 +271,7 @@ parameters:
         
         #Tiempo notificaciones
         app.tituloTiempoNotificacion: CRM | Notification time
-        app.menuTiempoNotificacion: Notif. time mgmt.
+        app.menuTiempoNotificacion: Notif. time.
         app.encabezadoTiempoNotificacion: Notifications
         app.descripcionTiempoNotificacion: Add, modify or delete time notifications.
         app.nameTiempoNotificacion: Description
@@ -285,7 +285,7 @@ parameters:
 
         #Tareas
         app.tituloTareas: CRM | Task
-        app.menuTareas: Tasks mgmt.
+        app.menuTareas: Tasks.
         app.encabezadoTareas: Tasks
         app.descripcionTareas: Add, modify or delete tasks.
         app.nameTareas: Name
@@ -307,7 +307,7 @@ parameters:
 
         #Llamadas
         app.tituloLlamadas: CRM | Calls
-        app.menuLlamadas: Calls mgmt.
+        app.menuLlamadas: Calls.
         app.encabezadoLlamadas: Calls
         app.descripcionLlamadas: Add, modify or delete calls.
         app.nameLlamadas: Name
@@ -329,7 +329,7 @@ parameters:
         
         #Campania
         app.tituloCampaniaReg: CRM | Campaigns
-        app.menuCampaniaReg: Campaigns mgmt.
+        app.menuCampaniaReg: Campaigns.
         app.encabezadoCampaniaReg: Campaigns
         app.descripcionCampaniaReg: Add, modify or delete campaigns.
         app.nameCampaniaReg: Name
@@ -353,7 +353,7 @@ parameters:
 
         #Reuniones
         app.tituloReuniones: CRM | Meetings
-        app.menuReuniones: Meetings mgmt.
+        app.menuReuniones: Meetings.
         app.encabezadoReuniones: Meetings
         app.direccionReuniones: Event's location
         app.descripcionReuniones: Add, modify or delete meetings.
@@ -404,7 +404,7 @@ parameters:
         #Adomon. clientes
         app.tituloCliente: CRM | Clients
         app.companiaNombreCliente: Company's name
-        app.menuCliente: Clients mgmt.
+        app.menuCliente: Clients.
         app.encabezadoCliente: Clients
         app.descripcionCliente: Add, modify or delete clients.
         app.cuentaCliente: Account
@@ -470,7 +470,7 @@ parameters:
         
         #Oportunidades
         app.tituloOportunidad: CRM | Opportunity management
-        app.menuOportunidad: Opportunities  mgmt.
+        app.menuOportunidad: Opportunities.
         app.encabezadoOportunidad: Opportunities list
         app.descripcionOportunidad: Add, modify or delete opportunity.
         
