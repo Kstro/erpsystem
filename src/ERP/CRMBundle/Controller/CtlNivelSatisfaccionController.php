@@ -312,6 +312,7 @@ class CtlNivelSatisfaccionController extends Controller
                         
                         
                     }
+                    
                 $response->setData($data); 
             } catch (\Exception $e) {
                     //var_dump($e);
