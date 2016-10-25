@@ -56,8 +56,12 @@ $(document).ready(function() {
     
     $("input[name='hayProductos']").change(function(){
         if ($(this).is(':checked')) {
+            $('.sProducto').addClass('validateSelectP');
+            $('.cant').addClass('validateInput');
             $('#productos').removeClass('hidden');	
         } else {
+            $('.sProducto').removeClass('validateSelectP');
+            $('.cant').removeClass('validateInput');
             $('#productos').addClass('hidden');
         }
     });
@@ -67,8 +71,9 @@ $(document).ready(function() {
         contador++;
 
         $('.producto').append('<div id="producto-' + i + '" style="margin-top:6px;"><select id="sProducto-' + i + '" style="width:100%;" type="text" name="sProducto[]" class="sProducto input-sm form-control validateSelectP"></select></div>');
-        $('.cantidad').append('<input id="txtCantidad-' + i + '" type="text" name="cantidad[]" class="cant input-sm form-control text-center validateInput" value="1" min="1" style="margin-top:5px;">');
-        
+        $('.cantidad').append('<input id="txtCantidad-' + i + '" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" value="1" min="1" style="margin-top:5px;">');
+        $('.cant').numeric('.'); 
+        $('#sProducto-' + i).select2();                
                 
         if(contador > 1) {
             $('.removeRow').append('<button id="deleteProd-' + i + '" class="btn removeProd btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');            
@@ -85,46 +90,25 @@ $(document).ready(function() {
             $('.removeRow').append('<button id="deleteProd-' + i + '" class="btn removeProd btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');
         }
         
-        $('.cant').numeric('.'); 
-        $('.price').numeric('.'); 
-        $('#sTalla-' + i).select2();
-        $('#sProducto-' + i).select2({
-            ajax: {
-                url: Routing.generate('busqueda_producto_data'),
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        q: params.term, 
-                        page: params.page
-                    };
-                },
-                processResults: function (data, params) {
-                    var select2Data = $.map(data.data, function (obj) {
-                        obj.id = obj.objid;
-                        obj.text = obj.nombre;
-
-
-                        if(obj.disponible == 0) {
-                            obj.disabled = true;
-                        } 
-
-                        return obj;
-                    });
-
-                    return {
-                        results: select2Data
-                    };
-                },
-                cache: true
-            },
-            escapeMarkup: function (markup) { return markup; }, 
-            minimumInputLength: 1,
-            templateResult: formatRepoProducto, 
-            templateSelection: formatRepoSelectionProducto,
-            formatInputTooShort: function () {
-                return "Enter 1 Character";
-            }
-        });                
+        
+    });
+    
+    $(document).on('click', '.removeProd', function(event) {
+        var numDel = $(this).attr('id');
+        var numDelArray = numDel.split('-');
+        
+        contador--;
+        
+        $('#txtCantidad-' + numDelArray[1]).remove();
+        $('#producto-' + numDelArray[1]).remove();
+        $('#deleteProd-' + numDelArray[1]).remove();
+                
+        if(contador == 0) {
+            $('.removeProd').each(function( index, value ) { 
+               $('#' + $(this).attr('id')).addClass('hidden');
+            });
+        }
+        
+        return false;
     });
 });

@@ -2,138 +2,141 @@
     <div id="pnAdd" class="panel panel-default" style="display:none;">
         <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
         <div class="panel-body">
-            <div class="col-md-5 col-xs-12">
-                <label>{{nameOportunidad}}</label>
-                <label class="hidden requiredFields">{{requiredFields}}</label>
-                <input id="txtId" type="hidden" name="txtId" class="input-sm form-control">
-                <input id="txtName" type="text" name="txtName" class="input-sm form-control validateInput">
-            </div>
-            <div class="col-md-3 col-xs-4">
-                <label>{{tipoCuentaOportunidad}}</label>
-                <select style="width:100%;" id="tipoCuenta" name="tipoCuenta" class="input-sm form-control validateSelect dpbState dpbStateFirst">
-                    <option value="0" selected>{{selectOption}}</option>
-                    {% for tipo in tiposCuenta %}
-                        <option value={{tipo.id}}>{{tipo.nombre}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4 col-xs-8">
-                <label>{{cuentaOportunidad}}</label>
-                <select style="width:100%;" id="cuenta" name="cuenta" class="input-sm form-control validateSelect dpbState dpbStateFirst">
-                    
-                </select>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-5 col-xs-12" style="margin-top: 10px;">
-                <label>{{etapaOportunidad}}</label>
-                <select style="width:100%;" id="etapaVenta" name="etapaVenta" class="input-sm form-control validateSelect dpbState dpbStateFirst">
-                    <option value="0" selected>{{selectOption}}</option>
-                    {% for etapa in etapasVenta %}
-                        <option value={{etapa.id}}>{{etapa.nombre}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-3 col-xs-4" style="margin-top: 10px;">
-                <label>{{probabilidadOportunidad}}</label>
-                <label class="hidden requiredFields">{{requiredFields}}</label>
-                <div class="input-group">
-                    <input id="txtProbability" type="text" name="txtProbability" class="input-sm form-control validateInput">
-                    <span class="input-group-addon">%</span>
+            <form id="frmOpportunities"  method="post">
+                <div class="col-md-5 col-xs-12">
+                    <label>{{nameOportunidad}}</label>
+                    <label class="hidden requiredFields">{{requiredFields}}</label>
+                    <input id="txtId" type="hidden" name="txtId" class="input-sm form-control">
+                    <input id="txtName" type="text" name="txtName" class="input-sm form-control validateInput">
                 </div>
-            </div>
-            <div class="col-md-4 col-xs-8"style="margin-top: 10px;">
-                <label>{{fuenteOportunidad}}</label>
-                <select style="width:100%;" id="fuente" name="fuente" class="input-sm form-control validateSelect ">
-                    <option value="0" selected>{{selectOption}}</option>
-                    {% for fuente in fuentes %}
-                        <option value={{fuente.id}}>{{fuente.nombre}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-8 col-xs-12" style="margin-top: 10px;">
-                <label>{{descriptionOportunidad}}</label>
-                <label class="hidden requiredFields">{{requiredFields}}</label>
-                <textarea id="descripcion" name="descripcion" rows="2" style="width: 100%;" class="form-control"></textarea>
-            </div>
-            <div id="divCampania" class="col-md-4 col-xs-8 hidden" style="margin-top: 10px;">
-                <label>{{campaniaOportunidad}}</label>
-                <select style="width:100%;" id="campania" name="campania" class="input-sm form-control validateSelect ">
-                    <option value="0" selected>{{selectOption}}</option>
-                    {% for campania in campanias %}
-                        <option value={{campania.id}}>{{campania.nombre}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-4 responsable" style="margin-top:20px;">
-                <label>{{assignedUserOportunidad}}</label>
-                <select style="width:100%;" name="responsable[]" class="input-sm form-control validateSelect dpbResponsable firstResponsable">
-                    <option value="0" selected>{{selectOption}}</option>
-                    {% for persona in personas %}
-                        <option value={{persona.id}}>{{persona.persona}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-1 addUser" style="margin-top: 20px;">
-                <button id="plusUser" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
-            </div>
-            <div class="col-md-3 col-xs-12"style="margin-top: 20px;">
-                <label>{{fechaCierreOportunidad}}</label>
-                <div class='input-group date' id='datetimepicker1'>
-                    <input id="txtFechaCierre" readonly type='text' class="form-control validateInput" name="txtFechaCierre"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                <div class="col-md-3 col-xs-4">
+                    <label>{{tipoCuentaOportunidad}}</label>
+                    <select style="width:100%;" id="tipoCuenta" name="tipoCuenta" class="input-sm form-control validateSelectP" >
+                        <option value="0" selected>{{selectOption}}</option>
+                        {% for tipo in tiposCuenta %}
+                            <option value={{tipo.id}}>{{tipo.nombre}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-            </div>
-            <div class="col-md-4 checkbox text-right" style="margin-top:45px;">
-                <label><input  name="hayProductos" type="checkbox" value="">{{hayProductosOportunidad}}</label>
-            </div>
-            <div class="clearfix"></div>
-            <div id="productos" class="hidden" >
-                <div style="margin-top: 30px;">
-                    <hr>
+                <div id="divCuentaOportunidad" class="col-md-4 col-xs-8 hidden">
+                    <label>{{cuentaOportunidad}}</label>
+                    <select style="width:100%;" id="cuenta" name="cuenta" class="input-sm form-control "></select>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-md-12 col-xs-12" style="margin-top: 10px; margin-bottom: 15px;">                
-                    <button id="btnAddRow" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> {{addRowOportunidad}}</button>                    
+                <div class="col-md-5 col-xs-12" style="margin-top: 10px;">
+                    <label>{{etapaOportunidad}}</label>
+                    <select style="width:100%;" id="etapaVenta" name="etapaVenta" class="input-sm form-control validateSelectP ">
+                        <option value="0" selected>{{selectOption}}</option>
+                        {% for etapa in etapasVenta %}
+                            <option value={{etapa.id}}>{{etapa.nombre}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="clearfix"></div>
-                <div class="col-sm-offset-1 col-sm-11">
-                    <hr>
-                </div>
-                <div class="col-sm-offset-1 col-sm-7 text-center">
-                    <label class="control-label">{{productoOportunidad}}</label>
-                </div>
-                <div class="col-sm-4 text-center">
-                    <label class="control-label">{{cantidadOportunidad}}</label>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-sm-offset-1 col-sm-11">
-                    <hr>
-                </div>
-                <div class="clearfix"></div>
-                <div class="removeRow col-sm-1">
-                    <button id="deleteProd-0" class="btn removeProd btn-danger hidden"><i class="fa fa-remove"></i></button>
-                </div>
-                <div class="producto col-sm-7">
-                    <div id="producto-0" >
-                        <select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto input-sm form-control validateSelectP"></select>
+                <div class="col-md-3 col-xs-4" style="margin-top: 10px;">
+                    <label>{{probabilidadOportunidad}}</label>
+                    <div class="input-group">
+                        <input id="txtProbability" type="text" name="txtProbability" class="input-sm form-control validateInput ">
+                        <span class="input-group-addon">%</span>
                     </div>
                 </div>
-                <div class="cantidad col-sm-4">
-                    <input id="txtCantidad-0" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" value="1" min="1">                                                       
+                <div class="col-md-4 col-xs-8"style="margin-top: 10px;">
+                    <label>{{fechaCierreOportunidad}}</label>
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input id="txtFechaCierre" readonly type='text' class="form-control validateInput" name="txtFechaCierre"/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div class="clearfix"></div>
-            <div style="margin-top:40px;">
-                <hr>
-            </div>
-            <div class="col-md-12 pull-right text-right">
-                <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
-                <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
-            </div>
+                <div class="clearfix"></div>
+                <div class="col-md-8 col-xs-12" style="margin-top: 10px;">
+                    <label>{{descriptionOportunidad}}</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" style="width: 100%;" class="form-control"></textarea>
+                </div>
+                <div class="col-md-4 col-xs-8" style="margin-top: 10px;">
+                    <label>{{fuenteOportunidad}}</label>
+                    <select style="width:100%;" id="fuente" name="fuente" class="input-sm form-control validateSelectP ">
+                        <option value="0" selected>{{selectOption}}</option>
+                        {% for fuente in fuentes %}
+                            <option value={{fuente.id}}>{{fuente.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="divCampania" class="hidden" style="margin-top: 15px;">
+                        <label>{{campaniaOportunidad}}</label>
+                        <select style="width:100%;" id="campania" name="campania" class="input-sm form-control ">
+                            <option value="0" selected>{{selectOption}}</option>
+                            {% for campania in campanias %}
+                                <option value={{campania.id}}>{{campania.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>    
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-4 responsable" style="margin-top:20px;">
+                    <label>{{assignedUserOportunidad}}</label>
+                    <select style="width:100%;" name="responsable[]" class="input-sm form-control validateSelectP dpbResponsable firstResponsable">
+                        <option value="0" selected>{{selectOption}}</option>
+                        {% for persona in personas %}
+                            <option value={{persona.id}}>{{persona.persona}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1 addUser" style="margin-top: 20px;">
+                    <button id="plusUser" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                </div>
+                <div class="col-md-3 col-xs-12"style="margin-top: 20px;"></div>
+                <div class="col-md-4 checkbox text-right" style="margin-top:45px;">
+                    <label><input  name="hayProductos" type="checkbox" value="">{{hayProductosOportunidad}}</label>
+                </div>
+                <div class="clearfix"></div>
+                <div id="productos" class="hidden" >
+                    <div style="margin-top: 30px;">
+                        <hr>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 col-xs-12" style="margin-top: 10px; margin-bottom: 15px;">                
+                        <button id="btnAddRow" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i>{{addRowOportunidad}}</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-offset-1 col-sm-11">
+                        <hr>
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-8 text-center">
+                        <label class="control-label">{{productoOportunidad}}</label>
+                    </div>
+                    <div class="col-sm-3 text-center">
+                        <label class="control-label">{{cantidadOportunidad}}</label>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-offset-1 col-sm-11">
+                        <hr>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="removeRow col-sm-1">
+                        <button id="deleteProd-0" class="btn removeProd btn-danger hidden"><i class="fa fa-remove"></i></button>
+                    </div>
+                    <div class="producto col-sm-8">
+                        <div id="producto-0" >
+                            <select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto input-sm form-control ">
+                                {% for producto in productos %}
+                                    <option value={{producto.id}}>{{producto.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="cantidad col-sm-3">
+                        <input id="txtCantidad-0" type="text" name="cantidad[]" class="cant input-sm form-control text-right" value="1" min="1">                                                       
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div style="margin-top:40px;">
+                    <hr>
+                </div>
+                <div class="col-md-12 pull-right text-right">
+                    <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
+                    <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
