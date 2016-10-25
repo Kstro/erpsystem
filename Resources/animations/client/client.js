@@ -15,19 +15,21 @@ $(document).on('click', '.btnAddPage', function(event) {
 	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');
 	$('.pnHeadingLabelEdit').addClass('hidden');
+        $('#pnAdd').removeClass('hidden');
 	if (id!='') {
 		/*// console.log("if");*/
 		limpiarCampos();
 		$('#btnBack').removeClass('hidden');
 		$('#btnCancelTop').removeClass('hidden');
 		$('#btnSaveTop').removeClass('hidden');
+
 		$(this).addClass('hidden');
 	}
 	else{
 		/*// console.log("else");*/
 		/*// limpiarCampos();*/
-		$('#pnAdd').show();
-		$('#clienteList').parent().hide();
+		
+		$('#clienteList').hide();
 	}
 	$('#btnSaveTop').removeClass('hidden');
 	$('#btnCancelTop').removeClass('hidden');
@@ -62,6 +64,7 @@ $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	$('#addedFiles').addClass('hidden');
         $('#addFile').addClass('hidden');
         $('#btnLoadMoreFiles').addClass('hidden');
+        $('#clienteList').hide();
 	limpiarCampos();
 	return false;
 	
@@ -101,15 +104,19 @@ function limpiarCampos(){
 	$('.removeEmail').each(function(index, el) {
 		$(this).click();
 	});
+        
+        $('.removeContact').each(function(index, el) {
+		$(this).click();
+	});
 		
 	$('.chkItemAll').prop({'checked': false});
-	$('.btnAddPage').removeClass('hidden');
+	$('.btnAddPage').removeClass('hidden'); 
 	$('.btnDelete').addClass('hidden');
 	$('#btnBack').addClass('hidden');
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
-	$('#pnAdd').hide();
-	$('#clienteList').parent().show();
+	$('#pnAdd').addClass('hidden');
+	$('#clienteList').show();
 }
 
 /*/////Fin hide forms panel*/

@@ -386,14 +386,14 @@ class CrmTipoCuentaController extends Controller
             $response = new JsonResponse();
             
             switch (intval($e->getErrorCode()))
-                    {
-                        case 2003: 
-                            $data['error'] = $this->getParameter('app.serverOffline');
-                        break;
-                        default :
-                            $data['error'] = $e->getMessage();                     
-                        break;
-                    }      
+            {
+                case 2003: 
+                    $data['error'] = $this->getParameter('app.serverOffline');
+                break;
+                default :
+                    $data['error'] = $e->getMessage();                     
+                break;
+            }      
             $data['error']=$e->getMessage();
             $response->setData($data);
         }

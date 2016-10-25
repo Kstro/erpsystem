@@ -7,7 +7,7 @@ $(document).on('click', '.btnAddPage', function(event) {
         
         $('#comentarios').hide();
 	$('#wallmessages').hide();
-
+        $('#cuentaActividades').html('');
         $('#btnLoadMore').hide();
 	$('#addTag').addClass('hidden');
 	$('#addFile').addClass('hidden');

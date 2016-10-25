@@ -1,9 +1,9 @@
 <div class="col-md-12 col-xs-12">
-            <div id="pnAdd" style="display:none;">
+            <div id="pnAdd" class="hidden">
                 <div class="panel panel-default">
                     <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
                     <div class="panel-body">
-                        <form id="frmProvider"  method="post" enctype="multipart/form-data">
+                        <form id="frmClient"  method="post" enctype="multipart/form-data">
                         <div class="col-md-2">
                             <label>{{tratoCliente}}</label>
                             <select style="margin-top:45px !important;" id="dpbTitulo" type="text" name="titulo" class="input-sm form-control validateSelect">
@@ -32,26 +32,33 @@
                             <input id="txtCompania" type="text" name="compania" class="input-sm form-control validateInput">
                         </div>
                         <div class="clearfix"></div> 
-                        <div class="col-md-7 address" style="margin-top:20px;">
+                        
+                       
+                        <div class="col-md-5 address" style="margin-top:20px;">
                             <label>{{direccionCliente}}</label>
-                            <input type="text" name="address[]" class="input-sm form-control validateInput txtAddress txtAddressFirst">
+                            <input type="text" name="address[]" class="input-sm form-control  txtAddress txtAddressFirst">
+                        </div>
+                        <div class="col-md-2 zipcode" style="margin-top:20px;">
+                            <label>{{direccionCliente}}</label>
+                            <input type="text" name="zipcode[]" class="input-sm form-control  txtZipCode txtZipCodeFirst">
                         </div>
                         <div class="col-md-2 state" style="margin-top:20px;">
                             <label>{{departamentoCliente}}</label>
-                            {# <input type="text" name="" class="input-sm form-control validateInput txtState"> #}
-                            <select style="width:100%;" id name="addressDepartamento[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
+                            <input type="text" name="addressDepartamento[]" class="input-sm form-control validateInput txtState">
+                            {#<select style="width:100%;" id name="addressDepartamento[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
                                     {% for estado in estados %}
                                         <option value={{estado.id}}>{{estado.nombre}}</option>
                                     {% endfor %}
-                            </select>
+                            </select>#}
                         </div>
                         <div class="col-md-2 city" style="margin-top:20px;">
                             <label>{{ciudadCliente}}</label>
-                            <select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
+                            <input type="text" name="addressCity[]" class="input-sm form-control validateInput txtCity">
+                            {#<select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
                                 {% for ciudad in ciudades %}
                                     <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
                                 {% endfor %}
-                            </select>
+                            </select>#}
                         </div>
                         
                         <div class="col-md-1 addAddress" style="margin-top:20px;">
@@ -89,7 +96,7 @@
                             <label>{{fotoCliente}}</label>
                         </div>
                         <div class="clearfix"></div> 
-                        <div class="col-md-6" style="margin-top:20px;">
+                        <div class="col-md-4" style="margin-top:20px;">
                             
                             <label class="hidden imageError">{{imageError}}</label>
                             <img id="imgTest" src="http://placehold.it/250x250" style="margin-bottom:25px; width:250px; height:250px; margin:auto;">
@@ -99,6 +106,7 @@
                             </label>
                                 
                         </div>
+                        
                         {# <div class="col-md-6" style="margin-top:20px;">
                             <div class="col-md-12">
                                 <div class="col-md-4">
@@ -117,24 +125,59 @@
 
 
 
-                        <div class="col-md-6" style="margin-top:20px;">
-                            
-
+                        <div class="col-md-4" style="margin-top:20px;">
                             <div class="col-md-12">
-                                    <div class="col-md-4">
-                                        <label >{{estadoCliente}}</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <select style="margin-top:25px; width:100%;" type="text" name="satisfaccion" class="input-sm form-control validateInput dpbTipoPersona">
-                                            {% for sa in satisfaccion %}
-                                                <option value={{sa.id}}>{{sa.nombre}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
+
+                                <div class="col-md-12">
+                                        <div class="col-md-12">
+                                            <label >{{estadoCliente}}</label>
+                                        </div>
+                                        <div class="clearfix"></div> 
+                                        <div class="col-md-12">
+                                            <select style="margin-top:25px; width:100%;" type="text" name="satisfaccion" class="input-sm form-control validateInput dpbTipoPersona">
+                                                {% for sa in satisfaccion %}
+                                                    <option value={{sa.id}}>{{sa.nombre}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                 </div>
-                                
                             </div>
-                           <div class="clearfix"></div> 
+                                
+                        </div>
+                        
+                        <div class="col-md-3 contacts" style="margin-top:20px;">
+                            <label>Contacts</label>
+                            <label >{{cuentaActividad}}</label>
+                            <select style="width:100%;" id="contactos" name="contactos[]" class=" cal input-sm form-control validateSelect  dpbContacts dpbFirstContacts">
+                                <option value="0"></option>
+                                {# {% for actividad in actividades %}
+                                    <option value={{actividad.id}}>{{actividad.nombre}}</option>
+                                {% endfor %} #}
+                            </select>
+                        </div>
+                        <div class="col-md-1 addContact" style="margin-top:20px;">
+                            <button id="plusContact" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        </div> 
+                        <div class="clearfix"></div> 
+                        {#<div class="col-md-3" style="margin-top:20px;">
+                            <label>{{nombreCliente}}</label>
+                            <input id="txtContactoFirstName" type="text" name="txtContactoLastName[]" class="input-sm form-control validateInput">
+                        </div>                   
+                        
+                        <div class="col-md-4" style="margin-top:20px;">
+                            <label>{{apellidoCliente}}</label>
+                            <input id="txtContactoFirstName" type="text" name="txtContactoFirstName[]" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="col-md-2" style="margin-top:20px;">
+                            <label>{{phoneCliente}}</label>
+                            <input id="txtContactoLastName" type="text" name="txtContactoTelefono" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="col-md-2" style="margin-top:20px;">
+                            <label>{{emailCliente}}</label>
+                            <input id="txtContactoEmail" type="text" name="txtContactoEmail" class="input-sm form-control validateInput">
+                        </div>#}
+                           
+                        <div class="clearfix"></div> 
                             <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
                                 <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
                                 <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>

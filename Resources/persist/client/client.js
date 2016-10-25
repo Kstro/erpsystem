@@ -6,12 +6,13 @@ $(document).ready(function() {
 	$("#txtId1").val('');
 	$("#txtId2").val('');
 	var numAddress = 0;
+        var numContacts = 0;
 	/*/////Persist datatable (Save method)*/
 	var filesSelectedPrev = document.getElementById("file").files;
 	/*// console.log(filesSelectedPrev[0]);*/
 	
 	$(document).on('click', '#btnSaveTop', function(event) {
-		$('#frmProvider').submit();
+		$('#frmClient').submit();
 	});
 
 	$(document).on('change', '#file', function(event) {
@@ -37,7 +38,7 @@ $(document).ready(function() {
 		          	swal('',$('.imageError').html(),'error');
 		          }
 	});
-	$('#frmProvider').on('submit',(function(event) {
+	$('#frmClient').on('submit',(function(event) {
 		/*/////Definición de variables*/
 		event.preventDefault();
 		var $btn = $('#btnSave').button('loading');
@@ -81,10 +82,11 @@ $(document).ready(function() {
 							$('#txtName').val('');
 							/*// $('#txtProbability').val('10');*/
 							/*// probability.slider('setValue', 10);*/
+                                                        $('#pnAdd').addClass('hidden');
+                                                        $('#clienteList').show();
 							$('.btnAddPage').click();
 							$btn.button('reset');
 							$btnT.button('reset');
-
 						}
 						if(data.error){
 							/*// console.log(data.id);*/
@@ -186,6 +188,7 @@ $(document).ready(function() {
 						var numDirecciones = data.addressArray.length;
 						var numTelefonos = data.phoneArray.length;
 						var numCorreos = data.emailArray.length;
+						var numContactos = data.contactoIdArray.length;
 						$('.dpbTipoPersona').val(data.satisfaccion).change().trigger("change");
 						/*// Direcciones*/
 						for (var i = 0; i < numDirecciones; i++) {
@@ -240,6 +243,21 @@ $(document).ready(function() {
 								break;
 							}
 						}
+						/*// Contactos*/
+						for (var i = 0; i < numContactos; i++) {
+							/*// console.log(i);*/
+							/*// console.log(data.addressArray[i]);*/
+							switch(i){
+								case 0:
+									$('#contactos').html('<option value="'+data.contactoIdArray[i]+'">'+data.contactoNombreArray[i]+'</option>');
+								break;
+								default:
+									$('#plusContact').click();
+									$('#contact-'+numContacts).html('<option value="'+data.contactoIdArray[i]+'">'+data.contactoNombreArray[i]+'</option>');
+                                                                        
+								break;
+							}
+						}
 						if(data.src!=''){
 							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
 						}
@@ -251,9 +269,9 @@ $(document).ready(function() {
 						/*// $('.dpbIndustria').val(data.industria).change().trigger("change");*/
 												
 						$('.txtWebsite').val(data.website);
-						$('#pnAdd').show();
+						$('#pnAdd').removeClass('hidden');
 						$('.btnAddPage').addClass('hidden');
-						$('#clienteList').parent().hide();
+						//$('#clienteList').parent().hide();
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
@@ -444,6 +462,7 @@ $(document).ready(function() {
 	/*/////Fin select checkboxes (Single)*/
 
 	/*/////Contadores para agregar o eliminar telefono, email y direccion*/
+	numContacts= 0;
 	var numPhones = 0;
 	var numEmail = 0;
 	
@@ -526,6 +545,58 @@ $(document).ready(function() {
 	});
 	/*/////Fin de agregar/remover direccion*/
 
+
+        /*/////Agregar/remover contactos*/
+	$(document).on('click', '#plusContact', function(event) {
+		numContacts++;
+		//var optionsPhoneType = $('.firstPhoneType').html();
+		$('.contacts').append('<div style="margin-top:27px;"><select id="contact-'+numContacts+'" style="width:100%;margin-top:25px !important;" name="contactos[]" class="input-sm form-control validateInput dpbContactos"></select></div>');
+//          	$('.phonesText').append('<input id="phones-'+numPhones+'" style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone">');
+//		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
+		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:27px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
+		//$('#contacts-'+numContacts).select2();
+                $('#contact-'+numContacts).select2({
+                    ajax: {
+                           url: Routing.generate('busqueda_contacto_select_info'),
+                           dataType: 'json',
+                           delay: 250,
+                           data: function (params) {
+                             return {
+                               q: params.term, // search term
+                               page: params.page
+                             };
+                           },
+                           processResults: function (data, params) {
+                                               var select2Data = $.map(data.data, function (obj) {
+                                                   obj.id = obj.id;
+                                                   obj.text = obj.nombre;
+
+                                                   return obj;
+                                               });
+
+                                               return {
+                                                   results: select2Data
+                                                   
+                                                   
+                                               };
+                                           },
+                           cache: true
+                         },
+                         escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                         minimumInputLength: 1,
+                         templateResult: formatRepo, // omitted for brevity, see the source of this page
+                         // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+                       });
+		return false;
+	});
+	$(document).on('click', '.removeContact', function(event) {
+		var numDel = $(this).attr('id');
+		numDelArray= numDel.split('-');
+		$('#contact-'+numDelArray[1]).parent().remove();
+		$('#deleteContact-'+numDelArray[1]).remove();
+		return false;
+	});
+	/*/////Fin de agregar/remover contactos*/
 
 	/*/////Agregar/remover direccion*/
 	$(document).on('change', '.dpbStateFirst,.dpbState', function(event) {		
