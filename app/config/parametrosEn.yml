@@ -394,6 +394,7 @@ parameters:
         app.campaniaClientePotencial: Campaign
         
         app.direccionClientePotencial: Address
+        app.zipCodeClientePotencial: Zip code
         app.fotoClientePotencial: Photo
         app.ciudadClientePotencial: City
         app.departamentoClientePotencial: State
@@ -416,6 +417,7 @@ parameters:
         app.extensionCliente: Extension
         app.emailCliente: Email
         app.direccionCliente: Address
+        app.zipCodeCliente: Zip code
         app.fotoCliente: Photo
         app.ciudadCliente: City
         app.departamentoCliente: State

@@ -29,7 +29,7 @@ $(document).on('click', '.btnAddPage', function(event) {
 		/*// console.log("else");*/
 		/*// limpiarCampos();*/
 		
-		$('#clienteList').hide();
+		$('#clienteList').parent().hide();
 	}
 	$('#btnSaveTop').removeClass('hidden');
 	$('#btnCancelTop').removeClass('hidden');
@@ -64,7 +64,7 @@ $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	$('#addedFiles').addClass('hidden');
         $('#addFile').addClass('hidden');
         $('#btnLoadMoreFiles').addClass('hidden');
-        $('#clienteList').hide();
+        $('#clienteList').parent().hide();
 	limpiarCampos();
 	return false;
 	
@@ -88,6 +88,9 @@ function limpiarCampos(){
 	$('.firstPhoneTxt').val('');
 	$('.firstPhoneExtension').val('');
 	$('.txtEmailFirst').val('');
+	$('.txtZipCode').val('');
+	$('.txtCity').val('');
+	$('.txtState').val('');
         $('#wallmessages').html('');
 	$('#imgTest').attr('src','http://placehold.it/250x250');
 	$('#file').val('');
@@ -116,7 +119,7 @@ function limpiarCampos(){
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
 	$('#pnAdd').addClass('hidden');
-	$('#clienteList').show();
+	$('#clienteList').parent().show();
 }
 
 /*/////Fin hide forms panel*/

@@ -478,9 +478,10 @@ class CrmSocioController extends Controller
                 $phoneExtArray = $_POST['phoneExt'];//apellido persona
 
                 //Dirección
-                $addressArray = $_POST['address'];//apellido persona
-                $addressCityArray = $_POST['addressCity'];//apellido persona
-                $addressDepartamentoArray = $_POST['addressDepartamento'];//apellido persona
+                $addressArray = $_POST['address'];//direccion persona
+                $addressCityArray = $_POST['addressCity'];//city
+                $addressDepartamentoArray = $_POST['addressDepartamento'];//state
+                $zipCodeArray = $_POST['zipcode'];//zipcode
 
                 //Busqueda objetos a partir de ids
                 $industriaObj = $em->getRepository('ERPCRMBundle:CtlIndustria')->find($industriaId);
@@ -602,24 +603,29 @@ class CrmSocioController extends Controller
                                           
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
-                        if ($key<$addressLenght && $key!=0) {
-                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                         
-                        } else {
-                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key<$addressLenght && $key!=0) {
+//                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                         
+//                        } else {
+//                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
+                        
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
+                        $ctlDireccionObj->setCiudad(null);
                         
                         $ctlDireccionObj->setLatitud(0);
                         $ctlDireccionObj->setLongitud(0);
@@ -628,7 +634,7 @@ class CrmSocioController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                         
-                    }                
+                    }      
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
@@ -791,28 +797,33 @@ class CrmSocioController extends Controller
 
                     //Tabla ctlDireccion
                     $addressLenght=count($addressArray);//Cantidad de direccion ingresados, menos 1 para index de array
-                    foreach ($addressArray as $key => $phone) {
+                    foreach ($addressArray as $key => $val) {
                                           
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
-                        if ($key<$addressLenght && $key!=0) {
-                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                         
-                        } else {
-                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key<$addressLenght && $key!=0) {
+//                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                         
+//                        } else {
+//                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
+                        
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
+                        $ctlDireccionObj->setCiudad(null);
                         
                         $ctlDireccionObj->setLatitud(0);
                         $ctlDireccionObj->setLongitud(0);
@@ -821,7 +832,7 @@ class CrmSocioController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                         
-                    }                
+                    }
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
@@ -953,15 +964,44 @@ class CrmSocioController extends Controller
                     $dirArray=array();
                     $cityArray=array();
                     $stateArray=array();
+                    $dirArray=array();
+                    $cityArray=array();
+                    $stateArray=array();
+                    $zipCodeArray=array();
                     foreach ($ctlDireccionObj as $key => $value) {
-                        array_push($dirArray, $value->getDireccion());
-                        array_push($cityArray, $value->getCiudad()->getId());
-                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
+                        if($value->getDireccion()==null){
+                            array_push($dirArray, '');
+                        }
+                        else{
+                            array_push($dirArray, $value->getDireccion());
+                        }
+                        if($value->getCity()==null){
+                            array_push($cityArray, '');
+                        }
+                        else{
+                            array_push($cityArray, $value->getCity());
+                        }
+                        if($value->getState()==null){
+                            array_push($stateArray, '');
+                        }
+                        else{
+                            array_push($stateArray, $value->getState());
+                        }
+                        if($value->getZipCode()==null){
+                            array_push($zipCodeArray, '');
+                        }
+                        else{
+                            array_push($zipCodeArray, $value->getZipCode());
+                        }
+//                        array_push($dirArray, $value->getDireccion());
+//                        array_push($cityArray, $value->getCiudad()->getId());
+//                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
                     }
                     // $data['addressArray']=$ctlDireccionObj[0];
                     $data['addressArray']=$dirArray;
                     $data['cityArray']=$cityArray;
                     $data['stateArray']=$stateArray;
+                    $data['zipCodeArray']=$stateArray;
                 }
                 else{
                     $data['addressArray']=[];
@@ -1025,7 +1065,7 @@ class CrmSocioController extends Controller
                 $data['website']=$crmCuentaObj->getSitioWeb();
                 
                 $data['id1']=$crmCuentaObj->getId();
-                $data['id2']=$crmCuentaObj->getId();
+                $data['id2']=$ctlPersonaObj->getId();
             }
             else{
                 $data['error']="Error";
@@ -1232,6 +1272,9 @@ class CrmSocioController extends Controller
                             
                             $ctlDireccionObj->setLatitud($direccion->getLatitud());
                             $ctlDireccionObj->setLongitud($direccion->getLongitud());
+                            $ctlDireccionObj->setCity($direccion->getCity());
+                            $ctlDireccionObj->setState($direccion->getState());
+                            $ctlDireccionObj->setZipCode($direccion->getZipCode());
                             $ctlDireccionObj->setEstado($direccion->getEstado());
                             //Persist ctlDireccion
                             $em->persist($ctlDireccionObj);

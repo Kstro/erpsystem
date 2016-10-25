@@ -27,6 +27,24 @@ class CtlDireccion
      * @ORM\Column(name="direccion", type="text", length=65535, nullable=false)
      */
     private $direccion;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city", type="text", length=65535, nullable=false)
+     */
+    private $city;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="state", type="text", length=65535, nullable=false)
+     */
+    private $state;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="zipcode", type="text", length=65535, nullable=false)
+     */
+    private $zipcode;
 
     /**
      * @var float
@@ -123,7 +141,80 @@ class CtlDireccion
     {
         return $this->direccion;
     }
+    
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return CtlDireccion
+     */
+    public function setState($state)
+    {
+        $this->state= $state;
 
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string 
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    
+    
+    /**
+     * Set city
+     *
+     * @param string Scity
+     * @return CtlDireccion
+     */
+    public function setCity($city)
+    {
+        $this->city= $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+    
+    
+    /**
+     * Set zipcode
+     *
+     * @param string $zipcode
+     * @return CtlDireccion
+     */
+    public function setZipCode($zipcode)
+    {
+        $this->zipcode= $zipcode;
+
+        return $this;
+    }
+
+    /**
+     * Get zipcode
+     *
+     * @return string 
+     */
+    public function getZipCode()
+    {
+        return $this->zipcode;
+    }
+    
+    
     /**
      * Set latitud
      *
