@@ -3,6 +3,8 @@
 namespace ERP\CRMBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -136,5 +138,34 @@ class CrmContactoController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    
+    
+    
+    /**
+    * Ajax utilizado para buscar informacion de un contacto
+    *  
+    * @Route("/search-contact-select/data/", name="busqueda_contacto_select_info",  options={"expose"=true}))
+    */
+    public function busquedaContactoAction(Request $request)
+    {
+        $busqueda = $request->query->get('q');
+        $page = $request->query->get('page');
+        
+        //var_dump($page);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $dql = "SELECT CONCAT(per.nombre,' ',per.apellido) as nombre,c.id "
+                        . "FROM ERPCRMBundle:CrmContacto c "
+                        . "JOIN c.persona per "
+                        . "WHERE CONCAT(upper(per.nombre),' ',per.apellido) LIKE upper(:busqueda) AND c.estado=1 "
+                        . "ORDER BY per.nombre ASC ";
+        
+        $row['data'] = $em->createQuery($dql)
+                ->setParameters(array('busqueda'=>"%".$busqueda."%"))
+                
+                ->getResult();
+//        var_dump($row['data']);
+        return new Response(json_encode($row));
     }
 }

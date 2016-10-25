@@ -770,6 +770,7 @@ twig:
         campaniaClientePotencial: '%app.campaniaClientePotencial%'
         
         direccionClientePotencial: '%app.direccionClientePotencial%'
+        zipCodeClientePotencial: '%app.zipCodeClientePotencial%'
         fotoClientePotencial: '%app.fotoClientePotencial%'
         ciudadClientePotencial: '%app.ciudadClientePotencial%'
         departamentoClientePotencial: '%app.departamentoClientePotencial%'
@@ -821,6 +822,7 @@ twig:
         extensionCliente: '%app.extensionCliente%'
         emailCliente: '%app.emailCliente%'
         direccionCliente: '%app.direccionCliente%'
+        zipCodeCliente: '%app.zipCodeCliente%'
         fotoCliente: '%app.fotoCliente%'
         ciudadCliente: '%app.ciudadCliente%'
         departamentoCliente: '%app.departamentoCliente%'

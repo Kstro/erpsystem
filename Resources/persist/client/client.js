@@ -6,12 +6,13 @@ $(document).ready(function() {
 	$("#txtId1").val('');
 	$("#txtId2").val('');
 	var numAddress = 0;
+        var numContacts = 0;
 	/*/////Persist datatable (Save method)*/
 	var filesSelectedPrev = document.getElementById("file").files;
 	/*// console.log(filesSelectedPrev[0]);*/
 	
 	$(document).on('click', '#btnSaveTop', function(event) {
-		$('#frmProvider').submit();
+		$('#frmClient').submit();
 	});
 
 	$(document).on('change', '#file', function(event) {
@@ -37,7 +38,7 @@ $(document).ready(function() {
 		          	swal('',$('.imageError').html(),'error');
 		          }
 	});
-	$('#frmProvider').on('submit',(function(event) {
+	$('#frmClient').on('submit',(function(event) {
 		/*/////Definición de variables*/
 		event.preventDefault();
 		var $btn = $('#btnSave').button('loading');
@@ -81,10 +82,13 @@ $(document).ready(function() {
 							$('#txtName').val('');
 							/*// $('#txtProbability').val('10');*/
 							/*// probability.slider('setValue', 10);*/
+                                                        $('#pnAdd').hide();
+                                                        
+                                                        
 							$('.btnAddPage').click();
+                                                        $('#clienteList').parent().show();
 							$btn.button('reset');
 							$btnT.button('reset');
-
 						}
 						if(data.error){
 							/*// console.log(data.id);*/
@@ -175,7 +179,9 @@ $(document).ready(function() {
 						id.val(data.id);
 					}
 					else{
+                                                $('#pnAdd').show();
 						/*// console.log(data);*/
+                                                $('#clienteList').parent().hide();
 						$('#txtId1').val(data.id1);
 						$('#txtId2').val(data.id2);
 						$('#dpbTitulo').val(data.titulo);
@@ -186,6 +192,7 @@ $(document).ready(function() {
 						var numDirecciones = data.addressArray.length;
 						var numTelefonos = data.phoneArray.length;
 						var numCorreos = data.emailArray.length;
+						var numContactos = data.contactoIdArray.length;
 						$('.dpbTipoPersona').val(data.satisfaccion).change().trigger("change");
 						/*// Direcciones*/
 						for (var i = 0; i < numDirecciones; i++) {
@@ -193,15 +200,19 @@ $(document).ready(function() {
 							/*// console.log(data.addressArray[i]);*/
 							switch(i){
 								case 0:
-									$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
+									/*$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
 									$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
+									$('.txtAddressFirst').val(data.addressArray[i]);*/
+									$(".dpbStateFirst").val(data.stateArray[i]);
+									$(".dpbCityFirst").val(data.cityArray[i]);
 									$('.txtAddressFirst').val(data.addressArray[i]);
 								break;
 								default:
 									$('#plusAddress').click();
-									$("#state-"+(numAddress)).val(data.stateArray[i]).trigger("change");
-									$("#city-"+(numAddress)).val(data.cityArray[i]).trigger("change");
+									$("#state-"+(numAddress)).val(data.stateArray[i]);
+									$("#city-"+(numAddress)).val(data.cityArray[i]);
 									$('#address-'+(numAddress)).val(data.addressArray[i]);
+									$('#zip-'+(numAddress)).val(data.zipCodeArray[i]);
 								break;
 							}
 						}
@@ -240,6 +251,21 @@ $(document).ready(function() {
 								break;
 							}
 						}
+						/*// Contactos*/
+						for (var i = 0; i < numContactos; i++) {
+							/*// console.log(i);*/
+							/*// console.log(data.addressArray[i]);*/
+							switch(i){
+								case 0:
+									$('#contactos').html('<option value="'+data.contactoIdArray[i]+'">'+data.contactoNombreArray[i]+'</option>');
+								break;
+								default:
+									$('#plusContact').click();
+									$('#contact-'+numContacts).html('<option value="'+data.contactoIdArray[i]+'">'+data.contactoNombreArray[i]+'</option>');
+                                                                        
+								break;
+							}
+						}
 						if(data.src!=''){
 							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
 						}
@@ -251,9 +277,9 @@ $(document).ready(function() {
 						/*// $('.dpbIndustria').val(data.industria).change().trigger("change");*/
 												
 						$('.txtWebsite').val(data.website);
-						$('#pnAdd').show();
+						$('#pnAdd').removeClass('hidden');
 						$('.btnAddPage').addClass('hidden');
-						$('#clienteList').parent().hide();
+						//$('#clienteList').parent().hide();
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
@@ -444,6 +470,7 @@ $(document).ready(function() {
 	/*/////Fin select checkboxes (Single)*/
 
 	/*/////Contadores para agregar o eliminar telefono, email y direccion*/
+	numContacts= 0;
 	var numPhones = 0;
 	var numEmail = 0;
 	
@@ -507,12 +534,13 @@ $(document).ready(function() {
 		var optionsCity = $('.dpbCityFirst').html();
 		var optionsState = $('.dpbStateFirst').html();
 		$('.address').append('<input style="margin-top:25px ;" id="address-'+numAddress+'" type="text" name="address[]" class="input-sm form-control validateInput txtAddress">');
-		$('.city').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="input-sm form-control dpbCity">'+optionsCity+' </select></div>');
-		$('.state').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="input-sm form-control dpbState">'+optionsState+' </select></div>');
+		$('.zipcode').append('<input style="margin-top:25px ;" id="zip-'+numAddress+'" type="text" name="zipcode[]" class="input-sm form-control validateInput txtAddress">');
+		$('.city').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="validateInput input-sm form-control txtCity"></div>');
+		$('.state').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="validateInput input-sm form-control txtState"></div>');
 		/*//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');*/
-		$('.addAddress').append('<button id="deleteAddress-'+numAddress+'" style="margin-top:25px;" class="btn removeAddress btn-danger"><i class="fa fa-remove"></i></button>');
-		$('#city-'+numAddress).select2();
-		$('#state-'+numAddress).select2();
+		$('.addAddress').append('<button id="deleteAddress-'+numAddress+'" style="margin-top:27px;" class="btn removeAddress btn-danger"><i class="fa fa-remove"></i></button>');
+/*//		$('#city-'+numAddress).select2();
+//		$('#state-'+numAddress).select2();*/
 		return false;
 	});
 	$(document).on('click', '.removeAddress', function(event) {
@@ -521,11 +549,64 @@ $(document).ready(function() {
 		$('#address-'+numDelArray[1]).remove();
 		$('#city-'+numDelArray[1]).parent().remove();
 		$('#state-'+numDelArray[1]).parent().remove();
+		$('#zip-'+numDelArray[1]).remove();
 		$(this).remove();
 		return false;
 	});
 	/*/////Fin de agregar/remover direccion*/
 
+
+        /*/////Agregar/remover contactos*/
+	$(document).on('click', '#plusContact', function(event) {
+		numContacts++;
+		//var optionsPhoneType = $('.firstPhoneType').html();
+		$('.contacts').append('<div style="margin-top:27px;"><select id="contact-'+numContacts+'" style="width:100%;margin-top:25px !important;" name="contactos[]" class="input-sm form-control validateInput dpbContactos"></select></div>');
+//          	$('.phonesText').append('<input id="phones-'+numPhones+'" style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone">');
+//		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
+		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:27px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
+		//$('#contacts-'+numContacts).select2();
+                $('#contact-'+numContacts).select2({
+                    ajax: {
+                           url: Routing.generate('busqueda_contacto_select_info'),
+                           dataType: 'json',
+                           delay: 250,
+                           data: function (params) {
+                             return {
+                               q: params.term, // search term
+                               page: params.page
+                             };
+                           },
+                           processResults: function (data, params) {
+                                               var select2Data = $.map(data.data, function (obj) {
+                                                   obj.id = obj.id;
+                                                   obj.text = obj.nombre;
+
+                                                   return obj;
+                                               });
+
+                                               return {
+                                                   results: select2Data
+                                                   
+                                                   
+                                               };
+                                           },
+                           cache: true
+                         },
+                         escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                         minimumInputLength: 1,
+                         templateResult: formatRepo, // omitted for brevity, see the source of this page
+                         // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+                       });
+		return false;
+	});
+	$(document).on('click', '.removeContact', function(event) {
+		var numDel = $(this).attr('id');
+		numDelArray= numDel.split('-');
+		$('#contact-'+numDelArray[1]).parent().remove();
+		$('#deleteContact-'+numDelArray[1]).remove();
+		return false;
+	});
+	/*/////Fin de agregar/remover contactos*/
 
 	/*/////Agregar/remover direccion*/
 	$(document).on('change', '.dpbStateFirst,.dpbState', function(event) {		

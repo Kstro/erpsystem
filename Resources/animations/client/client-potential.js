@@ -59,6 +59,8 @@ $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
         $('#filterTag').removeClass('hidden');
 	$('#addTag').addClass('hidden');
 	$('#addedTags').addClass('hidden');
+        $('#pnAdd').hide();
+	$('#clientePotencialList').parent().show();
 	limpiarCampos();
 	return false;
 	
@@ -73,7 +75,7 @@ $(document).on('click', '#clientePotencialList>thead>tr>th:gt(0)', function(even
 
 
 function limpiarCampos(){
-	$('#txtId').val('');
+	$('#txtId1').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');
@@ -104,8 +106,7 @@ function limpiarCampos(){
 	$('#btnBack').addClass('hidden');
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
-	$('#pnAdd').hide();
-	$('#clientePotencialList').parent().show();
+	
 }
 
 /*/////Fin hide forms panel*/

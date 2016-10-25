@@ -42,7 +42,7 @@ $(document).on('click', '.btnAddPage', function(event) {
 
 $(document).on('input', 'div.dataTables_filter input', function(event) {
 	/*//console.log('add');*/
-	$('#txtId').val('');
+	$('#txtId1').val('');
 	$('#txtName').val('');
 	$('#txtDuracion').val('');
 	$('#pnAdd').slideUp();
@@ -74,7 +74,7 @@ $(document).on('click', '#socioList>thead>tr>th:gt(0)', function(event) {
 
 
 function limpiarCampos(){
-	$('#txtId').val('');
+	$('#txtId1').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');

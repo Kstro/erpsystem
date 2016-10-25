@@ -2,6 +2,7 @@
 
 {% extends ':layout:layouterp.html.twig' %}
 
+
 {% block title -%}<title>{{tituloAccount}}</title>{% endblock %}
 
 {% block customcss %}
@@ -53,6 +54,7 @@
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
             <table id="accountsList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+                  
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
@@ -67,13 +69,14 @@
              </table>
         </div>
     </div>
+
     
 {% endblock %}
 {% block js_extend %}
     
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/casetype/account.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/animations/casetype/account.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/account/account.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/account/account.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
@@ -88,7 +91,7 @@
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{path('admin_accounts_data')}}?param1'+valor,
+                    "url": '{{path('admin_accounts_data')}}?nombre={{opcion}}&param1'+valor,
                     "type": 'GET'
                 },
                 "columns": [
@@ -135,10 +138,16 @@
                 $('.chkItemAll').prop({'checked': false});
             });
             /////Fin definición datatable
+
+            $('#dpbTitulo').select2();
+            $('.dpbTipoPhone').select2();
+            $('.dpbTipoPersona').select2();
+            $('.dpbIndustria').select2();
+            $('#selectTags').select2();
             
             $(document).on('change', '#selectTags', function(event) {
                 valor = $(this).val();
-                var url = Routing.generate('admin_accounts_data')+"?param1="+valor;
+                var url = Routing.generate('admin_accounts_data')+"?nombre={{opcion}}"+"&param1="+valor;
                 table.ajax.url(url).load();
             });
             

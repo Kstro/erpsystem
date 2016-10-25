@@ -40,18 +40,18 @@ class CrmClientesController extends Controller
             // $crmCuentas = $em->getRepository('ERPCRMBundle:CrmCuenta')->findAll();
             $response = new JsonResponse();
             //Titulo protocolario
-            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findAll();
+            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findBy(array('estado'=>1));
             //Estado
-            $estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
+            //$estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
             //Ciudad
-            $ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
+            //$ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
             //Tipo persona
             //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
-            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findAll();
+            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             //Tipo industria
-            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll(array('estado'=>1));
+            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findBy(array('estado'=>1));
             //Nivel satisfaccion
-            $satisfaccion = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->findAll(array('estado'=>1));
+            $satisfaccion = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->findBy(array('estado'=>1));
             //Tipos telefono
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
@@ -61,8 +61,8 @@ class CrmClientesController extends Controller
             return $this->render('crmcuenta/index_cliente.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
-                'estados'=>$estados,
-                'ciudades'=>$ciudades,
+                //'estados'=>$estados,
+                //'ciudades'=>$ciudades,
                 'personas'=>$personas,
                 'industrias'=>$industrias,
                 'satisfaccion'=>$satisfaccion,
@@ -247,7 +247,7 @@ class CrmClientesController extends Controller
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){
                     if ($tagId==0) {
-                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                            $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN ctl_industria ind on(c.industria=ind.id)
@@ -280,7 +280,7 @@ class CrmClientesController extends Controller
                                 $row['data'] = $stmt->fetchAll();
                     }
                     else{
-                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN ctl_industria ind on(c.industria=ind.id)
@@ -315,7 +315,7 @@ class CrmClientesController extends Controller
                 }
                 else{ 
                     if ($tagId==0) {
-                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -326,7 +326,7 @@ class CrmClientesController extends Controller
                                         ORDER BY ". $orderByText." ".$orderDir;
                     }
                     else{
-                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -437,9 +437,11 @@ class CrmClientesController extends Controller
                 $phoneExtArray = $_POST['phoneExt'];//apellido persona
 
                 //Dirección
-                $addressArray = $_POST['address'];//apellido persona
-                $addressCityArray = $_POST['addressCity'];//apellido persona
-                $addressDepartamentoArray = $_POST['addressDepartamento'];//apellido persona
+                $addressArray = $_POST['address'];//direccion persona
+                $addressCityArray = $_POST['addressCity'];//city
+                $addressDepartamentoArray = $_POST['addressDepartamento'];//state
+                $zipCodeArray = $_POST['zipcode'];//zipcode
+                
 
                 //Busqueda objetos a partir de ids
                 // $industriaObj = $em->getRepository('ERPCRMBundle:CtlIndustria')->find($industriaId);
@@ -448,8 +450,8 @@ class CrmClientesController extends Controller
                 $nivelSatisfaccionObj = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->find($nivelSatisfaccion);
                 $crmTipoCuentaObj = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find(3); //Cliente
 
-                // die();
-
+                // contactos
+                $contactos = $_POST['contactos'];
                 if($idCuenta=='' && $idPersona==''){
 
                     //Tabla crmCuenta, ids
@@ -564,24 +566,29 @@ class CrmClientesController extends Controller
                                           
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
-                        if ($key<$addressLenght && $key!=0) {
-                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                         
-                        } else {
-                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key<$addressLenght && $key!=0) {
+//                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                         
+//                        } else {
+//                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
+                        
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
+                        $ctlDireccionObj->setCiudad(null);
                         
                         $ctlDireccionObj->setLatitud(0);
                         $ctlDireccionObj->setLongitud(0);
@@ -590,7 +597,40 @@ class CrmClientesController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                         
+                    }
+                    
+                    
+                    
+                    
+                    //////Contactos
+                    $contactsLenght=count($contactos)-1;//Cantidad de telefono ingresados, menos 1 para index de array
+                    $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[0]);//Para definir la variable
+                    foreach ($contactos as $key => $contact) {
+                                          
+                        $crmContactoCuenta = new CrmContactoCuenta();
+                        $crmContactoCuenta->setCuenta($crmCuentaObj);
+                        //var_dump($key);
+                        if ($key<$contactsLenght && $key!=0) {
+                            if ($contact[$key]==$contact[$key-1]) {
+                                //No buscar en la base contacto
+                                $crmContactoCuenta->setContacto($crmContacto);
+                            } else {
+                                //Buscar en la base el tipo de telefono
+                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
+                                $ctlTelefonoObj->setContacto($crmContacto);
+                                //var_dump('buscar base tipo telefono');
+                            }
+                        } else {
+                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                $crmContactoCuenta->setContacto($crmContacto);
+                                //var_dump('no buscar base tipo telefono');
+                        }
+                        $em->persist($crmContactoCuenta);
+                        $em->flush();
                     }                
+                    
+                    
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
@@ -676,6 +716,13 @@ class CrmClientesController extends Controller
                             $em->remove($value);
                             $em->flush();
                         }
+                        
+                        //Eliminar contactos
+                        $crmContactosCuentaArrayObj = $em->getRepository('ERPCRMBundle:CrmContactoCuenta')->findBy(array('cuenta'=>$idCuenta));
+                        foreach ($crmContactosCuentaArrayObj as $key => $value) {
+                            $em->remove($value);
+                            $em->flush();
+                        }
 
                         //Tabla ctlPersona
                         // var_dump($idCuenta);
@@ -755,28 +802,33 @@ class CrmClientesController extends Controller
 
                     //Tabla ctlDireccion
                     $addressLenght=count($addressArray);//Cantidad de direccion ingresados, menos 1 para index de array
-                    foreach ($addressArray as $key => $phone) {
+                    foreach ($addressArray as $key => $val) {
                                           
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
-                        if ($key<$addressLenght && $key!=0) {
-                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                         
-                        } else {
-                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key<$addressLenght && $key!=0) {
+//                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                         
+//                        } else {
+//                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
+                        
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
+                        $ctlDireccionObj->setCiudad(null);
                         
                         $ctlDireccionObj->setLatitud(0);
                         $ctlDireccionObj->setLongitud(0);
@@ -786,6 +838,35 @@ class CrmClientesController extends Controller
                         $em->flush();
                         
                     }
+                    
+                    
+                    //////Contactos
+                    $contactsLenght=count($contactos)-1;//Cantidad de telefono ingresados, menos 1 para index de array
+                    //////$crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[0]);//Para definir la variable
+                    foreach ($contactos as $key => $contact) {
+                                          
+                        $crmContactoCuenta = new CrmContactoCuenta();
+                        $crmContactoCuenta->setCuenta($crmCuentaObj);
+                        //var_dump($key);
+                        if ($key<$contactsLenght && $key!=0) {
+                            if ($contact[$key]==$contact[$key-1]) {
+                                //No buscar en la base contacto
+                                $crmContactoCuenta->setContacto($crmContacto);
+                            } else {
+                                //Buscar en la base el tipo de telefono
+                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
+                                $ctlTelefonoObj->setContacto($crmContacto);
+                            }
+                        } else {
+                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);
+                                $crmContactoCuenta->setContacto($crmContacto);
+                                //var_dump('no buscar base tipo telefono');
+                        }
+                        $em->persist($crmContactoCuenta);
+                        $em->flush();
+                    }
+                    
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
@@ -896,7 +977,9 @@ class CrmClientesController extends Controller
             $ctlDireccionObj = $em->getRepository('ERPCRMBundle:CtlDireccion')->findBy(array('cuenta'=>$crmCuentaObj->getId()));
             $crmFotoObj = $em->getRepository('ERPCRMBundle:CrmFoto')->findBy(array('cuenta'=>$crmCuentaObj->getId()));
             $ctlPersonaObj = $em->getRepository('ERPCRMBundle:CtlPersona')->find($idPersona);
-            // var_dump($ctlTelefonoObj);
+            
+            $crmContactoCuentaObj = $em->getRepository('ERPCRMBundle:CrmContactoCuenta')->findBy(array('cuenta'=>$crmCuentaObj->getId()));
+            //var_dump($crmContactoCuentaObj[0]->getContacto());
             if(count($crmCuentaObj)!=0){
                 
                 //$object->setProbabilidad($);
@@ -917,15 +1000,41 @@ class CrmClientesController extends Controller
                     $dirArray=array();
                     $cityArray=array();
                     $stateArray=array();
+                    $zipCodeArray=array();
                     foreach ($ctlDireccionObj as $key => $value) {
-                        array_push($dirArray, $value->getDireccion());
-                        array_push($cityArray, $value->getCiudad()->getId());
-                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
+                        if($value->getDireccion()==null){
+                            array_push($dirArray, '');
+                        }
+                        else{
+                            array_push($dirArray, $value->getDireccion());
+                        }
+                        if($value->getCity()==null){
+                            array_push($cityArray, '');
+                        }
+                        else{
+                            array_push($cityArray, $value->getCity());
+                        }
+                        if($value->getState()==null){
+                            array_push($stateArray, '');
+                        }
+                        else{
+                            array_push($stateArray, $value->getState());
+                        }
+                        if($value->getZipCode()==null){
+                            array_push($zipCodeArray, '');
+                        }
+                        else{
+                            array_push($zipCodeArray, $value->getZipCode());
+                        }
+//                        array_push($dirArray, $value->getDireccion());
+//                        array_push($cityArray, $value->getCiudad()->getId());
+//                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
                     }
                     // $data['addressArray']=$ctlDireccionObj[0];
                     $data['addressArray']=$dirArray;
                     $data['cityArray']=$cityArray;
                     $data['stateArray']=$stateArray;
+                    $data['zipCodeArray']=$stateArray;
                 }
                 else{
                     $data['addressArray']=[];
@@ -976,6 +1085,23 @@ class CrmClientesController extends Controller
                 }
                 else{
                     $data['src']='';
+                }
+                if(count($crmContactoCuentaObj)!=0){
+                    // $data['src']=$crmFotoObj[0]->getSrc();
+                    $conNombreArray=array();
+                    $conIdArray=array();
+                    foreach ($crmContactoCuentaObj as $key => $value) {
+                        array_push($conNombreArray, $value->getContacto()->getPersona()->getNombre().' '.$value->getContacto()->getPersona()->getApellido());
+                        array_push($conIdArray, $value->getContacto()->getId());
+                    }
+                    // $data['addressArray']=$ctlDireccionObj[0];
+                    $data['contactoNombreArray']=$conNombreArray;
+                    $data['contactoIdArray']=$conIdArray;
+
+                }
+                else{
+                    $data['contactoNombre']='';
+                    $data['contactoId']='';
                 }
 
                 // $data['addressArray']=$ctlDireccionObj[0];
