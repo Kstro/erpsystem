@@ -621,6 +621,14 @@ class CrmLlamadasController extends Controller
                     $data['tiempoRecordatorioArray']=[];
                 }
                 $data['id']=$idAct;
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoActividad doc"
+                            ." JOIN doc.actividad c "
+                            ." WHERE c.id=:idAct ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                                    ->setParameters(array('idAct'=>$idAct))
+                                    ->getResult();
+                
+                $data['docs']=$docs;
             }
             else{
                 $data['error']="Error";
@@ -629,7 +637,7 @@ class CrmLlamadasController extends Controller
             $response->setData($data); 
             
         } catch (\Exception $e) {
-            var_dump($e);
+            //var_dump($e);
             if(method_exists($e,'getErrorCode')){
                 switch (intval($e->getErrorCode()))
                         {

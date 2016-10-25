@@ -18,6 +18,8 @@ parameters:
         app.serverMsgCancel: ¡Cancelled!
         app.serverCancel: already cancelled!
         app.serverError: Error!
+        app.serverFileAttached: File attached
+        app.serverFileAttachedDel: File attached deleted
         #Numero de items a recuperar en el seguimiento para cada modulo que lo necesite
         app.serverSeguimientoLongitud: 4
         #app.serverConflictRow: Selected users have an event at the scheduled date and time. Do you wish to continue?
@@ -49,6 +51,10 @@ parameters:
         app.emailFields: ¡Invalid email address!
         #remove Labels
         app.removeLabel: Remove selected rows?
+        #remove Files
+        app.removeFile: Remove file
+        #removed Files
+        app.removedFile: removed
         #convert clients Labels
         app.convertLabel: Convert into clients?
         #cancel Labels
@@ -82,6 +88,9 @@ parameters:
 
         #botones
         app.add: Add
+        app.addFile: Add file
+        app.loadMoreComments: Load more
+        app.loadMoreFiles: Load files attached
         app.back: Back
         app.delete: Delete
         app.show: Show
@@ -144,7 +153,7 @@ parameters:
         app.probabilityEtapa: Probability
         #Campanias
         app.tituloCampania: CRM | Campaign types management
-        app.menuCampania: Cmpgn types mgmt.
+        app.menuCampania: Cmpgn mgmt.
         app.encabezadoCampania: Campaigns list
         app.descripcionCampania: Add, modify or delete campaign.
         app.nameCampania: Name
@@ -433,6 +442,24 @@ parameters:
         app.encabezadoPrioridad: Priorities catalog
         app.descripcionPrioridad: Add, modify or delete priorities.
         app.namePrioridad: Name
+        
+        #Tipo de caso (CRUD)
+        app.tituloTipoCaso: CRM | Case type management
+        app.encabezadoTipoCaso: Case type
+        app.descripcionTipoCaso: Add, modify or delete Case type.
+        app.nameTipoCaso: Name
+        app.menuTipoCaso: Case types
+        
+        #Caso (CRUD)
+        app.tituloCaso: CRM | Case  management
+        app.encabezadoCaso: Case 
+        app.descripcionCaso: Add, modify or delete Case type.
+        app.nameCaso: Name
+        app.fragmentCaso: Description
+        app.typeCaso: Type
+        app.PriorityCaso: Priority
+        app.userCaso: Assigned user
+        app.menuCaso: Case 
 
        
         #Login

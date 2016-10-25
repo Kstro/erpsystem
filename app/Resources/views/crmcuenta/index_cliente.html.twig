@@ -17,30 +17,31 @@
 {% endblock %}
 {% block navegacion %}
         {% include ':crmcuenta:opciones_cuenta.html.twig' %}
+        {% include ':crmcuenta:add_files.html.twig' %}
 {% endblock %}
 
 
 
 
 {% block descripcion %}
-     <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCliente}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionCliente}}</p>
-          {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
+    <div class="col-md-5">
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCliente}}</p>
+        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionCliente}}</p>
+        <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
         <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
-          <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
-          <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
-          <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
-     </div>
+        <p id="removeFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeFile}}</p>
+        <p id="removedFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removedFile}}</p>
+        <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+        <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
+        <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
+    </div>
 
 {% endblock %}
 {% block acciones %}
      <div class="col-md-7 text-right panel-body">
-          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
           <button data-loading-text="Loading..." autocomplete="off" class="btnAddPage btn btn-sm btn-primary btn-flat">{{add}}</button>
           <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
-          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
-                            
+          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>          
           <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
           <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
           <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
@@ -50,17 +51,14 @@
 {% block contenido %}
     <div class="row">
         {% include ':crmcuenta:cliente.html.twig' %}
-
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
             <table id="clienteList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
-                  
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
                         {# <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCliente}}</th> #}
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaCliente}}</th>
-                        
                         <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailCliente}}</th>
                         <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneCliente}}</th>
                         {# <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fuenteCliente}}</th> #}
@@ -78,14 +76,17 @@
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/client/client.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/add-comment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/animations/client/client.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             /////Definición datatable
             $('#filterTag').removeClass('hidden');
+            $('#btnLoadMoreFiles').addClass('hidden');
+            
             var valor = $('#selectTags').val();
             var table = $('#clienteList').DataTable({
                 dom:'ftp',
@@ -155,7 +156,69 @@
             $('.dpbTipoPersona').select2();
             $('#selectTags').select2();
             // $('.dpbCampania').select2();
+            
+            
+            
+            
+            
+            $('#contactos').select2({
+                 ajax: {
+                        url: Routing.generate('busqueda_contacto_select_info'),
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                          return {
+                            q: params.term, // search term
+                            page: params.page
+                          };
+                        },
+                        processResults: function (data, params) {
+                                            var select2Data = $.map(data.data, function (obj) {
+                                                obj.id = obj.id;
+                                                obj.text = obj.nombre;
+
+                                                return obj;
+                                            });
+
+                                            return {
+                                                results: select2Data,
+                                                {#pagination: {
+                                                    more: (params.page * 30) < data.total_count
+                                                }#}
+                                            };
+                                        },
+                        cache: true
+                      },
+                      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                      minimumInputLength: 1,
+                      templateResult: formatRepo, // omitted for brevity, see the source of this page
+                      // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+                    });
+            
         });
+        
+        function formatRepo (data) {
+                if(data.nombre){
+                    // console.log('sdcsda');
+                    var markup = "<div class='select2-result-repository clearfix'>" +
+                                 "<div class='select2-result-repository__meta'>" +
+                                 "<div class='select2-result-repository__title'>" + data.nombre+"</div>" +
+                                 "</div></div>";
+                } else {
+                    var markup = "";
+                }
+                return markup;
+            }
+
+        function formatRepoSelection (data) {
+            if(data.nombre){
+                // console.log('a');
+                return data.nombre;
+            } else {
+                return "Realice una búsqueda (Ctrl+g)"; 
+            }    
+        }
+            
     </script>
      
 {% endblock %}

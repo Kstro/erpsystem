@@ -8,6 +8,9 @@
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
     <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/errors.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/timeline/timeline.css') }}">
     <style type="text/css">
         .errorform{
             border: 1px solid #F00 !important;
@@ -15,18 +18,7 @@
     </style>
 {% endblock %}
 {% block navegacion %}
-            {% include ':crm_dashboard:crm_menu.html.twig' %}
-              {% for tipo in tiposCuenta if tipo.id>4 %}
-                {# {% include ':crm_dashboard:crm_menu.html.twig' %} #}
-                <a href="{{path('admin_accounts_index',{nombre:tipo.nombre})|lower}}" class="leftnava">
-                    <li class="leftnav left {% if opcion is defined and tipo.nombre==opcion  %}active {% endif %}">
-                        {{tipo.nombre}}
-                        <span class="pull-right right">
-                            <i class="{% if opcion is defined and tipo.nombre==opcion  %}fa fa-arrow-right {% endif %}"></i>
-                        </span>
-                    </li>
-                </a>
-            {% endfor %}
+        {% include ':crmcuenta:opciones_cuenta.html.twig' %}
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
@@ -56,7 +48,7 @@
 
 {% block contenido %}
     <div class="row">
-        {% include ':crmcuenta:provider.html.twig' %}
+        {% include ':crmcuenta:socio.html.twig' %}
 
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
@@ -82,17 +74,23 @@
 {% block js_extend %}
     
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/socio/socio.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/animations/socio/socio.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/socio/socio.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/socio/socio.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             /////Definición datatable
+            $('#filterTag').removeClass('hidden');
+            var valor = $('#selectTags').val();
             var table = $('#socioList').DataTable({
                 dom:'ftp',
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{path('admin_socio_data')}}',
+                    "url": '{{path('admin_socio_data')}}'+"?param1="+valor,
                     "type": 'GET'
                 },
                 "columns": [
@@ -126,8 +124,8 @@
                 }
             });
             //Buscar hasta que se presione enter
-            $('#providersList_filter input').unbind();
-            $('#providersList_filter input').bind('keyup', function(e) {
+            $('#socioList_filter input').unbind();
+            $('#socioList_filter input').bind('keyup', function(e) {
                 if(e.keyCode == 13) {
                     table.search( this.value ).draw();
                     // $('.chkItem').prop({'checked': false});
@@ -140,10 +138,17 @@
             });
             /////Fin definición datatable
 
+            $(document).on('change', '#selectTags', function(event) {
+                valor = $(this).val();
+                var url = Routing.generate('admin_socio_data')+"?param1="+valor;
+                table.ajax.url(url).load();
+            });
+            
             $('#dpbTitulo').select2();
             $('.dpbTipoPhone').select2();
             $('.dpbTipoPersona').select2();
             $('.dpbIndustria').select2();
+            $('#selectTags').select2();
         });
     </script>
      

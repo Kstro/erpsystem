@@ -1,0 +1,81 @@
+<div class="col-md-12 col-xs-12">
+    <div id="pnAdd" style="display:none;">
+        <div class="panel panel-default">
+            <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div>
+            </div>
+                <div class="panel-body">
+                    <form id="frmCase"  method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+                        <input id="txtId" type="hidden" name="id" class="input-sm form-control">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6" style=" margin-top: 12px;">
+                               <label>{{nameCaso}}</label>
+                               <label class="hidden requiredFields">{{requiredFields}}</label>
+                               <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
+                            </div>
+                            <div class="col-md-6 col-sm-6" style=" margin-top: 12px;">
+                               <label>{{PriorityCaso}}</label>
+                               <label class="hidden requiredFields">{{requiredFields}}</label>
+                                <select  id="dpPrioridad" style="width: 100%;" type="text" name="dpPrioridad" class="input-sm form-control validateSelect select2">
+                                       <option value=""></option>
+                                   {% for item  in priori %}
+                                       <option value="{{item.id}}">{{item.nombre}}</option>
+                                   {% endfor %}
+                               </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6" style=" margin-top: 12px;">
+                               <label>{{typeCaso}}</label>
+                               <label class="hidden requiredFields">{{requiredFields}}</label>
+
+                              <select  id="dpTipo" style="width: 100%;" type="text" name="dpTipo" class="input-sm form-control validateSelect">
+                                  <option value=""></option>
+                                   {% for item in tipo %}
+                                       <option value="{{item.id}}">{{item.nombre}}</option>
+                                   {% endfor %}
+                               </select>
+                            </div>
+                            <div class="col-md-6 col-sm-6" style=" margin-top: 12px;">
+                               <label>{{userCaso}}</label>
+                               <label class="hidden requiredFields">{{requiredFields}}</label>
+
+                                <select id="dpUser" style="width: 100%;" type="text" name="dpUser" class="input-sm form-control ">
+                                   <option value=""></option>
+                                   {% for item in user %}
+                                       <option value="{{item.id}}">{{item.usuario}}</option>
+                                   {% endfor %}
+                               </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6" style=" margin-top: 12px;">
+                               <label>{{cuentaProveedor}}</label>
+                               <label class="hidden requiredFields">{{requiredFields}}</label>
+                              <select  id="dpCuenta" style="width: 100%;" type="text" name="dpCuenta" class="input-sm form-control ">
+                                  <option value=""></option>
+                                   {% for item in cuenta %}
+                                       <option value="{{item.id}}">{{item.nombre}}</option>
+                                   {% endfor %}
+                               </select>
+                            </div>
+                        </div>
+                               
+                       <div class="row">
+                            <div class="col-md-12" style=" margin-top:10px;">
+                               <label>{{fragmentCaso}}</label>
+                               <label class="hidden requiredFields">{{requiredFields}}</label>
+                               <textarea id="txtDescripcion" type="text" name="txtDescripcion" rows="3" class="input-sm form-control "></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                                   <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
+                                   <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+

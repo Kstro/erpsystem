@@ -4,6 +4,14 @@ $(document).on('click', '.btnAddPage', function(event) {
 	/*//console.log('add');*/
 	var id = $('#txtId1').val();
 	
+        $('#comentarios').hide();
+	$('#wallmessages').hide();
+	$('#btnLoadMore').hide();
+
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#filterTag').addClass('hidden');
+        
 	/*// console.log("ID: "+id);*/
 	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');
@@ -34,7 +42,7 @@ $(document).on('click', '.btnAddPage', function(event) {
 
 $(document).on('input', 'div.dataTables_filter input', function(event) {
 	/*//console.log('add');*/
-	$('#txtId').val('');
+	$('#txtId1').val('');
 	$('#txtName').val('');
 	$('#txtDuracion').val('');
 	$('#pnAdd').slideUp();
@@ -49,6 +57,9 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	/*// console.log('cancel');*/
+        $('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
 	limpiarCampos();
 	return false;
 	
@@ -63,7 +74,7 @@ $(document).on('click', '#socioList>thead>tr>th:gt(0)', function(event) {
 
 
 function limpiarCampos(){
-	$('#txtId').val('');
+	$('#txtId1').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');

@@ -3,6 +3,16 @@
 $(document).on('click', '.btnAddPage', function(event) {
 	/*//console.log('add');*/
 	var id = $('#txtId').val();
+        
+        
+        $('#comentarios').hide();
+	$('#wallmessages').hide();
+        $('#cuentaActividades').html('');
+        $('#btnLoadMore').hide();
+	$('#addTag').addClass('hidden');
+	$('#addFile').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#filterTag').addClass('hidden');
 	/*// $('.noCal').removeClass('hidden');*/
 	/*// $('#estado').val(2).trigger('change');*/
 	
@@ -60,6 +70,12 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	
 	/*// console.log('cancel');*/
+        $('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMore').addClass('hidden');
 	limpiarCampos();
 	return false;
 	

@@ -38,7 +38,7 @@ class CrmCampaniaController extends Controller
             'campanias' => $campanias,
             'personas' => $personas,
             // 'crmTipoCampanias' => $crmTipoCampanias,
-            'menuTipoCampaniaA' => true,
+            'menuCampaniaA' => true,
         ));
     }
 
@@ -513,9 +513,16 @@ class CrmCampaniaController extends Controller
                 
                 // var_dump($data);
                 // die();
-
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoCampania doc "
+                            ."JOIN doc.campania c "
+                            ."WHERE c.id=:idCuenta ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$id))
+                                    ->getResult();
                 
-
+                $data['docs']=$docs;
+                $data['path'] = 'campaigns';
+                //var_dump($data);
             }
             else{
                 $data['error']="Error";
@@ -525,7 +532,7 @@ class CrmCampaniaController extends Controller
             $response->setData($data); 
             
         } catch (\Exception $e) {
-            var_dump($e);
+            //var_dump($e);
             if(method_exists($e,'getErrorCode')){ 
                 switch (intval($e->getErrorCode()))
                         {

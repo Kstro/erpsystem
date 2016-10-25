@@ -111,6 +111,11 @@ class CrmTagsController extends Controller
                     $em->persist($crmEtiqueta);
                     $em->flush();  
                     $crmEtiquetaCuenta->setEtiqueta($crmEtiqueta);
+                    $crmEtiquetaCuenta->setCuenta($cuentaObj);
+                    $em->persist($crmEtiquetaCuenta);
+                    $em->flush();
+                    $data['nombreTag']=$crmEtiqueta->getNombre();
+                    $data['idTag']=$crmEtiquetaCuenta->getId();    
                 }
                 else{/////Etiqueta existe
                     $etiquetaCuentaObj = $em->getRepository('ERPCRMBundle:CrmEtiquetaCuenta')->findBy(array('etiqueta'=>$etiquetaObj[0]->getId(),'cuenta'=>$idCuenta));
@@ -182,6 +187,7 @@ class CrmTagsController extends Controller
                 //$tagObj=
                 /*var_dump($etiqueta);
                 die();*/
+                //$data['deletedetiqueta']='';
                 if(count($etiquetaObj)!=0){
                     $etiqueta = $etiquetaObj->getEtiqueta()->getId();
                     $em->remove($etiquetaObj);

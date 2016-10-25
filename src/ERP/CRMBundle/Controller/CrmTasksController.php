@@ -80,11 +80,11 @@ class CrmTasksController extends Controller
             //Estado
             $estados = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->findAll();
             //Tipo recordatorio
-            $recordatorios = $em->getRepository('ERPCRMBundle:CtlTipoRecordatorio')->findAll();
+            $recordatorios = $em->getRepository('ERPCRMBundle:CtlTipoRecordatorio')->findAll(array('estado'=>1));
             //Tipo recordatorio
-            $tiempos = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->findAll();
+            $tiempos = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->findAll(array('estado'=>1));
             //Prioridad
-            $prioridad = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findAll();
+            $prioridad = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findAll(array('estado'=>1));
             //Actividades
             $actividades = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->findAll();
 
@@ -768,6 +768,14 @@ class CrmTasksController extends Controller
                     $data['tiempoRecordatorioArray']=[];
                 }
                 $data['id']=$idAct;
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoActividad doc"
+                            ." JOIN doc.actividad c "
+                            ." WHERE c.id=:idAct ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                                    ->setParameters(array('idAct'=>$idAct))
+                                    ->getResult();
+                
+                $data['docs']=$docs;
             }
             else{
                 $data['error']="Error";

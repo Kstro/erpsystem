@@ -1,0 +1,17 @@
+<a href="{{path('admin_campaigns_index')}}" class="leftnava">
+	<li class="leftnav left {% if menuCampaniaA is defined %}active {% endif %}">
+		{{menuCampania}}
+		<span class="pull-right right">
+			<i class="{% if menuCampaniaA is defined %}fa fa-arrow-right {% endif %}"></i>
+		</span>
+	</li>
+</a>
+
+<a href="{{path('admin_opportunities_index')}}" class="leftnava">
+	<li class="leftnav left {% if menuOportunidadesA is defined %}active {% endif %}">
+		{{menuOportunidad}}
+		<span class="pull-right right">
+			<i class="{% if menuOportunidadesA is defined %}fa fa-arrow-right {% endif %}"></i>
+		</span>
+	</li>
+</a>

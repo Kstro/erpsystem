@@ -103,12 +103,14 @@ function deleteTags(idDom){
 				$('#addedTags').append(data.error);
 			}
 			else{
-				if (data.deletedetiqueta!='') {
-					console.log('Actualizar tags');
+				if (data.deletedetiqueta) {
+					/*console.log('Actualizar tags');
+					console.log(data);*/
+                                        
 					$('#selectTags').select2('destroy');
-					$('#selectTags').remove(data.deletedetiqueta);
+                                        $("#selectTags option[value='"+parseInt(data.deletedetiqueta)+"']").remove();
 					$('#selectTags').select2();
-					// $('#selectTags').val(0).trigger("change");
+					/*// $('#selectTags').val(0).trigger("change");*/
 					/*$('#selectTags').val(0).change().trigger("change");*/
 				}
 				deleteDomX.remove();

@@ -1,0 +1,545 @@
+# This file is auto-generated during the composer install
+parameters:
+    #labels
+        app.pais: 
+        app.nombre: 
+        app.urlParam: 
+        app.protocolo: 
+    #Titulos página
+        #backend
+        #Numero de items a recuperar en el seguimiento para cada modulo que lo necesite
+        app.serverSeguimientoLongitud: 4
+        
+        #serverMesages
+        app.serverOffline: Server offline 
+        app.serverDuplicateName: Duplicate value
+        app.serverMsgSave: ¡Saved!
+        app.servermsgupdate: ¡Updated!
+        app.serverMsgDelete: ¡Deleted!
+        app.serverMsgCancel: ¡Cancelled!
+        app.serverCancel: already cancelled!
+        app.serverError: Error!
+        app.serverFileAttached: File attached
+        app.serverFileAttachedDel: File attached deleted
+        
+        #app.serverConflictRow: Selected users have an event at the scheduled date and time. Do you wish to continue?
+        app.serverConflictRow: Persons delegated to this event has scheduled another event or events on the same date and time. Do you wish to continue?
+        app.serverDateConflict: ¡Date and time invalid!
+        app.serverFechaAnterior: It is not allowed to schedule events before current date and time
+        app.confirmMoveEvents: Would you like to change the date and time of this event?
+        app.allFilter: All
+        app.filterLabel: Filter by:
+        app.filterActivityLabel: Type
+        app.filterUserLabel: Person
+        app.filterCuentaLabel: Account's name
+        
+        #google calendar ID
+        app.googlecalendar: fbk7pcdkcncqo0f3ur264nimsk@group.calendar.google.com
+        
+        #loginMessages
+        app.usernameInvalidate: Sorry, your username is not recognized.
+        app.checkCaptcha: Please check the captcha form.
+        app.invalidCaptcha: Invalid captcha.
+        
+        #frontend
+
+        #form validations
+        #requiredFields
+        app.requiredFields: ¡Fields in red are required!
+        #emailFields
+        app.emailFields: ¡Invalid email address!
+        #remove Labels
+        app.removeLabel: Remove selected rows?
+        #remove Files
+        app.removeFile: Remove file
+        #removed Files
+        app.removedFile: removed
+        #cancel Labels
+        app.cancelLabel: Cancel selected tasks?
+        #convert clients Labels
+        app.convertLabel: Convert into clients?
+        #cancelButtonText
+        app.cancelButtonText: Cancel
+        #confirmButtonText
+        app.confirmButtonText: Remove
+        #alternateconfirmButtonText
+        app.alternateconfirmButtonText: Continue
+        #imageError
+        app.imageError: ¡Image too big!
+        #select2
+        app.select2Label: Search... (Ctrl+g)
+        
+        app.editPass: Edit password
+        app.showLog: Show log
+        app.settings: Settings
+        app.logOut: Log out
+
+        #datatables
+        app.dtInfo: Showing page
+        app.dtInfoEmpty: 
+        app.dtZeroRecords: No data found 
+        app.dtEmptyTable: No data found
+        app.dtNext: Next
+        app.dtPrev: Previous
+        app.dtProcessing: Processing...
+        app.dtSearch: Search:
+        app.dtLengthMenu: Show
+        
+        #Opcion del select
+        app.selectOption: Select a option
+
+        #botones
+        app.add: Add
+        app.addFile: Add file
+        app.loadMoreComments: Load more
+        app.loadMoreFiles: Load files attached
+        app.back: Back
+        app.delete: Delete
+        app.show: Show
+        app.action: Action
+        app.save: Save
+        app.cancel: Cancel
+        app.actionClients: Convert into clients
+        app.pnHeadingLabelAdd: Add
+        app.pnHeadingLabelEdit: Edit
+        app.pnHeadingLabelComment: Add comment
+
+        #Tooltips
+        app.accountsTooltip: CRM
+        app.saleStagesTooltip: Sales
+        app.activitiesTooltip: Activities
+        app.calendarTooltip: Calendar
+        app.settingsTooltip: Settings
+        app.reportsTooltip: Reports
+        
+        #icons
+        app.accountsIcon: 1.png
+        app.saleStagesIcon: 2.png
+        app.activitiesIcon: 3.png
+        app.calendarIcon: 4.png
+        app.settingsIcon: 5.png
+        app.reportsIcon: 6.png
+        
+        #Wizard de configuracion inicial
+        app.encabezadoWizard: Configuration
+        app.tituloWizard:  CRM Systems | Configuration
+        app.step1Wizard: Welcome to the CRM Systems
+        app.step2Wizard: Company information
+        app.step3Wizard: Admin User Information
+        app.step4Wizard: Company logo
+        app.step5Wizard: Completed 
+        app.btnWelcome: Start initial setup
+        app.textoBienvenida: Welcome text
+        app.btnSaveandContWizard: Save and continue
+        app.btnPreviousWizard: Previous
+        app.btnSkipWizard: Skip
+        app.btnCompletedWizard: Finish
+        app.languageWizard: Language
+        app.englishLanguageWizard: English
+        app.spanishLanguageWizard: Spanish
+        app.companyNameWizard: Company name
+        app.companyIndustryWizard: Industry
+        app.companyAddressWizard: Company address
+        app.userAddressWizard: User address
+        app.companyStateWizard: State
+        app.companyCityWizard: City
+        app.tratoPWizard: Title
+        app.nombrePersonaWizard: First name
+        app.apellidoPersonaWizard: Last name
+        app.usernameWizard: Username
+        app.passwordWizard: Password
+        app.repeatPasswordWizard: Repeat password
+        app.generoPersonaWizard: Gender
+        app.phoneWizard: Phone
+        app.extensionWizard: Extension
+        app.emailWizard: Email
+        
+        #Dashboard
+        app.tituloDashboard: CRM | Options
+        app.encabezadoDashboard: CRM Options
+        app.descripcionDashboard: .
+        app.nameDashboard: Name
+        app.tipoCuentaDashboard: Account type
+        app.telefonoDashboard: Phone
+        app.fechaDashboard: Register date
+        app.tipoCuentaFilterDashboard: First name
+        app.fechaInicioFilterDashboard: Title
+        app.fechaFinFilterDashboard: Title
+        
+        #Generos (Opciones)
+        app.masculino: Male
+        app.femenino: Female
+        #tituloPrincipal
+        app.tituloHome:  CRM Systems
+        #Etapas de ventas
+        app.tituloEtapa: CRM | Sales stage management
+        app.menuEtapa: Sales stage.
+        app.encabezadoEtapa: Sales stage list
+        app.descripcionEtapa: Add, modify or delete sales stages.
+        app.nameEtapa: Name
+        app.probabilityEtapa: Probability
+        
+        #Campanias
+        app.tituloCampania: CRM | Campaigns management
+        app.menuCampania: Campaigns.
+        app.encabezadoCampania: Campaigns list
+        app.descripcionCampania: Add, modify or delete campaign.
+        app.nameCampania: Name
+        
+        #TipoCampanias
+        app.tituloTipoCampania: CRM | Campaign types management
+        app.menuTipoCampania: Campaign types.
+        app.encabezadoTipoCampania: Campaign types list
+        app.descripcionTipoCampania: Add, modify or delete campaign types.
+        app.nameTipoCampania: Name
+        
+        #Nivel de satisfaccion
+        app.tituloSatisfaccion: CRM | Level of customer satisfaction
+        app.menuSatisfaccion: Lvl of customer satisfaction.
+        app.encabezadoSatisfaccion: Level of customer satisfaction
+        app.descripcionSatisfaccion: Add, modify or delete levels of customer satisfaction.
+        app.nameSatisfaccion: Name
+        
+        #Proveedor
+        app.tituloProveedor: CRM | Providers
+        app.companiaNombreProveedor: Company's name
+        app.menuProveedor: Providers.
+        app.encabezadoProveedor: Providers
+        app.descripcionProveedor: Add, modify or delete providers.
+        app.cuentaProveedor: Account
+        app.nameProveedor: Name
+        app.nombreProveedor: First name
+        app.apellidoProveedor: Last name
+        app.tratoProveedor: Title
+        app.phoneProveedor: Phone
+        app.extensionProveedor: Extension
+        app.emailProveedor: Email
+        app.direccionProveedor: Address
+        app.fotoProveedor: Photo
+        app.ciudadProveedor: City
+        app.departamentoProveedor: State
+        app.tipoPersonaProveedor: Person
+        app.industriaProveedor: Industry
+        app.sitioWebProveedor: Website
+        app.inputFileLabel: Browse
+
+        #Socio
+        app.tituloSocio: CRM | Partners
+        app.companiaNombreSocio: Company's name
+        app.menuSocio: Partners.
+        app.encabezadoSocio: Partners
+        app.descripcionSocio: Add, modify or delete partners.
+        app.cuentaSocio: Account
+        app.nameSocio: Name
+        app.nombreSocio: First name
+        app.apellidoSocio: Last name
+        app.tratoSocio: Title
+        app.phoneSocio: Phone
+        app.extensionSocio: Extension
+        app.emailSocio: Email
+        app.direccionSocio: Address
+        app.fotoSocio: Photo
+        app.ciudadSocio: City
+        app.departamentoSocio: State
+        app.tipoPersonaSocio: Person
+        app.industriaSocio: Industry
+        app.sitioWebSocio: Website
+        app.inputFileLabel: Browse
+
+        #Accounts
+        app.tituloAccount: CRM | Accounts
+        app.companiaNombreAccount: Company's name
+        app.menuAccount: Accounts.
+        app.encabezadoAccount: Account
+        app.descripcionAccount: Add, modify or delete 
+        app.cuentaAccount: Account
+        app.nameAccount: Name
+        app.nombreAccount: First name
+        app.apellidoAccount: Last name
+        app.tratoAccount: Title
+        app.phoneAccount: Phone
+        app.extensionAccount: Extension
+        app.emailAccount: Email
+        app.direccionAccount: Address
+        app.fotoAccount: Photo
+        app.ciudadAccount: City
+        app.departamentoAccount: State
+        app.tipoPersonaAccount: Person
+        app.industriaAccount: Industry
+        app.sitioWebAccount: Website
+        app.inputFileLabel: Browse
+        
+        #Tiempo notificaciones
+        app.tituloTiempoNotificacion: CRM | Notification time
+        app.menuTiempoNotificacion: Notif. time.
+        app.encabezadoTiempoNotificacion: Notifications
+        app.descripcionTiempoNotificacion: Add, modify or delete time notifications.
+        app.nameTiempoNotificacion: Description
+        app.duracionTiempoNotificacion: Duration
+        app.unidadTiempoNotificacion: Unit time
+        app.minutosTiempoNotificacion: Minutes
+        app.diasTiempoNotificacion: Days
+        app.mesesTiempoNotificacion: Months
+        app.aniosTiempoNotificacion: Years
+
+
+        #Tareas
+        app.tituloTareas: CRM | Task
+        app.menuTareas: Tasks.
+        app.encabezadoTareas: Tasks
+        app.descripcionTareas: Add, modify or delete tasks.
+        app.nameTareas: Name
+        app.tipoTareas: Task type
+        app.prioridadTareas: Priority
+        app.estadoTareas: Status
+        app.responsableTareas: Director
+        app.recordatorioTareas: Reminders
+        app.tiempoRecordatorioTareas: Time
+        app.fechaInicioTareas: Start date
+        app.fechaFinTareas: End date
+        app.fechaCancelTareas: Cancel date
+        app.estado: Status
+        app.descripcionFormTareas: Description
+        app.prioridadTareas: Priority
+        app.taskNoEdit: can't be modified
+
+        app.cuentaActividad: Account
+
+        #Llamadas
+        app.tituloLlamadas: CRM | Calls
+        app.menuLlamadas: Calls.
+        app.encabezadoLlamadas: Calls
+        app.descripcionLlamadas: Add, modify or delete calls.
+        app.nameLlamadas: Name
+        app.tipoLlamadas: Calls type
+        app.prioridadLlamadas: Priority
+        app.estadoLlamadas: Status
+        app.responsableLlamadas: Director
+        app.recordatorioLlamadas: Reminders
+        app.tiempoRecordatorioLlamadas: Time
+        app.fechaInicioLlamadas: Start date
+        app.fechaFinLlamadas: End date
+        app.fechaCancelLlamadas: Cancel date
+        app.estado: Status
+        app.descripcionFormLlamadas: Description
+        app.prioridadLlamadas: Priority
+        app.taskNoEdit: can't be modified
+
+        app.cuentaActividad: Account
+        
+        #Campania
+        app.tituloCampaniaReg: CRM | Campaigns
+        app.menuCampaniaReg: Campaigns.
+        app.encabezadoCampaniaReg: Campaigns
+        app.descripcionCampaniaReg: Add, modify or delete campaigns.
+        app.nameCampaniaReg: Name
+        app.tipoCampaniaReg: Campaigns type
+        app.prioridadCampaniaReg: Priority
+        app.estadoCampaniaReg: Status
+        app.responsableCampaniaReg: Director
+        app.recordatorioCampaniaReg: Reminders
+        app.tiempoRecordatorioCampaniaReg: Time
+        app.fechaRegistroCampaniaReg: Registry date
+        app.fechaInicioCampaniaReg: Start date
+        app.fechaFinCampaniaReg: End date
+        app.fechaCancelCampaniaReg: Cancel date
+        app.estado: Status
+        app.descripcionFormCampaniaReg: Description
+        app.prioridadCampaniaReg: Priority
+        app.taskNoEdit: can't be modified
+
+        app.cuentaActividad: Account
+    
+
+        #Reuniones
+        app.tituloReuniones: CRM | Meetings
+        app.menuReuniones: Meetings.
+        app.encabezadoReuniones: Meetings
+        app.direccionReuniones: Event's location
+        app.descripcionReuniones: Add, modify or delete meetings.
+        app.nameReuniones: Name
+        app.tipoReuniones: Meetings type
+        app.prioridadReuniones: Priority
+        app.estadoReuniones: Status
+        app.responsableReuniones: Director
+        app.recordatorioReuniones: Reminders
+        app.tiempoRecordatorioReuniones: Time
+        app.fechaInicioReuniones: Start date
+        app.fechaFinReuniones: End date
+        app.fechaCancelReuniones: Cancel date
+        app.estado: Status
+        app.descripcionFormReuniones: Description
+        app.prioridadReuniones: Priority
+        app.taskNoEdit: can't be modified
+              
+        #Cliente potencial
+        app.tituloClientePotencial: CRM | Potential client
+        app.menuClientePotencial: Potential client
+        app.encabezadoClientePotencial: Potential client.
+        app.descripcionClientePotencial: Potential client.
+        app.nameClientePotencial: Name.
+        app.cuentaClientePotencial: Account type
+        app.emailClientePotencial: Email
+        app.phoneClientePotencial: Phone
+        app.industriaClientePotencial: Industry
+
+        app.companiaNombreClientePotencial: Company
+        app.nombreClientePotencial: First name
+        app.apellidoClientePotencial: Last name
+        app.tratoClientePotencial: Title
+        
+        app.extensionClientePotencial: Extension
+        app.statusClientePotencial: Status
+        app.origenClientePotencial: Source
+        app.campaniaClientePotencial: Campaign
+        
+        app.direccionClientePotencial: Address
+        app.zipCodeClientePotencial: Zip code
+        app.fotoClientePotencial: Photo
+        app.ciudadClientePotencial: City
+        app.departamentoClientePotencial: State
+        app.interesClientePotencial: Level of interest
+        app.fuenteClientePotencial: Source
+        app.inputFileLabel: Browse
+        
+        #Adomon. clientes
+        app.tituloCliente: CRM | Clients
+        app.companiaNombreCliente: Company's name
+        app.menuCliente: Clients.
+        app.encabezadoCliente: Clients
+        app.descripcionCliente: Add, modify or delete clients.
+        app.cuentaCliente: Account
+        app.nameCliente: Name
+        app.nombreCliente: First name
+        app.apellidoCliente: Last name
+        app.tratoCliente: Title
+        app.phoneCliente: Phone
+        app.extensionCliente: Extension
+        app.emailCliente: Email
+        app.direccionCliente: Address
+        app.zipCodeCliente: Zip code
+        app.fotoCliente: Photo
+        app.ciudadCliente: City
+        app.departamentoCliente: State
+        app.tipoPersonaCliente: Person
+        app.industriaCliente: Industry
+        app.fechaRegistroCliente: Client since
+        app.sitioWebCliente: Website
+        app.estadoCliente: Satisfaction
+                
+        #Fullcalendar
+        app.tituloCalendar: CRM | Calendar
+        app.menuCalendar: Calendar
+        app.encabezadoCalendar: Scheduled activities
+        app.descripcionCalendar: Check your tasks, calls, meetings.
+        
+        #Tipo de cuenta (CRUD)
+        app.tituloTipoCuenta: CRM | Account type management
+        app.encabezadoTipoCuenta: Account type
+        app.descripcionTipoCuenta: Add, modify or delete Account type.
+        app.nameTipoCuenta: Name
+        app.menuTipoCuenta: Account types
+        
+         #Tipo de caso (CRUD)
+        app.tituloTipoCaso: CRM | Case type management
+        app.encabezadoTipoCaso: Case type
+        app.descripcionTipoCaso: Add, modify or delete Case type.
+        app.nameTipoCaso: Name
+        app.menuTipoCaso: Case types
+        
+        #Caso (CRUD)
+        app.tituloCaso: CRM | Case  management
+        app.encabezadoCaso: Case 
+        app.descripcionCaso: Add, modify or delete Case type.
+        app.nameCaso: Name
+        app.fragmentCaso: Description
+        app.typeCaso: Type
+        app.PriorityCaso: Priority
+        app.userCaso: Assigned user
+        app.menuCaso: Case 
+        
+        #Fuentes de origen (CRUD)
+        app.tituloFuenteOrigen: CRM | Origin sources management
+        app.encabezadoFuenteOrigen: Origin sources catalog
+        app.descripcionFuenteOrigen: Add, modify or delete origin sources.
+        app.nameFuenteOrigen: Name
+        
+        #Prioridad (CRUD)
+        app.tituloPrioridad: CRM | Priorities management
+        app.encabezadoPrioridad: Priorities catalog
+        app.descripcionPrioridad: Add, modify or delete priorities.
+        app.namePrioridad: Name
+        
+        #Oportunidades
+        app.tituloOportunidad: CRM | Opportunity management
+        app.menuOportunidad: Opportunities.
+        app.encabezadoOportunidad: Opportunities list
+        app.descripcionOportunidad: Add, modify or delete opportunity.
+        
+        app.nameOportunidad: Name
+        app.tipoCuentaOportunidad: Account type
+        app.cuentaOportunidad: Account name
+        app.etapaOportunidad: Sales Stage
+        app.fechaCierreOportunidad: Expected Close Date
+        app.fechaRegistroOportunidad: Date Created 
+        
+        app.probabilidadOportunidad: Probability
+        app.errorProbabilidad: It must be greater than or equal to 0.00 and less than or equal to 100.00
+        app.fuenteOportunidad: Source
+        app.descriptionOportunidad: Description
+        app.campaniaOportunidad: Campaign
+        app.assignedUserOportunidad: Assigned user
+        app.hayProductosOportunidad: With products / services
+        app.addRowOportunidad: Add row
+        app.productoOportunidad: Product / Service
+        app.cantidadOportunidad: Quantity
+       
+        #Login
+        app.tituloLogin: CRM Systems | Login
+        app.usernameTxt: Username
+        app.passwordTxt: Password
+
+       
+       
+        #perfil
+        app.perfil: e
+        app.perfilPublico: e
+        app.verficarmeAbogado: e
+        app.verficarmeNotario: e
+        app.miSuscripciones: e
+        app.miEmpresa: e
+        app.ajustesCuenta: e
+        app.miBlog: e
+        app.centroPreguntas: e
+        app.cambiarPass: e
+        #administración
+        app.abogadosReg: s
+        app.aprobacionPagos: s
+        app.aprobacionAbogados: s
+        app.verificarAbogados: s
+        app.verificarNotarios: s
+        app.facturacion: s
+        app.aprobarPreguntas: s
+        app.correoAdmin: s
+        app.promociones: s
+    #Imagenes
+        app.logoBlog: er
+        app.logoPanel: er
+        app.logoBlanco: er
+        app.logoColor: er
+        app.logoPublicidad: er
+        app.logoRegistro: er
+        app.suscripcionBoton: er
+        app.cancelarSuscripcionBoton: er
+        app.metodoPago: er
+    #Correos
+        app.correoInfo: w
+        app.correo: w
+    #Codigo de área (Telefono)
+        app.codigoParam: w
+    #Coordenadas pais (Para la empresa, predeterminar un punto de partida en el pais)
+        app.coordenadasLatitud: w
+        app.coordenadasLongitud: w
+    #Otros
+        app.facebook: w
+        

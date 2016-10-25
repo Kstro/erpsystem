@@ -3,7 +3,9 @@ $(document).ready(function() {
 	$('.dpbStateFirst').select2();
 	$("#txtId1").val('');
 	$("#txtId2").val('');
+        $('.btnAddCommentGen').attr('id',1);
 	var numAddress = 0;
+        var numPedidos=0;
 	/*/////Persist datatable (Save method)*/
 	var filesSelectedPrev = document.getElementById("file").files;
 	/*// console.log(filesSelectedPrev[0]);*/
@@ -143,7 +145,9 @@ $(document).ready(function() {
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
-
+                var objClicked = $(this);
+                numPedidos=1;
+                mostrarocultar(numPedidos);
 		/*// console.log(id);*/
 		/*// console.log(idArray[0]);*/
 		/*// console.log(idArray[1]);*/
@@ -153,16 +157,24 @@ $(document).ready(function() {
 			}
 		});	
 		if (text=='TD' && id!=idForm && selected==0) {
+                        objClicked.off('click');
+			objClicked.css('cursor','progress');
 			$.ajax({
 				url: Routing.generate('admin_accounts_retrieve_ajax'),
 				type: 'POST',
 				data: {param1: idArray[0],param2:idArray[1]},
 				success:function(data){
+                                            
 					if(data.error){
 						swal('',data.error,'error');
 						id.val(data.id);
+                                                $('#addTag').addClass('hidden');
+						$('#addedTags').addClass('hidden');
+						$('#filterTag').removeClass('hidden');
+						objClicked.on('click');
 					}
 					else{
+                                                
 						/*// console.log(data);*/
 						$('#txtId1').val(data.id1);
 						$('#txtId2').val(data.id2);
@@ -181,15 +193,19 @@ $(document).ready(function() {
 							/*// console.log(data.addressArray[i]);*/
 							switch(i){
 								case 0:
-									$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
+									/*$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
 									$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
+									$('.txtAddressFirst').val(data.addressArray[i]);*/
+									$(".dpbStateFirst").val(data.stateArray[i]);
+									$(".dpbCityFirst").val(data.cityArray[i]);
 									$('.txtAddressFirst').val(data.addressArray[i]);
 								break;
 								default:
 									$('#plusAddress').click();
-									$("#state-"+(numAddress)).val(data.stateArray[i]).trigger("change");
-									$("#city-"+(numAddress)).val(data.cityArray[i]).trigger("change");
+									$("#state-"+(numAddress)).val(data.stateArray[i]);
+									$("#city-"+(numAddress)).val(data.cityArray[i]);
 									$('#address-'+(numAddress)).val(data.addressArray[i]);
+									$('#zip-'+(numAddress)).val(data.zipCodeArray[i]);
 								break;
 							}
 						}
@@ -233,6 +249,15 @@ $(document).ready(function() {
 							$('#imgTest').attr('src','http://placehold.it/250x250');
 						}
 
+
+                                                var addItem = '';
+                                                for (var i = 0; i < data.tags.length; i++) {
+                                                    /*console.log(i);*/
+                                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                                                    $('#addedTags').append(addItem);
+                                                }
+
+
 						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
 						$('.dpbIndustria').val(data.industria).change().trigger("change");
 												
@@ -243,13 +268,30 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-					}					
+                                                /*seguimiento(data.id1, numPedidos,null);*/
+                                                console.log(data.id);
+                                                console.log(data.numPedidos);
+                                                seguimientoGeneral(idArray[0], numPedidos,null,1);
+						/*cargarTags();*/
+						/*//seguimientoComet(data.id1);*/
+						$('#addTag').removeClass('hidden');
+						$('#addedTags').removeClass('hidden');
+						$('#filterTag').addClass('hidden');
+					}
+                                        objClicked.on('click');
+					activeAjaxConnections=0;
+					objClicked.css('cursor', 'pointer');
 				},
 				error:function(data){
 					if(data.error){
 						/*// console.log(data.id);*/
 						swal('',data.error,'error');
 					}
+                                        $('#addTag').addClass('hidden');
+					$('#addedTags').addClass('hidden');
+					$('#filterTag').removeClass('hidden');
+					objClicked.on('click');
+					objClicked.css('cursor', 'pointer');
 				}
 			});
 		} 
@@ -538,12 +580,13 @@ $(document).ready(function() {
 		var optionsCity = $('.dpbCityFirst').html();
 		var optionsState = $('.dpbStateFirst').html();
 		$('.address').append('<input style="margin-top:25px ;" id="address-'+numAddress+'" type="text" name="address[]" class="input-sm form-control validateInput txtAddress">');
-		$('.city').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="input-sm form-control dpbCity">'+optionsCity+' </select></div>');
-		$('.state').append('<div style="margin-top:27px;"><select style="margin-top:25px; width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="input-sm form-control dpbState">'+optionsState+' </select></div>');
+		$('.zipcode').append('<input style="margin-top:25px ;" id="zip-'+numAddress+'" type="text" name="zipcode[]" class="input-sm form-control validateInput txtAddress">');
+		$('.city').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="validateInput input-sm form-control txtCity"></div>');
+		$('.state').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="validateInput input-sm form-control txtState"></div>');
 		/*//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');*/
 		$('.addAddress').append('<button id="deleteAddress-'+numAddress+'" style="margin-top:25px;" class="btn removeAddress btn-danger"><i class="fa fa-remove"></i></button>');
-		$('#city-'+numAddress).select2();
-		$('#state-'+numAddress).select2();
+		/*$('#city-'+numAddress).select2();
+		$('#state-'+numAddress).select2();*/
 		return false;
 	});
 	$(document).on('click', '.removeAddress', function(event) {
@@ -552,6 +595,7 @@ $(document).ready(function() {
 		$('#address-'+numDelArray[1]).remove();
 		$('#city-'+numDelArray[1]).parent().remove();
 		$('#state-'+numDelArray[1]).parent().remove();
+                $('#zip-'+numDelArray[1]).remove();
 		$(this).remove();
 		return false;
 	});

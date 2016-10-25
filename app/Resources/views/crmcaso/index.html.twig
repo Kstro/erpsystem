@@ -1,0 +1,135 @@
+{#% extends 'base.html.twig' %#}
+{% extends ':layout:layouterp.html.twig' %}
+{% block title -%}<title>{{tituloCaso}}</title>{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/errors.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/timeline/timeline.css') }}">
+    <style type="text/css">
+        .errorform{
+            border: 1px solid #F00 !important;
+        }
+    </style>
+{% endblock %}
+{% block navegacion %}
+        {% include ':crmactividad:menu_actividades.html.twig' %}
+        <br>
+{% endblock %}
+{% block descripcion %}
+     <div class="col-md-5">
+            <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCaso}} </p>
+           <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTipoCaso}} </p>
+          {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
+            <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
+            <p id="convertLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{convertLabel}}</p>
+            <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+            <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
+            <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
+     </div>
+
+{% endblock %}
+{% block acciones %}
+     <div class="col-md-7 text-right panel-body">
+          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
+          <button data-loading-text="Loading..." autocomplete="off" class="btnAddPage btn btn-sm btn-primary btn-flat">{{add}}</button>
+          <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
+          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
+                            
+          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
+          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+      
+
+     </div>
+{% endblock acciones %}
+{% block contenido %}
+    <div class="row">
+        {% include ':crmcaso:new.html.twig' %}
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-xs-12">
+            <table id="caseList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+        <thead>
+            <tr role="row">
+                <th style="text-align:left;width:3%;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                <th style="text-align:left;width:25%;">Name</th>
+                <th style="text-align:left;width:15%;">Status</th>
+                <th style="text-align:left;width:10%;">Priority</th>
+                <th style="text-align:left;width:22%;">Account</th>
+                <!-- th style="text-align:left;width:10%;">Type case</th -->
+                <th style="text-align:left;width:25%;">Assigned user</th>
+                 
+            </tr>
+        </thead>
+    </table>
+{% endblock %}
+{% block js_extend %}
+    
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/case/case.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/case/case.js') }}"></script>
+
+    <script type="text/javascript">
+            
+        $(document).ready(function() {
+            
+             $('#dpTipo').select2();
+             $('#dpUser').select2();
+             $('#dpPrioridad').select2();
+             $('#dpCuenta').select2();
+            var valor = $('#selectTags').val();
+            var table = $('#caseList').DataTable({
+                dom:'ftp',
+                "processing": false,
+                "serverSide": true,
+                "ajax": {
+                    "url": '{{path('admin_case_data')}}'+"?param1="+valor,
+                    "type": 'GET'
+                },
+                "columns": [
+                    { "data": "chk" },
+                    { "data": "name" },
+                    { "data": "estado" },
+                    { "data": "prioridad" },
+                    { "data": "account" },
+                    /*{ "data": "tipo" },*/
+                    { "data": "usuario" }
+                ],
+                "order":[1,'desc'],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0}
+                    
+                ],
+                "language": {
+                    "info": "{{dtInfo}} _PAGE_ de _PAGES_",
+                    "infoEmpty": "{{dtInfoEmpty}}",
+                    "emptyTable": "{{dtEmptyTable}}",
+                    "paginate": { 
+                        "next": "{{dtNext}}",
+                        "previous": "{{dtPrev}}"
+                    },
+                    "processing": "{{dtProcessing}}",
+                    "search": "{{dtSearch}}",
+                    "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
+                }
+            });
+            //Buscar hasta que se presione enter
+            $('#caseList_filter input').unbind();
+            $('#caseList_filter input').bind('keyup', function(e) {
+                if(e.keyCode == 13) {
+                    table.search( this.value ).draw();
+                    // $('.chkItem').prop({'checked': false});
+                }
+                else{
+                    $('.btnAction').addClass('hidden');
+                    $('.chkItem').prop({'checked': false});  
+                }
+                $('.chkItemAll').prop({'checked': false});
+            });
+            /////Fin definición datatable
+  
+        });
+    </script>
+     
+{% endblock %}

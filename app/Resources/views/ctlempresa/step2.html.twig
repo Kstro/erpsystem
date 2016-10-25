@@ -1,0 +1,124 @@
+<div class="col-md-12">
+    <form action="{% block form_action %}{{ path("admin_wizard_register_step2") }}{% endblock %}" method="post" id="frmUsuarioWizard" role="form">
+        <div class="row">
+            <input id="idUsuario" type="hidden" name="" class="input-sm form-control">
+            <div class="col-md-5" style="margin-bottom: 25px;">
+                <div class="row">
+                    <div class="col-md-6">                                                    
+                        <label class="control-label">{{tratoPWizard}}</label>
+                        <select id="titleWizard" style="width:100%;" type="text" name="titulo" class="input-sm form-control validateSelect">
+                            {% for item in items %}
+                                <option value="{{item.id}}">{{item.abreviatura}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">                                                    
+                        <label class="control-label">{{generoPersonaWizard}}</label>
+                        <select id="gender" style="width:100%;" type="text" name="gender" class="input-sm form-control validateSelect">
+                            <option value="M">{{masculino}}</option>
+                            <option value="F">{{femenino}}</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12" style="margin-top: 5px;">                                                    
+                        <label class="control-label">{{nombrePersonaWizard}}</label>
+                        <input type="text" name ="nombrePersona" class="form-control validateInputUser" /> 
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12" style="margin-top: 5px;">                                                    
+                        <label class="control-label">{{passwordWizard}}</label>
+                        <input type="password" name ="_password" class="form-control validateInputUser" /> 
+                    </div>
+                </div>            
+            </div>
+            <div class="col-md-offset-1 col-md-5" style="margin-bottom: 25px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">{{usernameWizard}}</label>
+                        <input type="text" name ="_username" class="form-control validateInputUser" /> 
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12" style="margin-top: 5px;">
+                        <label class="control-label">{{apellidoPersonaWizard}}</label>
+                        <input type="text" name ="apellidoPersona" class="form-control validateInputUser" />                     
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12" style="margin-top: 5px;">
+                        <label class="control-label">{{repeatPasswordWizard}}</label>
+                        <input type="password" name ="rPassword" class="form-control validateInputUser" /> 
+                    </div>
+                </div>
+            </div>                                
+        </div>
+        <div class="row">
+            <div class="col-md-6 address" style="margin-top:5px;">
+                <label>{{userAddressWizard}}</label>
+                <input type="text" name="address[]" class="input-sm form-control validateInputUser txtAddressUser txtAddressFirst">
+            </div>
+            <div class="col-md-6">  
+                <div class="row">
+                    <div class="col-md-5 state" style="margin-top:5px;">
+                        <label>{{companyStateWizard}}</label>
+                        <select style="width:100%;" id = "addressDepartamentoUser" name="addressDepartamentoUser[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
+                                {% for estado in estados %}
+                                    <option value={{estado.id}}>{{estado.nombre}}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-5 city" style="margin-top:5px;">
+                        <label>{{companyCityWizard}}</label>
+                        <select style="width:100%;" id = "addressCityUser" name="addressCityUser[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
+                            {% for ciudad in ciudades %}
+                                <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2 addAddress" style="margin-top:5px;">
+                        <button id="plusAddressUser" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>    
+            </div>
+        </div>    
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-6">  
+                <div class="row">        
+                    <div class="col-md-3 phonesType" style="margin-top:20px;">
+                        <label>{{phoneWizard}}</label>
+                        <select style="width:100%;" id="phoneTypeUser" type="text" name="phoneTypeUser[]" class="input-sm form-control validateInputUser dpbTipoPhone firstPhoneType">
+                            {% for tipo in tiposTelefono %}
+                                <option value={{tipo.id}}>{{tipo.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 phonesText" style="margin-top:20px;">
+                        <input style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInputUser txtPhoneUser firstPhoneTxt">
+                    </div>
+                    <div class="col-md-3 phonesExtension" style="margin-top:20px;">
+                        <label>{{extensionWizard}}</label>
+                        <input type="text" name="phoneExt[]" class="input-sm form-control  txtExtension firstPhoneExtension">
+                    </div>
+                    <div class="col-md-2 addPhone" style="margin-top:20px;">
+                        <button id="plusPhoneUser" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>    
+            </div>                            
+            <div class="col-md-5 emailText" style="margin-top:20px;">
+                <label>{{emailWizard}}</label>
+                <input type="text" name="email[]" class="input-sm form-control  txtEmailUser txtEmailFirst validateInputUser">
+            </div>
+            <div class="col-md-1 addEmail" style="margin-top:20px;">
+                <button id="plusEmailUser" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-md-12">
+                <ul class="list-inline pull-right">
+                    <li><button type="button" class="btn btn-default btn-sm prev-step">{{btnPreviousWizard}}</button></li>
+                    <li><button id="btnStep2" type="button" class="btn btn-primary btn-sm next-step">{{btnSaveandContWizard}}</button></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>

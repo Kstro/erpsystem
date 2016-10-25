@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
+use ERP\CRMBundle\Entity\CrmActividad;
+use ERP\CRMBundle\Entity\CrmComentarioActividad;
 use ERP\CRMBundle\Entity\CtlPersona;
 use ERP\CRMBundle\Entity\CrmContacto;
 use ERP\CRMBundle\Entity\CrmContactoCuenta;
@@ -118,6 +120,8 @@ class CrmCuentaController extends Controller
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
             $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
+            //Tipos de etiqueta
+            $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
             return $this->render('crmcuenta/index_account.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
@@ -127,6 +131,7 @@ class CrmCuentaController extends Controller
                 'industrias'=>$industrias,
                 'tiposTelefono'=>$tiposTelefono,
                 'tiposCuenta'=>$tiposCuenta,
+                'etiquetas'=>$etiquetas,
                 'opcion' => $nombre,
             ));
         
@@ -259,7 +264,7 @@ class CrmCuentaController extends Controller
     /**
      * List all accounts, cliente, cliente potrencial, proveedor, etc
      *
-     * @Route("/accounts/data/list", name="admin_accounts_data")
+     * @Route("/accounts/data/list", name="admin_accounts_data",  options={"expose"=true}))
      */
     public function dataaccountsAction(Request $request)
     {
@@ -269,6 +274,7 @@ class CrmCuentaController extends Controller
                 $longitud = $request->query->get('length');
                 $busqueda = $request->query->get('search');
                 // var_dump("edwed");
+                $tagId = $request->query->get('param1');
                 $nombre = $request->query->get('nombre');
                 $em = $this->getDoctrine()->getEntityManager();
                 
@@ -308,6 +314,7 @@ class CrmCuentaController extends Controller
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){
+                    if ($tagId==0) {
                             $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, tip.nombre as tipo, c.fecha_registro as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
@@ -337,9 +344,46 @@ class CrmCuentaController extends Controller
                             $stmt = $em->getConnection()->prepare($sql);
                             $stmt->execute();
                             $row['data'] = $stmt->fetchAll();
+                    }
+                    else{
+                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, tip.nombre as tipo, c.fecha_registro as dateReg
+                                    FROM crm_contacto_cuenta cc
+                                    INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                    INNER JOIN ctl_industria ind on(c.industria=ind.id)
+                                    INNER JOIN crm_contacto con on(cc.contacto=con.id)
+                                    INNER JOIN ctl_persona per on(con.persona=per.id)
+                                    INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+                                    INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                    INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                    WHERE tip.nombre='".$nombre."' AND  per.id<>1 AND c.estado=1 AND e.id =".$tagId."
+                                    GROUP BY 1
+                                    HAVING CONCAT(name,' ',account,' ', email,' ',phone,' ',industry) LIKE upper('%".$busqueda['value']."%')
+                                    ORDER BY ". $orderByText." ".$orderDir;
+                            $stmt = $em->getConnection()->prepare($sql);
+                            $stmt->execute();
+                            $row['data'] = $stmt->fetchAll();
+                            $row['recordsFiltered']= count($row['data']);
+                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, tip.nombre as tipo, c.fecha_registro as dateReg
+                                        FROM crm_contacto_cuenta cc
+                                        INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
+                                        INNER JOIN crm_contacto con on(cc.contacto=con.id)
+                                        INNER JOIN ctl_persona per on(con.persona=per.id)
+                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                        WHERE tip.nombre='".$nombre."' AND per.id<>1 AND c.estado=1 AND e.id =".$tagId."
+                                        GROUP BY 1
+                                        HAVING CONCAT(name,' ',account,' ', email,' ',phone,' ',industry) LIKE upper('%".$busqueda['value']."%')
+                                        ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
+                            $stmt = $em->getConnection()->prepare($sql);
+                            $stmt->execute();
+                            $row['data'] = $stmt->fetchAll();
+                    }
                 }
                 else{
-                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, tip.nombre as tipo, c.fecha_registro as dateReg
+                    if ($tagId==0) {
+                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, tip.nombre as tipo, c.fecha_registro as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN ctl_industria ind on(c.industria=ind.id)
@@ -352,6 +396,24 @@ class CrmCuentaController extends Controller
                             $stmt = $em->getConnection()->prepare($sql);
                             $stmt->execute();
                             $row['data'] = $stmt->fetchAll();
+                    }
+                    else{
+                        $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, tip.nombre as tipo, c.fecha_registro as dateReg
+                                        FROM crm_contacto_cuenta cc
+                                        INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
+                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
+                                        INNER JOIN crm_contacto con on(cc.contacto=con.id)
+                                        INNER JOIN ctl_persona per on(con.persona=per.id)
+                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                        WHERE per.id<>1 AND c.estado=1 AND tip.nombre='".$nombre."' AND e.id =".$tagId."
+                                        GROUP BY 1
+                                        ORDER BY ". $orderByText." ".$orderDir;
+                            $stmt = $em->getConnection()->prepare($sql);
+                            $stmt->execute();
+                            $row['data'] = $stmt->fetchAll();
+                    }
                 }
                 return new Response(json_encode($row));
             } catch (\Exception $e) {
@@ -616,9 +678,10 @@ class CrmCuentaController extends Controller
                 $phoneExtArray = $_POST['phoneExt'];//apellido persona
 
                 //Dirección
-                $addressArray = $_POST['address'];//apellido persona
-                $addressCityArray = $_POST['addressCity'];//apellido persona
-                $addressDepartamentoArray = $_POST['addressDepartamento'];//apellido persona
+                $addressArray = $_POST['address'];//direccion persona
+                $addressCityArray = $_POST['addressCity'];//city
+                $addressDepartamentoArray = $_POST['addressDepartamento'];//state
+                $zipCodeArray = $_POST['zipcode'];//zipcode
 
                 //Busqueda objetos a partir de ids
                 $industriaObj = $em->getRepository('ERPCRMBundle:CtlIndustria')->find($industriaId);
@@ -740,24 +803,29 @@ class CrmCuentaController extends Controller
                                           
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
-                        if ($key<$addressLenght && $key!=0) {
-                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                         
-                        } else {
-                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key<$addressLenght && $key!=0) {
+//                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                         
+//                        } else {
+//                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
+                        
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
+                        $ctlDireccionObj->setCiudad(null);
                         
                         $ctlDireccionObj->setLatitud(0);
                         $ctlDireccionObj->setLongitud(0);
@@ -766,14 +834,14 @@ class CrmCuentaController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                         
-                    }                
+                    }    
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -929,28 +997,33 @@ class CrmCuentaController extends Controller
 
                     //Tabla ctlDireccion
                     $addressLenght=count($addressArray);//Cantidad de direccion ingresados, menos 1 para index de array
-                    foreach ($addressArray as $key => $phone) {
+                    foreach ($addressArray as $key => $val) {
                                           
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
-                        if ($key<$addressLenght && $key!=0) {
-                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                         
-                        } else {
-                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key<$addressLenght && $key!=0) {
+//                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                         
+//                        } else {
+//                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
+                        
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
+                        $ctlDireccionObj->setCiudad(null);
                         
                         $ctlDireccionObj->setLatitud(0);
                         $ctlDireccionObj->setLongitud(0);
@@ -959,14 +1032,14 @@ class CrmCuentaController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                         
-                    }                
+                    }
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -1091,15 +1164,41 @@ class CrmCuentaController extends Controller
                     $dirArray=array();
                     $cityArray=array();
                     $stateArray=array();
+                    $zipCodeArray=array();
                     foreach ($ctlDireccionObj as $key => $value) {
-                        array_push($dirArray, $value->getDireccion());
-                        array_push($cityArray, $value->getCiudad()->getId());
-                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
+                        if($value->getDireccion()==null){
+                            array_push($dirArray, '');
+                        }
+                        else{
+                            array_push($dirArray, $value->getDireccion());
+                        }
+                        if($value->getCity()==null){
+                            array_push($cityArray, '');
+                        }
+                        else{
+                            array_push($cityArray, $value->getCity());
+                        }
+                        if($value->getState()==null){
+                            array_push($stateArray, '');
+                        }
+                        else{
+                            array_push($stateArray, $value->getState());
+                        }
+                        if($value->getZipCode()==null){
+                            array_push($zipCodeArray, '');
+                        }
+                        else{
+                            array_push($zipCodeArray, $value->getZipCode());
+                        }
+//                        array_push($dirArray, $value->getDireccion());
+//                        array_push($cityArray, $value->getCiudad()->getId());
+//                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
                     }
                     // $data['addressArray']=$ctlDireccionObj[0];
                     $data['addressArray']=$dirArray;
                     $data['cityArray']=$cityArray;
                     $data['stateArray']=$stateArray;
+                    $data['zipCodeArray']=$stateArray;
                 }
                 else{
                     $data['addressArray']=[];
@@ -1163,7 +1262,21 @@ class CrmCuentaController extends Controller
                 $data['website']=$crmCuentaObj->getSitioWeb();
                 
                 $data['id1']=$crmCuentaObj->getId();
-                $data['id2']=$crmCuentaObj->getId();
+                $data['id2']=$ctlPersonaObj->getId();
+                
+                              
+                
+                
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaCuenta ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.cuenta c "
+                            ." WHERE c.id=:idCuenta";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                
+                $data['tags']=$tags;
+                
             }
             else{
                 $data['error']="Error";
@@ -1337,7 +1450,6 @@ class CrmCuentaController extends Controller
                             //Persist ctlCorreo
                             $em->persist($ctlCorreoObj);
                             $em->flush();
-
                         }
                         /////Creación de telefonos
                         foreach ($objectTelefonoCuenta as $key => $phone) {
@@ -1370,6 +1482,9 @@ class CrmCuentaController extends Controller
                             
                             $ctlDireccionObj->setLatitud($direccion->getLatitud());
                             $ctlDireccionObj->setLongitud($direccion->getLongitud());
+                            $ctlDireccionObj->setCity($direccion->getCity());
+                            $ctlDireccionObj->setState($direccion->getState());
+                            $ctlDireccionObj->setZipCode($direccion->getZipCode());
                             $ctlDireccionObj->setEstado($direccion->getEstado());
                             //Persist ctlDireccion
                             $em->persist($ctlDireccionObj);
@@ -1430,7 +1545,7 @@ class CrmCuentaController extends Controller
 
 
 
-/**
+    /**
      * Add comment providers
      *
      * @Route("/providers/comment/add", name="admin_providers_comment_add_ajax",  options={"expose"=true}))
@@ -1459,6 +1574,7 @@ class CrmCuentaController extends Controller
                 $crmComentarioCuenta->setFechaRegistro($fechaRegistro);
                 $crmComentarioCuenta->setCuenta($cuentaObj);
                 $crmComentarioCuenta->setUsuario($usuarioObj);
+                $crmComentarioCuenta->setTipoComentario(1);//Comentario
 
                 $em->persist($crmComentarioCuenta);
                 $em->flush();
@@ -1472,6 +1588,7 @@ class CrmCuentaController extends Controller
                 // die();
                 $data['usuario']=$usuarioObj->getPersona()->getNombre().' '.$usuarioObj->getPersona()->getApellido();
                 $data['comentario']=$comment;
+                $data['tipocomentario']=$crmComentarioCuenta->getTipoComentario();
                 $data['fecha']=$fechaRegistro->format('Y-m-d H:i');
                 $data['numeroItems']=$reg[0]['total'];
                 //$data['usuario']=$usuario->getPersona()->getNombre().' '.$usuario->getPersona()->getApellido();
@@ -1503,12 +1620,6 @@ class CrmCuentaController extends Controller
         return $response;
         
     }
-
-
-
-
-
-
 
 
 
@@ -1638,9 +1749,10 @@ class CrmCuentaController extends Controller
                 $phoneExtArray = $_POST['phoneExt'];//apellido persona
 
                 //Dirección
-                $addressArray = $_POST['address'];//apellido persona
-                $addressCityArray = $_POST['addressCity'];//apellido persona
-                $addressDepartamentoArray = $_POST['addressDepartamento'];//apellido persona
+                $addressArray = $_POST['address'];//direccion persona
+                $addressCityArray = $_POST['addressCity'];//city
+                $addressDepartamentoArray = $_POST['addressDepartamento'];//state
+                $zipCodeArray = $_POST['zipcode'];//zipcode
 
                 //Busqueda objetos a partir de ids
                 $industriaObj = $em->getRepository('ERPCRMBundle:CtlIndustria')->find($industriaId);
@@ -1797,7 +1909,7 @@ class CrmCuentaController extends Controller
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -1953,28 +2065,33 @@ class CrmCuentaController extends Controller
 
                     //Tabla ctlDireccion
                     $addressLenght=count($addressArray);//Cantidad de direccion ingresados, menos 1 para index de array
-                    foreach ($addressArray as $key => $phone) {
+                    foreach ($addressArray as $key => $val) {
                                           
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
-                        if ($key<$addressLenght && $key!=0) {
-                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                         
-                        } else {
-                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key<$addressLenght && $key!=0) {
+//                            if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                         
+//                        } else {
+//                                //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
+                        
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
+                        $ctlDireccionObj->setCiudad(null);
                         
                         $ctlDireccionObj->setLatitud(0);
                         $ctlDireccionObj->setLongitud(0);
@@ -1983,14 +2100,14 @@ class CrmCuentaController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                         
-                    }                
+                    }          
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
                     if ($nombreTmp!='') {
                         //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                         
-                        $path = $this->getParameter('photo.proveedor');
+                        $path = $this->getParameter('photo.cuentas');
                         //var_dump($path);
                         $fecha = date('Y-m-d-H-i-s');
                         $extensionTmp = $_FILES['file']['type'];
@@ -2109,10 +2226,35 @@ class CrmCuentaController extends Controller
                     $dirArray=array();
                     $cityArray=array();
                     $stateArray=array();
+                    $zipCodeArray=array();
                     foreach ($ctlDireccionObj as $key => $value) {
-                        array_push($dirArray, $value->getDireccion());
-                        array_push($cityArray, $value->getCiudad()->getId());
-                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
+                        if($value->getDireccion()==null){
+                            array_push($dirArray, '');
+                        }
+                        else{
+                            array_push($dirArray, $value->getDireccion());
+                        }
+                        if($value->getCity()==null){
+                            array_push($cityArray, '');
+                        }
+                        else{
+                            array_push($cityArray, $value->getCity());
+                        }
+                        if($value->getState()==null){
+                            array_push($stateArray, '');
+                        }
+                        else{
+                            array_push($stateArray, $value->getState());
+                        }
+                        if($value->getZipCode()==null){
+                            array_push($zipCodeArray, '');
+                        }
+                        else{
+                            array_push($zipCodeArray, $value->getZipCode());
+                        }
+//                        array_push($dirArray, $value->getDireccion());
+//                        array_push($cityArray, $value->getCiudad()->getId());
+//                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
                     }
                     // $data['addressArray']=$ctlDireccionObj[0];
                     $data['addressArray']=$dirArray;
@@ -2181,10 +2323,17 @@ class CrmCuentaController extends Controller
                 $data['website']=$crmCuentaObj->getSitioWeb();
                 
                 $data['id1']=$crmCuentaObj->getId();
-                $data['id2']=$crmCuentaObj->getId();
+                $data['id2']=$ctlPersonaObj->getId();
 
-
-
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaCuenta ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.cuenta c "
+                            ." WHERE c.id=:idCuenta";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('idCuenta'=>$idCuenta))
+                                    ->getResult();
+                
+                $data['tags']=$tags;
                 
             }
             else{
@@ -2260,6 +2409,7 @@ class CrmCuentaController extends Controller
             $idCuenta=$request->get("param1"); /////Id de la cuenta que se esta viendo
             // $longitud=$request->get("param2"); /////Numero de items a recuperar por click
             $longitud = $this->getParameter('app.serverSeguimientoLongitud'); /////Numero de items a recuperar por click y al inicio
+            $files = $this->getParameter('app.serverFileAttached'); /////
             $numPedidos=$request->get("param2"); /////Numero de veces solicitado, para el paginado
             // sleep ( 5 );
             $inicio=($longitud*$numPedidos)-$longitud;
@@ -2268,6 +2418,7 @@ class CrmCuentaController extends Controller
             $stmt = $em->getConnection()->prepare($sql);
             $stmt->execute();
             $data['data']= $stmt->fetchAll();
+            $data['files']= $files;
             // return new Response(json_encode($data));
         } catch (\Exception $e) {
             $data['error']=$e->getMessage();
@@ -2275,6 +2426,8 @@ class CrmCuentaController extends Controller
         $response->setData($data);
         return $response;
     }
+    
+    
 
 
      /**

@@ -16,7 +16,8 @@
 {% endblock %}
  #}
  <div class="col-md-12 col-xs-12">
-            <div id="pnAdd" class="panel panel-default" style="display:none;">
+            <div id="pnAdd" style="display:none;">
+                <div class="panel panel-default">
                     <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
                     <div class="panel-body">
                         <form id="frmCampaigns"  method="post" enctype="multipart/form-data">
@@ -24,6 +25,8 @@
                                 <label>{{nameCampaniaReg}}</label>
                                 <label class="hidden requiredFields">{{requiredFields}}</label>
                                 <input id="txtId" type="hidden" name="txtId" class="input-sm form-control">
+                                <input id="iteracion" type="hidden" name="iteracion" class="input-sm form-control">
+                                <input id="txtTipoComment" type="hidden" name="txtTipoComment" class="input-sm form-control" value="3">{#3 para campañas#}
                                 <input id="txtName" type="text" name="txtName" class="input-sm form-control validateInput">
                             </div>
                             <div class="col-md-6">
@@ -102,6 +105,9 @@
                                 <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
                             </div>
                         </form>
+                        
                     </div>
+                    </div>
+                    {% include ':crmcomentarios:comments_section.html.twig' %}
             </div>
 </div>
