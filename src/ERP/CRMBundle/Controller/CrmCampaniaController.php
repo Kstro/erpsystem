@@ -298,13 +298,7 @@ class CrmCampaniaController extends Controller
                 $inicioCampania=$_POST['inicioCampania'];
                 $finCampania=$_POST['finCampania'];
                 $descripcion=$_POST['descripcionCampania'];
-                // var_dump($_POST );
-                //var_dump($idST );
-                // var_dump($responsableCampania);
-                // var_dump($masResponsableCampania);
-                // die();
-                // var_dump($id);
-                // var_dump($nombreCampaign);
+                
                 $em = $this->getDoctrine()->getEntityManager();
                 $tipoCampaniaObj = $em->getRepository('ERPCRMBundle:CrmTipoCampania')->find($tipoCampania);
                 // var_dump($tipoCampaniaObj);
@@ -337,8 +331,9 @@ class CrmCampaniaController extends Controller
 
                                 $em->persist($object);
                                 $em->flush();    
-
-                                $responsableCampaniaObj = $em->getRepository('ERPCRMBundle:CtlPersona')->find($id);
+                                
+                                $responsableCampaniaObj = $em->getRepository('ERPCRMBundle:CtlPersona')->find($responsableCampania);
+                                
                                 if (count($responsableCampaniaObj)!=0) {
                                     $personaAsignada = new CrmPersonalCampania();
                                     $personaAsignada->setEstado(1);
@@ -349,15 +344,13 @@ class CrmCampaniaController extends Controller
                                 }
 
 
-
-                                
                                 //Tabla crmAsignacionCampania
                                 foreach ($masResponsableCampania as $key => $per) {
                                     //Tabla crmAsignacionActividad
                                     $responsableUsuarioObj = $em->getRepository('ERPCRMBundle:CtlUsuario')->find($per);
                                     $personaAsignada = new CrmPersonalCampania();
                                     $personaAsignada->setEstado(1);
-                                    $personaAsignada->setPersonaAsignada($responsableCampaniaObj->getPersona());
+                                    $personaAsignada->setPersonaAsignada($responsableUsuarioObj->getPersona());
                                     $personaAsignada->setCampania($object);
                                     $em->persist($personaAsignada);
                                     $em->flush();

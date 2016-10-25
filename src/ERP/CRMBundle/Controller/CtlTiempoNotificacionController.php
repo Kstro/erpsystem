@@ -156,7 +156,7 @@ class CtlTiempoNotificacionController extends Controller
                 $busqueda = $request->query->get('search');
                 
                 $em = $this->getDoctrine()->getEntityManager();
-                $rowsTotal = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->findAll();
+                $rowsTotal = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->findBy(array('estado' => 1), array('tiempoReal' => 'ASC'));
                 
                 $row['draw']=$draw++;  
                 $row['recordsTotal'] = count($rowsTotal);
@@ -183,24 +183,19 @@ class CtlTiempoNotificacionController extends Controller
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){        
-                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability, 
-                                        CASE
-                                        WHEN obj.estado =1 THEN 'Active'
-                                        ELSE 'Inactive'
-                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
-                                        . "WHERE obj.estado=1 AND CONCAT(upper(obj.nombre),' ',upper(obj.probabilidad)) LIKE upper(:busqueda) "
-                                        . "AND obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, obj.duracion as duration, obj.unidadTiempo as unit
+                                    FROM ERPCRMBundle:CtlTiempoNotificacion obj 
+                                    WHERE obj.estado = 1 AND CONCAT(upper(obj.nombre),' ',upper(obj.duracion),' ',upper(obj.unidadTiempo)) LIKE upper(:busqueda) 
+                                    ORDER BY ".$orderByText." ".$orderDir;                            
                             $row['data'] = $em->createQuery($sql)
                                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                                     ->getResult();                    
                             $row['recordsFiltered']= count($row['data']);
-                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, CONCAT('<div style=\"text-align:right;\">',obj.probabilidad,' %</div>') as probability,
-                                        CASE
-                                        WHEN obj.estado =1 THEN 'Active'
-                                        ELSE 'Inactive'
-                                        END AS state FROM ERPCRMBundle:CtlEtapaVenta obj "
-                                                . "WHERE obj.estado=1 AND CONCAT(upper(obj.nombre),' ',upper(obj.probabilidad)) LIKE upper(:busqueda) "
-                                                . "AND obj.estado=1 ORDER BY ".$orderByText." ".$orderDir;
+                            
+                            $sql = "SELECT CONCAT('<div id=\"',obj.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',obj.nombre,'</div>') as name, obj.duracion as duration, obj.unidadTiempo as unit
+                                    FROM ERPCRMBundle:CtlTiempoNotificacion obj 
+                                    WHERE obj.estado = 1 AND CONCAT(upper(obj.nombre),' ',upper(obj.duracion),' ',upper(obj.unidadTiempo)) LIKE upper(:busqueda) 
+                                    ORDER BY ".$orderByText." ".$orderDir;
                             $row['data'] = $em->createQuery($sql)
                                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                                     ->setFirstResult($start)
@@ -284,12 +279,33 @@ class CtlTiempoNotificacionController extends Controller
                         $serverDuplicateName = $this->getParameter('app.serverDuplicateName');
                         $data['error'] = $serverDuplicateName;
                     } else {
+                        $unidadTiempo = explode("-", $unit);
+                        
+                        switch ($unidadTiempo[1]) {
+                            case "1":
+                                $tiempoReal = $duration;
+                                break;
+                            case "2":
+                                $tiempoReal = $duration * 60;
+                                break;
+                            case "3":
+                                $tiempoReal = $duration * 60 * 24;
+                                break;
+                            case "4":
+                                $tiempoReal = $duration * 60 * 24 * 30;
+                                break;
+                            case "5":
+                                $tiempoReal = $duration * 60 * 24 * 30 * 12;
+                                break;
+                        }
+                        
                         if ($id=='') {
                                 // echo "if";
                                 $object = new CtlTiempoNotificacion();
                                 $object->setNombre($name);
                                 $object->setDuracion($duration);
-                                $object->setUnidadTiempo($unit);
+                                $object->setUnidadTiempo($unidadTiempo[0]);
+                                $object->setTiempoReal($tiempoReal);
                                 $object->setEstado(true);
                                 $em->persist($object);
                                 $em->flush();    
@@ -301,7 +317,7 @@ class CtlTiempoNotificacionController extends Controller
                                 $object = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->find($id);
                                 $object->setNombre($name);
                                 $object->setDuracion($duration);
-                                $object->setUnidadTiempo($unit);
+                                $object->setUnidadTiempo($unidadTiempo[0]);
                                 //$object->setNombre($name);
                                 $em->merge($object);
                                 $em->flush();    

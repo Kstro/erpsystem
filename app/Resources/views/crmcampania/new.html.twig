@@ -40,7 +40,7 @@
                             <div class="clearfix"></div>
                             <div class="col-md-6" style="margin-top:20px;">
                                 <label>{{responsableCampaniaReg}}</label>
-                                <select style="width:100%;" name="responsableCampania[]" id="responsableCampania" class="dpbFirstResponsable">
+                                <select style="width:100%;" name="responsableCampania" id="responsableCampania" class="dpbFirstResponsable">
                                     {# <option value="0"></option> #}
                                     {% for persona in personas %}
                                         <option value="{{persona.persona.id}}">{{persona.persona.nombre}} {{persona.persona.apellido}}</option>    
@@ -91,7 +91,7 @@
                                 <label>{{responsableTareas}}</label>
                                 <select style="margin-top:25px; width:100%;" type="text" name="responsable[]" class="input-sm form-control validateInput dpbResponsable firstResponsable">
                                     {% for persona in personas %}
-                                            <option value={{persona.id}}>{{persona.persona.nombre}}</option>
+                                            <option value={{persona.id}}>{{persona.persona}}</option>
                                     {% endfor %}
                                 </select>
                             </div>

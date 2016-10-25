@@ -36,17 +36,17 @@ class CrmLlamadasController extends Controller
             $response = new JsonResponse();
 
             //Persona-usuarios
-            $personas = $em->getRepository('ERPCRMBundle:CtlUsuario')->findAll();
+            $personas = $em->getRepository('ERPCRMBundle:CtlUsuario')->findBy(array('estado' => 1));
             //Estado
             $estados = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->findAll();
             //Tipo recordatorio
             $recordatorios = $em->getRepository('ERPCRMBundle:CtlTipoRecordatorio')->findAll();
             //Tipo recordatorio
-            $tiempos = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->findAll();
+            $tiempos = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->findBy(array('estado' => 1), array('tiempoReal' => 'ASC'));
             //Prioridad
-            $prioridad = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findAll();
+            $prioridad = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findBy(array('estado' => 1));
             //Actividades
-            $actividades = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->findAll();
+            $actividades = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->findBy(array('estado' => 1));
 
             // //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             // $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findAll();
