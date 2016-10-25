@@ -43,14 +43,14 @@ class CrmCuentaController extends Controller
             // $crmCuentas = $em->getRepository('ERPCRMBundle:CrmCuenta')->findAll();
             $response = new JsonResponse();
             //Titulo protocolario
-            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findAll();
+            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findBy(array('estado'=>1));
             //Estado
-            $estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
+            //$estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
             //Ciudad
-            $ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
+            //$ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
             //Tipo persona
             //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
-            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findAll();
+            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             //Tipo industria
             $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll(array('estado'=>1));
             //Tipos telefono
@@ -63,8 +63,8 @@ class CrmCuentaController extends Controller
             return $this->render('crmcuenta/index_provider.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
-                'estados'=>$estados,
-                'ciudades'=>$ciudades,
+                //'estados'=>$estados,
+                //'ciudades'=>$ciudades,
                 'personas'=>$personas,
                 'industrias'=>$industrias,
                 'tiposTelefono'=>$tiposTelefono,
@@ -106,33 +106,34 @@ class CrmCuentaController extends Controller
             // $crmCuentas = $em->getRepository('ERPCRMBundle:CrmCuenta')->findAll();
             $response = new JsonResponse();
             //Titulo protocolario
-            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findAll();
+            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findBy(array('estado'=>1));
             //Estado
-            $estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
+            //$estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
             //Ciudad
-            $ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
+            //$ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
             //Tipo persona
             //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
-            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findAll();
+            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             //Tipo industria
-            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll(array('estado'=>1));
+            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findBy(array('estado'=>1));
             //Tipos telefono
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
             $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
             //Tipos de etiqueta
             $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
-            return $this->render('crmcuenta/index_account.html.twig', array(
+
+            return $this->render('crmcuenta/index_provider.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
-                'estados'=>$estados,
-                'ciudades'=>$ciudades,
+                //'estados'=>$estados,
+                //'ciudades'=>$ciudades,
                 'personas'=>$personas,
                 'industrias'=>$industrias,
                 'tiposTelefono'=>$tiposTelefono,
                 'tiposCuenta'=>$tiposCuenta,
                 'etiquetas'=>$etiquetas,
-                'opcion' => $nombre,
+                'menuProveedorA' => 1,
             ));
         
         } catch (\Exception $e) {  

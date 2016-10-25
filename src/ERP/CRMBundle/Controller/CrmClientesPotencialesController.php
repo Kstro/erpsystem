@@ -41,22 +41,22 @@ class CrmClientesPotencialesController extends Controller
             // $crmCuentas = $em->getRepository('ERPCRMBundle:CrmCuenta')->findAll();
             $response = new JsonResponse();
             //Titulo protocolario
-            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findAll();
+            $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findBy(array('estado'=>1));
             //Estado
-            $estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
+            //$estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
             //Ciudad
-            $ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
+            //$ciudades = $em->getRepository('ERPCRMBundle:CtlCiudad')->findAll();
             //Tipo persona
             //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
-            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findAll();
+            $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             //Tipo interes
-            $interes = $em->getRepository('ERPCRMBundle:CtlNivelInteres')->findAll(array('estado'=>1));
+            $interes = $em->getRepository('ERPCRMBundle:CtlNivelInteres')->findBy(array('estado'=>1));
             //Estado cliente potencial
-            $estadosCli = $em->getRepository('ERPCRMBundle:CrmEstadoClientePotencial')->findAll(array('estado'=>1));
+            $estadosCli = $em->getRepository('ERPCRMBundle:CrmEstadoClientePotencial')->findBy(array('estado'=>1));
             //fuentes
-            $fuentes = $em->getRepository('ERPCRMBundle:CtlFuente')->findAll(array('estado'=>1));
+            $fuentes = $em->getRepository('ERPCRMBundle:CtlFuente')->findBy(array('estado'=>1));
             //campanias
-            $campanias = $em->getRepository('ERPCRMBundle:CrmCampania')->findAll(array('estado'=>1));
+            $campanias = $em->getRepository('ERPCRMBundle:CrmCampania')->findBy(array('estado'=>1));
             //Tipos telefono
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
@@ -67,9 +67,9 @@ class CrmClientesPotencialesController extends Controller
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
                 'estadosCli'=>$estadosCli,
-                'estados'=>$estados,
+                //'estados'=>$estados,
                 'campanias'=>$campanias,
-                'ciudades'=>$ciudades,
+                //'ciudades'=>$ciudades,
                 'personas'=>$personas,
                 'interes'=>$interes,
                 'fuentes'=>$fuentes,
