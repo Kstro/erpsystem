@@ -132,8 +132,11 @@ class CrmCalendarController extends Controller
         } catch (\Exception $e) {  
             // var_dump($e);
             if(method_exists($e,'getErrorCode')){ 
+                
+                    $serverOffline='';
                     switch (intval($e->getErrorCode()))
                     {
+                        
                         case 2003: 
                             $serverOffline = $this->getParameter('app.serverOffline');
                             $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();

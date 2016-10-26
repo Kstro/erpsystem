@@ -201,6 +201,7 @@ twig:
         
         #Botones - Ingles
         add: '%app.add%'
+        showCancel: '%app.showCancel%'
         addFile: '%app.addFile%'
         loadMoreComments: '%app.loadMoreComments%'
         loadMoreFiles: '%app.loadMoreFiles%'

@@ -29,17 +29,19 @@
 {% endblock %}
 {% block acciones %}
      <div class="col-md-7 text-right panel-body">
-       
-       <div class="col-md-12">
-          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
-          <button type="button" class="btnAddPage btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">{{add}}</button>
-          <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
-          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
-          {# <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button> #}
-          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{cancel}}</button>
-          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
-          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
-          </div>
+        
+            {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
+            <input style="margin-right: 20px;" type="checkbox" id="showCancel" class="btn btn-primary">
+        
+            {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
+            <button type="button" class="btnAddPage btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">{{add}}</button>
+            <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
+            <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
+            {# <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button> #}
+            <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{cancel}}</button>
+            <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+            <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
+        
      </div>
 {% endblock acciones %}
 {% block navegacion %}
@@ -448,6 +450,17 @@
             $("#filterTipoActividad, #filterPersona, #filterCuentaActividades").on("change", function (e) {
                     setsource();
             });
+            $(document).on("change","#btnShowCancel", function (e) {
+                if($(this).hasClass('btn-primary')){
+                    $(this).removeClass('btn-primary');
+                    $(this).addClass('btn-success');
+                }
+                else{
+                    $(this).addClass('btn-primary');
+                    $(this).removeClass('btn-success');
+                }
+                    setsource();
+            });
     
 });
 
@@ -484,6 +497,7 @@
             filterCuentaId=$('#filterCuentaActividades').val();
             var filterTipo = $('#filterTipoActividad').val();
             var filterPersona = $('#filterPersona').val();
+            var showCancel = $('#showCancel').val();
             console.log(fechaInicio);
             console.log(fechaFin);
             for(j=0;j<sources.length;j++){
@@ -494,7 +508,7 @@
             console.log(sources[0]);
             var source2 = 
                 {
-                    url: Routing.generate('fullcalendar_loader')+'?param1='+filterTipo+'&param2='+filterPersona+'&param3='+filterCuentaId,
+                    url: Routing.generate('fullcalendar_loader')+'?param1='+filterTipo+'&param2='+filterPersona+'&param3='+filterCuentaId+'&param4='+showCancel,
                     type: 'POST',
                     data: {
                         filtro: 1

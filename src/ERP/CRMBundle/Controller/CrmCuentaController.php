@@ -52,7 +52,7 @@ class CrmCuentaController extends Controller
             //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             //Tipo industria
-            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll(array('estado'=>1));
+            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll();
             //Tipos telefono
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
@@ -115,7 +115,7 @@ class CrmCuentaController extends Controller
             //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             //Tipo industria
-            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findBy(array('estado'=>1));
+            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll();
             //Tipos telefono
             $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
             //Tipos de cuenta
@@ -123,7 +123,7 @@ class CrmCuentaController extends Controller
             //Tipos de etiqueta
             $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
 
-            return $this->render('crmcuenta/index_provider.html.twig', array(
+            return $this->render('crmcuenta/index_account.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
                 //'estados'=>$estados,
@@ -133,7 +133,7 @@ class CrmCuentaController extends Controller
                 'tiposTelefono'=>$tiposTelefono,
                 'tiposCuenta'=>$tiposCuenta,
                 'etiquetas'=>$etiquetas,
-                'menuProveedorA' => 1,
+                'opcion' => $nombre,
             ));
         
         } catch (\Exception $e) {  
