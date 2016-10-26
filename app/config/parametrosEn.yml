@@ -201,6 +201,23 @@ parameters:
         app.descripcionSatisfaccion: Add, modify or delete levels of customer satisfaction.
         app.nameSatisfaccion: Name
         
+        #Contacto
+        app.tituloContacto: Contact
+        app.encabezadoContacto: Contact
+        app.descripcionContacto: Contact management
+        app.tratoContacto: Title
+        app.nombreContacto: First Name
+        app.apellidoContacto: Last Name
+        app.companiaNombreContacto: Name Company
+        app.direccionContacto: Address
+        app.departamentoContacto: State
+        app.ciudadContacto: City
+        app.phoneContacto: Phone
+        app.extensionContacto: Extension
+        app.emailContacto: Email
+        app.fotoContacto: Photo
+        app.nombreCompletoContacto: Name
+        
         #Proveedor
         app.tituloProveedor: CRM | Providers
         app.companiaNombreProveedor: Company's name
@@ -219,7 +236,7 @@ parameters:
         app.fotoProveedor: Photo
         app.ciudadProveedor: City
         app.departamentoProveedor: State
-        app.tipoPersonaProveedor: Person
+        app.tipoPersonaProveedor: Entity
         app.industriaProveedor: Industry
         app.sitioWebProveedor: Website
         app.inputFileLabel: Browse
@@ -253,7 +270,7 @@ parameters:
         app.menuAccount: Accounts.
         app.encabezadoAccount: Account
         app.descripcionAccount: Add, modify or delete 
-        app.cuentaAccount: Account
+        app.cuentaAccount: Company
         app.nameAccount: Name
         app.nombreAccount: First name
         app.apellidoAccount: Last name
