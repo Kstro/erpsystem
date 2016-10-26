@@ -20,7 +20,7 @@ $(document).on('click', '.btnAddPage', function(event) {
 		/*// console.log("else");*/
 		/*// limpiarCampos();*/
 		$('#pnAdd').show();
-		$('#clientePotencialList').parent().hide();
+		$('#clientePotencialList').parent().hide();    
 	}
 	$('#btnSaveTop').removeClass('hidden');
 	$('#btnCancelTop').removeClass('hidden');
