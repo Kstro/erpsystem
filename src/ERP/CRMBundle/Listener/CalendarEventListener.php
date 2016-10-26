@@ -26,7 +26,7 @@ class CalendarEventListener
         $filter = $request->get('filter');
         $startString = $request->get('startDate');
         $endString = $request->get('endDate');
-
+        
         // var_dump($tipoActividad);
         // var_dump($usuario);
         $startDate = new \DateTime($startString);
@@ -194,6 +194,7 @@ class CalendarEventListener
                 switch ($event['tipId']) {
                     case 1://///Tasks
                             // $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event
+                            $eventEntity->setTitle('<i class="fa fa-tasks"> </i> '.$title);
                             $eventEntity->setBgColor('#DD4645'); //set the background color of the event's label
                             $eventEntity->setFgColor('#FFFFFF !important'); //set the foreground color of the event's label
                             //$eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
@@ -201,6 +202,7 @@ class CalendarEventListener
                         break;
                     case 2:
                     default:
+                            $eventEntity->setTitle('<i class="fa fa-tasks"> </i> '.$title);
                             $eventEntity->setBgColor('#5CC8ED'); //set the background color of the event's label
                             $eventEntity->setFgColor('#FFFFFF !important'); //set the foreground color of the event's label
                             // $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
@@ -208,14 +210,15 @@ class CalendarEventListener
                         break;
                 }
             } else {
-                $title = /*$event->getFechaInicio()->format("n/j G:i")."\n".$event->getFechaFin()->format("n/j G:i")."\n".*/$event->getNombre().' | '.$event->getFechaInicio()->format("G:i")." - ".$event->getFechaFin()->format("G:i");
+                $title =/*$event->getFechaInicio()->format("n/j G:i")."\n".$event->getFechaFin()->format("n/j G:i")."\n".*/$event->getNombre().' | '.$event->getFechaInicio()->format("G:i")." - ".$event->getFechaFin()->format("G:i");
                 $eventEntity = new EventEntity($title, $event->getFechaInicio(), $event->getFechaFin(), false);
                 $eventEntity->setId($event->getId());
                 switch ($event->getTipoActividad()->getId()) {
                     case 1://///Tasks
                         # code...
+                            $eventEntity->setTitle('<i class="fa fa-tasks" aria-hidden="true"></i> '.$title);
                             // $eventEntity->setAllDay(true); // default is false, set to true if this is an all day event
-                            $eventEntity->setBgColor('#AB2925'); //set the background color of the event's label
+                            $eventEntity->setBgColor('#286090'); //set the background color of the event's label
                             $eventEntity->setFgColor('#FFFFFF !important'); //set the foreground color of the event's label
                             //$eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
                             $eventEntity->setCssClass('my-custom-class'); // a custom class you may want to apply to event labels
@@ -223,6 +226,7 @@ class CalendarEventListener
                     case 2://///Calls
                         # code...
                             //$eventEntity->setBgColor('#5CC8ED'); //set the background color of the event's label
+                            $eventEntity->setTitle('<i class="fa fa-phone" aria-hidden="true"></i> '.$title);
                             $eventEntity->setBgColor('#2699BB'); //set the background color of the event's label
                             $eventEntity->setFgColor('#FFFFFF !important'); //set the foreground color of the event's label
                             // $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
@@ -230,6 +234,7 @@ class CalendarEventListener
                         break;
                     case 3://///Meetings
                         # code...
+                            $eventEntity->setTitle('<i class="fa fa-users" aria-hidden="true"></i> '.$title);    
                             $eventEntity->setBgColor('#398339'); //set the background color of the event's label
                             $eventEntity->setFgColor('#FFFFFF !important'); //set the foreground color of the event's label
                             // $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
@@ -237,6 +242,7 @@ class CalendarEventListener
                         break;
                     case 4://///Others
                         # code...
+                            $eventEntity->setTitle('<i class="fa fa-list-ul" aria-hidden="true"></i> '.$title);    
                             $eventEntity->setBgColor('#D58512'); //set the background color of the event's label
                             $eventEntity->setFgColor('#FFFFFF !important'); //set the foreground color of the event's label
                             // $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked
@@ -244,6 +250,7 @@ class CalendarEventListener
                         break;
                     default:
                         # code...
+                            $eventEntity->setTitle('<i class="fa fa-tasks"> </i> '.$title);
                             $eventEntity->setBgColor('#673293'); //set the background color of the event's label
                             $eventEntity->setFgColor('#FFFFFF !important'); //set the foreground color of the event's label
                             // $eventEntity->setUrl('http://www.google.com'); // url to send user to when event label is clicked

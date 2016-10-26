@@ -882,6 +882,79 @@ class CrmLlamadasController extends Controller
         return $response;
         
     }
+    
+    
+    
+    
+    
+    /**
+     * Reprogramar eventos, guardar cambios
+     *
+     * @Route("/activities/get/info/", name="admin_get_info_activities_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function activitiesinfoAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $idActividad=$request->get("param1");
+                $response = new JsonResponse();
+                
+                $em = $this->getDoctrine()->getManager();
+                $em->getConnection()->beginTransaction();
+                $crmActividadObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idActividad);
+                
+                //var_dump($crmActividadObj);
+
+                $currentDate = date('Y-m-d H:i:s');
+                
+                
+                
+                $data['id']=$crmActividadObj->getId();
+                $data['nombre']=$crmActividadObj->getNombre();
+                $data['actividad']=$crmActividadObj->getTipoActividad()->getNombre();
+                $data['cuenta']=$crmActividadObj->getCuenta()->getNombre();
+                $data['descripcion']=$crmActividadObj->getDescripcion();
+                $data['inicio']=$crmActividadObj->getFechaInicio()->format('Y-m-d H:i');
+                $data['fin']=$crmActividadObj->getFechaFin()->format('Y-m-d H:i');
+                $data['prioridad']=$crmActividadObj->getPrioridad()->getNombre();
+                
+                $serverSave = $this->getParameter('app.serverMsgSave');
+                $data['msg']=$serverSave;
+                //$data['title']=$crmActividadObj->getFechaInicio()->format('m/d H:i')." - ".$crmActividadObj->getFechaFin()->format('m/d H:i')." \n".$crmActividadObj->getNombre();
+                $data['title']=$crmActividadObj->getFechaInicio()->format('n/j G:i')."\n".$crmActividadObj->getFechaFin()->format('n/j G:i')."\n".$crmActividadObj->getNombre();
+
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                $em->getConnection()->rollback();
+                $em->close();
+                // var_dump($e);
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }      
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
 
 
 
