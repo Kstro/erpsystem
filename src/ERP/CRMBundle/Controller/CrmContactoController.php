@@ -78,7 +78,7 @@ class CrmContactoController extends Controller
                 'fuentes'=>$fuentes,
                 'tiposTelefono'=>$tiposTelefono,
                 //'tiposCuenta'=>$tiposCuenta,
-                'menuClientePotencialA' => 2,
+                'menuContactossA'=>true,
             ));
         
         } catch (\Exception $e) {  

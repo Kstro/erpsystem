@@ -415,8 +415,9 @@ twig:
         fechaInicioFilterDashboardEs: '%app.fechaInicioFilterDashboardEs%'
         fechaFinFilterDashboardEs: '%app.fechaFinFilterDashboardEs%'
         
-        #Contacto
+        #Contacto - Ingles
         tituloContacto: '%app.tituloContacto%'
+        menuContacto: '%app.menuContacto%'
         encabezadoContacto: '%app.encabezadoContacto%'
         descripcionContacto: '%app.descripcionContacto%'
         tratoContacto: '%app.tratoContacto%'
@@ -595,6 +596,26 @@ twig:
         diasTiempoNotificacionEs: '%app.diasTiempoNotificacionEs%'
         mesesTiempoNotificacionEs: '%app.mesesTiempoNotificacionEs%'
         aniosTiempoNotificacionEs: '%app.aniosTiempoNotificacionEs%'
+        
+        #Todas las actividades (Llamadas, reuniones, tareas u otro tipo actividad) - Ingles
+        tituloTodasActividades: '%app.tituloTodasActividades%'
+        menuTodasActividades: '%app.menuTodasActividades%'
+        encabezadoTodasActividades: '%app.encabezadoTodasActividades%'
+        descripcionTodasActividades: '%app.descripcionTodasActividades%'
+        nameTodasActividades: '%app.nameTodasActividades%'
+        tipoTodasActividades: '%app.tipoTodasActividades%'
+        prioridadTodasActividades: '%app.prioridadTodasActividades%'
+        estadoTodasActividades: '%app.estadoTodasActividades%'
+        responsableTodasActividades: '%app.responsableTodasActividades%'
+        recordatorioTodasActividades: '%app.recordatorioTodasActividades%'
+        tiempoRecordatorioTodasActividades: '%app.tiempoRecordatorioTodasActividades%'
+        fechaInicioTodasActividades: '%app.fechaInicioTodasActividades%'
+        fechaFinTodasActividades: '%app.fechaFinTodasActividades%'
+        fechaCancelTodasActividades: '%app.fechaCancelTodasActividades%'
+        estadoTodasActividades: '%app.estadoTodasActividades%'
+        descripcionFormTodasActividades: '%app.descripcionFormTodasActividades%'
+        prioridadTodasActividades: '%app.prioridadTodasActividades%'
+        taskNoEditTodasActividades: '%app.taskNoEditTodasActividades%'
         
         #Tareas (actividades) - Ingles
         tituloTareas: '%app.tituloTareas%'

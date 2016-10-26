@@ -1,7 +1,7 @@
 {% extends ':layout:layouterp.html.twig' %}
 
 
-{% block title -%}<title>{{tituloActividades}}</title>{% endblock %}
+{% block title -%}<title>{{tituloTodasActividades}}</title>{% endblock %}
 
 
 {% block navegacion %}
@@ -22,13 +22,13 @@
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoActividades}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionActividades}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTodasActividades}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTodasActividades}}</p>
           <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
           <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
           <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
           <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
-          <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEdit}}</p>
+          <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEditTodasActividades}}</p>
      </div>
 
 {% endblock %}
@@ -48,7 +48,7 @@
 
 {% block contenido %}
     <div class="row">
-        {% include ':crmactividad:task.html.twig' %}
+        {#{% include ':crmactividad:task.html.twig' %}#}
 
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
