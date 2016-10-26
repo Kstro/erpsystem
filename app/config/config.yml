@@ -413,7 +413,24 @@ twig:
         tipoCuentaFilterDashboardEs: '%app.tipoCuentaFilterDashboardEs%'
         fechaInicioFilterDashboardEs: '%app.fechaInicioFilterDashboardEs%'
         fechaFinFilterDashboardEs: '%app.fechaFinFilterDashboardEs%'
-
+        
+        #Contacto
+        tituloContacto: '%app.tituloContacto%'
+        encabezadoContacto: '%app.encabezadoContacto%'
+        descripcionContacto: '%app.descripcionContacto%'
+        tratoContacto: '%app.tratoContacto%'
+        nombreContacto: '%app.nombreContacto%'    
+        apellidoContacto: '%app.apellidoContacto%'
+        companiaNombreContacto: '%app.companiaNombreContacto%'
+        direccionContacto: '%app.direccionContacto%'
+        departamentoContacto: '%app.departamentoContacto%' 
+        ciudadContacto: '%app.ciudadContacto%'
+        phoneContacto: '%app.phoneContacto%'
+        extensionContacto: '%app.extensionContacto%'   
+        emailContacto: '%app.emailContacto%'
+        fotoContacto: '%app.fotoContacto%'
+        nombreCompletoContacto: '%app.nombreCompletoContacto%'
+        
         #Proveedor - Ingles
         tituloProveedor: '%app.tituloProveedor%'
         
