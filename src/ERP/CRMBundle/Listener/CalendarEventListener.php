@@ -22,6 +22,7 @@ class CalendarEventListener
         $filterTipoActividad = $request->get('param1');
         $filterUsuario = $request->get('param2');
         $filterCuenta = $request->get('param3');
+        $showCancel = $request->get('param4');
         $filter = $request->get('filter');
         $startString = $request->get('startDate');
         $endString = $request->get('endDate');

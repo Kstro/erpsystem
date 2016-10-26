@@ -49,7 +49,7 @@ class CrmClientesController extends Controller
             //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             //Tipo industria
-            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findBy(array('estado'=>1));
+            $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll();
             //Nivel satisfaccion
             $satisfaccion = $em->getRepository('ERPCRMBundle:CtlNivelSatisfaccion')->findBy(array('estado'=>1));
             //Tipos telefono
