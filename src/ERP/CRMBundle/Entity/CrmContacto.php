@@ -95,4 +95,9 @@ class CrmContacto
     {
         return $this->persona;
     }
+    
+    public function __toString() {
+        return (string) $this->getPersona();
+    }
+
 }

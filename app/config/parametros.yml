@@ -214,6 +214,24 @@ parameters:
         app.industriaSocio: Industry
         app.sitioWebSocio: Website
         app.inputFileLabel: Browse
+        
+        #Contacto
+        app.tituloContacto: Contact
+        app.encabezadoContacto: Contact
+        app.descripcionContacto: Contact management
+        app.tratoContacto: Title
+        app.nombreContacto: First Name
+        app.apellidoContacto: Last Name
+        app.companiaNombreContacto: Name Company
+        app.direccionContacto: Address
+        app.departamentoContacto: State
+        app.ciudadContacto: City
+        app.phoneContacto: Phone
+        app.extensionContacto: Extension
+        app.emailContacto: Email
+        app.fotoContacto: Photo
+        app.nombreCompletoContacto: Name
+        
 
         #Accounts
         app.tituloAccount: CRM | Accounts

@@ -721,7 +721,7 @@ class CrmClientesPotencialesController extends Controller
                     $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[0]);//Para definir la variable $ctlTipoTelefonoObj
 
                     foreach ($phoneArray as $key => $phone) {
-                            // var_dump('for');
+                        // var_dump('for');
                         $ctlTelefonoObj = new CtlTelefono();
                         $ctlTelefonoObj->setCuenta($crmCuentaObj);
                         // var_dump("key".$key);

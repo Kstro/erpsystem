@@ -1,32 +1,40 @@
+<a href="{{path('admin_activities_index')}}" class="leftnava">
+    <li class="leftnav left {% if menuTodasActividadesA is defined %}active {% endif %}">
+        {{menuTodasActividades}}
+        <span class="pull-right right">
+                <i class="{% if menuTodasActividadesA is defined %}fa fa-arrow-right {% endif %}"></i>
+        </span>
+    </li>
+</a> 
 <a href="{{path('admin_tasks_index')}}" class="leftnava">
-	<li class="leftnav left {% if menuTasksA is defined %}active {% endif %}">
-		{{menuTareas}}
-		<span class="pull-right right">
-			<i class="{% if menuTasksA is defined %}fa fa-arrow-right {% endif %}"></i>
-		</span>
-	</li>
+    <li class="leftnav left {% if menuTasksA is defined %}active {% endif %}">
+        {{menuTareas}}
+        <span class="pull-right right">
+                <i class="{% if menuTasksA is defined %}fa fa-arrow-right {% endif %}"></i>
+        </span>
+    </li>
 </a>
 <a href="{{path('admin_calls_index')}}" class="leftnava">
-	<li class="leftnav left {% if menuCallsA is defined %}active {% endif %}">
-		{{menuLlamadas}}
-		<span class="pull-right right">
-			<i class="{% if menuCallsA is defined %}fa fa-arrow-right {% endif %}"></i>
-		<span>
-	</li>
+    <li class="leftnav left {% if menuCallsA is defined %}active {% endif %}">
+        {{menuLlamadas}}
+        <span class="pull-right right">
+                <i class="{% if menuCallsA is defined %}fa fa-arrow-right {% endif %}"></i>
+        <span>
+    </li>
 </a>
 <a href="{{path('admin_meetings_index')}}" class="leftnava">
-	<li class="leftnav left {% if menuReunionesA is defined %}active {% endif %}">
-		{{menuReuniones}}
-		<span class="pull-right right">
-			<i class="{% if menuReunionesA is defined %}fa fa-arrow-right {% endif %}"></i>
-		</span>
-	</li>
-</a>
-   <a href="{{path('crmcaso_index')}}" class="leftnava">
+    <li class="leftnav left {% if menuReunionesA is defined %}active {% endif %}">
+        {{menuReuniones}}
+        <span class="pull-right right">
+                <i class="{% if menuReunionesA is defined %}fa fa-arrow-right {% endif %}"></i>
+        </span>
+    </li>
+</a>               
+{#<a href="{{path('crmcaso_index')}}" class="leftnava">
 	<li class="leftnav left {% if menuCasoA is defined %}active {% endif %}">
 		{{menuCaso}}
 		<span class="pull-right right ">
 			<i class="{% if menuCasoA is defined %}fa fa-arrow-right {% endif %}"></i>
 		</span>
 	</li>
-</a>
+</a>#}
