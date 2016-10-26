@@ -35,7 +35,7 @@ class CrmActivitiesController extends Controller
             //Estado
             $estados = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->findAll();
             //Tipo recordatorio
-            $recordatorios = $em->getRepository('ERPCRMBundle:CtlTipoRecordatorio')->findAll(array('estado'=>1));
+            $recordatorios = $em->getRepository('ERPCRMBundle:CtlTipoRecordatorio')->findBy(array('estado'=>1));
             //Tipo recordatorio
             $tiempos = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->findBy(array('estado' => 1), array('tiempoReal' => 'ASC'));
             //Prioridad
