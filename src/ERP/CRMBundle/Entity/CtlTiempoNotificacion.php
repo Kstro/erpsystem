@@ -42,11 +42,17 @@ class CtlTiempoNotificacion
      */
     private $unidadTiempo;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tiempo_real", type="integer", nullable=false)
+     */
+    private $tiempoReal;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="estado", type="string", length=20, nullable=false)
+     * @ORM\Column(name="estado", type="integer", nullable=false)
      */
     private $estado;
 
@@ -130,7 +136,29 @@ class CtlTiempoNotificacion
     {
         return $this->unidadTiempo;
     }
+    
+    /**
+     * Set tiempoReal
+     *
+     * @param integer $tiempoReal
+     * @return CtlTiempoNotificacion
+     */
+    public function setTiempoReal($tiempoReal)
+    {
+        $this->tiempoReal = $tiempoReal;
 
+        return $this;
+    }
+
+    /**
+     * Get tiempoReal
+     *
+     * @return integer 
+     */
+    public function getTiempoReal()
+    {
+        return $this->tiempoReal;
+    }
 
     /**
      * Set estado

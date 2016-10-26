@@ -9,70 +9,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmActividad;
-use ERP\CRMBundle\Entity\CrmCuenta;
 use ERP\CRMBundle\Entity\CrmAsignacionActividad;
-use ERP\CRMBundle\Form\CrmActividadType;
 
 /**
  * CrmActividad controller.
  *
- * @Route("/admin/tasks")
+ * @Route("/admin/all-activities")
  */
-class CrmTasksController extends Controller
+class CrmActivitiesController extends Controller
 {
     /**
      * Lists all CrmActividad entities.
      *
-     * @Route("/", name="admin_tasks_index")
+     * @Route("/", name="admin_activities_index")
      * @Method("GET")
      */
     public function indexAction()
-    {
-
-            // $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
-            // $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
-            // // $eventId = $crmActividadObj->getGoogleId();
-            // // $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
-            // //                 $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
-            // //                 $eventId = 'r59fhrog8on7gljt7i4nkoh9co';
-            // //                 $eventAttendee = array();
-                            
-                            
-            //                 // Recuperar información del evento de google calendar, la url es necesaria para poder consultar, lleva el id del calendario, id del evento y el token de acceso
-            //                 $superGoogle= $this->get('calendar.google')->getToken();
-            // $url = 'https://www.googleapis.com/calendar/v3/calendars/fbk7pcdkcncqo0f3ur264nimsk%40group.calendar.google.com/events/i3s7m1oim79tlacs38sodu5c6c/?access_token='.str_replace('"', '', $superGoogle);
-            // var_dump($url);
-            // $data = file_get_contents('https://www.googleapis.com/calendar/v3/calendars/fbk7pcdkcncqo0f3ur264nimsk%40group.calendar.google.com/events/raeb85ku40t9l8orn0qjtclkjo/?access_token='.str_replace('"', '', $superGoogle));
-            // var_dump(get_class_methods($superGoogle));
-            // var_dump(json_decode($data));
-            // die();
-            // $eventAttendee = array();
-            // $dateInicio = new \DateTime('now');
-            // $dateFin = new \DateTime('now');
-            // $eventStart = $dateInicio;
-            // $eventEnd = $dateFin;
-            
-            // $eventSummary = '';
-            // $eventDescription = '';
-                    
-            // $optionalParams = [];
-
-            // $superGoogle= $this->get('calendar.google')->addEvent($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = []);
-            // var_dump($superGoogle);
-            // die();
-
-
-        // $em = $this->getDoctrine()->getManager();
-
-        // $crmActividads = $em->getRepository('ERPCRMBundle:CrmActividad')->findAll();
-
-        // return $this->render('crmactividad/index.html.twig', array(
-        //     'crmActividads' => $crmActividads,
-        // ));
+    {            
         try{
             $em = $this->getDoctrine()->getManager();
-
-            // $crmCuentas = $em->getRepository('ERPCRMBundle:CrmCuenta')->findAll();
             $response = new JsonResponse();
 
             //Persona-usuarios
@@ -86,27 +41,16 @@ class CrmTasksController extends Controller
             //Prioridad
             $prioridad = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findBy(array('estado' => 1));
             //Actividades
-            $actividades = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->findBy(array('estado' => 1));
+            $tipoActividades = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->findBy(array('estado' => 1));
 
-            // //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
-            // $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findAll();
-            // //Tipo industria
-            // $industrias = $em->getRepository('ERPCRMBundle:CtlIndustria')->findAll(array('estado'=>1));
-            // //Tipos telefono
-            // $tiposTelefono = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->findAll();
-            return $this->render('crmactividad/index_tasks.html.twig', array(
-                // 'crmCuentas' => $crmCuentas,
+            return $this->render('crmactividad/index.html.twig', array(
                 'personas'=>$personas,
                 'estados'=>$estados,
                 'recordatorios'=>$recordatorios,
                 'tiempos'=>$tiempos,
                 'prioridad'=>$prioridad,
-                'actividades'=>$actividades,
-                'menuTasksA'=>true,
-                // 'personas'=>$personas,
-                // 'industrias'=>$industrias,
-                // 'tiposTelefono'=>$tiposTelefono,
-                // 'menuProveedorA' => true,
+                'tipoActividades'=>$tipoActividades,
+                'menuTodasActividadesA'=>true,
             ));
         
         } catch (\Exception $e) {  

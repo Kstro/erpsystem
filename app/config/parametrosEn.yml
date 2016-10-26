@@ -90,6 +90,7 @@ parameters:
 
         #botones
         app.add: Add
+        app.showCancel: Show cancelled events
         app.addFile: Add file
         app.loadMoreComments: Load more
         app.loadMoreFiles: Load files attached

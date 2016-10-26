@@ -3,9 +3,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
                     <div class="panel-body">
-                        <form id="frmContact"  method="post" enctype="multipart/form-data">
+                        <form id="frmProvider"  method="post" enctype="multipart/form-data">
                         <div class="col-md-2">
-                            <label>{{tratoContacto}}</label>
+                            <label>{{tratoClientePotencial}}</label>
                             <select style="margin-top:45px !important;" id="dpbTitulo" type="text" name="titulo" class="input-sm form-control validateSelect">
                                 {% for item in items %}
                                     <option value="{{item.id}}">{{item.abreviatura}}</option>
@@ -13,7 +13,7 @@
                             </select>
                         </div>
                         <div class="col-md-5">
-                            <label>{{nombreContacto}}</label>
+                            <label>{{nombreClientePotencial}}</label>
                             <label class="hidden requiredFields">{{requiredFields}}</label>
                             <label class="hidden emailFields">{{emailFields}}</label>
                             <input id="txtId1" type="hidden" name="id1" class="input-sm form-control">
@@ -23,13 +23,13 @@
                             <input id="txtName" type="text" name="nombre" class="input-sm form-control validateInput">
                         </div>
                         <div class="col-md-5">
-                            <label>{{apellidoContacto}}</label>
+                            <label>{{apellidoClientePotencial}}</label>
                             <input id="txtApellido" type="text" name="apellido" class="input-sm form-control validateInput">
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-md-7" style="margin-top:20px;">
-                            <label>{{companiaNombreContacto}}</label>
-                            <input id="txtCompania" type="text" name="compania" class="input-sm form-control validateInput">
+                            <label>{{companiaNombreClientePotencial}}</label>
+                            <input id="txtCompania" type="text" name="compania" class="input-sm form-control">
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-md-5 address" style="margin-top:20px;">
@@ -64,18 +64,18 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-md-2 phonesType" style="margin-top:20px;">
-                            <label>{{phoneContacto}}</label>
+                            <label>{{phoneClientePotencial}}</label>
                             <select style="margin-top:25px; width:100%;" type="text" name="phoneType[]" class="input-sm form-control validateInput dpbTipoPhone firstPhoneType">
                                 {% for tipo in tiposTelefono %}
                                         <option value={{tipo.id}}>{{tipo.nombre}}</option>
-                                {% endfor %}
+                                    {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-2 phonesText" style="margin-top:20px;">
                             <input style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control txtPhone firstPhoneTxt">
                         </div>
                         <div class="col-md-2 phonesExtension" style="margin-top:20px;">
-                            <label>{{extensionContacto}}</label>
+                            <label>{{extensionClientePotencial}}</label>
                             <input type="text" name="phoneExt[]" class="input-sm form-control  txtExtension firstPhoneExtension">
                         </div>
                         <div class="col-md-1 addPhone" style="margin-top:20px;">
@@ -91,7 +91,7 @@
                         <div class="clearfix"></div>
                         
                         <div class="col-md-12" style="margin-top:40px;">
-                            <label>{{fotoContacto}}</label>
+                            <label>{{fotoClientePotencial}}</label>
                         </div>
                         <div class="clearfix"></div> 
                         <div class="col-md-6" style="margin-top:20px;">

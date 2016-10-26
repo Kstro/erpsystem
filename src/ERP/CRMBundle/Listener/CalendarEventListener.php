@@ -22,6 +22,7 @@ class CalendarEventListener
         $filterTipoActividad = $request->get('param1');
         $filterUsuario = $request->get('param2');
         $filterCuenta = $request->get('param3');
+        $showCancel = $request->get('param4');
         $filter = $request->get('filter');
         $startString = $request->get('startDate');
         $endString = $request->get('endDate');
@@ -187,7 +188,7 @@ class CalendarEventListener
         // }
         foreach($events as $event) {
             if (is_array($event)){
-                $title = $event['fechaInicio']->format("n/j G:i")."\n".$event['fechaFin']->format("n/j G:i")."\n".$event['nombre'];
+                $title = /*$event['fechaInicio']->format("n/j G:i")."\n".$event['fechaFin']->format("n/j G:i")."\n".*/$event['nombre'].' | '.$event->getFechaInicio()->format("G:i")." - ".$event->getFechaFin()->format("G:i");
                 $eventEntity = new EventEntity($title, $event['fechaInicio'], $event['fechaFin'], false);
                 $eventEntity->setId($event['id']);
                 switch ($event['tipId']) {
@@ -207,7 +208,7 @@ class CalendarEventListener
                         break;
                 }
             } else {
-                $title = $event->getFechaInicio()->format("n/j G:i")."\n".$event->getFechaFin()->format("n/j G:i")."\n".$event->getNombre();
+                $title = /*$event->getFechaInicio()->format("n/j G:i")."\n".$event->getFechaFin()->format("n/j G:i")."\n".*/$event->getNombre().' | '.$event->getFechaInicio()->format("G:i")." - ".$event->getFechaFin()->format("G:i");
                 $eventEntity = new EventEntity($title, $event->getFechaInicio(), $event->getFechaFin(), false);
                 $eventEntity->setId($event->getId());
                 switch ($event->getTipoActividad()->getId()) {
