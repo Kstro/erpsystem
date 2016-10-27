@@ -333,10 +333,10 @@ $(document).ready(function() {
 										$(".firstTiempoRecordatorio").val(data.tiempoRecordatorioArray[i]).trigger("change");									
 									break;
 									default:
-										$('#plusAddress').click();
-										$("#state-"+(numAddress)).val(data.personaArray[i]).trigger("change");
-										$("#city-"+(numAddress)).val(data.tipoRecordatorioArray[i]).trigger("change");
-										$('#address-'+(numAddress)).val(data.tiempoRecordatorioArray[i]);
+										$('#plusPersona').click();
+                                                                                $("#persona-"+(numAddress)).val(data.personaArray[i]).trigger("change");
+                                                                                $("#types-"+(numAddress)).val(data.tipoRecordatorioArray[i]).trigger("change");
+                                                                                $('#times-'+(numAddress)).val(data.tiempoRecordatorioArray[i]);
 									break;
 								}
 							}
