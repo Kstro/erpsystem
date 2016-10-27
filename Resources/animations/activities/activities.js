@@ -96,6 +96,8 @@ function limpiarCampos(){
 	$('#txtCompania').val('');
 	$('#txtFechaInicio').val('');
 	$('#txtFechaFin').val('');
+	$('#txtDireccion').val('');
+        $('#tipoActividades').val(1).change().trigger("change");
 	
 	$('.validateInput').each(function(index, el) {
 		$(this).removeClass('errorform');
@@ -111,9 +113,22 @@ function limpiarCampos(){
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
 
-
+        $('.location').addClass('hidden');
+        
 	$('#pnAdd').hide();
 	$('#activitiesList').parent().show();
 }
+
+$(document).on('change', '#tipoActividades', function(event) {
+    var opcion = $(this).val();
+    
+    if(opcion == 3){
+        $('.location').removeClass('hidden');
+        $('#txtDireccion').addClass('validateInput');
+    } else {
+        $('.location').addClass('hidden');
+        $('#txtDireccion').removeClass('validateInput');
+    }
+});
 
 /*/////Fin hide forms panel*/

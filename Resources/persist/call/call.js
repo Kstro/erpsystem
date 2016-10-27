@@ -242,6 +242,8 @@ $(document).ready(function() {
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
+                
+                $('#addedFiles').html('');//limpiar archivos anteriores
 
 		/*// console.log(id);*/
 		/*// console.log(idArray[0]);*/
@@ -322,6 +324,8 @@ $(document).ready(function() {
 							var numPersonas = data.personaArray.length;
 							
 							$('#estado').val(data.estado).change().trigger("change");
+                                                        $('#cmbPrioridad').val(data.prioridad).change().trigger("change");
+                                                        
 							/*// Direcciones*/
 							for (var i = 0; i < numPersonas; i++) {
 								/*// console.log(i);*/

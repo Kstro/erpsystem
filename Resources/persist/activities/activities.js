@@ -112,7 +112,7 @@ $(document).ready(function() {
                                 else{
                                     if (data.msga=='') {
                                         $.ajax({
-                                            url: Routing.generate('admin_tasks_save_ajax'), 
+                                            url: Routing.generate('admin_any_activity_save_ajax'), 
                                             type: "POST",          
                                             data: dataForm, 
                                             contentType: false,     
@@ -187,6 +187,8 @@ $(document).ready(function() {
             numPedidos=1;
             mostrarocultar(numPedidos);
 
+            $('#addedFiles').html('');//limpiar archivos anteriores
+
             $('.chkItem').each(function() {
                 if ($(this).is(':checked')) {
                     selected++;
@@ -221,7 +223,11 @@ $(document).ready(function() {
                                     $('#txtDescripcion').val(data.descripcion);
                                     $('#txtFechaInicio').val(data.fechaInicio);
                                     $('#txtFechaFin').val(data.fechaFin);
-
+                                    
+                                    if(data.idTipoAct == 3){
+                                        $('#txtDireccion').val(data.direccion);
+                                    }
+                                    
                                     var numPersonas = data.personaArray.length;
 
                                     $('#estado').val(data.estado).change().trigger("change");

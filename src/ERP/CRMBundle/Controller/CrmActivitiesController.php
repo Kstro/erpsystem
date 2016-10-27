@@ -371,6 +371,10 @@ class CrmActivitiesController extends Controller
                 $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($cuentaId);
                 $tipoActividadObj = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->find($tipoTasks);
                 
+                if($tipoTasks == 3) {
+                    $direccionString =  $_POST['direccionEvent'];// Ubicacion del evento
+                }
+                
                 if($idAct==''){
                     //Tabla crmActividad
                     $crmActividadObj = new CrmActividad();
@@ -387,6 +391,12 @@ class CrmActivitiesController extends Controller
                     $crmActividadObj->setFechaCancelacion(null);
                     $crmActividadObj->setCuenta($cuentaObj);
                     //$crmActividadObj->setTipoActividad($tipoActividad);
+                    
+                    if($tipoTasks == 3) {
+                        $crmActividadObj->setDireccion($direccionString);
+                    } else {
+                        $crmActividadObj->setDireccion(NULL);
+                    }
                     
                     $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
                     $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
@@ -455,7 +465,14 @@ class CrmActivitiesController extends Controller
                     $crmActividadObj->setFechaInicio($dateInicio);
                     $crmActividadObj->setFechaFin($dateFin);
                     $crmActividadObj->setCuenta($cuentaObj);
-
+                    
+                    if($tipoTasks == 3) {
+                        $crmActividadObj->setDireccion($direccionString);
+                    } else {
+                        $crmActividadObj->setDireccion(NULL);
+                    }
+//                    var_dump($crmActividadObj);
+//                    die();
                     //Persist crmCuentaObj
                     $em->merge($crmActividadObj);
                     $em->flush();
@@ -619,6 +636,10 @@ class CrmActivitiesController extends Controller
                 }
                 $data['id'] = $idAct;
                 $data['idTipoAct'] = $crmActividadObj->getTipoActividad()->getId();
+                
+                if($crmActividadObj->getTipoActividad()->getId() == 3) {
+                    $data['direccion'] = $crmActividadObj->getDireccion();
+                }
                 
                 $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoActividad doc"
                             ." JOIN doc.actividad c "
