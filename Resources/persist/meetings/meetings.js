@@ -246,7 +246,7 @@ $(document).ready(function() {
 		});	
 		if (text=='TD' && id!=idForm && selected==0) {
 			$.ajax({
-				url: Routing.generate('admin_calls_retrieve_ajax'),
+				url: Routing.generate('admin_meetings_retrieve_ajax'),
 				type: 'POST',
 				data: {param1: id},
 				success:function(data){
