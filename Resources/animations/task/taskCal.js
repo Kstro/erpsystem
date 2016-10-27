@@ -3,7 +3,9 @@
 $(document).on('click', '.btnAddPage', function(event) {
 	/*//console.log('add');*/
 	var id = $('#txtId').val();
-	
+	$('#comentarios').addClass('hidden');
+	$('#btnLoadMore').addClass('hidden');
+        
 	/*// console.log("ID: "+id);*/
 	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');

@@ -30,25 +30,28 @@
 {% block acciones %}
      <div class="col-md-7 text-right panel-body">
         <div class="col-md-4 pull-left" style="height:20px;">
-            <button data-toggle="tooltip" data-container="body" title="Cita completada" class="btn btn-default datatables1-actions" style="color:#FFF;background:#69BD45; float: right;" role="button">
+            <button data-toggle="tooltip" data-container="body" title="{{completarEvento}}" class="btn btn-default datatables1-actions" style="color:#FFF;background:#69BD45; float: right;" role="button">
                 <i class="fa fa-calendar-check-o"></i>
             </button>
-            <button data-toggle="tooltip" data-container="body" title="Cita pediente" class="btn btn-default datatables1-actions" style="color:#FFF;background:#3852A4; float: right;" role="button">
+            <button data-toggle="tooltip" data-container="body" title="{{enProcesoEvento}}" class="btn btn-default datatables1-actions" style="color:#FFF;background:#3852A4; float: right;" role="button">
                 <i class="fa fa-calendar-minus-o"></i>
             </button>
-            <button data-toggle="tooltip" data-container="body" title="Cita perdida" class="btn btn-default datatables1-actions" style="color:#FFF;background:#421E5B; float: right;" role="button">
+            <button data-toggle="tooltip" data-container="body" title="{{perdidoEvento}}" class="btn btn-default datatables1-actions" style="color:#FFF;background:#421E5B; float: right;" role="button">
                 <i class="fa fa-calendar-o"></i>
             </button>
             {#<button data-toggle="tooltip" data-container="body" title="Cita " class="btn btn-default datatables1-actions  " role="button">
                 <i class="fa fa-calendar-plus-o"></i>
             </button>#}
-            <button data-toggle="tooltip" data-container="body" title="Cita cancelada" class="btn btn-default datatables1-actions  " style="color:#FFF;background:#F00; float: right;" role="button">
+            <button data-toggle="tooltip" data-container="body" title="{{cancelarEvento}}" class="btn btn-default datatables1-actions  " style="color:#FFF;background:#F00; float: right;" role="button">
                 <i class="fa fa-calendar-times-o"></i>
             </button>
         </div>
         <div class="col-md-8">
             {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
-            <input style="margin-right: 20px;" type="checkbox" id="showCancel" class="btn btn-primary">
+            
+                <label style="margin-right:20px;"><input style="margin-top:-3px; margin-right: 10px;" type="checkbox" id="showCancel" class="btn btn-primary">{{showCancel}}</label>
+            
+            
             {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
             <button type="button" class="btnAddPage btn btn-sm btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">{{add}}</button>
             <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
@@ -61,28 +64,37 @@
      </div>
 {% endblock acciones %}
 {% block navegacion %}
-            <div class="col-md-12" style="margin-bottom:20px;">
-                <label class="pull-left">{{filterLabel}}</label>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-12" >
-                <label class="pull-left">{{filterActivityLabel}}</label>
-                <select id="filterTipoActividad" style="width:100%;">
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <label class="pull-left">{{filterLabel}}</label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12" >
+            <label class="pull-left">{{filterActivityLabel}}</label>
+            <select id="filterTipoActividad" style="width:100%;">
+                <option value="0">{{allFilter}}</option>
+                {% for item in actividades %}
+                    <option value="{{item.id}}">{{item.nombre}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12" style="margin-top:20px;">
+            <label class="pull-left">{{filterEstadoActLabel}}</label>
+            <select id="filterEstadoAct" style="width:100%;">
                     <option value="0">{{allFilter}}</option>
-                    {% for item in actividades %}
+                    {% for item in estActividades %}
                         <option value="{{item.id}}">{{item.nombre}}</option>
                     {% endfor %}
-                </select>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-12" style="margin-top:20px;">
-                <label class="pull-left">{{filterUserLabel}}</label>
-                <select id="filterPersona" style="width:100%;">
-                        <option value="0">{{allFilter}}</option>
-                        {% for item in personas %}
-                            <option value="{{item.id}}">{{item.persona.nombre}}</option>
-                        {% endfor %}
-                </select>
+            </select>
+        </div>
+        <div class="col-md-12" style="margin-top:20px;">
+            <label class="pull-left">{{filterUserLabel}}</label>
+            <select id="filterPersona" style="width:100%;">
+                    <option value="0">{{allFilter}}</option>
+                    {% for item in personas %}
+                        <option value="{{item.id}}">{{item.persona.nombre}}</option>
+                    {% endfor %}
+            </select>
         </div>
         <div class="clearfix"></div>
         <div class="col-md-12" style="margin-top:20px;">
@@ -126,7 +138,7 @@
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/datetime.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/bootbox.min.js') }}"></script>
     
-     
+    <script type="text/javascript" src="{{ asset('Resources/sweetalert/js/swalextends.js') }}"></script>
     
     <script type="text/javascript" src="{{ asset('Resources/fullcalendar300/fullcalendar.min.js') }}"></script>
     {# // <script type='text/javascript' src="{{ asset('Resources/fullcalendar300/gcal.js') }}"></script> #}
@@ -139,6 +151,7 @@
         var sucursal = $('#sucursal').val();
         
         $(document).ready(function() {
+            var numPedidos = 0;
             var source = 
                     {
                         url: Routing.generate('fullcalendar_loader'),
@@ -253,12 +266,13 @@
                                 var mm = hoy.getMonth()+1; //hoy es 0!
                                 var yyyy = hoy.getFullYear();
                                 //alert(view.name);
+                                //numPedidos = 1;
                                 if(dd<10) {
-                                    dd='0'+dd
+                                    dd='0'+dd;
                                 } 
 
                                 if(mm<10) {
-                                    mm='0'+mm
+                                    mm='0'+mm;
                                 } 
 
                                 //hoy = yyyy+'-'+mm+'-'+dd;
@@ -270,91 +284,191 @@
                                 if (typeof startDate.id === 'undefined') {
                                     return false;
                                 }
-                                $.ajax({
-                                    url: Routing.generate('admin_get_info_activities_ajax'),
-                                    type: 'POST',
-                                    data: {param1: startDate.id},
-                                    success:function(data){
-                                        if(data.error){
-                                            swal('',data.error,'error');
-                                        }
-                                        else{
-                                            var mensaje = "";
-                                            mensaje += "<div class='col-md-6 text-right'><b>{{tipoActividad}}: </b></div><div class='col-md-6'>"+data.nombre+"</div>";
-                                            mensaje += "<div class='clearfix'></div>";
+                                
+                                if (numPedidos==0){
+                                    numPedidos++;
+                                    $.ajax({
+                                        url: Routing.generate('admin_get_info_activities_ajax'),
+                                        type: 'POST',
+                                        data: {param1: startDate.id},
+                                        success:function(data){
+                                            numPedidos=0;
+                                            if(data.error){
+                                                swal('',data.error,'error');
+                                            }
+                                            else{
+                                                var mensaje = "";
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{tipoActividad}}: </b></div><div class='col-md-6 text-left'>"+data.actividad+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
 
-                                            bootbox.dialog({
-                                                message: mensaje,
-                                                title: data.nombre,
-                                                buttons: {
-                                                    reminder: {
-                                                        label: "Recordar cita",
-                                                        className: "btn-default btn-warning",
-                                                        callback: function() {
-                                                            var evento = calendario.fullCalendar('clientEvents',startDate.id);
-                                                            var tituloEvento = "";
-                                                            var id=0;
-                                                            console.log(evento);
-                                                            console.log(evento.id);
-                                                            Object.keys(evento).forEach(function (key) {
-                                                                    tituloEvento = evento[key].title;
-                                                                    console.log();
-                                                                    id=evento[key].id;
-                                                                });
-                                                            console.log(id);
-                                                        }
-                                                    },
-                                                    danger: {
-                                                            label: "Cancelar cita",
-                                                            className: "btn-danger",
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{estadoLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.estado+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+                                                
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{prioridadLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.prioridad+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{cuentaActividad}}: </b></div><div class='col-md-6 text-left'>"+data.cuenta+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{fechaInicioLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.inicio+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{fechaFinLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.fin+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+                                                
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{descripcionFormLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.descripcion+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+                                                
+                                                bootbox.dialog({
+                                                    message: mensaje,
+                                                    title: '<i class="fa fa-phone'+data.clase+'"></i> '+data.nombre,
+                                                    buttons: {
+                                                        reminder: {
+                                                            label: '{{recordarEvento}}',
+                                                            className: "btn-default btn-warning",
                                                             callback: function() {
+                                                                $(this).button('loading');
+                                                                
                                                                 var evento = calendario.fullCalendar('clientEvents',startDate.id);
                                                                 var tituloEvento = "";
-                                                                var eventoId = 0;
+                                                                var id=0;
+                                                                console.log(evento);
+                                                                console.log(evento.id);
                                                                 Object.keys(evento).forEach(function (key) {
-                                                                    tituloEvento = evento[key].title;
-                                                                    var subTituloEvento = tituloEvento.split("|");
-                                                                    var iconoX = '<div class="col-xs-1 fa fa-calendar-times-o" style="border:1px solid #C3C3C3; border-right:0px solid #F00; color:#FFF; height: 100%; float: left; background: #F00;  position: absolute; padding-left:2px "></div> <div class="col-xs-11" style="border-left:0px solid #000 !important; border:1px solid #C3C3C3; height: 100%; float: right; position: relative; "> ';
-                                                                    var nuevoTitulo = iconoX+' | '+subTituloEvento[1]+' | '+subTituloEvento[2] + ' | ' +subTituloEvento[3];
-                                                                    evento[key].title = nuevoTitulo;
-                                                                });
+                                                                        tituloEvento = evento[key].title;
+                                                                        
+                                                                        id=evento[key].id;
+                                                                    });
+                                                                console.log(id);
+                                                            }
+                                                        },
+                                                        default2: {
+                                                            label: '{{perdidoEvento}}',
+                                                            className: "btn-default",
+                                                            callback: function() {
+                                                                var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                console.log(evento);
+                                                                $.ajax({
+                                                                    url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                    type: 'POST',
+                                                                    data: {param1: startDate.id,param2:4},
+                                                                    success:function(data){
+
+                                                                        swal('',data.msg,'success');
+
+                                                                        Object.keys(evento).forEach(function (key) {   
+                                                                            console.log(evento);
+                                                                            evento[key].backgroundColor= '#421E5B';
+                                                                            evento[key].borderColor= '#421E5B';
+                                                                            calendario.fullCalendar('updateEvent', evento[key]);
+                                                                        });
+                                                                    },
+                                                                    error:function(data){
+
+                                                                    }
+                                                                }); 
+                                                                var tituloEvento = "";
+                                                                var eventoId = 0;
                                                             }
                                                         },   
-                                                    success: {
-                                                        label: "Asistida",
-                                                        className: "btn-success",
-                                                        callback: function() {
-                                                            var evento = calendario.fullCalendar('clientEvents',startDate.id);
-                                                            var tituloEvento = "";
-                                                            var eventoId = 0;
-                                                            Object.keys(evento).forEach(function (key) {
-                                                                tituloEvento = evento[key].title;
-                                                                var subTituloEvento = tituloEvento.split(" | ");
-                                                                //var iconoX = '<div class="fa fa-calendar-check-o" style="width: 17px; height: 100%; float: left; background: #69BD45;  position: absolute; margin-left: -3px; padding-left:2px "></div> <div style="width: 91%; height: 100%; float: right; position: relative; ">  | ';
-                                                                var iconoX = '<div class="col-xs-1 fa fa-calendar-check-o" style="border:1px solid #C3C3C3; border-right:0px solid #F00; color:#FFF; height: 100%; float: left; background: #69BD45;  position: absolute; padding-left:2px "></div> <div class="col-xs-11" style="border-left:0px solid #000 !important; border:1px solid #C3C3C3;  height: 100%; float: right; position: relative; ">';
-                                                                console.log(subTituloEvento[0]);
-                                                                var nuevoTitulo = iconoX+' | '+subTituloEvento[1]+' | '+subTituloEvento[2] + ' | ' +subTituloEvento[3];
-                                                                evento[key].title = nuevoTitulo;
-                                                            });
-                                                        }
-                                                    },
-                                                    main: {
-                                                        label: "Ver expediente",
-                                                        className: "btn-primary",
-                                                        callback: function() {
+                                                        danger: {
+                                                                label: '{{cancelarEvento}}',
+                                                                className: "btn-danger",
+                                                                callback: function() {
+                                                                    var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                    console.log(evento);
+                                                                    $.ajax({
+                                                                        url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                        type: 'POST',
+                                                                        data: {param1: startDate.id,param2:3},
+                                                                        success:function(data){
+                                                                            
+                                                                            swal('',data.msg,'success');
+                                                                          
+                                                                            Object.keys(evento).forEach(function (key) {   
+                                                                                console.log(evento);
+                                                                                evento[key].backgroundColor= '#FF0000';
+                                                                                evento[key].borderColor= '#FF0000';
+                                                                                calendario.fullCalendar('updateEvent', evento[key]);
+                                                                            });
+                                                                        },
+                                                                        error:function(data){
+                                                                            
+                                                                        }
+                                                                    }); 
+                                                                    var tituloEvento = "";
+                                                                    var eventoId = 0;
+                                                                }
+                                                            },   
+                                                        success: {
+                                                            label: '{{completarEvento}}',
+                                                            className: "btn-success",
+                                                            callback: function() {
+                                                                var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                console.log(evento);
+                                                                $.ajax({
+                                                                    url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                    type: 'POST',
+                                                                    data: {param1: startDate.id,param2:1},
+                                                                    success:function(data){
+
+                                                                        swal('',data.msg,'success');
+                                                                        Object.keys(evento).forEach(function (key) {   
+                                                                            console.log(evento);
+                                                                            evento[key].backgroundColor= '#69BD45';
+                                                                            evento[key].borderColor= '#69BD45';
+                                                                            calendario.fullCalendar('updateEvent', evento[key]);
+                                                                        });
+                                                                    },
+                                                                    error:function(data){
+
+                                                                    }
+                                                                });
+
+                                                                var tituloEvento = "";
+                                                                var eventoId = 0;
+                                                            }
+                                                        },
+                                                        main: {
+                                                            label: '{{enProcesoEvento}}',
+                                                            className: "btn-primary",
+                                                            callback: function() {
+                                                                var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                console.log(evento);
+                                                                $.ajax({
+                                                                    url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                    type: 'POST',
+                                                                    data: {param1: startDate.id,param2:2},
+                                                                    success:function(data){
+                                                                        swal('',data.msg,'success');
+                                                                        Object.keys(evento).forEach(function (key) {   
+                                                                            console.log(evento);
+                                                                            evento[key].backgroundColor= '#3852A4';
+                                                                            evento[key].borderColor= '#3852A4';
+                                                                            calendario.fullCalendar('updateEvent', evento[key]);
+                                                                        });
+
+                                                                    },
+                                                                    error:function(data){
+
+                                                                    }
+                                                                });
+                                                                var tituloEvento = "";
+                                                                var eventoId = 0;
+                                                            }
                                                         }
                                                     }
-                                                }
-                                            });
-                                        }
-                                    },
-                                    error:function(data){
-                                            if(data.error){
-                                                    console.log(data.id);
-                                                    swal('',data.error,'error');
+                                                });
                                             }
-                                    }
-                                });
+                                        },
+                                        error:function(data){
+                                                if(data.error){
+                                                        console.log(data.id);
+                                                        swal('',data.error,'error');
+                                                }
+                                        }
+                                    });
+                                }
                             },
 
                             /////
@@ -512,6 +626,7 @@
             $('.firstPriority').select2();
             $('#tipoActividades').select2();
             $('#filterTipoActividad').select2();
+            $('#filterEstadoAct').select2();
             $('#filterPersona').select2();
             $('#cuentaActividades, #filterCuentaActividades').select2({
                  ajax: {
@@ -576,7 +691,7 @@
                 //$('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
             });
 
-            $("#filterTipoActividad, #filterPersona, #filterCuentaActividades").on("change", function (e) {
+            $("#filterTipoActividad, #filterPersona, #filterCuentaActividades, #filterEstadoAct").on("change", function (e) {
                     setsource();
             });
             $(document).on("click","#showCancel", function (e) {
@@ -625,6 +740,7 @@
             fechaFin= $('#fechaFin').val();
             filterCuentaId=$('#filterCuentaActividades').val();
             var filterTipo = $('#filterTipoActividad').val();
+            var estadoAct = $('#filterEstadoAct').val();
             var filterPersona = $('#filterPersona').val();
             var showCancel = $('#showCancel');
             var showCancelVal = 0;
@@ -642,7 +758,7 @@
             console.log(sources[0]);
             var source2 = 
                 {
-                    url: Routing.generate('fullcalendar_loader')+'?param1='+filterTipo+'&param2='+filterPersona+'&param3='+filterCuentaId+'&param4='+showCancelVal,
+                    url: Routing.generate('fullcalendar_loader')+'?param1='+filterTipo+'&param2='+filterPersona+'&param3='+filterCuentaId+'&param4='+showCancelVal+'&param5='+estadoAct,
                     type: 'POST',
                     data: {
                         filtro: 1

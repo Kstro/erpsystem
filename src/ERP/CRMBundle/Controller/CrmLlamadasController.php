@@ -906,7 +906,7 @@ class CrmLlamadasController extends Controller
                 $crmActividadObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idActividad);
                 
                 //var_dump($crmActividadObj);
-
+                
                 $currentDate = date('Y-m-d H:i:s');
                 
                 
@@ -914,8 +914,15 @@ class CrmLlamadasController extends Controller
                 $data['id']=$crmActividadObj->getId();
                 $data['nombre']=$crmActividadObj->getNombre();
                 $data['actividad']=$crmActividadObj->getTipoActividad()->getNombre();
-                $data['cuenta']=$crmActividadObj->getCuenta()->getNombre();
+                if($crmActividadObj->getCuenta()!=null){
+                    $data['cuenta']=$crmActividadObj->getCuenta()->getNombre();
+                }
+                else{
+                    $data['cuenta']='-';
+                }
+                $data['clase']='';
                 $data['descripcion']=$crmActividadObj->getDescripcion();
+                $data['estado']=$crmActividadObj->getEstadoActividad()->getNombre();
                 $data['inicio']=$crmActividadObj->getFechaInicio()->format('Y-m-d H:i');
                 $data['fin']=$crmActividadObj->getFechaFin()->format('Y-m-d H:i');
                 $data['prioridad']=$crmActividadObj->getPrioridad()->getNombre();
@@ -930,6 +937,98 @@ class CrmLlamadasController extends Controller
                 $em->getConnection()->rollback();
                 $em->close();
                 // var_dump($e);
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }      
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
+    
+    
+    
+    
+    /**
+     * Reprogramar eventos, guardar cambios
+     *
+     * @Route("/activities/change/status/", name="admin_change_status_activities_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function activitieschangeAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $idActividad=$request->get("param1");
+                $idStatus=$request->get("param2");
+                
+                $response = new JsonResponse();
+                
+                $em = $this->getDoctrine()->getManager();
+                //$em->getConnection()->beginTransaction();
+                $crmActividadObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idActividad);
+                
+                
+                
+                if(count($crmActividadObj)!=0){
+                    //$crmActividadObj->setEstadoActividad();
+                    switch($idStatus){
+                        case 1://finalizado
+                            $crmStatus = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->find($idStatus);
+                            $data['tipo']='Finalizado';
+                            break;
+                        case 2://pendiente
+                            $crmStatus = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->find($idStatus);
+                            break;
+                        case 3://cancelado
+                            $crmStatus = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->find($idStatus);
+                            $data['tipo']='cancelado';
+                            //var_dump($crmStatus);
+                            break;
+                        case 4://Perdida
+                            $crmStatus = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->find($idStatus);
+                            $data['tipo']='perdida';
+                            //var_dump($crmStatus);
+                            break;
+                    }
+                }
+                $crmActividadObj->setEstadoActividad($crmStatus);
+                $em->merge($crmActividadObj);
+                $em->flush();
+                //var_dump($crmActividadObj);
+                //die();
+                $serverSave = $this->getParameter('app.serverMsgStatusChanged');
+                
+                $data['msg']=$serverSave;
+                //$data['title']=$crmActividadObj->getFechaInicio()->format('m/d H:i')." - ".$crmActividadObj->getFechaFin()->format('m/d H:i')." \n".$crmActividadObj->getNombre();
+                //$data['title']=$crmActividadObj->getFechaInicio()->format('n/j G:i')."\n".$crmActividadObj->getFechaFin()->format('n/j G:i')."\n".$crmActividadObj->getNombre();
+
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                //echo $e->getMessage();
+                //echo $e->getLine();
+                
+                $em->getConnection()->rollback();
+                $em->close();
+                //var_dump($e);
                 if(method_exists($e,'getErrorCode')){
                     switch (intval($e->getErrorCode()))
                         {

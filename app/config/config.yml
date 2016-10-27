@@ -55,6 +55,7 @@ twig:
         serverMsgSave: '%app.serverMsgSave%'
         serverMsgUpdate: '%app.serverMsgUpdate%'
         serverMsgCancel: '%app.serverMsgCancel%'
+        serverMsgStatusChanged: '%app.serverMsgStatusChanged%'
         serverCancel: '%app.serverCancel%'
         serverMsgDelete: '%app.serverMsgDelete%'
         serverError: '%app.serverError%'
@@ -67,6 +68,7 @@ twig:
         filterLabel: '%app.filterLabel%'
         filterActivityLabel: '%app.filterActivityLabel%'
         filterUserLabel: '%app.filterUserLabel%'
+        filterEstadoActLabel: '%app.filterEstadoActLabel%'
         filterCuentaLabel: '%app.filterCuentaLabel%'
         
         
@@ -680,6 +682,13 @@ twig:
         descripcionFormLlamadas: '%app.descripcionFormLlamadas%'
         prioridadLlamadas: '%app.prioridadLlamadas%'
         taskNoEdit: '%app.taskNoEdit%'
+        tipoActividad: '%app.tipoActividad%'
+        
+        recordarEvento: '%app.recordarEvento%'
+        cancelarEvento: '%app.cancelarEvento%'
+        enProcesoEvento: '%app.enProcesoEvento%'
+        completarEvento: '%app.completarEvento%'
+        perdidoEvento: '%app.perdidoEvento%'
         
         #Llamadas (actividades) - Español
         tituloLlamadasEs: '%app.tituloLlamadasEs%'

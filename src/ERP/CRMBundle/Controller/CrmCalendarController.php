@@ -66,9 +66,9 @@ class CrmCalendarController extends Controller
             // $goo = new GoogleCalendarService(); 
             // var_dump($goo);
             
-            $superGoogle= $this->get('calendar.google')->getFirstSyncToken($this->getCalendarId());
+            //$superGoogle= $this->get('calendar.google')->getFirstSyncToken($this->getCalendarId());
             //$superGoogle= $this->get('calendar.google')->getEvents($calendarId,$superGoogle);
-            $superGoogle= $this->get('calendar.google')->initEventsList($this->getCalendarId());
+            //$superGoogle= $this->get('calendar.google')->initEventsList($this->getCalendarId());
             
             // $response=file_get_contents("https://accounts.google.com/o/oauth2/token");
 
@@ -107,6 +107,8 @@ class CrmCalendarController extends Controller
             $prioridad = $em->getRepository('ERPCRMBundle:CtlPrioridad')->findAll();
             //Actividades
             $actividades = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->findAll();
+            //Estados actividades
+            $estActividades = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->findBy(array('estado'=>1));
             // //$personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findBy(array('estado'=>1));
             // $personas = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->findAll();
             // //Tipo industria
@@ -123,6 +125,7 @@ class CrmCalendarController extends Controller
                 'tiempos'=>$tiempos,
                 'prioridad'=>$prioridad,
                 'actividades'=>$actividades,
+                'estActividades'=>$estActividades,
                 // 'personas'=>$personas,
                 // 'industrias'=>$industrias,
                 // 'tiposTelefono'=>$tiposTelefono,

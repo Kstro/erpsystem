@@ -17,6 +17,7 @@ parameters:
         app.servermsgupdate: ¡Updated!
         app.serverMsgDelete: ¡Deleted!
         app.serverMsgCancel: ¡Cancelled!
+        app.serverMsgStatusChanged: ¡Status changes!
         app.serverCancel: already cancelled!
         app.serverError: Error!
         app.serverFileAttached: File attached
@@ -31,6 +32,7 @@ parameters:
         app.filterLabel: Filter by:
         app.filterActivityLabel: Type
         app.filterUserLabel: Person
+        app.filterEstadoActLabel: Status
         app.filterCuentaLabel: Account's name
         
         #google calendar ID
@@ -342,6 +344,7 @@ parameters:
         app.taskNoEdit: can't be modified
 
         app.cuentaActividad: Account
+        app.tipoActividad: Activity type
 
         #Llamadas
         app.tituloLlamadas: CRM | Calls
@@ -364,6 +367,12 @@ parameters:
         app.taskNoEdit: can't be modified
 
         app.cuentaActividad: Account
+        
+        app.recordarEvento: Send reminder
+        app.cancelarEvento: Cancel
+        app.enProcesoEvento: In progress
+        app.completarEvento: Complete
+        app.perdidoEvento: Missed
         
         #Campania
         app.tituloCampaniaReg: CRM | Campaigns
