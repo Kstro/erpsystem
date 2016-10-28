@@ -926,6 +926,8 @@ class CrmLlamadasController extends Controller
                 $data['inicio']=$crmActividadObj->getFechaInicio()->format('Y-m-d H:i');
                 $data['fin']=$crmActividadObj->getFechaFin()->format('Y-m-d H:i');
                 $data['prioridad']=$crmActividadObj->getPrioridad()->getNombre();
+                $data['tipo']=$crmActividadObj->getTipoActividad()->getId();
+                $data['direccion']=$crmActividadObj->getDireccion();
                 
                 $serverSave = $this->getParameter('app.serverMsgSave');
                 $data['msg']=$serverSave;

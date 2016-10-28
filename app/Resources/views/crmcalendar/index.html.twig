@@ -49,7 +49,7 @@
         <div class="col-md-8">
             {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
             
-                <label style="margin-right:20px;"><input style="margin-top:-3px; margin-right: 10px;" type="checkbox" id="showCancel" class="btn btn-primary">{{showCancel}}</label>
+                <label id="mostrarCancelados" style="margin-right:20px;"><input style="margin-top:-3px; margin-right: 10px;" type="checkbox" id="showCancel" class="btn btn-primary">{{showCancel}}</label>
             
             
             {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
@@ -128,7 +128,7 @@
 {% block js_extend %}
     
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/task/task.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/activities/activities.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/animations/task/taskCal.js') }}"></script>
 
 
@@ -303,7 +303,16 @@
 
                                                 mensaje += "<div class='col-md-6 text-right'><b>{{estadoLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.estado+"</div>";
                                                 mensaje += "<div class='clearfix'></div>";
+                                                mensaje += "<div class='clearfix'></div>";
                                                 
+                                                
+                                                
+                                                
+                                                
+                                                if(data.tipo==3){
+                                                    mensaje += "<div class='col-md-6 text-right'><b>{{direccionReuniones}}: </b></div><div class='col-md-6 text-left'>"+data.direccion+"</div>";
+                                                    mensaje += "<div class='clearfix'></div>";
+                                                }
                                                 mensaje += "<div class='col-md-6 text-right'><b>{{prioridadLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.prioridad+"</div>";
                                                 mensaje += "<div class='clearfix'></div>";
 
