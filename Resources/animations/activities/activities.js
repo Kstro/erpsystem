@@ -1,35 +1,21 @@
 /*/////Show forms panel*/
-var opcion = $('#tipoActividades').val();
-if(opcion == 3){
-    $('.location').removeClass('hidden');
-    $('#txtDireccion').addClass('validateInput');
-} else {
-    $('.location').addClass('hidden');
-    $('#txtDireccion').removeClass('validateInput');
-}
-
-$(document).on('change', '#tipoActividades', function(event) {
-    
-    opcion = $(this).val();
-    
-    console.log('sdfdvdsv');
-    if(opcion == 3){
-        $('.location').removeClass('hidden');
-        $('#txtDireccion').addClass('validateInput');
-    } else {
-        $('.location').addClass('hidden');
-        $('#txtDireccion').removeClass('validateInput');
-    }
-});
-
 
 $(document).on('click', '.btnAddPage', function(event) {
 	/*//console.log('add');*/
 	var id = $('#txtId').val();
-	$('#comentarios').addClass('hidden');
-	$('#btnLoadMore').addClass('hidden');
-	$('#mostrarCancelados').addClass('hidden');
         
+        
+        $('#comentarios').hide();
+	$('#wallmessages').hide();
+        $('#cuentaActividades').html('');
+        $('#btnLoadMore').hide();
+	$('#addTag').addClass('hidden');
+	$('#addFile').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#filterTag').addClass('hidden');
+	/*// $('.noCal').removeClass('hidden');*/
+	/*// $('#estado').val(2).trigger('change');*/
+	
 	/*// console.log("ID: "+id);*/
 	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');
@@ -40,8 +26,6 @@ $(document).on('click', '.btnAddPage', function(event) {
 		/*// $('#btnBack').removeClass('hidden');*/
 		/*// $('#btnCancelTop').removeClass('hidden');*/
 		/*// $('#btnSaveTop').removeClass('hidden');*/
-		
-
 		limpiarCampos();
 		$('#btnSaveTop').addClass('hidden');
 		$('#btnCancelTop').addClass('hidden');
@@ -52,7 +36,7 @@ $(document).on('click', '.btnAddPage', function(event) {
 		/*// console.log("else");*/
 		/*// limpiarCampos();*/
 		$('#pnAdd').show();
-		$('#calendar').hide();
+		$('#activitiesList').parent().hide();
 		$('#btnSave').removeClass('hidden');
 		$('#btnSaveTop').removeClass('hidden');
 		$('#btnCancelTop').removeClass('hidden');
@@ -86,11 +70,17 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	
 	/*// console.log('cancel');*/
+        $('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMore').addClass('hidden');
 	limpiarCampos();
 	return false;
 	
 });
-$(document).on('click', '#tasksList>thead>tr>th:gt(0)', function(event) {
+$(document).on('click', '#activitiesList>thead>tr>th:gt(0)', function(event) {
 	
 	/*// console.log('cancel');*/
 	$('.chkItemAll').prop({'checked': false});
@@ -106,8 +96,9 @@ function limpiarCampos(){
 	$('#txtCompania').val('');
 	$('#txtFechaInicio').val('');
 	$('#txtFechaFin').val('');
-	$('#mostrarCancelados').removeClass('hidden');
-        $('#txtDireccion').val('');
+	$('#txtDireccion').val('');
+        $('#tipoActividades').val(1).change().trigger("change");
+	
 	$('.validateInput').each(function(index, el) {
 		$(this).removeClass('errorform');
 	});
@@ -122,9 +113,22 @@ function limpiarCampos(){
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
 
-
+        $('.location').addClass('hidden');
+        
 	$('#pnAdd').hide();
-	$('#calendar').show();
+	$('#activitiesList').parent().show();
 }
+
+$(document).on('change', '#tipoActividades', function(event) {
+    var opcion = $(this).val();
+    
+    if(opcion == 3){
+        $('.location').removeClass('hidden');
+        $('#txtDireccion').addClass('validateInput');
+    } else {
+        $('.location').addClass('hidden');
+        $('#txtDireccion').removeClass('validateInput');
+    }
+});
 
 /*/////Fin hide forms panel*/

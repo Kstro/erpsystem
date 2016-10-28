@@ -75,49 +75,39 @@ $(document).ready(function() {
 				                        preConfirm: function(email) {
 						    return new Promise(function(resolve, reject) {
 								$.ajax({
-									url: Routing.generate('admin_tasks_save_ajax'),
-									type: "POST",       
-									data: dataForm,
-									contentType: false,    
-									cache: false,         
-									processData:false,    
-									success: function(data)
-									{
-										/*//$('#loading').hide();*/
-										/*// $("#message").html(data);*/
-										$("#txtId").val(data.id);
-										if(data.msg){
-											swal('',data.msg,'success');
-											var table = $('#tasksList').DataTable();
-											/*//id.val(data.id1);*/
-											/*// $('#txtId').val('');*/
-											/*// $('#txtName').val('');*/
-											/*// $('#txtProbability').val('10');*/
-											/*// probability.slider('setValue', 10);*/
-											$('.btnAddPage').click();
-											
-											$('.btnAddPage').removeClass('hidden');
-											table.ajax.reload();		
-											/*// $("#calendar").fullCalendar('rerenderEvents');*/
-											/*// console.log('sdcscds'+$('#calendar').length);*/
-										}
-										if(data.error){
-											/*// console.log(data.id);*/
-											swal('',data.error,'error');	
-										}
-										$btn.button('reset');
-										$btn1.button('reset');
-										if ($('#calendar').length!=0) {
-											$("#calendar").fullCalendar('refetchEvents');	
-										}
-										/*// console.log('updata table');*/
-										/*// console.log(table);*/
-									},
-									error:function(data) {
-										/* Act on the event */
-										$btn.button('reset');
-										$btn1.button('reset');
-									}
+                                                                    url: Routing.generate('admin_tasks_save_ajax'),
+                                                                    type: "POST",       
+                                                                    data: dataForm,
+                                                                    contentType: false,    
+                                                                    cache: false,         
+                                                                    processData:false,    
+                                                                    success: function(data)
+                                                                    {
+                                                                        /*//$('#loading').hide();*/
+                                                                        /*// $("#message").html(data);*/
+                                                                        $("#txtId").val(data.id);
+                                                                        if(data.msg){
+                                                                            swal('',data.msg,'success');
+                                                                            var table = $('#tasksList').DataTable();
+
+                                                                            $('.btnAddPage').click();
+                                                                            $('.btnAddPage').removeClass('hidden');
+                                                                            table.ajax.reload();		
+                                                                        }
+                                                                        if(data.error){
+                                                                            swal('',data.error,'error');	
+                                                                        }
+                                                                        $btn.button('reset');
+                                                                        $btn1.button('reset');
+                                                                        if ($('#calendar').length!=0) {
+                                                                            $("#calendar").fullCalendar('refetchEvents');	
+                                                                        }
+                                                                    },
+                                                                    error:function(data) {
+                                                                        /* Act on the event */
+                                                                        $btn.button('reset');
+                                                                        $btn1.button('reset');
+                                                                    }
 								});
 						    });
 						  },
@@ -224,6 +214,8 @@ $(document).ready(function() {
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
                 
+                $('#addedFiles').html('');//limpiar archivos anteriores
+                
                 numPedidos=1;
                 mostrarocultar(numPedidos);
                 
@@ -306,6 +298,8 @@ $(document).ready(function() {
 							var numPersonas = data.personaArray.length;
 							
 							$('#estado').val(data.estado).change().trigger("change");
+                                                        $('#cmbPrioridad').val(data.prioridad).change().trigger("change");
+                                                        
 							/*// Direcciones*/
 							for (var i = 0; i < numPersonas; i++) {
 								/*// console.log(i);*/
@@ -317,10 +311,10 @@ $(document).ready(function() {
 										$(".firstTiempoRecordatorio").val(data.tiempoRecordatorioArray[i]).trigger("change");									
 									break;
 									default:
-										$('#plusAddress').click();
-										$("#state-"+(numAddress)).val(data.personaArray[i]).trigger("change");
-										$("#city-"+(numAddress)).val(data.tipoRecordatorioArray[i]).trigger("change");
-										$('#address-'+(numAddress)).val(data.tiempoRecordatorioArray[i]);
+										$('#plusPersona').click();
+                                                                                $("#persona-"+(numAddress)).val(data.personaArray[i]).trigger("change");
+                                                                                $("#types-"+(numAddress)).val(data.tipoRecordatorioArray[i]).trigger("change");
+                                                                                $('#times-'+(numAddress)).val(data.tiempoRecordatorioArray[i]);
 									break;
 								}
 							}

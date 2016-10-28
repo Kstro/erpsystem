@@ -1,7 +1,7 @@
 {% extends ':layout:layouterp.html.twig' %}
 
 
-{% block title -%}<title>{{tituloCampania}}</title>{% endblock %}
+{% block title -%}<title>{{tituloTipoCampania}}</title>{% endblock %}
 
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.css') }}">
@@ -9,8 +9,8 @@
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCampania}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionCampania}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTipoCampania}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTipoCampania}}</p>
      </div>
 
 {% endblock %}
@@ -35,7 +35,7 @@
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCampania}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameTipoCampania}}</th>
                         {# <th aria-sort="descending" aria-label="Probability: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">Probability</th> #}
                         {# <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th> #}
                         {# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}

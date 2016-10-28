@@ -1,12 +1,12 @@
 {% extends ':layout:layouterp.html.twig' %}
 
-
-{% block title -%}<title>{{tituloActividades}}</title>{% endblock %}
-
+{% block title -%}<title>{{tituloTodasActividades}}</title>{% endblock %}
 
 {% block navegacion %}
     {% include ':crmactividad:menu_actividades.html.twig' %}
+    {#{% include ':crmcuenta:opciones_cuenta.html.twig' %}#}
     {% include ':crmcuenta:add_files.html.twig' %}
+    
 {% endblock %}
 
 
@@ -22,13 +22,13 @@
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoActividades}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionActividades}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTodasActividades}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTodasActividades}}</p>
           <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
           <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
           <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
           <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
-          <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEdit}}</p>
+          <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEditTodasActividades}}</p>
      </div>
 
 {% endblock %}
@@ -48,23 +48,21 @@
 
 {% block contenido %}
     <div class="row">
-        {% include ':crmactividad:task.html.twig' %}
-
+        {% include ':crmactividad:activity.html.twig' %}
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
-            <table id="tasksList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+            <table id="activitiesList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
                   
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameTareas}}</th>
-                        
-                        <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{prioridadTareas}}</th>
-                        <th aria-label="Responsable: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{responsableTareas}}</th>
-                        <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaInicioTareas}}</th>
-                        {# <th aria-label="dateEnd: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaFinTareas}}</th> #}
-                        <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaCancelTareas}}</th>
-                        <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{estado}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameTodasActividades}}</th>
+                        <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{tipoTodasActividades}}</th>
+                        <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{prioridadTodasActividades}}</th>
+                        <th aria-label="Responsable: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{responsableTodasActividades}}</th>
+                        {#<th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaInicioTodasActividades}}</th>#}
+                        {#<th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaCancelTodasActividades}}</th>   #}
+                        <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{estadoTodasActividades}}</th>
                     </tr>
                 </thead>      
              </table>
@@ -76,8 +74,8 @@
 {% block js_extend %}
     
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/task/task.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/animations/task/task.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/activities/activities.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/activities/activities.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
@@ -94,29 +92,26 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.noCal').removeClass('hidden');
             $('#estado').val(2).trigger('change');
+            
             /////Definición datatable
-            var table = $('#tasksList').DataTable({
+            var table = $('#activitiesList').DataTable({
                 dom:'ftp',
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{path('admin_activities_data')}}',
+                    "url": '{{path('admin_all_activities_data')}}',
                     "type": 'GET'
                 },
                 "columns": [
                     { "data": "chk" },
                     { "data": "name" },
+                    { "data": "tipoCuenta" },
                     { "data": "priority" },
                     { "data": "responsable" },
-                    { "data": "dateStart" },
-                    // { "data": "dateEnd" }
-                    { "data": "dateCancel" },
+                    /*{ "data": "dateStart" }*/
+                    /*{ "data": "dateCancel" }*/
                     { "data": "estado" }
-                    // { "data": "probability" },
-                    // { "data": "state" }
-                    // { "data": "actions" }
                 ],
                 "order":[1,'desc'],
                 "columnDefs": [
@@ -151,6 +146,8 @@
             $('.dpbTipoRecordatorio').select2();
             $('.dpbTiempoRecordatorio').select2();
             $('.dpbPriority').select2();
+            $('#tipoActividades').select2();
+            
             $('#datetimepicker1').datetimepicker({
                 format: 'Y/MM/DD HH:mm',
                 allowInputToggle:true,

@@ -29,44 +29,72 @@
 {% endblock %}
 {% block acciones %}
      <div class="col-md-7 text-right panel-body">
-        
+        <div class="col-md-4 pull-left" style="height:20px;">
+            <button data-toggle="tooltip" data-container="body" title="{{completarEvento}}" class="btn btn-default datatables1-actions" style="color:#FFF;background:#69BD45; float: right;" role="button">
+                <i class="fa fa-calendar-check-o"></i>
+            </button>
+            <button data-toggle="tooltip" data-container="body" title="{{enProcesoEvento}}" class="btn btn-default datatables1-actions" style="color:#FFF;background:#3852A4; float: right;" role="button">
+                <i class="fa fa-calendar-minus-o"></i>
+            </button>
+            <button data-toggle="tooltip" data-container="body" title="{{perdidoEvento}}" class="btn btn-default datatables1-actions" style="color:#FFF;background:#421E5B; float: right;" role="button">
+                <i class="fa fa-calendar-o"></i>
+            </button>
+            {#<button data-toggle="tooltip" data-container="body" title="Cita " class="btn btn-default datatables1-actions  " role="button">
+                <i class="fa fa-calendar-plus-o"></i>
+            </button>#}
+            <button data-toggle="tooltip" data-container="body" title="{{cancelarEvento}}" class="btn btn-default datatables1-actions  " style="color:#FFF;background:#F00; float: right;" role="button">
+                <i class="fa fa-calendar-times-o"></i>
+            </button>
+        </div>
+        <div class="col-md-8">
             {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
-            <input style="margin-right: 20px;" type="checkbox" id="showCancel" class="btn btn-primary">
-        
+            
+                <label id="mostrarCancelados" style="margin-right:20px;"><input style="margin-top:-3px; margin-right: 10px;" type="checkbox" id="showCancel" class="btn btn-primary">{{showCancel}}</label>
+            
+            
             {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
-            <button type="button" class="btnAddPage btn btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">{{add}}</button>
+            <button type="button" class="btnAddPage btn btn-sm btn-primary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">{{add}}</button>
             <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
             <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
             {# <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button> #}
             <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{cancel}}</button>
             <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
             <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
-        
+        </div>
      </div>
 {% endblock acciones %}
 {% block navegacion %}
-            <div class="col-md-12" style="margin-bottom:20px;">
-                <label class="pull-left">{{filterLabel}}</label>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-12" >
-                <label class="pull-left">{{filterActivityLabel}}</label>
-                <select id="filterTipoActividad" style="width:100%;">
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <label class="pull-left">{{filterLabel}}</label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12" >
+            <label class="pull-left">{{filterActivityLabel}}</label>
+            <select id="filterTipoActividad" style="width:100%;">
+                <option value="0">{{allFilter}}</option>
+                {% for item in actividades %}
+                    <option value="{{item.id}}">{{item.nombre}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-12" style="margin-top:20px;">
+            <label class="pull-left">{{filterEstadoActLabel}}</label>
+            <select id="filterEstadoAct" style="width:100%;">
                     <option value="0">{{allFilter}}</option>
-                    {% for item in actividades %}
+                    {% for item in estActividades %}
                         <option value="{{item.id}}">{{item.nombre}}</option>
                     {% endfor %}
-                </select>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-12" style="margin-top:20px;">
-                <label class="pull-left">{{filterUserLabel}}</label>
-                <select id="filterPersona" style="width:100%;">
-                        <option value="0">{{allFilter}}</option>
-                        {% for item in personas %}
-                            <option value="{{item.id}}">{{item.persona.nombre}}</option>
-                        {% endfor %}
-                </select>
+            </select>
+        </div>
+        <div class="col-md-12" style="margin-top:20px;">
+            <label class="pull-left">{{filterUserLabel}}</label>
+            <select id="filterPersona" style="width:100%;">
+                    <option value="0">{{allFilter}}</option>
+                    {% for item in personas %}
+                        <option value="{{item.id}}">{{item.persona.nombre}}</option>
+                    {% endfor %}
+            </select>
         </div>
         <div class="clearfix"></div>
         <div class="col-md-12" style="margin-top:20px;">
@@ -100,7 +128,7 @@
 {% block js_extend %}
     
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/task/task.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/activities/activities.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/animations/task/taskCal.js') }}"></script>
 
 
@@ -108,8 +136,9 @@
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/collapse.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/transition.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/datetime.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/bootbox.min.js') }}"></script>
     
-     
+    <script type="text/javascript" src="{{ asset('Resources/sweetalert/js/swalextends.js') }}"></script>
     
     <script type="text/javascript" src="{{ asset('Resources/fullcalendar300/fullcalendar.min.js') }}"></script>
     {# // <script type='text/javascript' src="{{ asset('Resources/fullcalendar300/gcal.js') }}"></script> #}
@@ -121,9 +150,8 @@
         var sources=new Array();
         var sucursal = $('#sucursal').val();
         
-        // $('#modal').modal();
         $(document).ready(function() {
-
+            var numPedidos = 0;
             var source = 
                     {
                         url: Routing.generate('fullcalendar_loader'),
@@ -132,15 +160,12 @@
                             filtro: 1
                         },
                         error: function() {
-                            // bootbox.alert('Se produjo un error al recuperar los datos del calendario, recargue la página!');
                             console.log('Se produjo un error al recuperar los datos del calendario, recargue la página!');
                         }
-                        
                     };
 
             calendario = $('#calendar').fullCalendar({
-                            header: {
-                                
+                            header: {    
                                 left: 'title',
                                 right: 'month,agendaWeek,agendaDay, prev,next'
                             },
@@ -164,6 +189,7 @@
                             disableResizing:true,
                             eventDurationEditable:false,
                             weekends: true,
+                            textEscape: false,
                             weekNumbers: false,
                             firstDay: 0,
                             slotMinutes: 30,
@@ -231,7 +257,230 @@
                                 }
                                                                    
                             },
+                            /////Click events
+                                
+                            eventClick: function ( startDate, endDate, event, jsEvent, view )  {
+                                var hoy = new Date();
+                                var hoyDate = new Date();
+                                var dd = hoy.getDate();
+                                var mm = hoy.getMonth()+1; //hoy es 0!
+                                var yyyy = hoy.getFullYear();
+                                //alert(view.name);
+                                //numPedidos = 1;
+                                if(dd<10) {
+                                    dd='0'+dd;
+                                } 
 
+                                if(mm<10) {
+                                    mm='0'+mm;
+                                } 
+
+                                //hoy = yyyy+'-'+mm+'-'+dd;
+                                hoy = dd+'-'+mm+'-'+yyyy;
+                                //alert('"'+hoy+'"');
+                                //alert(startDate.id);
+                                //alert("Información de la citra");
+                                //alert(hoyDate);
+                                if (typeof startDate.id === 'undefined') {
+                                    return false;
+                                }
+                                
+                                if (numPedidos==0){
+                                    numPedidos++;
+                                    $.ajax({
+                                        url: Routing.generate('admin_get_info_activities_ajax'),
+                                        type: 'POST',
+                                        data: {param1: startDate.id},
+                                        success:function(data){
+                                            numPedidos=0;
+                                            if(data.error){
+                                                swal('',data.error,'error');
+                                            }
+                                            else{
+                                                var mensaje = "";
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{tipoActividad}}: </b></div><div class='col-md-6 text-left'>"+data.actividad+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{estadoLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.estado+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+                                                mensaje += "<div class='clearfix'></div>";
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                if(data.tipo==3){
+                                                    mensaje += "<div class='col-md-6 text-right'><b>{{direccionReuniones}}: </b></div><div class='col-md-6 text-left'>"+data.direccion+"</div>";
+                                                    mensaje += "<div class='clearfix'></div>";
+                                                }
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{prioridadLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.prioridad+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{cuentaActividad}}: </b></div><div class='col-md-6 text-left'>"+data.cuenta+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{fechaInicioLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.inicio+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{fechaFinLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.fin+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+                                                
+                                                mensaje += "<div class='col-md-6 text-right'><b>{{descripcionFormLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.descripcion+"</div>";
+                                                mensaje += "<div class='clearfix'></div>";
+                                                
+                                                bootbox.dialog({
+                                                    message: mensaje,
+                                                    title: '<i class="fa fa-phone'+data.clase+'"></i> '+data.nombre,
+                                                    buttons: {
+                                                        reminder: {
+                                                            label: '{{recordarEvento}}',
+                                                            className: "btn-default btn-warning",
+                                                            callback: function() {
+                                                                $(this).button('loading');
+                                                                
+                                                                var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                var tituloEvento = "";
+                                                                var id=0;
+                                                                console.log(evento);
+                                                                console.log(evento.id);
+                                                                Object.keys(evento).forEach(function (key) {
+                                                                        tituloEvento = evento[key].title;
+                                                                        
+                                                                        id=evento[key].id;
+                                                                    });
+                                                                console.log(id);
+                                                            }
+                                                        },
+                                                        default2: {
+                                                            label: '{{perdidoEvento}}',
+                                                            className: "btn-default",
+                                                            callback: function() {
+                                                                var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                console.log(evento);
+                                                                $.ajax({
+                                                                    url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                    type: 'POST',
+                                                                    data: {param1: startDate.id,param2:4},
+                                                                    success:function(data){
+
+                                                                        swal('',data.msg,'success');
+
+                                                                        Object.keys(evento).forEach(function (key) {   
+                                                                            console.log(evento);
+                                                                            evento[key].backgroundColor= '#421E5B';
+                                                                            evento[key].borderColor= '#421E5B';
+                                                                            calendario.fullCalendar('updateEvent', evento[key]);
+                                                                        });
+                                                                    },
+                                                                    error:function(data){
+
+                                                                    }
+                                                                }); 
+                                                                var tituloEvento = "";
+                                                                var eventoId = 0;
+                                                            }
+                                                        },   
+                                                        danger: {
+                                                                label: '{{cancelarEvento}}',
+                                                                className: "btn-danger",
+                                                                callback: function() {
+                                                                    var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                    console.log(evento);
+                                                                    $.ajax({
+                                                                        url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                        type: 'POST',
+                                                                        data: {param1: startDate.id,param2:3},
+                                                                        success:function(data){
+                                                                            
+                                                                            swal('',data.msg,'success');
+                                                                          
+                                                                            Object.keys(evento).forEach(function (key) {   
+                                                                                console.log(evento);
+                                                                                evento[key].backgroundColor= '#FF0000';
+                                                                                evento[key].borderColor= '#FF0000';
+                                                                                calendario.fullCalendar('updateEvent', evento[key]);
+                                                                            });
+                                                                        },
+                                                                        error:function(data){
+                                                                            
+                                                                        }
+                                                                    }); 
+                                                                    var tituloEvento = "";
+                                                                    var eventoId = 0;
+                                                                }
+                                                            },   
+                                                        success: {
+                                                            label: '{{completarEvento}}',
+                                                            className: "btn-success",
+                                                            callback: function() {
+                                                                var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                console.log(evento);
+                                                                $.ajax({
+                                                                    url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                    type: 'POST',
+                                                                    data: {param1: startDate.id,param2:1},
+                                                                    success:function(data){
+
+                                                                        swal('',data.msg,'success');
+                                                                        Object.keys(evento).forEach(function (key) {   
+                                                                            console.log(evento);
+                                                                            evento[key].backgroundColor= '#69BD45';
+                                                                            evento[key].borderColor= '#69BD45';
+                                                                            calendario.fullCalendar('updateEvent', evento[key]);
+                                                                        });
+                                                                    },
+                                                                    error:function(data){
+
+                                                                    }
+                                                                });
+
+                                                                var tituloEvento = "";
+                                                                var eventoId = 0;
+                                                            }
+                                                        },
+                                                        main: {
+                                                            label: '{{enProcesoEvento}}',
+                                                            className: "btn-primary",
+                                                            callback: function() {
+                                                                var evento = calendario.fullCalendar('clientEvents',startDate.id);
+                                                                console.log(evento);
+                                                                $.ajax({
+                                                                    url: Routing.generate('admin_change_status_activities_ajax'),
+                                                                    type: 'POST',
+                                                                    data: {param1: startDate.id,param2:2},
+                                                                    success:function(data){
+                                                                        swal('',data.msg,'success');
+                                                                        Object.keys(evento).forEach(function (key) {   
+                                                                            console.log(evento);
+                                                                            evento[key].backgroundColor= '#3852A4';
+                                                                            evento[key].borderColor= '#3852A4';
+                                                                            calendario.fullCalendar('updateEvent', evento[key]);
+                                                                        });
+
+                                                                    },
+                                                                    error:function(data){
+
+                                                                    }
+                                                                });
+                                                                var tituloEvento = "";
+                                                                var eventoId = 0;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        error:function(data){
+                                                if(data.error){
+                                                        console.log(data.id);
+                                                        swal('',data.error,'error');
+                                                }
+                                        }
+                                    });
+                                }
+                            },
+
+                            /////
                             /////Function para arrastrar un evento del calendario
                             eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
                                 console.log(view.name);
@@ -244,6 +493,7 @@
                                 // var removeButton = $('#removeButton').html();
                                 var alternateconfirmButtonText = $('#alternateconfirmButtonText').html(); 
                                 var confirmMoveEvents = $('#confirmMoveEvents').html(); 
+                                console.log(event.title);
                                 swal({
                                         title: "",
                                         text: confirmMoveEvents,
@@ -261,7 +511,7 @@
                                             var textFechaInicio= $('#txtFechaInicio').val();
                                             var textFechaFin=$('#txtFechaFin').val();
                                             var idAct=$('#txtId').val();
-                                            if (view.name=='month') {
+                                            //if (view.name=='month') {
                                                     $.ajax({
                                                         url: Routing.generate('admin_check_availability_user_ajax'), // Url to which the request is send
                                                         type: 'POST',
@@ -356,7 +606,7 @@
                                                             revertFunc();
                                                         }
                                                     });/////fin if check disponibilidad ajax
-                                            }/////if view
+                                            //}/////if view
                                             });
                                       },
                                     }).then(function() {
@@ -370,7 +620,10 @@
                                             revertFunc();
                                           }
                                      });
-                            }/////Event drop
+                            },/////Event drop
+                            eventRender: function(event, element) {////Mostrar iconos
+                                element.find('.fc-title').html(event.title);
+                            },/////Fin Mostrar iconos
                     });/////Fin de calendario
             // calendario.fullCalendar('addEventSource', source);
 
@@ -383,6 +636,7 @@
             $('.firstPriority').select2();
             $('#tipoActividades').select2();
             $('#filterTipoActividad').select2();
+            $('#filterEstadoAct').select2();
             $('#filterPersona').select2();
             $('#cuentaActividades, #filterCuentaActividades').select2({
                  ajax: {
@@ -447,18 +701,18 @@
                 //$('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
             });
 
-            $("#filterTipoActividad, #filterPersona, #filterCuentaActividades").on("change", function (e) {
+            $("#filterTipoActividad, #filterPersona, #filterCuentaActividades, #filterEstadoAct").on("change", function (e) {
                     setsource();
             });
-            $(document).on("change","#btnShowCancel", function (e) {
-                if($(this).hasClass('btn-primary')){
+            $(document).on("click","#showCancel", function (e) {
+                {#if($(this).hasClass('btn-primary')){
                     $(this).removeClass('btn-primary');
                     $(this).addClass('btn-success');
                 }
                 else{
                     $(this).addClass('btn-primary');
                     $(this).removeClass('btn-success');
-                }
+                }#}
                     setsource();
             });
     
@@ -496,8 +750,14 @@
             fechaFin= $('#fechaFin').val();
             filterCuentaId=$('#filterCuentaActividades').val();
             var filterTipo = $('#filterTipoActividad').val();
+            var estadoAct = $('#filterEstadoAct').val();
             var filterPersona = $('#filterPersona').val();
-            var showCancel = $('#showCancel').val();
+            var showCancel = $('#showCancel');
+            var showCancelVal = 0;
+            if(showCancel.is(':checked')){
+                showCancelVal = 1;
+            }
+            
             console.log(fechaInicio);
             console.log(fechaFin);
             for(j=0;j<sources.length;j++){
@@ -508,7 +768,7 @@
             console.log(sources[0]);
             var source2 = 
                 {
-                    url: Routing.generate('fullcalendar_loader')+'?param1='+filterTipo+'&param2='+filterPersona+'&param3='+filterCuentaId+'&param4='+showCancel,
+                    url: Routing.generate('fullcalendar_loader')+'?param1='+filterTipo+'&param2='+filterPersona+'&param3='+filterCuentaId+'&param4='+showCancelVal+'&param5='+estadoAct,
                     type: 'POST',
                     data: {
                         filtro: 1

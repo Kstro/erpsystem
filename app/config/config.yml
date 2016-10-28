@@ -55,6 +55,7 @@ twig:
         serverMsgSave: '%app.serverMsgSave%'
         serverMsgUpdate: '%app.serverMsgUpdate%'
         serverMsgCancel: '%app.serverMsgCancel%'
+        serverMsgStatusChanged: '%app.serverMsgStatusChanged%'
         serverCancel: '%app.serverCancel%'
         serverMsgDelete: '%app.serverMsgDelete%'
         serverError: '%app.serverError%'
@@ -67,6 +68,7 @@ twig:
         filterLabel: '%app.filterLabel%'
         filterActivityLabel: '%app.filterActivityLabel%'
         filterUserLabel: '%app.filterUserLabel%'
+        filterEstadoActLabel: '%app.filterEstadoActLabel%'
         filterCuentaLabel: '%app.filterCuentaLabel%'
         
         
@@ -241,11 +243,12 @@ twig:
 
         #icons 
         accountsIcon: '%app.accountsIcon%'
-        saleStagesIcon: '%app.saleStagesIcon%'
+        saleStageIcon: '%app.saleStageIcon%'
         activitiesIcon: '%app.activitiesIcon%'
         calendarIcon: '%app.calendarIcon%'
         settingsIcon: '%app.settingsIcon%'
         reportsIcon: '%app.reportsIcon%'
+        CRMIcon: '%app.CRMIcon%'
         
         # Wizard de configuracion inicial - Ingles
         tituloWizard: '%app.tituloWizard%'
@@ -415,8 +418,9 @@ twig:
         fechaInicioFilterDashboardEs: '%app.fechaInicioFilterDashboardEs%'
         fechaFinFilterDashboardEs: '%app.fechaFinFilterDashboardEs%'
         
-        #Contacto
+        #Contacto - Ingles
         tituloContacto: '%app.tituloContacto%'
+        menuContacto: '%app.menuContacto%'
         encabezadoContacto: '%app.encabezadoContacto%'
         descripcionContacto: '%app.descripcionContacto%'
         tratoContacto: '%app.tratoContacto%'
@@ -596,6 +600,26 @@ twig:
         mesesTiempoNotificacionEs: '%app.mesesTiempoNotificacionEs%'
         aniosTiempoNotificacionEs: '%app.aniosTiempoNotificacionEs%'
         
+        #Todas las actividades (Llamadas, reuniones, tareas u otro tipo actividad) - Ingles
+        tituloTodasActividades: '%app.tituloTodasActividades%'
+        menuTodasActividades: '%app.menuTodasActividades%'
+        encabezadoTodasActividades: '%app.encabezadoTodasActividades%'
+        descripcionTodasActividades: '%app.descripcionTodasActividades%'
+        nameTodasActividades: '%app.nameTodasActividades%'
+        tipoTodasActividades: '%app.tipoTodasActividades%'
+        prioridadTodasActividades: '%app.prioridadTodasActividades%'
+        estadoTodasActividades: '%app.estadoTodasActividades%'
+        responsableTodasActividades: '%app.responsableTodasActividades%'
+        recordatorioTodasActividades: '%app.recordatorioTodasActividades%'
+        tiempoRecordatorioTodasActividades: '%app.tiempoRecordatorioTodasActividades%'
+        fechaInicioTodasActividades: '%app.fechaInicioTodasActividades%'
+        fechaFinTodasActividades: '%app.fechaFinTodasActividades%'
+        fechaCancelTodasActividades: '%app.fechaCancelTodasActividades%'
+        estadoTodasActividades: '%app.estadoTodasActividades%'
+        descripcionFormTodasActividades: '%app.descripcionFormTodasActividades%'
+        prioridadTodasActividades: '%app.prioridadTodasActividades%'
+        taskNoEditTodasActividades: '%app.taskNoEditTodasActividades%'
+        
         #Tareas (actividades) - Ingles
         tituloTareas: '%app.tituloTareas%'
         menuTareas: '%app.menuTareas%'
@@ -659,6 +683,13 @@ twig:
         descripcionFormLlamadas: '%app.descripcionFormLlamadas%'
         prioridadLlamadas: '%app.prioridadLlamadas%'
         taskNoEdit: '%app.taskNoEdit%'
+        tipoActividad: '%app.tipoActividad%'
+        
+        recordarEvento: '%app.recordarEvento%'
+        cancelarEvento: '%app.cancelarEvento%'
+        enProcesoEvento: '%app.enProcesoEvento%'
+        completarEvento: '%app.completarEvento%'
+        perdidoEvento: '%app.perdidoEvento%'
         
         #Llamadas (actividades) - Español
         tituloLlamadasEs: '%app.tituloLlamadasEs%'
@@ -920,6 +951,7 @@ twig:
 
         #Fuentes de origen (CRUD) - Ingles
         tituloFuenteOrigen: '%app.tituloFuenteOrigen%'
+        menuFuenteOrigen: '%app.menuFuenteOrigen%'
         encabezadoFuenteOrigen: '%app.encabezadoFuenteOrigen%'
         descripcionFuenteOrigen: '%app.descripcionFuenteOrigen%'
         nameFuenteOrigen: '%app.nameFuenteOrigen%'
@@ -932,6 +964,7 @@ twig:
         
         #Prioridad (CRUD) - Ingles
         tituloPrioridad: '%app.tituloPrioridad%'
+        menuPrioridad: '%app.menuPrioridad%'
         encabezadoPrioridad: '%app.encabezadoPrioridad%'
         descripcionPrioridad: '%app.descripcionPrioridad%'
         namePrioridad: '%app.namePrioridad%'

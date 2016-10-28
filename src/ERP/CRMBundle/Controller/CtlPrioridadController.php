@@ -32,6 +32,7 @@ class CtlPrioridadController extends Controller
 
         return $this->render('ctlprioridad/index.html.twig', array(
             'ctlPrioridads' => $ctlPrioridads,
+            'menuPrioridadA' => true,
         ));
     }
 
