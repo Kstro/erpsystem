@@ -12,6 +12,28 @@
         .errorform{
             border: 1px solid #F00 !important;
         }
+        .iconTitle{
+            position: relative;
+            
+        }
+
+        /*replace the content value with the
+        corresponding value from the list below*/
+
+        .iconTitle:before {
+            content:"\f0ca";
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: inherit;
+        /*--adjust as necessary--*/
+            color: #000;
+            font-size: 18px;
+            padding-right: 0.5em;
+            
+            top: 10px;
+            left: 0;
+        }
     </style>
 {% endblock %}
 {% block descripcion %}
@@ -328,16 +350,16 @@
                                                 mensaje += "<div class='col-md-6 text-right'><b>{{descripcionFormLlamadas}}: </b></div><div class='col-md-6 text-left'>"+data.descripcion+"</div>";
                                                 mensaje += "<div class='clearfix'></div>";
                                                 
+                                                
                                                 bootbox.dialog({
                                                     message: mensaje,
-                                                    title: '<i class="fa fa-phone'+data.clase+'"></i> '+data.nombre,
+                                                    title: '<i class="'+data.clase+'"></i> '+data.nombre,
                                                     buttons: {
                                                         reminder: {
                                                             label: '{{recordarEvento}}',
                                                             className: "btn-default btn-warning",
                                                             callback: function() {
                                                                 $(this).button('loading');
-                                                                
                                                                 var evento = calendario.fullCalendar('clientEvents',startDate.id);
                                                                 var tituloEvento = "";
                                                                 var id=0;

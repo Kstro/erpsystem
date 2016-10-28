@@ -920,7 +920,7 @@ class CrmLlamadasController extends Controller
                 else{
                     $data['cuenta']='-';
                 }
-                $data['clase']='';
+                $data['clase']=$crmActividadObj->getTipoActividad()->getIcono();
                 $data['descripcion']=$crmActividadObj->getDescripcion();
                 $data['estado']=$crmActividadObj->getEstadoActividad()->getNombre();
                 $data['inicio']=$crmActividadObj->getFechaInicio()->format('Y-m-d H:i');
