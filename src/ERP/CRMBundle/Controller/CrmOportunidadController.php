@@ -179,7 +179,7 @@ class CrmOportunidadController extends Controller
     }
           
     /**
-     * Save provider
+     * Save Opportunity
      *
      * @Route("/save/ajax", name="admin_opportunity_save_ajax",  options={"expose"=true}))
      * @Method("POST")
@@ -193,55 +193,59 @@ class CrmOportunidadController extends Controller
                 $response = new JsonResponse();
                 
                 //Captura de parametros
-                var_dump($_POST);
-                die();
+                $idOportunidad = $_POST['txtId'];       // Id de Oportunidad
+                $nombreOportunidad = $_POST['txtName']; // Nombre de la oportunidad de venta
+                $tipoCuenta = $_POST['tipoCuenta'];     // Tipo de cuenta seleccionada
+                $cuenta = $_POST['cuenta'];             // Cuenta vinculada a la oportunidad.
+                $etapaVenta = $_POST['etapaVenta'];     // Etapa que se encuentra la oportunidad de venta.
+                $probabilidad = $_POST['txtProbability'];//Probabilidad de que la venta se realice con exito.
+                $fechaRegistro = new \DateTime('now');  // Fecha de registro de la oportunidad de venta.
+                $txtFechaCierre = $_POST['txtFechaCierre'];// Fecha de cierre de la oportunidad de venta.
+                $descripcion = $_POST['descripcion'];   // Descripcion de la oportunidad de venta.
+                $fuente = $_POST['fuente'];             // Fuente de origen de la oportunidad de venta.
+                $campania = $_POST['campania'];         // Campaña de donde se obtuvo la oportunidad de venta.
+                $estado = 1;                            // Estado de la oporunidad de venta
                 
-                $idOportunidad = $_POST['txtId'];//id Oportunidad
-                $tipoCuenta = $_POST['tipoCuenta']; // Tipo de cuenta
-                $cuenta = $_POST['cuenta']; // Cuenta vinculada a la oportunidad.
-                $etapaVenta = $_POST['etapaVenta'];// Etapa que se encuentra la oportunidad de venta.
-                $probabilidad = $_POST['txtProbability'];// Probabilidad de que la venta se realice con exito.
-                $fechaRegistro = new \DateTime('now');// Fecha de registro de la oportunidad de venta.
-                $fechaCierre = $_POST['txtFechaCierre'];// fecha de cierre de la oportunidad de venta.
-                $descripcion = $_POST['descripcion'];// Descripcion de la oportunidad de venta.
-                $fuente = $_POST['fuente'];// Fuente de origen de la oportunidad de venta.
-                $campania = $_POST['campania'];// Campaña de donde se obtuvo la oportunidad de venta.
-                $estado = 1;//Estado
-                
-                //persona
-                $personaArray = $_POST['responsable'];// Array de personas asignadas a la oportunidad de venta.
+                // Personas
+                $personaArray = $_POST['responsable'];  // Array de personas asignadas a la oportunidad de venta.
 
                 //Cantidad y productos asociados a la oportunidad
-                $cantidadArray = $_POST['cantidad'];// Array de cantidad de cada producto.
-                $productosArray = $_POST['sProducto'];// Array de productos asociados  a la oportunidad de venta.
+                $cantidadArray = $_POST['cantidad'];    // Array de cantidad de cada producto.
+                $productosArray = $_POST['sProducto'];  // Array de productos asociados a la oportunidad de venta.
 
                 //Busqueda objetos a partir de ids
-                $industriaObj = $em->getRepository('ERPCRMBundle:CtlIndustria')->find($industriaId);
-                $tipoEntidadObj = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->find($tipoEntidadId);
-                $tratamientoProtocolarioObj = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->find($tratamientoProtocolarioId);
-                $crmTipoCuentaObj = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find(1); //Proveedor
+                $crmTipoCuentaObj = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($tipoCuenta); // Objeto del tipo de cuenta seleccionado
+                $crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($cuenta);             // Objeto de la cuenta seleccionada
+                $crmEtapaVentaObj = $em->getRepository('ERPCRMBundle:CtlEtapaVenta')->find($etapaVenta); // Objeto de la etapa de venta seleccionada
+                
+                if($fuente == 1){
+                    $crmCampaniaObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($campania);   // Objeto de la campaña seleccionada
+                }
+                
+                $fcierre = explode(' ', $txtFechaCierre);
+                $fecha = explode('/', $fcierre[0]);
+                $fechaCierre = $fecha[2] . '-' . $fecha[1] . '-' . $fecha[0] . ' ' . $fcierre[1];
+                
+                
 
                 if($idOportunidad == ''){
 
-                    //Tabla crmCuenta, ids
-                    $crmCuentaObj = new CrmCuenta();
+                    //Seteo en Entidad crmOportunidad
+                    $crmOportunidadObj = new CrmOportunidad();
                     
-                    $crmCuentaObj->setTipoCuenta($crmTipoCuentaObj);
-                    $crmCuentaObj->setIndustria($industriaObj);
-                    $crmCuentaObj->setClientePotencial($clientePotencial);
-                    $crmCuentaObj->setNivelSatisfaccion($nivelSatisfaccion);
-                    $crmCuentaObj->setTipoEntidad($tipoEntidadObj);
-                    $crmCuentaObj->setNombre($nombreCuenta);
-                    $crmCuentaObj->setDescripcion($descripcionCuenta);
-                    $crmCuentaObj->setFechaRegistro($fechaRegistro);
-                    $crmCuentaObj->setSitioWeb($sitioWeb);
-                    $crmCuentaObj->setEstado(1);
+                    $crmOportunidadObj->setNombre($nombreOportunidad);
+                    $crmOportunidadObj->setFechaRegistro($fechaRegistro);
+                    $crmOportunidadObj->setFechaCierre($fechaCierre);
+                    $crmOportunidadObj->setDescripcion($descripcion);
+                    $crmOportunidadObj->setEtapaVenta($crmEtapaVentaObj);
                                     
-                    //Persist crmCuentaObj
-                    $em->persist($crmCuentaObj);
+                    //Persist crmOportunidadObj
+                    $em->persist($crmOportunidadObj);
                     $em->flush();
-
-
+                    
+                    var_dump($_POST);
+                    die();
+                
                     //Tabla ctlPersona
                     $ctlPersonaObj = new CtlPersona();
                     $ctlPersonaObj->setNombre($nombrePersona);

@@ -48,6 +48,13 @@ class CrmOportunidad
      * @ORM\Column(name="descripcion", type="text", length=65535, nullable=true)
      */
     private $descripcion;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="probabilidad", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $probabilidad;
 
     /**
      * @var \CtlEtapaVenta
@@ -201,6 +208,29 @@ class CrmOportunidad
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+    
+    /**
+     * Set probabilidad
+     *
+     * @param float $probabilidad
+     * @return CrmOportunidad
+     */
+    public function setProbabilidad($probabilidad)
+    {
+        $this->probabilidad = $probabilidad;
+
+        return $this;
+    }
+
+    /**
+     * Get probabilidad
+     *
+     * @return float 
+     */
+    public function getProbabilidad()
+    {
+        return $this->probabilidad;
     }
 
     /**
