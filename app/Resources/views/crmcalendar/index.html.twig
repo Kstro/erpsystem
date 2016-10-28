@@ -484,6 +484,7 @@
                                 // var removeButton = $('#removeButton').html();
                                 var alternateconfirmButtonText = $('#alternateconfirmButtonText').html(); 
                                 var confirmMoveEvents = $('#confirmMoveEvents').html(); 
+                                console.log(event.title);
                                 swal({
                                         title: "",
                                         text: confirmMoveEvents,
@@ -501,7 +502,7 @@
                                             var textFechaInicio= $('#txtFechaInicio').val();
                                             var textFechaFin=$('#txtFechaFin').val();
                                             var idAct=$('#txtId').val();
-                                            if (view.name=='month') {
+                                            //if (view.name=='month') {
                                                     $.ajax({
                                                         url: Routing.generate('admin_check_availability_user_ajax'), // Url to which the request is send
                                                         type: 'POST',
@@ -596,7 +597,7 @@
                                                             revertFunc();
                                                         }
                                                     });/////fin if check disponibilidad ajax
-                                            }/////if view
+                                            //}/////if view
                                             });
                                       },
                                     }).then(function() {
