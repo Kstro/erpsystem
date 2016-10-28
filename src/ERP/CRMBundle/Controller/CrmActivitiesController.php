@@ -49,7 +49,7 @@ class CrmActivitiesController extends Controller
                 'recordatorios'=>$recordatorios,
                 'tiempos'=>$tiempos,
                 'prioridad'=>$prioridad,
-                'tipoActividades'=>$tipoActividades,
+                'actividades'=>$tipoActividades,
                 'menuTodasActividadesA'=>true,
             ));
         
@@ -190,7 +190,7 @@ class CrmActivitiesController extends Controller
     /**
      * List level of activities
      *
-     * @Route("/activities-tasks/data/list", name="admin_activities_data")
+     * @Route("/activities-tasks/data/list", name="admin_all_activities_data")
      */
     public function dataactivitiesAction(Request $request)
     {
@@ -202,8 +202,7 @@ class CrmActivitiesController extends Controller
                 
                 $em = $this->getDoctrine()->getEntityManager();
                 
-                $sql = "SELECT obj.id as id FROM ERPCRMBundle:CrmActividad obj "
-                            ."JOIN obj.tipoActividad tact WHERE tact.id=1";
+                $sql = "SELECT obj.id as id FROM ERPCRMBundle:CrmActividad obj ";
                 $rowsTotal = $em->createQuery($sql)
                             ->getResult();
                
@@ -220,47 +219,45 @@ class CrmActivitiesController extends Controller
                 $orderByText="";
                 switch(intval($orderBy)){
                     case 1:
-                        $orderByText = "name";
+                        $orderByText = "act.nombre";
                         break;
-                    
                     case 2:
-                        $orderByText = "priority";
+                        $orderByText = "tact.nombre";
                         break;
                     case 3:
-                        $orderByText = "responsable";
+                        $orderByText = "p.nombre";
                         break;
                     case 4:
-                        $orderByText = "dateStart";
+                        $orderByText = "responsable";
                         break;
                     case 5:
+                        $orderByText = "est.nombre";
+                        break;
+/*                    case 6:
                         $orderByText = "dateCancel";
-                        break;
-                    case 6:
-                        $orderByText = "estado";
-                        break;
+                        break; */
                 }
                 // var_dump($orderByText);
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){
-                            $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, CONCAT('<div style=\"text-align:left\">',p.nombre,'</div>')  as priority, est.nombre as estado,
+                            $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, CONCAT('<div style=\"text-align:left\">',p.nombre,'</div>')  as priority, CONCAT('<div style=\"text-align:left\">', tact.nombre,'</div>') as tipoCuenta, CONCAT('<div style=\"text-align:left\">', est.nombre,'</div>') as estado,
                                                         (SELECT CONCAT('<div style=\"text-align:left\">',per.nombre,'<br>',per.apellido,'</div>') 
                                                                     FROM crm_asignacion_actividad asig
                                                                     INNER JOIN ctl_usuario user on(asig.usuario_asignado=user.id)
                                                                     INNER JOIN ctl_persona per on(user.persona=per.id)
-                                                        WHERE asig.actividad=act.id LIMIT 0,1 ) as responsable,CONCAT('<div style=\"text-align:left\">',DATE_FORMAT(act.fecha_inicio, '%Y-%m-%d'),'<br>',DATE_FORMAT(act.fecha_inicio, '%H:%i'),'</div>')  as 'dateStart', CONCAT('<div style=\"text-align:left\">',DATE_FORMAT(act.fecha_inicio, '%Y-%m-%d'),'<br>',DATE_FORMAT(act.fecha_fin, '%H:%i'),'</div>')  as 'dateEnd',CONCAT('<div style=\"text-align:left\">',DATE_FORMAT(act.fecha_inicio, '%Y-%m-%d'),'<br>',DATE_FORMAT(act.fecha_cancelacion, '%H:%i'),'</div>')  as 'dateCancel'
+                                                        WHERE asig.actividad=act.id LIMIT 0,1 ) as responsable, CONCAT('<div style=\"text-align:left\">',DATE_FORMAT(act.fecha_inicio, '%Y-%m-%d'),'<br>',DATE_FORMAT(act.fecha_inicio, '%H:%i'),'</div>')  as 'dateStart', CONCAT('<div style=\"text-align:left\">',DATE_FORMAT(act.fecha_inicio, '%Y-%m-%d'),'<br>',DATE_FORMAT(act.fecha_fin, '%H:%i'),'</div>')  as 'dateEnd',CONCAT('<div style=\"text-align:left\">',DATE_FORMAT(act.fecha_inicio, '%Y-%m-%d'),'<br>',DATE_FORMAT(act.fecha_cancelacion, '%H:%i'),'</div>')  as 'dateCancel'
                                         FROM crm_actividad act
                                         INNER JOIN ctl_prioridad p on(act.prioridad = p.id)
                                         INNER JOIN crm_tipo_actividad tact on(act.tipo_actividad = tact.id)       
                                         INNER JOIN crm_estado_actividad est on(act.estado_actividad = est.id)    
-                                        WHERE tact.id=1
                                         GROUP BY 1
-                                        HAVING estado LIKE upper('%".$busqueda['value']."%') OR dateStart LIKE upper('%".$busqueda['value']."%') OR dateEnd LIKE upper('%".$busqueda['value']."%') OR priority LIKE upper('%".$busqueda['value']."%') OR name LIKE upper('%".$busqueda['value']."%') OR responsable LIKE upper('%".$busqueda['value']."%')
+                                        HAVING estado LIKE upper('%".$busqueda['value']."%') OR dateStart LIKE upper('%".$busqueda['value']."%') OR dateEnd LIKE upper('%".$busqueda['value']."%') OR priority LIKE upper('%".$busqueda['value']."%') OR name LIKE upper('%".$busqueda['value']."%') OR responsable LIKE upper('%".$busqueda['value']."%') OR tipoCuenta LIKE upper('%".$busqueda['value']."%')
                                         ORDER BY ". $orderByText." ".$orderDir;
                             $stmt = $em->getConnection()->prepare($sql);
                             $stmt->execute();
                             $row['data'] = $stmt->fetchAll();
                             $row['recordsFiltered']= count($row['data']);
-                            $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, CONCAT('<div style=\"text-align:left\">',p.nombre,'</div>')  as priority, est.nombre as estado,
+                            $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, CONCAT('<div style=\"text-align:left\">',p.nombre,'</div>')  as priority, CONCAT('<div style=\"text-align:left\">', tact.nombre,'</div>') as tipoCuenta, CONCAT('<div style=\"text-align:left\">', est.nombre,'</div>') as estado,
                                                         (SELECT CONCAT('<div style=\"text-align:left\">',per.nombre,'<br>',per.apellido,'</div>') 
                                                                     FROM crm_asignacion_actividad asig
                                                                     INNER JOIN ctl_usuario user on(asig.usuario_asignado=user.id)
@@ -270,16 +267,15 @@ class CrmActivitiesController extends Controller
                                         INNER JOIN ctl_prioridad p on(act.prioridad = p.id)
                                         INNER JOIN crm_tipo_actividad tact on(act.tipo_actividad = tact.id)       
                                         INNER JOIN crm_estado_actividad est on(act.estado_actividad = est.id)
-                                        WHERE tact.id=1
                                         GROUP BY 1
-                                        HAVING estado LIKE upper('%".$busqueda['value']."%') OR dateStart LIKE upper('%".$busqueda['value']."%') OR dateEnd LIKE upper('%".$busqueda['value']."%') OR priority LIKE upper('%".$busqueda['value']."%') OR name LIKE upper('%".$busqueda['value']."%') OR responsable LIKE upper('%".$busqueda['value']."%')
+                                        HAVING estado LIKE upper('%".$busqueda['value']."%') OR dateStart LIKE upper('%".$busqueda['value']."%') OR dateEnd LIKE upper('%".$busqueda['value']."%') OR priority LIKE upper('%".$busqueda['value']."%') OR name LIKE upper('%".$busqueda['value']."%') OR responsable LIKE upper('%".$busqueda['value']."%') OR tipoCuenta LIKE upper('%".$busqueda['value']."%')
                                         ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
                             $stmt = $em->getConnection()->prepare($sql);
                             $stmt->execute();
                             $row['data'] = $stmt->fetchAll();
                 }
                 else{
-                    $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, CONCAT('<div style=\"text-align:left\">',p.nombre,'</div>')  as priority, est.nombre as estado, 
+                    $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, CONCAT('<div style=\"text-align:left\">',p.nombre,'</div>') as priority, CONCAT('<div style=\"text-align:left\">', tact.nombre,'</div>') as tipoCuenta, CONCAT('<div style=\"text-align:left\">', est.nombre,'</div>') as estado,
                                                         (SELECT CONCAT('<div style=\"text-align:left\">',per.nombre,'<br>',per.apellido,'</div>') 
                                                                     FROM crm_asignacion_actividad asig 
                                                                     INNER JOIN ctl_usuario user on(asig.usuario_asignado=user.id) 
@@ -289,7 +285,6 @@ class CrmActivitiesController extends Controller
                                         INNER JOIN ctl_prioridad p on(act.prioridad = p.id)
                                         INNER JOIN crm_tipo_actividad tact on(act.tipo_actividad = tact.id)                                        
                                         INNER JOIN crm_estado_actividad est on(act.estado_actividad = est.id)   
-                                        WHERE tact.id=1                                     
                                         GROUP BY 1
                                         ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
                             $stmt = $em->getConnection()->prepare($sql);
@@ -334,7 +329,7 @@ class CrmActivitiesController extends Controller
     /**
      * Save tasks
      *
-     * @Route("/tasks/save", name="admin_tasks_save_ajax",  options={"expose"=true}))
+     * @Route("/any-activity/save", name="admin_any_activity_save_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function saveajaxAction(Request $request)
@@ -345,57 +340,42 @@ class CrmActivitiesController extends Controller
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->getConnection()->beginTransaction();
                 $response = new JsonResponse();
-                $imgData = $_FILES;
-                //Captura de parametros
-
-                // var_dump($_POST);
-
-
-                //tasks
-                $idTasks = $_POST['id'];//id crmActividad
-                $nombreTasks= $_POST['nombre'];//id crmActividad
-                $estado = $_POST['estado'];//Estado tasks
-                $descripcionTasks = $_POST['descripcion'];//descripcion
-                $tipoTasks =  $_POST['tipoActividades'];//id de las actividades para tareas/tasks
+                //$imgData = $_FILES;
                 
-                $cuentaId =  $_POST['cuentaActividades'];//id de las cuentas
+                //Captura de parametros
+                $idAct = $_POST['id'];//id crmActividad
+                $nombreTasks= $_POST['nombre'];// Nombre de la actividad
+                $estado = $_POST['estado'];// Estado de la actividad
+                $descripcionTasks = $_POST['descripcion'];// Descripcion
+                $tipoTasks =  $_POST['tipoActividades'];// Id de las actividades 
+                
+                $cuentaId =  $_POST['cuentaActividades'];// Id de las cuentas
 
-                $fechaInicio = $_POST['inicio'];//Inicio de actividad, fecha
-                $fechaFin = $_POST['fin'];//Fin de actividad, fecha
-
-                // var_dump($fechaInicio);
-                // var_dump($fechaInicio);
+                $fechaInicio = $_POST['inicio'];// Inicio de actividad, fecha
+                $fechaFin = $_POST['fin'];// Fin de actividad, fecha
 
                 $dateInicio = new \DateTime($fechaInicio[0]);
                 $dateFin = new \DateTime($fechaFin[0]);
-                // var_dump($dateInicio);
-                // var_dump($dateFin);
-                // die();
-
-                //Se buscan foraneas de otras tablas, a partir de estos valores
-                $responsableArray = $_POST['responsable'];//responsable
-                $tipoRecordatorioArray = $_POST['tipoRecordatorio'];//tipoRecordatorio
-                $tiempoRecordatorioArray = $_POST['tiempoRecordatorio'];//tiempoRecordatorio
-                $prioridad = $_POST['prioridad'];//prioridad tasks
                 
-                $fechaRegistro = new \DateTime('now');//descripcion
+                //Se buscan foraneas de otras tablas, a partir de estos valores
+                $responsableArray = $_POST['responsable'];// Responsable de la actividad
+                $tipoRecordatorioArray = $_POST['tipoRecordatorio'];// Tipo de recordatorio
+                $tiempoRecordatorioArray = $_POST['tiempoRecordatorio'];// TiempoRecordatorio
+                $prioridad = $_POST['prioridad'];// Prioridad de actividad
+                
+                $fechaRegistro = new \DateTime('now');// Fecha de registro de la actividad
 
                 //Busqueda objetos a partir de ids
                 $estadoObj = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->find($estado);
                 $prioridadObj = $em->getRepository('ERPCRMBundle:CtlPrioridad')->find($prioridad);
-                
-
                 $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($cuentaId);
-                // var_dump($cuentaObj);
-                // die();
-
-                $tipoActividadObj = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->find($tipoTasks);//Task o tareas
+                $tipoActividadObj = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->find($tipoTasks);
                 
-                // var_dump($tipoActividadObj);
-                // die();
-
-                if($idTasks==''){
-
+                if($tipoTasks == 3) {
+                    $direccionString =  $_POST['direccionEvent'];// Ubicacion del evento
+                }
+                
+                if($idAct==''){
                     //Tabla crmActividad
                     $crmActividadObj = new CrmActividad();
                     
@@ -409,15 +389,18 @@ class CrmActivitiesController extends Controller
                     $crmActividadObj->setFechaInicio($dateInicio);
                     $crmActividadObj->setFechaFin($dateFin);
                     $crmActividadObj->setFechaCancelacion(null);
-
                     $crmActividadObj->setCuenta($cuentaObj);
+                    //$crmActividadObj->setTipoActividad($tipoActividad);
+                    
+                    if($tipoTasks == 3) {
+                        $crmActividadObj->setDireccion($direccionString);
+                    } else {
+                        $crmActividadObj->setDireccion(NULL);
+                    }
                     
                     $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
                     $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
-                    //$superGoogle= $this->get('calendar.google')->getEvents($calendarId,$superGoogle);
-
                     
-                                                            
                     //Persist crmActividadObj
                     $em->persist($crmActividadObj);
                     $em->flush();
@@ -454,8 +437,6 @@ class CrmActivitiesController extends Controller
 
                     $eventStart = $dateInicio;
                     $eventEnd = $dateFin;
-                    // var_dump($eventStart);
-                    // var_dump($eventEnd);
                     $eventSummary = $nombreTasks;
                     $eventDescription = $descripcionTasks;
                     
@@ -468,118 +449,99 @@ class CrmActivitiesController extends Controller
                     $em->flush();
                     //$superGoogle= $this->get('calendar.google')->initEventsList($this->getCalendarId());
 
-
                     $serverSave = $this->getParameter('app.serverMsgSave');
                     $data['id']=$crmActividadObj->getId();
                     $data['msg']=$serverSave;
                 }//Fin de if id, inserción
                 //else para la modificación del objeto crmCuenta(proveedores) y sus tablas dependientes
                 else{
-                    // var_dump($phoneTypeArray);
-                    // die();
-                        $crmActividadObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idTasks);
-                        // $crmActividadObjDuplicate = $em->getRepository('ERPCRMBundle:CrmActividad')->findBy(array('nombre'=>$nombreTasks));
-                        // var_dump($crmActividadObjDuplicate);
-                        // die();
-                        // if ($crmActividadObj[0]->getId()==$crmActividadObjDuplicate[0]->getId()) {
+                    $crmActividadObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idAct);
+
+                    $crmActividadObj->setTipoActividad($tipoActividadObj);
+                    $crmActividadObj->setPrioridad($prioridadObj);
+                    $crmActividadObj->setEstadoActividad($estadoObj);
+                    $crmActividadObj->setNombre($nombreTasks);
+                    $crmActividadObj->setDescripcion($descripcionTasks);
+                    $crmActividadObj->setFechaInicio($dateInicio);
+                    $crmActividadObj->setFechaFin($dateFin);
+                    $crmActividadObj->setCuenta($cuentaObj);
+                    
+                    if($tipoTasks == 3) {
+                        $crmActividadObj->setDireccion($direccionString);
+                    } else {
+                        $crmActividadObj->setDireccion(NULL);
+                    }
+//                    var_dump($crmActividadObj);
+//                    die();
+                    //Persist crmCuentaObj
+                    $em->merge($crmActividadObj);
+                    $em->flush();
+
+                    //Eliminar personal asignado
+                    $crmAsignacionArrayObj = $em->getRepository('ERPCRMBundle:CrmAsignacionActividad')->findBy(array('actividad'=>$idAct));
+                    foreach ($crmAsignacionArrayObj as $key => $value) {
+                        $em->remove($value);
+                        $em->flush();
+                    }
+
+                    $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
+                    $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
+                    $eventId = $crmActividadObj->getGoogleId();
+                    $eventAttendee = array();
+
+                    //Tabla crmAsignacionActividad
+                    foreach ($responsableArray as $key => $per) {
+                        //Tabla crmAsignacionActividad
+                        $responsableUsuarioObj = $em->getRepository('ERPCRMBundle:CtlUsuario')->find($per);
+
+                        $idPersona = $responsableUsuarioObj->getPersona()->getId();
+                        $correosPersona = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('persona'=>$idPersona));
+                        if(count($correosPersona)!=0){
+                            array_push($eventAttendee, $correosPersona[0]->getEmail());
+                        }
                         
+                        $crmAsignacionActividad = new CrmAsignacionActividad();
+                        $crmAsignacionActividad->setActividad($crmActividadObj);
+                        $crmAsignacionActividad->setUsuarioAsignado($responsableUsuarioObj);
+                        $tiempoNotificacionUsuarioObj = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->find($tiempoRecordatorioArray[$key]);
+                        $crmAsignacionActividad->setTiempoNotificacion($tiempoNotificacionUsuarioObj);
+                        $tipoRecordatorioObj = $em->getRepository('ERPCRMBundle:CtlTipoRecordatorio')->find($tipoRecordatorioArray[$key]);
+                        $crmAsignacionActividad->setTipoRecordatorio($tipoRecordatorioObj);
                         
-                            // $crmActividadObj->setTipoActividad($tipoActividadObj);
-                            $crmActividadObj->setPrioridad($prioridadObj);
-                            $crmActividadObj->setEstadoActividad($estadoObj);
-                            $crmActividadObj->setNombre($nombreTasks);
-                            $crmActividadObj->setDescripcion($descripcionTasks);
-                            $crmActividadObj->setFechaInicio($dateInicio);
-                            $crmActividadObj->setFechaFin($dateFin);
-                            $crmActividadObj->setCuenta($cuentaObj);
-                                            
-                            //Persist crmCuentaObj
-                            $em->merge($crmActividadObj);
-                            $em->flush();
-                            
+                        //Persist crmAsignacionActividad
+                        $em->persist($crmAsignacionActividad);
+                        $em->flush();
+                    }
 
+                    /////Manejo de excepciones para comprobar que el evento existe en google calendar
+                    try {
+                        //Eliminar evento en google calendar
+                        $superGoogle= $this->get('calendar.google')->deleteEvent($calendarId,$eventId);    
+                    } catch (\Exception $e) {
 
-                            //Eliminar personal asignado
-                            $crmAsignacionArrayObj = $em->getRepository('ERPCRMBundle:CrmAsignacionActividad')->findBy(array('actividad'=>$idTasks));
-                            foreach ($crmAsignacionArrayObj as $key => $value) {
-                                $em->remove($value);
-                                $em->flush();
-                            }
+                    }
 
-                            $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
-                            $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
-                            $eventId = $crmActividadObj->getGoogleId();
-                            $eventAttendee = array();
-                            
-                            
-                            //Recuperar información del evento de google calendar, la url es necesaria para poder consultar, lleva el id del calendario, id del evento y el token de acceso
-            //                 $superGoogle= $this->get('calendar.google')->getToken();
-            // $url = 'https://www.googleapis.com/calendar/v3/calendars/fbk7pcdkcncqo0f3ur264nimsk%40group.calendar.google.com/events/i3s7m1oim79tlacs38sodu5c6c/?access_token='.str_replace('"', '', $superGoogle);
-            // var_dump($url);
-            // $data = file_get_contents('https://www.googleapis.com/calendar/v3/calendars/fbk7pcdkcncqo0f3ur264nimsk%40group.calendar.google.com/events/i3s7m1oim79tlacs38sodu5c6c/?access_token='.str_replace('"', '', $superGoogle));
-            // var_dump( json_decode($data));
-            // die();
+                    $eventStart = $dateInicio;
+                    $eventEnd = $dateFin;
 
+                    $eventSummary = $nombreTasks;
+                    $eventDescription = $descripcionTasks;
 
-                            //Tabla crmAsignacionActividad
-                            foreach ($responsableArray as $key => $per) {
-                                //Tabla crmAsignacionActividad
-                                $responsableUsuarioObj = $em->getRepository('ERPCRMBundle:CtlUsuario')->find($per);
+                    $optionalParams = [];
 
-                                $idPersona = $responsableUsuarioObj->getPersona()->getId();
-                                $correosPersona = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('persona'=>$idPersona));
-                                if(count($correosPersona)!=0){
-                                    array_push($eventAttendee, $correosPersona[0]->getEmail());
-                                }
-                                // var_dump($eventAttendee);
-                                $crmAsignacionActividad = new CrmAsignacionActividad();
-                                $crmAsignacionActividad->setActividad($crmActividadObj);
-                                $crmAsignacionActividad->setUsuarioAsignado($responsableUsuarioObj);
-                                $tiempoNotificacionUsuarioObj = $em->getRepository('ERPCRMBundle:CtlTiempoNotificacion')->find($tiempoRecordatorioArray[$key]);
-                                $crmAsignacionActividad->setTiempoNotificacion($tiempoNotificacionUsuarioObj);
-                                $tipoRecordatorioObj = $em->getRepository('ERPCRMBundle:CtlTipoRecordatorio')->find($tipoRecordatorioArray[$key]);
-                                $crmAsignacionActividad->setTipoRecordatorio($tipoRecordatorioObj);
-                                //Persist crmAsignacionActividad
-                                $em->persist($crmAsignacionActividad);
-                                $em->flush();
-                            }
+                    $superGoogle= $this->get('calendar.google')->addEvent($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = []);
 
-                            /////Manejo de excepciones para comprobar que el evento existe en google calendar
-                            try {
-                                //Eliminar evento en google calendar
-                                $superGoogle= $this->get('calendar.google')->deleteEvent($calendarId,$eventId);    
-                            } catch (\Exception $e) {
-                                  
-                            }
-                            $eventStart = $dateInicio;
-                            $eventEnd = $dateFin;
-                            // var_dump($eventStart);
-                            // var_dump($eventEnd);
-                            $eventSummary = $nombreTasks;
-                            $eventDescription = $descripcionTasks;
-                            
-                            $optionalParams = [];
+                    $crmActividadObj->setGoogleId($superGoogle->getId());
+                    $em->merge($crmAsignacionActividad);
+                    $em->flush();
 
-                            $superGoogle= $this->get('calendar.google')->addEvent($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = []);
-
-                            $crmActividadObj->setGoogleId($superGoogle->getId());
-                            $em->merge($crmAsignacionActividad);
-                            $em->flush();
-                            // $serverDuplicate = $this->getParameter('app.serverDuplicateName');
-                            // $data['error'] = $serverDuplicate."! CODE: ".$e->getErrorCode();
-                            $serverSave = $this->getParameter('app.serverMsgSave');
-                            $data['msg']=$serverSave;
-                            $data['id']=$idTasks;
-                        // }
-                        // else{
-                        //     $serverSave = $this->getParameter('app.serverMsgUpdate');
-                        //     $data['msg']=$serverSave;
-                        //     $data['id']=$idTasks;
-                        // }
-                        
+                    $serverSave = $this->getParameter('app.serverMsgSave');
+                    $data['msg']=$serverSave;
+                    $data['id']=$idAct;                                                
                 }
                 $em->getConnection()->commit();
                 $em->close();
+                
                 $response->setData($data); 
             } catch (\Exception $e) {
                     $em->getConnection()->rollback();
@@ -616,58 +578,22 @@ class CrmActivitiesController extends Controller
         
     }
 
-
-
-
-
-
     /**
      * Retrieve tasks
      *
-     * @Route("/tasks/retrieve", name="admin_task_retrieve_ajax",  options={"expose"=true}))
+     * @Route("/any-activity/retrieve", name="admin_any_activity_retrieve_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function retrieveajaxAction(Request $request)
     {
         try {
             $idAct=$request->get("param1");
-            
             $response = new JsonResponse();
             
             $em = $this->getDoctrine()->getManager();
             $crmActividadObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idAct);
-            // $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
-            // $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
-            // var_dump($superGoogle);
             
-
-
-
-            // $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
-            //                 $superGoogle= $this->get('calendar.google')->getFirstSyncToken($calendarId);
-            //                 $eventId = $crmActividadObj->getGoogleId();
-            //                 $eventAttendee = array();
-                            
-                            
-            //         //Recuperar información del evento de google calendar, la url es necesaria para poder consultar, lleva el id del calendario, id del evento y el token de acceso
-            // $superGoogle= $this->get('calendar.google')->getToken();
-            // var_dump($superGoogle);
-            // $url = 'https://www.googleapis.com/calendar/v3/calendars/fbk7pcdkcncqo0f3ur264nimsk%40group.calendar.google.com/events/i3s7m1oim79tlacs38sodu5c6c/?access_token='.str_replace('"', '', $superGoogle);
-            // //var_dump($url);
-            // $data = file_get_contents('https://www.googleapis.com/calendar/v3/calendars/fbk7pcdkcncqo0f3ur264nimsk%40group.calendar.google.com/events/i3s7m1oim79tlacs38sodu5c6c/?access_token='.str_replace('"', '', $superGoogle));
-            // var_dump( json_decode($data));
-            // die();
-
-
-
-            // var_dump($ctlTelefonoObj);
             if(count($crmActividadObj)!=0){
-                
-                //$object->setProbabilidad($);
-                //$em->merge($object);
-                //$em->flush();    
-                //var_dump($crmActividadObj);
-                // die();
                 $data['nombre']=$crmActividadObj->getNombre();
                 $data['estado']=$crmActividadObj->getEstadoActividad()->getId();
                 $data['descripcion']=$crmActividadObj->getDescripcion();
@@ -680,18 +606,15 @@ class CrmActivitiesController extends Controller
                     $data['cuentaId']=0;
                 }
                 
-                
-                
                 $fechaInicio=$crmActividadObj->getFechaInicio();
                 $fechaFin=$crmActividadObj->getFechaFin();
 
                 $data['fechaInicio']=$fechaInicio->format('Y/m/d H:i');
                 $data['fechaFin']=$fechaFin->format('Y/m/d H:i');
                 $data['prioridad']=$crmActividadObj->getPrioridad()->getId();
-                // var_dump($data);
-                // die();
+                
                 $crmAsignacionArrayObj = $em->getRepository('ERPCRMBundle:CrmAsignacionActividad')->findBy(array('actividad'=>$idAct));
-                // var_dump($crmAsignacionArrayObj);
+                
                 if(count($crmAsignacionArrayObj)!=0){
                     $personaArray=array();
                     $tipoRecordatorioArray=array();
@@ -701,7 +624,7 @@ class CrmActivitiesController extends Controller
                         array_push($tipoRecordatorioArray, $value->getTipoRecordatorio()->getId());
                         array_push($tiempoRecordatorioArray, $value->getTiempoNotificacion()->getId());
                     }
-                    // $data['addressArray']=$ctlDireccionObj[0];
+                    
                     $data['personaArray']=$personaArray;
                     $data['tipoRecordatorioArray']=$tipoRecordatorioArray;
                     $data['tiempoRecordatorioArray']=$tiempoRecordatorioArray;
@@ -711,7 +634,13 @@ class CrmActivitiesController extends Controller
                     $data['tipoRecordatorioArray']=[];
                     $data['tiempoRecordatorioArray']=[];
                 }
-                $data['id']=$idAct;
+                $data['id'] = $idAct;
+                $data['idTipoAct'] = $crmActividadObj->getTipoActividad()->getId();
+                
+                if($crmActividadObj->getTipoActividad()->getId() == 3) {
+                    $data['direccion'] = $crmActividadObj->getDireccion();
+                }
+                
                 $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoActividad doc"
                             ." JOIN doc.actividad c "
                             ." WHERE c.id=:idAct ORDER BY doc.fechaRegistro DESC";
@@ -752,14 +681,10 @@ class CrmActivitiesController extends Controller
     }
 
 
-
-
-
-
     /**
      * Delete tasks
      *
-     * @Route("/tasks/cancel", name="admin_task_cancel_ajax",  options={"expose"=true}))
+     * @Route("/tasks/cancel", name="admin_any_activity_cancel_ajax",  options={"expose"=true}))
      * @Method("POST")
      */
     public function cancelajaxAction(Request $request)
@@ -780,7 +705,7 @@ class CrmActivitiesController extends Controller
                     // die();
                      
                         if(count($object)!=0){
-                            if ($object->getEstadoActividad()->getId()!=3) {//Estado cancelado, por defecto
+                            if ($object->getEstadoActividad()->getId()!=3) { //Estado cancelado, por defecto
                                 $object->setFechaCancelacion(new  \DateTime('now'));
                                 $estatus = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->find(3);
                                 $object->setEstadoActividad($estatus);

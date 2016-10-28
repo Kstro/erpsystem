@@ -101,7 +101,7 @@
                         </div>
                         <div class="col-md-3 prioridad" style="margin-top:20px;">
                             <label>{{prioridadLlamadas}}</label>
-                            <select style="margin-top:25px; width:100%;" type="text" name="prioridad" class="input-sm form-control validateInput dpbPriority firstPriority">
+                            <select style="margin-top:25px; width:100%;" id="cmbPrioridad" type="text" name="prioridad" class="input-sm form-control validateInput dpbPriority firstPriority">
                                 {% for prio in prioridad %}
                                         <option value={{prio.id}}>{{prio.nombre}}</option>
                                     {% endfor %}

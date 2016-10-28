@@ -235,6 +235,8 @@ $(document).ready(function() {
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
 		$('.pnHeadingLabelEdit').removeClass('hidden');
+                
+                $('#addedFiles').html('');//limpiar archivos anteriores
 
 		/*// console.log(id);*/
 		/*// console.log(idArray[0]);*/
@@ -309,17 +311,15 @@ $(document).ready(function() {
 							$('#txtFechaFin').val(data.fechaFin);
 							$('#txtDireccion').val(data.location);
 							
-
-							
-							
 							/*// console.log(data.personaArray);*/
 							var numPersonas = data.personaArray.length;
 							
 							$('#estado').val(data.estado).change().trigger("change");
+                                                        $('#cmbPrioridad').val(data.prioridad).change().trigger("change");
+                                                        
 							/*// Direcciones*/
 							for (var i = 0; i < numPersonas; i++) {
-								/*// console.log(i);*/
-								/*// console.log(data.addressArray[i]);*/
+								
 								switch(i){
 									case 0:
 										$(".firstResponsable").val(data.personaArray[i]).trigger("change");
@@ -327,10 +327,10 @@ $(document).ready(function() {
 										$(".firstTiempoRecordatorio").val(data.tiempoRecordatorioArray[i]).trigger("change");									
 									break;
 									default:
-										$('#plusAddress').click();
-										$("#state-"+(numAddress)).val(data.personaArray[i]).trigger("change");
-										$("#city-"+(numAddress)).val(data.tipoRecordatorioArray[i]).trigger("change");
-										$('#address-'+(numAddress)).val(data.tiempoRecordatorioArray[i]);
+										$('#plusPersona').click();
+                                                                                $("#persona-"+(numAddress)).val(data.personaArray[i]).trigger("change");
+                                                                                $("#types-"+(numAddress)).val(data.tipoRecordatorioArray[i]).trigger("change");
+                                                                                $('#times-'+(numAddress)).val(data.tiempoRecordatorioArray[i]);
 									break;
 								}
 							}
@@ -355,40 +355,35 @@ $(document).ready(function() {
 							swal('',data.nombre+' '+taskNoEdit,'error');
 						}
 					}
+                                        
                                         for (var i = 0; i < data.docs.length; i++) {
-                                                    /*console.log(i);*/
-                                                    if(data.docs[i].estado==1){
-                                                        var addItem='<div class="col-xs-1" style="vertical-align:middle;">';
-                                                        
-                                                            addItem+='<a id="'+data.docs[i].id+'" href="" class="fileDelete">';
-                                                                                                                
-                                                            addItem+='<i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i>';
-                                                        
-                                                            addItem+='</a>';
-                                                                                                                
+                                            if(data.docs[i].estado==1){
+                                                var addItem='<div class="col-xs-1" style="vertical-align:middle;">';
+                                                    addItem+='<a id="'+data.docs[i].id+'" href="" class="fileDelete">';
+                                                    addItem+='<i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i>';
+                                                    addItem+='</a>';
 
-                                                        addItem+='</div><div class="col-xs-10">';
-                                                        
-                                                            addItem+='<a target="_blank" href="../../../files/activities/';
-                                                            addItem+=data.docs[i].nombre;
-                                                            addItem+='">';
-                                                        
-                                                        addItem+=data.docs[i].nombre;
-                                                     
-                                                            addItem+='</a>';
-                                                     
-                                                        addItem+='</div>';
-                                                        $('#addedFiles').append(addItem);
-                                                    }
-                                                }
-                                                //seguimientoActividad(data.id, numPedidos,null);
-                                                seguimientoGeneral(data.id, numPedidos,null,2);
-                                                $('#addTag').removeClass('hidden');
-                                                $('#addedTags').removeClass('hidden');
-                                                $('#addedFiles').removeClass('hidden');
-                                                $('#filterTag').addClass('hidden');
-                                                $('#addFile').removeClass('hidden');
-                                                $('#btnLoadMore').removeClass('hidden');
+                                                    addItem+='</div><div class="col-xs-10">';
+                                                    addItem+='<a target="_blank" href="../../../files/activities/';
+                                                    addItem+=data.docs[i].nombre;
+                                                    addItem+='">';
+
+                                                    addItem+=data.docs[i].nombre;
+                                                    addItem+='</a>';
+
+                                                addItem+='</div>';
+                                                $('#addedFiles').append(addItem);
+                                            }
+                                        }
+                                        
+                                        //seguimientoActividad(data.id, numPedidos,null);
+                                        seguimientoGeneral(data.id, numPedidos,null,2);
+                                        $('#addTag').removeClass('hidden');
+                                        $('#addedTags').removeClass('hidden');
+                                        $('#addedFiles').removeClass('hidden');
+                                        $('#filterTag').addClass('hidden');
+                                        $('#addFile').removeClass('hidden');
+                                        $('#btnLoadMore').removeClass('hidden');
 				},
 				error:function(data){
 					if(data.error){
