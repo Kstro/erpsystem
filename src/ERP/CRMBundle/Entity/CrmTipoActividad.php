@@ -27,6 +27,14 @@ class CrmTipoActividad
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
      */
     private $nombre;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icono_clase", type="string", length=100, nullable=false)
+     */
+    private $iconoClase;
 
     /**
      * @var boolean
@@ -68,6 +76,29 @@ class CrmTipoActividad
     public function getNombre()
     {
         return $this->nombre;
+    }
+    
+    /**
+     * Set iconoClase
+     *
+     * @param string $iconoClase
+     * @return CrmTipoActividad
+     */
+    public function setIcono($iconoClase)
+    {
+        $this->iconoClase = $iconoClase;
+
+        return $this;
+    }
+
+    /**
+     * Get iconoClase
+     *
+     * @return string 
+     */
+    public function getIcono()
+    {
+        return $this->iconoClase;
     }
 
     /**

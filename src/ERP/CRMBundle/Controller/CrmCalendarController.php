@@ -185,7 +185,7 @@ class CrmCalendarController extends Controller
             
             // $xml = file_get_contents("https://www.googleapis.com/calendar/v3/calendars/fbk7pcdkcncqo0f3ur264nimsk%40group.calendar.google.com/events/sfbi40nquvoqsnr61mfqib1jec?key=AIzaSyBcQtDPhk5fjQmvkkuKBjMbwjhzVOdyeSY");
             // var_dump($xml);
-            var_dump($superGoogle);
+            //var_dump($superGoogle);
             $data['error'] = "";  
             $response->setData($xml);
             return $response;

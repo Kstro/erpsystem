@@ -69,6 +69,8 @@ $(document).ready(function() {
 						$("#message").html(data);
 						$("#txtId1").val(data.id1);
 						$("#txtId2").val(data.id2);
+                                                
+                                                
 						if(data.msg){
 							swal('',data.msg,'success');
 							var table = $('#socioList').DataTable();
@@ -165,6 +167,7 @@ $(document).ready(function() {
 						/*// console.log(data);*/
 						$('#txtId1').val(data.id1);
 						$('#txtId2').val(data.id2);
+                                                   
 						$('#dpbTitulo').val(data.titulo);
 						$('#txtName').val(data.nombre);
 						$('#txtApellido').val(data.apellido);
@@ -183,9 +186,10 @@ $(document).ready(function() {
 									/*$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
 									$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
 									$('.txtAddressFirst').val(data.addressArray[i]);*/
-									$(".dpbStateFirst").val(data.stateArray[i]);
-									$(".dpbCityFirst").val(data.cityArray[i]);
-									$('.txtAddressFirst').val(data.addressArray[i]);
+                                                                        $('.txtState').val(data.stateArray[i]);
+                                                                        $('.txtcity').val(data.cityArray[i]);
+                                                                        $('.txtAddress').val(data.addressArray[i]);
+                                                                        $('.txtZipCode').val(data.zipCodeArray[i]);
 								break;
 								default:
 									$('#plusAddress').click();
@@ -232,7 +236,7 @@ $(document).ready(function() {
 							}
 						}
 						if(data.src!=''){
-							$('#imgTest').attr('src','../../../photos/proveedor/'+data.src);	
+							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	   
 						}
 						else{
 							$('#imgTest').attr('src','http://placehold.it/250x250');
@@ -248,7 +252,7 @@ $(document).ready(function() {
 						$('#btnBack').removeClass('hidden');
 						$('#btnCancelTop').removeClass('hidden');
 						$('#btnSaveTop').removeClass('hidden');
-                                                seguimiento(data.id1, numPedidos,null);
+                                                seguimientoGeneral(data.id1, numPedidos,null,1);
 						cargarTags();
 						/*//seguimientoComet(data.id1);*/
 						$('#addTag').removeClass('hidden');
@@ -556,8 +560,8 @@ $(document).ready(function() {
 		$('.state').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="validateInput input-sm form-control txtState"></div>');
 		/*//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');*/
 		$('.addAddress').append('<button id="deleteAddress-'+numAddress+'" style="margin-top:25px;" class="btn removeAddress btn-danger"><i class="fa fa-remove"></i></button>');
-		$('#city-'+numAddress).select2();
-		$('#state-'+numAddress).select2();
+		/*$('#city-'+numAddress).select2();
+		$('#state-'+numAddress).select2();*/
 		return false;
 	});
 	$(document).on('click', '.removeAddress', function(event) {

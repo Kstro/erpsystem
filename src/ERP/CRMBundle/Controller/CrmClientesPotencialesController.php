@@ -519,7 +519,9 @@ class CrmClientesPotencialesController extends Controller
                         $ctlTelefonoObj = new CtlTelefono();
                         $ctlTelefonoObj->setCuenta($crmCuentaObj);
                         //var_dump($key);
-                        if ($key<$phoneLenght && $key!=0) {
+                        $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                        $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);    
+                        /*if ($key<$phoneLenght && $key!=0) {
                             if ($phoneTypeArray[$key]==$phoneTypeArray[$key-1]) {
                                 //No buscar en la base el tipo de telefono
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
@@ -536,7 +538,7 @@ class CrmClientesPotencialesController extends Controller
                                 //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                                 //var_dump('no buscar base tipo telefono');
-                        }
+                        }*/
                         $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
                         $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
                         $ctlTelefonoObj->setPersona(null);
@@ -956,7 +958,7 @@ class CrmClientesPotencialesController extends Controller
                     $data['addressArray']=$dirArray;
                     $data['cityArray']=$cityArray;
                     $data['stateArray']=$stateArray;
-                    $data['zipCodeArray']=$stateArray;
+                    $data['zipCodeArray']=$zipCodeArray;
                 }
                 else{
                     $data['addressArray']=[];
