@@ -1,30 +1,40 @@
 <div class="row">
     <!-- Inicio de Icono de CRM -->
     <div class="col-md-2 col-xs-6 col-sm-2" style="margin-top: 20px;">
-        <a class="opcion" href="{{path('admin_clientes_potencial_accounts_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
+        <a class="opcion" href="{{path('admin_campaigns_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
             <span class="text-center">
-                <p style="margin-botttom: 0px; padding-bottom: 0px;"><img src="{{asset('Resources/src/img/icons/')}}{{accountsIcon}}" style="width:60%;"></p>
+                <p style="margin-botttom: 0px; padding-bottom: 0px;"><img src="{{asset('Resources/src/img/icons/')}}/{{CRMIcon}}" style="width:60%;"></p>
                 <p style="padding-top: 5px; margin-top: 0px;" ><strong>CRM</strong></p>
             </span>
         </a>
     </div>
-
-    <!-- Inicio de Icono de Ventas -->
+    
+    <!-- Inicio de Icono de Cuentas -->
     <div class="col-md-2 col-xs-6 col-sm-2" style="margin-top: 20px;">
-        <a class="opcion" href="{{path('admin_campaigns_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
+        <a class="opcion" href="{{path('admin_clientes_potencial_accounts_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
             <span class="text-center">
-                <p style="margin-botttom: 0px; padding-bottom: 0px;"><img src="{{asset('Resources/src/img/icons/')}}/{{saleStagesIcon}}" style="width:60%;"></p>
-                <p style="padding-top: 5px; margin-top: 0px;" ><strong>Sales</strong></p>
+                <p style="margin-botttom: 0px; padding-bottom: 0px;"><img src="{{asset('Resources/src/img/icons/')}}{{accountsIcon}}" style="width:60%;"></p>
+                <p style="padding-top: 5px; margin-top: 0px;" ><strong>Accounts</strong></p>
             </span>
         </a>
     </div>
-                
+
     <!-- Inicio de Icono de Actividades -->
     <div class="col-md-2 col-xs-6 col-sm-2" style="margin-top: 20px;">
-        <a class="opcion" href="{{path('admin_tasks_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
+        <a class="opcion" href="{{path('admin_activities_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
             <span class="text-center">
                 <p style="margin-botttom: 0px; padding-bottom: 0px;"><img src="{{asset('Resources/src/img/icons/')}}{{activitiesIcon}}" style="width:60%;"></p>
                 <p style="padding-top: 5px; margin-top: 0px;" ><strong>Activities</strong></p>
+            </span>
+        </a>
+    </div>                
+                
+    <!-- Inicio de Icono de Ventas -->
+    <div class="col-md-2 col-xs-6 col-sm-2" style="margin-top: 20px;">
+        <a class="opcion" href="" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
+            <span class="text-center">
+                <p style="margin-botttom: 0px; padding-bottom: 0px;"><img src="{{asset('Resources/src/img/icons/')}}/{{saleStageIcon}}" style="width:60%;"></p>
+                <p style="padding-top: 5px; margin-top: 0px;" ><strong>Sales</strong></p>
             </span>
         </a>
     </div>
@@ -41,7 +51,7 @@
                 
     <!-- Inicio de Icono de Ajustes -->
     <div class="col-md-2 col-xs-6 col-sm-2" style="margin-top: 20px;">
-        <a class="opcion" href="{{path('admin_crmtipocampania_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
+        <a class="opcion" href="{{path('admin_ctletapaventa_index')}}" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
             <span class="text-center">
                 <p style="margin-botttom: 0px; padding-bottom: 0px;"><img src="{{asset('Resources/src/img/icons/')}}{{settingsIcon}}" style="width:60%;"></p>
                 <p style="padding-top: 5px; margin-top: 0px;" ><strong>Settings</strong></p>
@@ -49,7 +59,7 @@
         </a>
     </div>
                 
-    <!-- Inicio de Icono de Reports -->
+    {#<!-- Inicio de Icono de Reports -->
     <div class="col-md-2 col-xs-6 col-sm-2" style="margin-top: 20px;">
         <a class="opcion" href="" style="text-decoration: none; color: inherit; outline: 0; margin-top: 20px;">
             <span class="text-center">
@@ -57,5 +67,5 @@
                 <p style="padding-top: 5px; margin-top: 0px;" ><strong>Reports</strong></p>
             </span>
         </a>
-    </div>
+    </div>#}
 </div>

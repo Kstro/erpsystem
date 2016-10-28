@@ -32,6 +32,7 @@ class CtlFuenteController extends Controller
 
         return $this->render('ctlfuente/index.html.twig', array(
             'ctlFuentes' => $ctlFuentes,
+            'menuFuenteOrigenA' => true,
         ));
     }
 

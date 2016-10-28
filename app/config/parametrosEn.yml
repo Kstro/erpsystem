@@ -117,11 +117,12 @@ parameters:
         
         #icons
         app.accountsIcon: 1.png
-        app.saleStagesIcon: 2.png
+        app.saleStageIcon: pedidos.png
         app.activitiesIcon: 3.png
         app.calendarIcon: 4.png
         app.settingsIcon: 5.png
         app.reportsIcon: 6.png
+        app.CRMIcon: 2.png
         
         #Wizard de configuracion inicial
         app.encabezadoWizard: Configuration
@@ -176,7 +177,7 @@ parameters:
         app.tituloHome:  CRM Systems
         #Etapas de ventas
         app.tituloEtapa: CRM | Sales stage management
-        app.menuEtapa: Sales stage.
+        app.menuEtapa: Sales stage
         app.encabezadoEtapa: Sales stage list
         app.descripcionEtapa: Add, modify or delete sales stages.
         app.nameEtapa: Name
@@ -198,7 +199,7 @@ parameters:
         
         #Nivel de satisfaccion
         app.tituloSatisfaccion: CRM | Level of customer satisfaction
-        app.menuSatisfaccion: Lvl of customer satisfaction
+        app.menuSatisfaccion: Customer satisf.
         app.encabezadoSatisfaccion: Level of customer satisfaction
         app.descripcionSatisfaccion: Add, modify or delete levels of customer satisfaction.
         app.nameSatisfaccion: Name
@@ -507,12 +508,14 @@ parameters:
         
         #Fuentes de origen (CRUD)
         app.tituloFuenteOrigen: CRM | Origin sources management
+        app.menuFuenteOrigen: Origin sources 
         app.encabezadoFuenteOrigen: Origin sources catalog
         app.descripcionFuenteOrigen: Add, modify or delete origin sources.
         app.nameFuenteOrigen: Name
         
         #Prioridad (CRUD)
         app.tituloPrioridad: CRM | Priorities management
+        app.menuPrioridad: Priorities
         app.encabezadoPrioridad: Priorities catalog
         app.descripcionPrioridad: Add, modify or delete priorities.
         app.namePrioridad: Name

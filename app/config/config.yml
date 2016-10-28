@@ -243,11 +243,12 @@ twig:
 
         #icons 
         accountsIcon: '%app.accountsIcon%'
-        saleStagesIcon: '%app.saleStagesIcon%'
+        saleStageIcon: '%app.saleStageIcon%'
         activitiesIcon: '%app.activitiesIcon%'
         calendarIcon: '%app.calendarIcon%'
         settingsIcon: '%app.settingsIcon%'
         reportsIcon: '%app.reportsIcon%'
+        CRMIcon: '%app.CRMIcon%'
         
         # Wizard de configuracion inicial - Ingles
         tituloWizard: '%app.tituloWizard%'
@@ -950,6 +951,7 @@ twig:
 
         #Fuentes de origen (CRUD) - Ingles
         tituloFuenteOrigen: '%app.tituloFuenteOrigen%'
+        menuFuenteOrigen: '%app.menuFuenteOrigen%'
         encabezadoFuenteOrigen: '%app.encabezadoFuenteOrigen%'
         descripcionFuenteOrigen: '%app.descripcionFuenteOrigen%'
         nameFuenteOrigen: '%app.nameFuenteOrigen%'
@@ -962,6 +964,7 @@ twig:
         
         #Prioridad (CRUD) - Ingles
         tituloPrioridad: '%app.tituloPrioridad%'
+        menuPrioridad: '%app.menuPrioridad%'
         encabezadoPrioridad: '%app.encabezadoPrioridad%'
         descripcionPrioridad: '%app.descripcionPrioridad%'
         namePrioridad: '%app.namePrioridad%'
