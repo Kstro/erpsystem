@@ -1,10 +1,34 @@
 /*/////Show forms panel*/
+var opcion = $('#tipoActividades').val();
+if(opcion == 3){
+    $('.location').removeClass('hidden');
+    $('#txtDireccion').addClass('validateInput');
+} else {
+    $('.location').addClass('hidden');
+    $('#txtDireccion').removeClass('validateInput');
+}
+
+$(document).on('change', '#tipoActividades', function(event) {
+    
+    opcion = $(this).val();
+    
+    console.log('sdfdvdsv');
+    if(opcion == 3){
+        $('.location').removeClass('hidden');
+        $('#txtDireccion').addClass('validateInput');
+    } else {
+        $('.location').addClass('hidden');
+        $('#txtDireccion').removeClass('validateInput');
+    }
+});
+
 
 $(document).on('click', '.btnAddPage', function(event) {
 	/*//console.log('add');*/
 	var id = $('#txtId').val();
 	$('#comentarios').addClass('hidden');
 	$('#btnLoadMore').addClass('hidden');
+	$('#mostrarCancelados').addClass('hidden');
         
 	/*// console.log("ID: "+id);*/
 	/*//Cambiar nombre del panel heading para add (Inserción)*/
@@ -82,7 +106,8 @@ function limpiarCampos(){
 	$('#txtCompania').val('');
 	$('#txtFechaInicio').val('');
 	$('#txtFechaFin').val('');
-	
+	$('#mostrarCancelados').removeClass('hidden');
+        $('#txtDireccion').val('');
 	$('.validateInput').each(function(index, el) {
 		$(this).removeClass('errorform');
 	});

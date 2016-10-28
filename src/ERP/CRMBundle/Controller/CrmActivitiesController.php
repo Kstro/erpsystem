@@ -418,7 +418,7 @@ class CrmActivitiesController extends Controller
                             array_push($eventAttendee, $correosPersona[0]->getEmail());
                         }
                         
-
+                        
                         $crmAsignacionActividad = new CrmAsignacionActividad();
                         $crmAsignacionActividad->setActividad($crmActividadObj);
                         $crmAsignacionActividad->setUsuarioAsignado($responsableUsuarioObj);
@@ -442,7 +442,12 @@ class CrmActivitiesController extends Controller
                     
                     $optionalParams = [];
 
-                    $superGoogle= $this->get('calendar.google')->addEvent($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = []);
+                    if($tipoTasks == 3) {
+                        $superGoogle= $this->get('calendar.google')->addEventLocation($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = [], $direccionString);
+                    }
+                    else{
+                        $superGoogle= $this->get('calendar.google')->addEvent($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = []);
+                    }
 
                     $crmActividadObj->setGoogleId($superGoogle->getId());
                     $em->merge($crmAsignacionActividad);
@@ -529,7 +534,12 @@ class CrmActivitiesController extends Controller
 
                     $optionalParams = [];
 
-                    $superGoogle= $this->get('calendar.google')->addEvent($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = []);
+                    if($tipoTasks == 3) {
+                        $superGoogle= $this->get('calendar.google')->addEventLocation($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = [], $direccionString);
+                    }
+                    else{
+                        $superGoogle= $this->get('calendar.google')->addEvent($calendarId,$eventStart,$eventEnd,$eventSummary,$eventDescription,$eventAttendee,$optionalParams = []);
+                    }
 
                     $crmActividadObj->setGoogleId($superGoogle->getId());
                     $em->merge($crmAsignacionActividad);
