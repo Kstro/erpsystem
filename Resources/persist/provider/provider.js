@@ -203,9 +203,14 @@ $(document).ready(function() {
 									/*$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
 									$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
 									$('.txtAddressFirst').val(data.addressArray[i]);*/
-									$(".dpbStateFirst").val(data.stateArray[i]);
+                                                                        /************************************************/
+									/*$(".dpbStateFirst").val(data.stateArray[i]);
 									$(".dpbCityFirst").val(data.cityArray[i]);
-									$('.txtAddressFirst').val(data.addressArray[i]);
+									$('.txtAddressFirst').val(data.addressArray[i]);*/
+                                                                        $('.txtState').val(data.stateArray[i]);
+                                                                        $('.txtcity').val(data.cityArray[i]);
+                                                                        $('.txtAddress').val(data.addressArray[i]);
+                                                                        $('.txtZipCode').val(data.zipCodeArray[i]);
 								break;
 								default:
 									$('#plusAddress').click();

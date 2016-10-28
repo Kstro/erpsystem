@@ -48,6 +48,7 @@ class CrmSeguimientoController extends Controller {
             
             $inicio=($longitud*$numPedidos)-$longitud;
             $em = $this->getDoctrine()->getEntityManager();
+            
             switch($tipoComment){
                 case 1:///// CRM - Cuentas
                     $data['path'].='accounts';

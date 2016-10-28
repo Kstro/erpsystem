@@ -75,14 +75,20 @@ $(document).on('click', '#socioList>thead>tr>th:gt(0)', function(event) {
 
 function limpiarCampos(){
 	$('#txtId1').val('');
+        $('#txtId2').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');
 	$('#txtCompania').val('');
 	$('.txtAddressFirst').val('');
+        $('.txtCity').val('');
+        $('.txtState').val('');
+        $('.txtZipCode').val('');
 	$('.firstPhoneTxt').val('');
 	$('.firstPhoneExtension').val('');
 	$('.txtEmailFirst').val('');
+        $('.txtWebsite').val('');
+        $('#txtAddComment').val('');
 	$('#imgTest').attr('src','http://placehold.it/250x250');
 	$('#file').val('');
 

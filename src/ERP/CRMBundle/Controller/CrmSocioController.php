@@ -561,15 +561,18 @@ class CrmSocioController extends Controller
                     //Tabla ctlTelefono
                     $phoneLenght=count($phoneArray)-1;//Cantidad de telefono ingresados, menos 1 para index de array
                     //var_dump($phoneTypeArray[0]);
-                    $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[0]);//Para definir la variable $ctlTipoTelefonoObj
+                    
                     foreach ($phoneArray as $key => $phone) {
                                           
                         $ctlTelefonoObj = new CtlTelefono();
                         $ctlTelefonoObj->setCuenta($crmCuentaObj);
                         //var_dump($key);
-                        if ($key<$phoneLenght && $key!=0) {
+                        $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                        $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
+                        /*if ($key<$phoneLenght && $key!=0) {
                             if ($phoneTypeArray[$key]==$phoneTypeArray[$key-1]) {
                                 //No buscar en la base el tipo de telefono
+                                $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                                 //var_dump('no buscar base tipo telefono');
                             } else {
@@ -582,9 +585,10 @@ class CrmSocioController extends Controller
                         } else {
                                 //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
                                 //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[0]);//Para definir la variable $ctlTipoTelefonoObj
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                                 //var_dump('no buscar base tipo telefono');
-                        }
+                        }*/
                         $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
                         $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
                         $ctlTelefonoObj->setPersona(null);
@@ -599,8 +603,8 @@ class CrmSocioController extends Controller
                     $addressLenght=count($addressArray)-1;//Cantidad de direccion ingresados, menos 1 para index de array
                     // var_dump(count($addressArray));
                     // var_dump($addressLenght);
-                    foreach ($addressArray as $key => $val) {
-                                          
+                    
+                    foreach ($addressArray as $key => $val) {                        
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
@@ -1001,7 +1005,7 @@ class CrmSocioController extends Controller
                     $data['addressArray']=$dirArray;
                     $data['cityArray']=$cityArray;
                     $data['stateArray']=$stateArray;
-                    $data['zipCodeArray']=$stateArray;
+                    $data['zipCodeArray']=$zipCodeArray;
                 }
                 else{
                     $data['addressArray']=[];
