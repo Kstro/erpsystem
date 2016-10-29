@@ -38,7 +38,7 @@ class CrmOportunidad
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_cierre", type="date", nullable=true)
+     * @ORM\Column(name="fecha_cierre", type="datetime", nullable=true)
      */
     private $fechaCierre;
 
@@ -55,6 +55,13 @@ class CrmOportunidad
      * @ORM\Column(name="probabilidad", type="float", precision=10, scale=0, nullable=false)
      */
     private $probabilidad;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
 
     /**
      * @var \CtlEtapaVenta
@@ -231,6 +238,29 @@ class CrmOportunidad
     public function getProbabilidad()
     {
         return $this->probabilidad;
+    }
+    
+    /**
+     * Set estado
+     *
+     * @param boolean $estado
+     * @return CrmOportunidad
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return boolean 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 
     /**

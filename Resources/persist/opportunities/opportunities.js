@@ -10,13 +10,13 @@ $(document).ready(function() {
         
         $btn = $('#btnSave').button('loading');
         
+        /* Verificando si se ha ingresado la información necesaria de la oportunidad */
         $('.validateSelectP').each(function() {
             if (!requiredSelectP($(this))) {
                 $(this).next().children().children().addClass('errorform');
                 errores++;
             }
-        });
-
+        });        
         $('.validateInput').each(function() {
             if (!required($(this))) {
                 $(this).addClass('errorform');
@@ -24,6 +24,7 @@ $(document).ready(function() {
             }
         });
         
+        /* Si se ha ingresado toda la información necesaria sobre la oportunidad de venta */
         if (errores==0) {
             $.ajax({
                 url: Routing.generate('admin_opportunity_save_ajax'),
@@ -43,7 +44,8 @@ $(document).ready(function() {
                         $('#txtId').val('');
                         $('#txtName').val('');
 
-                        $('.btnAddPage').click();
+                        $('#pnAdd').hide();
+                        $('#oppotunitiesList').parent().show();
                         $btn.button('reset');
                     }
                     if(data.error){
@@ -63,7 +65,8 @@ $(document).ready(function() {
                         $btn.button('reset');
                 }
             });
-        } else {
+        } /* Si no se ha ingresado toda la información necesaria sobre la oportunidad */
+        else {
             var requiredFields = $('.requiredFields').html();
             swal('',requiredFields,'error');
             
@@ -75,6 +78,177 @@ $(document).ready(function() {
         
         return false;
     })); /* Fin del submit del formulario frmOpportunities */
+    
+    /* Al momento de hacer click en un registro del datatable presenta el formulario          
+       con la informacion corresondiente  a la oportunidad de venta seleccionada donde   
+      se edita la información de la oportunidad                                         */
+    $(document).on('click', '#oppotunitiesList>tbody>tr>td:nth-child(2),#oppotunitiesList>tbody>tr>td:nth-child(3),#oppotunitiesList>tbody>tr>td:nth-child(4),#oppotunitiesList>tbody>tr>td:nth-child(5),#oppotunitiesList>tbody>tr>td:nth-child(6)', function(event) {
+        /* Definición de variables */
+        var text = $(this).prop('tagName');
+        var id=$(this).parent().children().first().children().attr('id');
+        var idForm=$('#txtId').val();
+        var selected = 0;
+        var objClicked = $(this);
+        
+        /* Cambio del nombre del panel heading para Modify */
+        $('.pnHeadingLabelAdd').addClass('hidden');
+        $('.pnHeadingLabelEdit').removeClass('hidden');
+        
+        /*$('#addedTags').html('');
+        $('#wallmessages').html('');*/
+        
+        /* Verificando si se ha seleccionado algún checkbox del datatable */
+        $('.chkItem').each(function() {
+            if ($(this).is(':checked')) {
+                    selected++;
+            }
+        });
+        
+        if (text=='TD' && id!=idForm && selected==0) {
+            objClicked.off('click');
+            objClicked.css('cursor','progress');
+            
+            $.ajax({
+                url: Routing.generate('admin_opportunities_retrieve_ajax'),
+                type: 'POST',
+                data: {param1: id},
+                success:function(data){
+                        if(data.error){
+                                swal('',data.error,'error');
+                                id.val(data.id);
+                        }
+                        else{
+                                /*// console.log(data);*/
+                                $('#txtId1').val(data.id1);
+                                $('#txtId2').val(data.id2);
+                                $('#dpbTitulo').val(data.titulo);
+                                $('#txtName').val(data.nombre);
+                                $('#txtApellido').val(data.apellido);
+                                $('#txtCompania').val(data.compania);
+                                /*// console.log(data.addressArray);*/
+                                var numDirecciones = data.addressArray.length;
+                                var numTelefonos = data.phoneArray.length;
+                                var numCorreos = data.emailArray.length;
+                                $('.dpbTipoPersona').val(data.entidad).change().trigger("change");
+                                /*// Direcciones*/
+                                for (var i = 0; i < numDirecciones; i++) {
+                                        /*// console.log(i);*/
+                                        /*// console.log(data.addressArray[i]);*/
+                                        switch(i){
+                                                case 0:
+                                                        /*$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
+                                                        $(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
+                                                        $('.txtAddressFirst').val(data.addressArray[i]);*/
+
+                                                        /*$(".dpbStateFirst").val(data.stateArray[i]);
+                                                        $(".dpbCityFirst").val(data.cityArray[i]);
+                                                        $('.txtAddressFirst').val(data.addressArray[i]);*/
+
+                                                        /*****************/
+                                                        $('.txtState').val(data.stateArray[i]);
+                                                        $('.txtcity').val(data.cityArray[i]);
+                                                        $('.txtAddress').val(data.addressArray[i]);
+                                                        $('.txtZipCode').val(data.zipCodeArray[i]);
+
+                                                break;
+                                                default:
+                                                        $('#plusAddress').click();
+                                                        $("#state-"+(numAddress)).val(data.stateArray[i]);
+                                                        $("#city-"+(numAddress)).val(data.cityArray[i]);
+                                                        $('#address-'+(numAddress)).val(data.addressArray[i]);
+                                                        $('#zip-'+(numAddress)).val(data.zipCodeArray[i]);
+                                                break;
+                                        }
+                                }
+                                /*// Telefonos*/
+                                for (var i = 0; i < numTelefonos; i++) {
+                                        /*// console.log(i);*/
+                                        /*// console.log(data.addressArray[i]);*/
+                                        switch(i){
+                                                case 0:
+                                                        $(".firstPhoneType").val(data.typePhoneArray[i]).trigger("change");
+
+                                                        $('.firstPhoneTxt').val(data.phoneArray[i]);
+                                                        $('.firstPhoneExtension').val(data.extPhoneArray[i]);
+                                                break;
+                                                default:
+                                                        $('#plusPhone').click();
+                                                        /*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
+                                                        $('#types-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
+
+                                                        $('#phones-'+(numPhones)).val(data.phoneArray[i]);
+                                                        $('#extension-'+(numPhones)).val(data.extPhoneArray[i]);
+                                                break;
+                                        }
+                                }
+                                /*// Correos*/
+                                for (var i = 0; i < numCorreos; i++) {
+                                        /*// console.log(i);*/
+                                        /*// console.log(data.addressArray[i]);*/
+                                        switch(i){
+                                                case 0:
+                                                        $('.txtEmailFirst').val(data.emailArray[i]);
+                                                break;
+                                                default:
+                                                        $('#plusEmail').click();
+                                                        $('#email-'+(numEmail)).val(data.emailArray[i]);
+                                                break;
+                                        }
+                                }
+                                if(data.src!=''){
+                                        $('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
+                                }
+                                else{
+                                        $('#imgTest').attr('src','http://placehold.it/250x250');
+                                }
+
+                                $('.dpbInteres').val(data.interes).change().trigger("change");
+                                $('.dpbEstado').val(data.estado).change().trigger("change");
+                                $('.dpbFuente').val(data.fuente).change().trigger("change");
+                                /*// $('.dpbCampania').val(data.campania).change().trigger("change");*/
+
+
+                                $('#pnAdd').show();
+                                $('.btnAddPage').addClass('hidden');
+                                $('#clientePotencialList').parent().hide();
+                                $('#btnBack').removeClass('hidden');
+                                $('#btnCancelTop').removeClass('hidden');
+                                $('#btnSaveTop').removeClass('hidden');
+                                /*seguimiento(data.id1, numPedidos,null);*/
+                                seguimientoGeneral(data.id1, numPedidos,null,1);
+                                /*cargarTags();*/
+                                var addItem = '';
+                                for (var i = 0; i < data.tags.length; i++) {
+                                    /*console.log(i);*/
+                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                                    $('#addedTags').append(addItem);
+                                }
+                                /*//seguimientoComet(data.id1);*/
+                                $('#addTag').removeClass('hidden');
+                                $('#addedTags').removeClass('hidden');
+                                $('#filterTag').addClass('hidden');
+                        }	
+                        objClicked.on('click');
+                        objClicked.css('cursor', 'pointer');
+                },
+                error:function(data){
+                        if(data.error){
+                                /*// console.log(data.id);*/
+                                swal('',data.error,'error');
+                        }
+                        $('#addTag').addClass('hidden');
+                        $('#addedTags').addClass('hidden');
+                        $('#filterTag').removeClass('hidden');
+                        objClicked.on('click');
+                        objClicked.css('cursor', 'pointer');	
+                }
+            });
+        } else {
+            if(id==idForm && selected==0){
+                $('#pnAdd').slideDown();
+            }
+        }
+    }); /* Fin del on click de la fila del datatable oppotunitiesList */
     
     /* Al momento de seleccionar un tipo de cuenta filtra las cuentas vinculadas al */
     /* tipo de cuenta seleccionado llenando el combobox con las cuentas recuperadas */
