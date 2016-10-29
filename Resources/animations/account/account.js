@@ -3,7 +3,7 @@
 $(document).on('click', '.btnAddPage', function(event) {
 	//console.log('add');
 	var id = $('#txtId1').val();
-	
+        	
         $('#comentarios').hide();
 	$('#wallmessages').hide();
 	$('#btnLoadMore').hide();
@@ -74,15 +74,21 @@ $(document).on('click', '#accountsList>thead>tr>th:gt(0)', function(event) {
 
 
 function limpiarCampos(){
-	$('#txtId').val('');
+	$('#txtId1').val('');
+        $('#txtId2').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');
 	$('#txtCompania').val('');
 	$('.txtAddressFirst').val('');
+        $('.txtCity').val('');
+        $('.txtState').val('');
+        $('.txtZipCode').val('');
 	$('.firstPhoneTxt').val('');
 	$('.firstPhoneExtension').val('');
 	$('.txtEmailFirst').val('');
+        $('.txtWebsite').val('');
+        $('#txtAddComment').val('');
 	$('#imgTest').attr('src','http://placehold.it/250x250');
 	$('#file').val('');
 
