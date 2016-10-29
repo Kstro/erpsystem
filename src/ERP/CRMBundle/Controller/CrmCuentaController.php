@@ -966,10 +966,13 @@ class CrmCuentaController extends Controller
                             // var_dump('for');
                         $ctlTelefonoObj = new CtlTelefono();
                         $ctlTelefonoObj->setCuenta($crmCuentaObj);
+                        
+                        $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                        $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                         // var_dump("key".$key);
                         // var_dump("\nphone length".$phoneLenght);
                         // var_dump("\n expresion".($key<$phoneLenght && $key!=0));
-                        if ($key<$phoneLenght && $key!=0) {
+                        /*if ($key<$phoneLenght && $key!=0) {
                             // var_dump('if');
                             if ($phoneTypeArray[$key]==$phoneTypeArray[$key-1]) {
                                 //No buscar en la base el tipo de telefono
@@ -988,7 +991,7 @@ class CrmCuentaController extends Controller
                                 //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                                 //var_dump('no buscar base tipo telefono');
-                        }
+                        }*/
                         $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
                         $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
                         $ctlTelefonoObj->setPersona(null);
@@ -1843,8 +1846,10 @@ class CrmCuentaController extends Controller
                                           
                         $ctlTelefonoObj = new CtlTelefono();
                         $ctlTelefonoObj->setCuenta($crmCuentaObj);
+                        $ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                        $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                         //var_dump($key);
-                        if ($key<$phoneLenght && $key!=0) {
+                        /*if ($key<$phoneLenght && $key!=0) {
                             if ($phoneTypeArray[$key]==$phoneTypeArray[$key-1]) {
                                 //No buscar en la base el tipo de telefono
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
@@ -1861,7 +1866,7 @@ class CrmCuentaController extends Controller
                                 //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
                                 $ctlTelefonoObj->setTipoTelefono($ctlTipoTelefonoObj);
                                 //var_dump('no buscar base tipo telefono');
-                        }
+                        }*/
                         $ctlTelefonoObj->setNumTelefonico($phoneArray[$key]);
                         $ctlTelefonoObj->setExtension($phoneExtArray[$key]);
                         $ctlTelefonoObj->setPersona(null);
@@ -1877,8 +1882,15 @@ class CrmCuentaController extends Controller
                     // var_dump(count($addressArray));
                     // var_dump($addressLenght);
                     foreach ($addressArray as $key => $val) {
-                                          
+                        
                         $ctlDireccionObj = new CtlDireccion();
+                        $ctlDireccionObj->setCuenta($crmCuentaObj);
+                        $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+
+                        /*$ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setCuenta($crmCuentaObj);
                         if ($key<$addressLenght && $key!=0) {
                             if ($addressCityArray[$key]==$addressCityArray[$key-1]) {
@@ -1894,7 +1906,7 @@ class CrmCuentaController extends Controller
                                 //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
                                 $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
                                 $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
+                        }*/
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
                         $ctlDireccionObj->setPersona(null);
                         $ctlDireccionObj->setEmpresa(null);
