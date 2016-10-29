@@ -35,7 +35,8 @@
             <table id="oppotunitiesList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
                 <thead>
                     <tr role="row">
-                        <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                        <th style="width: 20px; padding-left: 8px;"><input type="checkbox" name="checktodos" onclick = "seleccionarTodo();"></th> 
+                        {#<th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>#}
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameOportunidad}}</th>
                         <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaOportunidad}}</th>
                         <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{etapaOportunidad}}</th>
@@ -48,6 +49,7 @@
     </div>
 {% endblock %}
 {% block js_extend %}
+    <script type="text/javascript" src="{{ asset('Resources/animations/funciones.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/jquery/jquery.numeric.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/opportunities/opportunities.js') }}"></script>

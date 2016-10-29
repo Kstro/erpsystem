@@ -190,15 +190,16 @@ $(document).ready(function() {
 						/*// Direcciones*/
 						for (var i = 0; i < numDirecciones; i++) {
 							/*// console.log(i);*/
-							/*// console.log(data.addressArray[i]);*/
+							console.log(data.zipCodeArray[i]);
 							switch(i){
 								case 0:
 									/*$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
 									$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
 									$('.txtAddressFirst').val(data.addressArray[i]);*/
-									$(".dpbStateFirst").val(data.stateArray[i]);
-									$(".dpbCityFirst").val(data.cityArray[i]);
-									$('.txtAddressFirst').val(data.addressArray[i]);
+									$('.txtState').val(data.stateArray[i]);
+                                                                        $('.txtcity').val(data.cityArray[i]);
+                                                                        $('.txtAddress').val(data.addressArray[i]);
+                                                                        $('.txtZipCode').val(data.zipCodeArray[i]);
 								break;
 								default:
 									$('#plusAddress').click();
@@ -228,7 +229,7 @@ $(document).ready(function() {
 								break;
 							}
 						}
-						/*// Correos*/
+						/*// Correos*/   
 						for (var i = 0; i < numCorreos; i++) {
 							/*// console.log(i);*/
 							/*// console.log(data.addressArray[i]);*/
@@ -409,7 +410,7 @@ $(document).ready(function() {
                         confirmButtonText: "Remove",
                         cancelButtonText: "Cancel",
                         reverseButtons: true,
-                    }).then(function(isConfirm) {
+                    }).then(function(isConfirm) {  
                         if (isConfirm) {
                             	$.ajax({
 					url: Routing.generate('admin_providers_account_delete_ajax'),
@@ -438,7 +439,8 @@ $(document).ready(function() {
 					}
 				});
                             		$('.btnDelete').addClass('hidden');
-				$('.btnAddPage').removeClass('hidden');
+                                        $('.btnAddPage').removeClass('hidden');
+                                        $('.btnAction').addClass('hidden');
                         	}
                     });
                 	$btn.button('reset');		
