@@ -397,6 +397,9 @@ parameters:
         app.taskNoEdit: can't be modified
 
         app.cuentaActividad: Account
+        
+        app.telefonoContacto: Phone
+        app.correoContacto: Email
     
 
         #Reuniones

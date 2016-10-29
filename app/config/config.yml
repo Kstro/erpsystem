@@ -643,6 +643,8 @@ twig:
         
         cuentaActividad: '%app.cuentaActividad%'
         
+        telefonoContacto: '%app.telefonoContacto%'
+        correoContacto: '%app.correoContacto%'
         #Tareas (actividades) - Español
         tituloTareasEs: '%app.tituloTareasEs%'
         menuTareasEs: '%app.menuTareasEs%'

@@ -671,7 +671,6 @@ class CrmContactoController extends Controller
                         $em->persist($ctlTelefonoObj);
                         $em->flush();
                     }
-
                     //Tabla ctlDireccion
                     $addressLenght = count($addressArray); //Cantidad de direccion ingresados, menos 1 para index de array
                     foreach ($addressArray as $key => $phone) {
@@ -703,57 +702,17 @@ class CrmContactoController extends Controller
                         $em->persist($ctlDireccionObj);
                         $em->flush();
                     }
-
                     //Manejo de imagen
-                    $nombreTmp = $_FILES['file']['name'];
-                    var_dump($_FILES['file']);
-                    if ($nombreTmp != '') {
-                        //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-
-                        $path = $this->getParameter('photo.contacto');
-                        //var_dump($path);
-                        $fecha = date('Y-m-d-H-i-s');
-                        $extensionTmp = $_FILES['file']['type'];
-                        $extensionArray = explode('/', $extensionTmp);
-                        $extension = $extensionArray[1];
-                        $nombreArchivo = $fecha . "." . $extension;
-                        //var_dump($nombreArchivo);
-                        if (move_uploaded_file($_FILES['file']['tmp_name'], $path . $nombreArchivo)) {
-                            $crmFoto = $em->getRepository('ERPCRMBundle:CrmFoto')->find($crmContactoObj->getId());
-                            if (count($crmFoto) != 0) {
-                                unlink($path . $crmFoto[0]->getSrc());
-                                //crmFoto
-                                $crmFoto[0]->setSrc($nombreArchivo);
-                                $em->merge($crmFoto[0]);
-                                $em->flush();
-                            } else {
-                                //crmFoto
-                                $crmFoto = new CrmFoto();
-                                $crmFoto->setCuenta(null);
-                                $crmFoto->setPersona($ctlPersonaObj);
-                                $crmFoto->setEstado(1);
-                                $crmFoto->setSrc($nombreArchivo);
-                                $em->merge($crmFoto);
-                                $em->flush();
-                            }
-                        } else {//Error al subir foto
-                        }
-                    } else {//Foto vacia
-                        //var_dump('No file');
-                    }
-                    
-                    $serverSave = $this->getParameter('app.serverMsgUpdate');
-                    $data['msg'] = $serverSave;
-                    $data['id1'] = $idCuenta;
-                    $data['id2'] = $idPersona;
+                    $nombreTmp = $_FILES['file']['name'];    
+                    $sql = "SELECT per.id as id, concat(per.nombre,' ', per.apellido)as nombre FROM ERPCRMBundle:CrmContacto obj "
+                            ."JOIN obj.persona per "
+                            . " WHERE tc.id=1";
+                    $row= $em->createQuery($sql)
+                            ->getResult();    
                 }
-                $em->getConnection()->commit();
-                $em->close();
+                return new Response(json_encode($row));
                 $response->setData($data);
             } catch (\Exception $e) {
-                var_dump($e);
-                $em->getConnection()->rollback();
-                $em->close();
                 // var_dump($e);
                 if (method_exists($e, 'getErrorCode')) {
                     switch (intval($e->getErrorCode())) {
@@ -986,5 +945,229 @@ class CrmContactoController extends Controller
 
         return $response;
     }
+    
+    
+    
+    /**
+     * contacts clients
+     *
+     * @Route("/contact/retrieve/data", name="busqueda_contacto_select_info",  options={"expose"=true}))
+     * @Method("GET")
+     */
+    public function contactsajaxAction(Request $request) {
+        try {
+            $nombreContacto = $request->get("q");
+            //echo $idContacto;            
+            $response = new JsonResponse();
+            
+            $em = $this->getDoctrine()->getManager();
+            //$crmContactoObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($idContacto);
+            
+            //$crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
+                      
+            //$crmContactoObj = $em->getRepository('ERPCRMBundle:CrmContacto')->findBy(array('nombre' =>'%'.$nombreContacto.'%'));
+            $dql = "SELECT CONCAT(per.nombre,' ',per.apellido) as nombre,per.id "
+                        . "FROM ERPCRMBundle:CrmContacto cu "
+                        . "JOIN cu.persona per "
+                        . "WHERE upper(CONCAT(per.nombre,' ',per.apellido)) LIKE upper(:busqueda) AND cu.estado=1 "
+                        . "ORDER BY per.nombre ASC ";
+        
+            $row['data'] = $em->createQuery($dql)
+                ->setParameters(array('busqueda'=>"%".$nombreContacto."%"))
+                ->getResult();
+            //var_dump($row);
+            return new Response(json_encode($row));
+        }
+        catch (\Exception $e) {
+            var_dump($e);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    /**
+     * contacts clients
+     *
+     * @Route("/contact/retrieve/info", name="busqueda_info_contacto_select_info",  options={"expose"=true}))
+     * @Method("GET")
+     */
+    public function contactsinfoajaxAction(Request $request) {
+        try {
+            $id = $request->get("param1");
+            //var_dump($id);
+            //echo $idContacto;            
+            $response = new JsonResponse();
+            
+            $em = $this->getDoctrine()->getManager();
+            //$crmContactoObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($idContacto);
+            
+            //$crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
+            
+                      
+            $crmContactoObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($id);
+            $data['correo']='';
+            $data['telefono']='';
+            if($crmContactoObj!=null){
+                if($crmContactoObj->getPersona()!=null){
+                    $idPersona= $crmContactoObj->getPersona()->getId();
+                    $ctlCorreo = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('persona'=>$idPersona));
+                    $ctlTelefono= $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('persona'=>$idPersona));
+                    foreach ($ctlCorreo as $key=>$correo){
+                        $data['correo'].=', '.$correo->getCorreo();
+                    }
+                    foreach ($ctlTelefono as $key=>$telefono){
+                        $data['telefono'].=', '.$telefono->getTelefono();
+                    }
+                }
+                $data['i'] = 0;
+            }
+            else{
+                $data['i'] = 1;
+            }
+            
+            if($data['correo']=='')
+                $data['correo']='-';
+            if($data['telefono']=='')
+                $data['telefono']='-';
+//            $dql = "SELECT CONCAT(per.nombre,' ',per.apellido) as nombre,per.id "
+//                        . "FROM ERPCRMBundle:CrmContacto cu "
+//                        . "JOIN cu.persona per "
+//                        . "WHERE upper(CONCAT(per.nombre,' ',per.apellido)) LIKE upper(:busqueda) AND cu.estado=1 "
+//                        . "ORDER BY per.nombre ASC ";
+//        
+//            $row['data'] = $em->createQuery($dql)
+//                ->setParameters(array('busqueda'=>"%".$nombreContacto."%"))
+//                ->getResult();
+            //var_dump($row);
+            
+            
+            $response->setData($data);
+        }
+        catch (\Exception $e) {
+            var_dump($e);
+        }
+        return $response;
+    }
+    
+    
+    
+    
+    
+    
+    
+//            
+//            $crmCuentaObj = $crmContactoCuentaObj[0]->getCuenta(); 
+//            
+//            $ctlPersonaObj = $crmContactoObj->getPersona();
+//                if (count($crmContactoObj) != 0) {
+//                
+//                $data['nombre'] = $ctlPersonaObj->getNombre();
+//                $data['apellido'] = $ctlPersonaObj->getApellido();
+//                $data['compania'] = $crmCuentaObj->getId();
+//                if (count($ctlDireccionObj) != 0) {
+//                    $dirArray = array();
+//                    $cityArray = array();
+//                    $stateArray = array();
+//                    foreach ($ctlDireccionObj as $key => $value) {
+//                        array_push($dirArray, $value->getDireccion());
+//                        array_push($cityArray, $value->getCiudad()->getId());
+//                        array_push($stateArray, $value->getCiudad()->getEstado()->getId());
+//                    }
+//                    // $data['addressArray']=$ctlDireccionObj[0];
+//                    $data['addressArray'] = $dirArray;
+//                    $data['cityArray'] = $cityArray;
+//                    $data['stateArray'] = $stateArray;
+//                                        
+//                } else {
+//                    $data['addressArray'] = [];
+//                }
+//                if (count($ctlTelefonoObj) != 0) {
+//
+//                    // $data['phoneArray']=$ctlTelefonoObj[0];
+//                    $telTipoArray = array();
+//                    $telArray = array();
+//                    $telExtArray = array();
+//                    foreach ($ctlTelefonoObj as $key => $value) {
+//                        array_push($telTipoArray, $value->getTipoTelefono()->getId());
+//                        array_push($telArray, $value->getNumTelefonico());
+//                        array_push($telExtArray, $value->getExtension());
+//                    }
+//                    // $data['addressArray']=$ctlDireccionObj[0];
+//                    $data['typePhoneArray'] = $telTipoArray;
+//                    $data['phoneArray'] = $telArray;
+//                    $data['extPhoneArray'] = $telExtArray;
+//                } else {
+//                    $data['phoneArray'] = '';
+//                    $data['phoneArray'] = '';
+//                    $data['phoneArray'] = '';
+//                }
+//                if (count($ctlCorreoObj) != 0) {
+//                    // $data['emailArray']=$ctlCorreoObj[0];
+//                    // $data['phoneArray']=$ctlTelefonoObj[0];
+//                    $dirArray = array();
+//                    foreach ($ctlCorreoObj as $key => $value) {
+//                        array_push($dirArray, $value->getEmail());
+//                    }
+//                    // $data['addressArray']=$ctlDireccionObj[0];
+//                    $data['emailArray'] = $dirArray;
+//                } else {
+//                    $data['emailArray'] = '';
+//                }
+//                if (count($crmFotoObj) != 0) {
+//                    // $data['src']=$crmFotoObj[0]->getSrc();                    
+//                    $dirArray = array();
+//                    foreach ($crmFotoObj as $key => $value) {
+//                        array_push($dirArray, $value->getSrc());
+//                    }
+//                    // $data['addressArray']=$ctlDireccionObj[0];
+//                    $data['src'] = $dirArray;
+//                } else {
+//                    $data['src'] = '';
+//                }
+//
+//                // $data['addressArray']=$ctlDireccionObj[0];
+//                // $data['phoneArray']=$ctlTelefonoObj[0];
+//                // $data['emailArray']=$ctlCorreoObj[0];
+//                // $data['src']=$crmFotoObj[0]->getSrc();
+//                $data['titulo'] = $ctlPersonaObj->getTratamientoProtocolario()->getId();
+//                //$data['interes'] = $crmClientePotencialObj[0]->getNivelInteres()->getId();
+//                //$data['estado'] = $crmClientePotencialObj[0]->getEstadoClientePotencial()->getId();
+//                //$data['fuente'] = $crmClientePotencialObj[0]->getFuentePrincipal()->getId();
+//                // if ($crmClientePotencialObj[0]->getCampania()!=null) {
+//                //     $data['campania']=$crmClientePotencialObj[0]->getCampania()->getId();
+//                // } else {
+//                //     $data['campania']='';
+//                // }
+//
+//                $data['id1'] = $crmContactoObj->getId();
+//                $data['id2'] = $crmContactoObj->getPersona()->getId();
+//            } else {
+//                $data['error'] = "Error";
+//            }
+//
+//            $response->setData($data);
+//        } catch (\Exception $e) {
+//            // var_dump($e);
+//            if (method_exists($e, 'getErrorCode')) {
+//                switch (intval($e->getErrorCode())) {
+//                    case 2003:
+//                        $serverOffline = $this->getParameter('app.serverOffline');
+//                        $data['error'] = $serverOffline . '. CODE: ' . $e->getErrorCode();
+//                        break;
+//                    default :
+//                        $data['error'] = "Error CODE: " . $e->getMessage();
+//                        break;
+//                }
+//            } else {
+//                $data['error'] = $e->getMessage();
+//            }
+//            $response->setData($data);
+//        }
+//
+//        return $response;
+//    }
 
 }

@@ -556,14 +556,70 @@ $(document).ready(function() {
 	/*/////Fin de agregar/remover direccion*/
 
 
+
+
+
+/*/////Agregar/remover contactos*/
+	$(document).on('change', '.dpbContacts', function(event) {
+            
+            var id = $(this).val();
+            var idS=[];
+            var objDOM = $(this);
+            
+            
+            
+                $.ajax({
+                    url: Routing.generate('busqueda_info_contacto_select_info'),
+                    type: 'GET',
+                    data: {param1: id},
+                    success:function(data){
+                        if(data.error){
+                            swal('',data.error,'error');
+                        }
+                        else{
+                            
+                                if(objDOM.hasClass('dpbFirstContacts')){
+                                    $('.telefonoContactoFirst').html(data.telefono);
+                                    $('.correoContactoFirst').html(data.correo);
+                                }
+                                else{
+                                    idS=(objDOM.attr('id')).split('-');
+                                    $('#telefonoContact-'+idS[1]).html(data.telefono);
+                                    $('#correoContact-'+idS[1]).html(data.correo);
+                                }
+                            
+                            
+                        }
+                    },
+                    error:function(data){
+                        if(data.error){
+                            console.log(data.id);
+                            swal('',data.error,'error');
+                        }
+                        $btn.button('reset');
+                    }
+                });
+                console.log(idS[1]);
+		return false;
+	});
+
+
+
+
+
+
+
+
         /*/////Agregar/remover contactos*/
 	$(document).on('click', '#plusContact', function(event) {
 		numContacts++;
 		//var optionsPhoneType = $('.firstPhoneType').html();
-		$('.contacts').append('<div style="margin-top:27px;"><select id="contact-'+numContacts+'" style="width:100%;margin-top:25px !important;" name="contactos[]" class="input-sm form-control validateInput dpbContactos"></select></div>');
+		$('.contacts').append('<div style="margin-top:27px;"><select id="contact-'+numContacts+'" style="width:100%;margin-top:25px !important;" name="contactos[]" class="input-sm form-control validateInput dpbContacts"></select></div>');
+		$('.contactsTelefono').append('<div style="margin-top:30px;"><label id="telefonoContact-'+numContacts+'" style="width:100%;!important;"></label></div>');
+		$('.contactsCorreo').append('<div style="margin-top:30px;"><label id="correoContact-'+numContacts+'" style="width:100%;!important;"></label></div>');
 //          	$('.phonesText').append('<input id="phones-'+numPhones+'" style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone">');
 //		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
-		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:27px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
+		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:25px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
 		//$('#contacts-'+numContacts).select2();
                 $('#contact-'+numContacts).select2({
                     ajax: {
@@ -583,10 +639,8 @@ $(document).ready(function() {
 
                                                    return obj;
                                                });
-
                                                return {
                                                    results: select2Data
-                                                   
                                                    
                                                };
                                            },

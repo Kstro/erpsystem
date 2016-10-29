@@ -104,6 +104,10 @@ function limpiarCampos(){
 	$('.removeEmail').each(function(index, el) {
 		$(this).click();
 	});
+        
+        $('.removeContact').each(function(index, el) {
+		$(this).click();
+	});
 		
 	$('.chkItemAll').prop({'checked': false});
 	$('.btnAddPage').removeClass('hidden');
