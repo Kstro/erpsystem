@@ -26,7 +26,9 @@ class CrmTipoCuentaController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('crmtipocuenta/index.html.twig');
+        return $this->render('crmtipocuenta/index.html.twig', array(
+            'menuTipoCuentaA' => true,
+        ));
     }
 
     /**

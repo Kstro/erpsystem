@@ -1,74 +1,60 @@
 <html>
     <head>
- 
-            {% block head %}
-                <meta charset="utf-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                    {% block title -%}<title>:{% block titlename -%}::: SEPES S.A. de C.V. :::{% endblock %}</title>{% endblock %}
-                      <meta name="robots" content="noindex">
-                      
-                        {% block css %}
-                            <!-- Stylesheet de Bootstrap -->
-                            
-                            <link rel="stylesheet" href="{{ asset('Resources/src/css/bootstrap.css')}}" >
-                            <link rel="stylesheet" href="{{ asset('Resources/Zebra/css/bootstrap.css') }}">
-{#                            <link rel="stylesheet" href="{{ asset('Resources/wrapkit/styles/dependencies.css') }}">#}
-                            <!-- Stylesheet Personales -->
-{#<link rel="stylesheet" href="{{ asset('Resources/datatables/material.min.css') }}"> 
-        <link rel="stylesheet" href="{{ asset('Resources/datatables/datatables.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('Resources/datatables/select2.css') }}">
+        {% block head %}
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            {% block title -%}<title>:{% block titlename -%}{% endblock %}</title>{% endblock %}
+            <meta name="robots" content="noindex">                      
+            {% block css %}
+                <!-- Stylesheet de Bootstrap -->                            
+                <link rel="stylesheet" href="{{ asset('Resources/src/css/bootstrap.css')}}" >
+                <link rel="stylesheet" href="{{ asset('Resources/Zebra/css/bootstrap.css') }}">
+{#                <link rel="stylesheet" href="{{ asset('Resources/wrapkit/styles/dependencies.css') }}">#}
+                <!-- Stylesheet Personales -->
+                {#<link rel="stylesheet" href="{{ asset('Resources/datatables/material.min.css') }}"> 
+                <link rel="stylesheet" href="{{ asset('Resources/datatables/datatables.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('Resources/datatables/select2.css') }}">        
         
-        
-        <script src="{{ asset('Resources/datatables/datatables.min.js') }}"></script>
-        <script src="{{ asset('Resources/datatables/material.min.js') }}"></script>
-        <script src="{{ asset('Resources/datatables/select2.js') }}"></script>#}
+                <script src="{{ asset('Resources/datatables/datatables.min.js') }}"></script>
+                <script src="{{ asset('Resources/datatables/material.min.js') }}"></script>
+                <script src="{{ asset('Resources/datatables/select2.js') }}"></script>#}
 
-                            <link href="{{ asset('Resources/src/css/style.css')}}" rel="stylesheet">
-                            <link rel="stylesheet" href="{{ asset('Resources/datatables/fontawesome.css') }}">
-                            
-                            <style>
-                                .colorAnclas{
-                                    color: black;
-                                    
-                                }
-                                
-                            </style>
-                            
-                            
-                            
-                        {% endblock css%}
-                        {% block js %}
-                            <script type="text/javascript" src="{{ asset('Resources/jquery/jquery-1.12.3.min.js') }}"></script>
-                            
-                            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-                            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-                            <link rel="shortcut icon" href="{{ asset('Resources/imagenes/favicon.png')}}" type="image/x-icon">
-                            <link rel="icon" href="{{ asset('Resources/imagenes/favicon.png')}}" type="image/x-icon">
-                            <link rel="stylesheet" href="{{ asset('Resources/bValidator-0.73/themes/bvalidator.theme.bootstrap.rt.css') }}" />
-                            <link rel="stylesheet" href="{{ asset('Resources/bValidator-0.73/themes/bvalidator.theme.bootstrap.rt.css') }}" />
-       {#                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>#}
-                            <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.css" rel="stylesheet"/>
-                        
-                        {% endblock %}
+                <link href="{{ asset('Resources/src/css/style.css')}}" rel="stylesheet">
+                <link rel="stylesheet" href="{{ asset('Resources/datatables/fontawesome.css') }}">                            
+                <style>
+                    .colorAnclas{
+                        color: black;
+                    }
+                </style>                                                                                    
+            {% endblock css%}
+            {% block js %}
+                <script type="text/javascript" src="{{ asset('Resources/jquery/jquery-1.12.3.min.js') }}"></script>
 
-
-                    <!-- icheck-->
-                    
+                <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+                <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+                <link rel="shortcut icon" href="{{ asset('Resources/imagenes/favicon.png')}}" type="image/x-icon">
+                <link rel="icon" href="{{ asset('Resources/imagenes/favicon.png')}}" type="image/x-icon">
+                <link rel="stylesheet" href="{{ asset('Resources/bValidator-0.73/themes/bvalidator.theme.bootstrap.rt.css') }}" />
+                <link rel="stylesheet" href="{{ asset('Resources/bValidator-0.73/themes/bvalidator.theme.bootstrap.rt.css') }}" />
+{#                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>#}
+                <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.css" rel="stylesheet"/>                        
             {% endblock %}
+
+            <!-- icheck-->
+                    
+        {% endblock %}
     
     </head>
     <body style="font-family: 'Roboto', sans-serif;" class="sans">
- {% block body %}
+        {% block body %}
         
-        <!-- Barra de Navegacion con Breadcrumb -->
-        {% include 'DGPlusbelleBundle:Layout:nav2.html.twig' %}
-	<!-- Fin de Barra de Navegacion -->
-        
-        
-        
-  <!-- Template -->
-<div class="container">
+            <!-- Barra de Navegacion con Breadcrumb -->
+            {% include 'DGPlusbelleBundle:Layout:nav2.html.twig' %}
+            <!-- Fin de Barra de Navegacion -->
+                        
+            <!-- Template -->
+            <div class="container">
             {% block descripcion_y_acciones %}
                 <div class="row">
                     {% block descripcion %}

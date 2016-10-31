@@ -27,6 +27,13 @@ class CtlIndustria
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
      */
     private $nombre;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string", length=100, nullable=false)
+     */
+    private $estado;
 
 
 
@@ -62,9 +69,28 @@ class CtlIndustria
     {
         return $this->nombre;
     }
-
-    public function __toString()
+    
+    
+    
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     * @return CtlIndustria
+     */
+    public function setEstado($estado)
     {
-        return $this->nombre;
+        $this->estado = $estado;
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }
