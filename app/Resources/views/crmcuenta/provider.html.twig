@@ -37,9 +37,15 @@
                             <label>{{direccionCliente}}</label>
                             <input type="text" name="address[]" class="input-sm form-control  txtAddress txtAddressFirst">
                         </div>
-                        <div class="col-md-2 zipcode" style="margin-top:20px;">
-                            <label>{{zipCodeCliente}}</label>
-                            <input type="text" name="zipcode[]" class="input-sm form-control  txtZipCode txtZipCodeFirst">
+                        
+                        <div class="col-md-2 city" style="margin-top:20px;">
+                            <label>{{ciudadCliente}}</label>
+                            <input type="text" name="addressCity[]" class="input-sm form-control txtCity">
+                            {#<select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
+                                {% for ciudad in ciudades %}
+                                    <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
+                                {% endfor %}
+                            </select>#}
                         </div>
                         <div class="col-md-2 state" style="margin-top:20px;">
                             <label>{{departamentoCliente}}</label>
@@ -50,14 +56,10 @@
                                     {% endfor %}
                             </select>#}
                         </div>
-                        <div class="col-md-2 city" style="margin-top:20px;">
-                            <label>{{ciudadCliente}}</label>
-                            <input type="text" name="addressCity[]" class="input-sm form-control txtCity">
-                            {#<select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
-                                {% for ciudad in ciudades %}
-                                    <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
-                                {% endfor %}
-                            </select>#}
+                        
+                        <div class="col-md-2 zipcode" style="margin-top:20px;">
+                            <label>{{zipCodeCliente}}</label>
+                            <input type="text" name="zipcode[]" class="input-sm form-control  txtZipCode txtZipCodeFirst">
                         </div>
                         
                         <div class="col-md-1 addAddress" style="margin-top:20px;">

@@ -36,9 +36,15 @@
                             <label>{{direccionClientePotencial}}</label>
                             <input type="text" name="address[]" class="input-sm form-control  txtAddress txtAddressFirst">
                         </div>
-                        <div class="col-md-2 zipcode" style="margin-top:20px;">
-                            <label>{{zipCodeClientePotencial}}</label>
-                            <input type="text" name="zipcode[]" class="input-sm form-control  txtZipCode txtZipCodeFirst">
+                        
+                        <div class="col-md-2 city" style="margin-top:20px;">
+                            <label>{{ciudadClientePotencial}}</label>
+                            <input type="text" name="addressCity[]" class="input-sm form-control txtCity">
+                            {#<select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
+                                {% for ciudad in ciudades %}
+                                    <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
+                                {% endfor %}
+                            </select>#}
                         </div>
                         <div class="col-md-2 state" style="margin-top:20px;">
                             <label>{{departamentoClientePotencial}}</label>
@@ -49,14 +55,9 @@
                                     {% endfor %}
                             </select>#}
                         </div>
-                        <div class="col-md-2 city" style="margin-top:20px;">
-                            <label>{{ciudadClientePotencial}}</label>
-                            <input type="text" name="addressCity[]" class="input-sm form-control txtCity">
-                            {#<select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
-                                {% for ciudad in ciudades %}
-                                    <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
-                                {% endfor %}
-                            </select>#}
+                        <div class="col-md-2 zipcode" style="margin-top:20px;">
+                            <label>{{zipCodeClientePotencial}}</label>
+                            <input type="text" name="zipcode[]" class="input-sm form-control  txtZipCode txtZipCodeFirst">
                         </div>
                         
                         <div class="col-md-1 addAddress" style="margin-top:20px;">
@@ -67,8 +68,8 @@
                             <label>{{phoneClientePotencial}}</label>
                             <select style="margin-top:25px; width:100%;" type="text" name="phoneType[]" class="input-sm form-control validateInput dpbTipoPhone firstPhoneType">
                                 {% for tipo in tiposTelefono %}
-                                        <option value={{tipo.id}}>{{tipo.nombre}}</option>
-                                    {% endfor %}
+                                    <option value={{tipo.id}}>{{tipo.nombre}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-2 phonesText" style="margin-top:20px;">
@@ -81,7 +82,7 @@
                         <div class="col-md-1 addPhone" style="margin-top:20px;">
                             <button id="plusPhone" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
                         </div>
-                        <div class="col-md-4 emailText " style="margin-top:20px;">
+                        <div class="col-md-4 emailText" style="margin-top:20px;">
                             <label>{{emailClientePotencial}}</label>
                             <input type="text" name="email[]" class="input-sm form-control  txtEmail txtEmailFirst ">
                         </div>
@@ -117,7 +118,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="clearfix"></div> 
+                            {#<div class="clearfix"></div> 
                             <div class="col-md-12" style="margin-top:25px;">
                                 <div class="col-md-4">
                                     <label >{{statusClientePotencial}}</label>
@@ -129,7 +130,7 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                            </div>
+                            </div>#}
                             <div class="clearfix"></div> 
                             <div class="col-md-12" style="margin-top:25px;">
                                 <div class="col-md-4">
@@ -160,7 +161,7 @@
                         </div>
                         <div class="clearfix"></div>
                         
-                        {#
+                        
                         <div class="col-md-3 contacts" style="margin-top:20px;">
                             <label>Contacts</label>
                             <label >{{cuentaActividad}}</label>
@@ -169,7 +170,7 @@
                                 {# {% for actividad in actividades %}
                                     <option value={{actividad.id}}>{{actividad.nombre}}</option>
                                 {% endfor %} #}
-                            {#</select>
+                            </select>
                         </div>
                         <div class="col-md-4 contactsTelefono" style="margin-top:20px;">
                             <label>{{telefonoContacto}}</label>
@@ -182,7 +183,7 @@
                         <div class="col-md-1 addContact" style="margin-top:20px;">
                             <button id="plusContact" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
                         </div>
-                        #}
+                        
                         
                         <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
                             <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>

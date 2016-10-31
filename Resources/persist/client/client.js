@@ -176,7 +176,7 @@ $(document).ready(function() {
 				success:function(data){
 					if(data.error){
 						swal('',data.error,'error');
-						id.val(data.id);
+						//id.val(data.id);
 					}
 					else{
                                                 $('#pnAdd').show();
@@ -267,7 +267,7 @@ $(document).ready(function() {
 							}
 						}
 						if(data.src!=''){
-							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
+							$('#imgTest').attr('src','../../../../photos/accounts/'+data.src);	
 						}
 						else{
 							$('#imgTest').attr('src','http://placehold.it/250x250');

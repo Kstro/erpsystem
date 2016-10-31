@@ -262,7 +262,7 @@ $(document).ready(function() {
 
 					if(data.error){
 						swal('',data.error,'error');
-						id.val(data.id);
+						//id.val(data.id);
 					}
 					else{
 						if (data.cuentaId!=0) {

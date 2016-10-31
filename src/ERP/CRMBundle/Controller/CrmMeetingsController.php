@@ -129,22 +129,22 @@ class CrmMeetingsController extends Controller
                 $orderByText="";
                 switch(intval($orderBy)){
                     case 1:
+                        $orderByText = "dateStart";
+                        break;
+                    case 2:
                         $orderByText = "name";
                         break;
-                    
-                    case 2:
-                        $orderByText = "priority";
-                        break;
+//                    case 2:
+//                        $orderByText = "priority";
+//                        break;
                     case 3:
                         $orderByText = "responsable";
                         break;
+                    
+//                    case 5:
+//                        $orderByText = "dateCancel";
+//                        break;
                     case 4:
-                        $orderByText = "dateStart";
-                        break;
-                    case 5:
-                        $orderByText = "dateCancel";
-                        break;
-                    case 6:
                         $orderByText = "estado";
                         break;
                 }

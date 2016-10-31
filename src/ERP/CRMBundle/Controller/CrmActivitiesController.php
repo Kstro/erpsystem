@@ -219,14 +219,17 @@ class CrmActivitiesController extends Controller
                 $orderByText="";
                 switch(intval($orderBy)){
                     case 1:
-                        $orderByText = "act.nombre";
+                        $orderByText = "dateStart";
                         break;
                     case 2:
-                        $orderByText = "tact.nombre";
+                        $orderByText = "act.nombre";
                         break;
                     case 3:
-                        $orderByText = "p.nombre";
+                        $orderByText = "tact.nombre";
                         break;
+//                    case 3:
+//                        $orderByText = "p.nombre";
+//                        break;
                     case 4:
                         $orderByText = "responsable";
                         break;

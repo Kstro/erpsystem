@@ -244,7 +244,7 @@ $(document).ready(function() {
 							}
 						}
 						if(data.src!=''){
-							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
+							$('#imgTest').attr('src','../../../../photos/accounts/'+data.src);	
 						}
 						else{
 							$('#imgTest').attr('src','http://placehold.it/250x250');
