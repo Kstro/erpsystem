@@ -536,9 +536,10 @@ class CrmOportunidadController extends Controller
             if(count($crmOportunidadObj) != 0){
                 $data['name'] = $crmOportunidadObj->getNombre();
                 $data['description'] = $crmOportunidadObj->getDescripcion();
-                $data['probability'] = $crmOportunidadObj->getDescripcion();
+                $data['probability'] = $crmOportunidadObj->getProbabilidad();
                 
                 $data['compania'] = $crmOportunidadObj->getCuenta()->getId();                
+                $data['etapaVenta'] = $crmOportunidadObj->getEtapaVenta()->getId();                
                 $fuente = $crmOportunidadObj->getFuentePrincipal();
                 
                 $data['fuente'] = $fuente->getId();
