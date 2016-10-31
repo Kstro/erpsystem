@@ -215,7 +215,7 @@ class CrmClientesController extends Controller
                 
                 $sql = "SELECT obj.id as id FROM ERPCRMBundle:CrmCuenta obj "
                             ."JOIN obj.tipoCuenta tc"
-                            . " WHERE tc.id=1";
+                            . " WHERE tc.id=3";
                 $rowsTotal = $em->createQuery($sql)
                             ->getResult();
                

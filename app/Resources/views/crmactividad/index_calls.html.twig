@@ -55,13 +55,14 @@
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                        <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaInicioLlamadas}}</th>
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameLlamadas}}</th>
                         
-                        <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{prioridadLlamadas}}</th>
+                        {#<th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{prioridadLlamadas}}</th>#}
                         <th aria-label="Responsable: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{responsableLlamadas}}</th>
-                        <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaInicioLlamadas}}</th>
+                        
                         {# <th aria-label="dateEnd: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaFinLlamadas}}</th> #}
-                        <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaCancelLlamadas}}</th>
+                        {#<th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaCancelLlamadas}}</th>#}
                         <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{estado}}</th>
                     </tr>
                 </thead>      
@@ -110,12 +111,13 @@
                 },
                 "columns": [
                     { "data": "chk" },
-                    { "data": "name" },
-                    { "data": "priority" },
-                    { "data": "responsable" },
                     { "data": "dateStart" },
+                    { "data": "name" },
+                    {#{ "data": "priority" },#}
+                    { "data": "responsable" },
+                    
                     /*// { "data": "dateEnd" }*/
-                    { "data": "dateCancel" },
+                    {#{ "data": "dateCancel" },#}
                     { "data": "estado" }
                     /*// { "data": "probability" },*/
                     /*// { "data": "state" }*/

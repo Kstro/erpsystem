@@ -126,7 +126,7 @@ parameters:
         
         #Wizard de configuracion inicial
         app.encabezadoWizard: Configuration
-        app.tituloWizard:  CRM Systems | Configuration
+        app.tituloWizard: Configuration | CRM Systems
         app.step1Wizard: Welcome to the CRM Systems
         app.step2Wizard: Company information
         app.step3Wizard: Admin User Information
@@ -159,7 +159,7 @@ parameters:
         app.emailWizard: Email
         
         #Dashboard
-        app.tituloDashboard: CRM | Options
+        app.tituloDashboard: Options | CRM
         app.encabezadoDashboard: CRM Options
         app.descripcionDashboard: .
         app.nameDashboard: Name
@@ -176,7 +176,7 @@ parameters:
         #tituloPrincipal
         app.tituloHome:  CRM Systems
         #Etapas de ventas
-        app.tituloEtapa: CRM | Sales stage management
+        app.tituloEtapa: Sales stage management | CRM
         app.menuEtapa: Sales stage
         app.encabezadoEtapa: Sales stage list
         app.descripcionEtapa: Add, modify or delete sales stages.
@@ -184,21 +184,21 @@ parameters:
         app.probabilityEtapa: Probability
         
         #Campanias
-        app.tituloCampania: CRM | Campaigns management
+        app.tituloCampania: Campaigns management | CRM
         app.menuCampania: Campaigns
         app.encabezadoCampania: Campaigns list
         app.descripcionCampania: Add, modify or delete campaign.
         app.nameCampania: Name
         
         #TipoCampanias
-        app.tituloTipoCampania: CRM | Campaign types management
+        app.tituloTipoCampania: Campaign types management | CRM
         app.menuTipoCampania: Campaign types
         app.encabezadoTipoCampania: Campaign types list
         app.descripcionTipoCampania: Add, modify or delete campaign types.
         app.nameTipoCampania: Name
         
         #Nivel de satisfaccion
-        app.tituloSatisfaccion: CRM | Level of customer satisfaction
+        app.tituloSatisfaccion: Level of customer satisfaction | CRM
         app.menuSatisfaccion: Customer satisf.
         app.encabezadoSatisfaccion: Level of customer satisfaction
         app.descripcionSatisfaccion: Add, modify or delete levels of customer satisfaction.
@@ -223,12 +223,12 @@ parameters:
         app.nombreCompletoContacto: Name
         
         #Proveedor
-        app.tituloProveedor: CRM | Providers
+        app.tituloProveedor: Providers | CRM
         app.companiaNombreProveedor: Company's name
         app.menuProveedor: Providers
         app.encabezadoProveedor: Providers
         app.descripcionProveedor: Add, modify or delete providers.
-        app.cuentaProveedor: Account
+        app.cuentaProveedor: Company
         app.nameProveedor: Name
         app.nombreProveedor: First name
         app.apellidoProveedor: Last name
@@ -246,12 +246,12 @@ parameters:
         app.inputFileLabel: Browse
 
         #Socio
-        app.tituloSocio: CRM | Partners
+        app.tituloSocio: Partners | CRM
         app.companiaNombreSocio: Company's name
         app.menuSocio: Partners
         app.encabezadoSocio: Partners
         app.descripcionSocio: Add, modify or delete partners.
-        app.cuentaSocio: Account
+        app.cuentaSocio: Company
         app.nameSocio: Name
         app.nombreSocio: First name
         app.apellidoSocio: Last name
@@ -269,7 +269,7 @@ parameters:
         app.inputFileLabel: Browse
 
         #Accounts
-        app.tituloAccount: CRM | Accounts
+        app.tituloAccount: Accounts | CRM
         app.companiaNombreAccount: Company's name
         app.menuAccount: Accounts
         app.encabezadoAccount: Account
@@ -292,7 +292,7 @@ parameters:
         app.inputFileLabel: Browse
         
         #Tiempo notificaciones
-        app.tituloTiempoNotificacion: CRM | Notification time
+        app.tituloTiempoNotificacion: Notification time | CRM
         app.menuTiempoNotificacion: Notif. time
         app.encabezadoTiempoNotificacion: Notifications
         app.descripcionTiempoNotificacion: Add, modify or delete time notifications.
@@ -305,7 +305,7 @@ parameters:
         app.aniosTiempoNotificacion: Years
 
         #Todas las actividades
-        app.tituloTodasActividades: CRM | All the activities
+        app.tituloTodasActividades: All the activities | CRM
         app.menuTodasActividades: All
         app.encabezadoTodasActividades: All the activities
         app.descripcionTodasActividades: Add, modify or delete any activity.
@@ -313,7 +313,7 @@ parameters:
         app.tipoTodasActividades: Type of activity
         app.prioridadTodasActividades: Priority
         app.estadoTodasActividades: Status
-        app.responsableTodasActividades: Director
+        app.responsableTodasActividades: Participants
         app.recordatorioTodasActividades: Reminders
         app.tiempoRecordatorioTodasActividades: Time
         app.fechaInicioTodasActividades: Start date
@@ -325,7 +325,7 @@ parameters:
         app.taskNoEditTodasActividades: Can't be modified
         
         #Tareas
-        app.tituloTareas: CRM | Task
+        app.tituloTareas: Task | CRM
         app.menuTareas: Tasks
         app.encabezadoTareas: Tasks
         app.descripcionTareas: Add, modify or delete tasks.
@@ -333,7 +333,7 @@ parameters:
         app.tipoTareas: Task type
         app.prioridadTareas: Priority
         app.estadoTareas: Status
-        app.responsableTareas: Director
+        app.responsableTareas: Participants
         app.recordatorioTareas: Reminders
         app.tiempoRecordatorioTareas: Time
         app.fechaInicioTareas: Start date
@@ -348,7 +348,7 @@ parameters:
         app.tipoActividad: Activity type
 
         #Llamadas
-        app.tituloLlamadas: CRM | Calls
+        app.tituloLlamadas: Call | CRM
         app.menuLlamadas: Calls
         app.encabezadoLlamadas: Calls
         app.descripcionLlamadas: Add, modify or delete calls.
@@ -356,7 +356,7 @@ parameters:
         app.tipoLlamadas: Calls type
         app.prioridadLlamadas: Priority
         app.estadoLlamadas: Status
-        app.responsableLlamadas: Director
+        app.responsableLlamadas: Participants
         app.recordatorioLlamadas: Reminders
         app.tiempoRecordatorioLlamadas: Time
         app.fechaInicioLlamadas: Start date
@@ -376,7 +376,7 @@ parameters:
         app.perdidoEvento: Missed
         
         #Campania
-        app.tituloCampaniaReg: CRM | Campaigns
+        app.tituloCampaniaReg: Campaigns | CRM
         app.menuCampaniaReg: Campaigns
         app.encabezadoCampaniaReg: Campaigns
         app.descripcionCampaniaReg: Add, modify or delete campaigns.
@@ -384,7 +384,7 @@ parameters:
         app.tipoCampaniaReg: Campaigns type
         app.prioridadCampaniaReg: Priority
         app.estadoCampaniaReg: Status
-        app.responsableCampaniaReg: Director
+        app.responsableCampaniaReg: Participants
         app.recordatorioCampaniaReg: Reminders
         app.tiempoRecordatorioCampaniaReg: Time
         app.fechaRegistroCampaniaReg: Registry date
@@ -403,7 +403,7 @@ parameters:
     
 
         #Reuniones
-        app.tituloReuniones: CRM | Meetings
+        app.tituloReuniones: Meetings | CRM
         app.menuReuniones: Meetings
         app.encabezadoReuniones: Meetings
         app.direccionReuniones: Event's location
@@ -412,7 +412,7 @@ parameters:
         app.tipoReuniones: Meetings type
         app.prioridadReuniones: Priority
         app.estadoReuniones: Status
-        app.responsableReuniones: Director
+        app.responsableReuniones: Participants
         app.recordatorioReuniones: Reminders
         app.tiempoRecordatorioReuniones: Time
         app.fechaInicioReuniones: Start date
@@ -424,7 +424,7 @@ parameters:
         app.taskNoEdit: can't be modified
               
         #Cliente potencial
-        app.tituloClientePotencial: CRM | Potential client
+        app.tituloClientePotencial: Potential client | CRM
         app.menuClientePotencial: Potential client
         app.encabezadoClientePotencial: Potential client.
         app.descripcionClientePotencial: Potential client.
@@ -454,12 +454,12 @@ parameters:
         app.inputFileLabel: Browse
         
         #Adomon. clientes
-        app.tituloCliente: CRM | Clients
+        app.tituloCliente: Clients | CRM
         app.companiaNombreCliente: Company's name
         app.menuCliente: Clients
         app.encabezadoCliente: Clients
         app.descripcionCliente: Add, modify or delete clients.
-        app.cuentaCliente: Account
+        app.cuentaCliente: Company
         app.nameCliente: Name
         app.nombreCliente: First name
         app.apellidoCliente: Last name
@@ -479,7 +479,7 @@ parameters:
         app.estadoCliente: Satisfaction
                 
         #Fullcalendar
-        app.tituloCalendar: CRM | Calendar
+        app.tituloCalendar: Calendar | CRM
         app.menuCalendar: Calendar
         app.encabezadoCalendar: Scheduled activities
         app.descripcionCalendar: Check your tasks, calls, meetings.
@@ -492,14 +492,14 @@ parameters:
         app.menuTipoCuenta: Account types
         
          #Tipo de caso (CRUD)
-        app.tituloTipoCaso: CRM | Case type management
+        app.tituloTipoCaso: Case type management | CRM
         app.encabezadoTipoCaso: Case type
         app.descripcionTipoCaso: Add, modify or delete Case type.
         app.nameTipoCaso: Name
         app.menuTipoCaso: Case types
         
         #Caso (CRUD)
-        app.tituloCaso: CRM | Case  management
+        app.tituloCaso: Case management | CRM
         app.encabezadoCaso: Case 
         app.descripcionCaso: Add, modify or delete Case type.
         app.nameCaso: Name
@@ -510,21 +510,21 @@ parameters:
         app.menuCaso: Case 
         
         #Fuentes de origen (CRUD)
-        app.tituloFuenteOrigen: CRM | Origin sources management
+        app.tituloFuenteOrigen: Origin sources management | CRM
         app.menuFuenteOrigen: Origin sources 
         app.encabezadoFuenteOrigen: Origin sources catalog
         app.descripcionFuenteOrigen: Add, modify or delete origin sources.
         app.nameFuenteOrigen: Name
         
         #Prioridad (CRUD)
-        app.tituloPrioridad: CRM | Priorities management
+        app.tituloPrioridad: Priorities management | CRM
         app.menuPrioridad: Priorities
         app.encabezadoPrioridad: Priorities catalog
         app.descripcionPrioridad: Add, modify or delete priorities.
         app.namePrioridad: Name
         
         #Oportunidades
-        app.tituloOportunidad: CRM | Opportunity management
+        app.tituloOportunidad: Opportunity management | CRM
         app.menuOportunidad: Opportunities
         app.encabezadoOportunidad: Opportunities list
         app.descripcionOportunidad: Add, modify or delete opportunity.
@@ -548,7 +548,7 @@ parameters:
         app.cantidadOportunidad: Quantity
        
         #Login
-        app.tituloLogin: CRM Systems | Login
+        app.tituloLogin: Login | CRM
         app.usernameTxt: Username
         app.passwordTxt: Password
 
