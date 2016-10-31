@@ -491,6 +491,13 @@ parameters:
         app.nameTipoCuenta: Name
         app.menuTipoCuenta: Account types
         
+        #Industria (CRUD)
+        app.tituloIndustria: Industry management | CRM
+        app.encabezadoIndustria: Industry
+        app.descripcionIndustria: Add, modify or delete industries.
+        app.nameIndustria: Name
+        app.menuIndustria: Industries
+        
          #Tipo de caso (CRUD)
         app.tituloTipoCaso: Case type management | CRM
         app.encabezadoTipoCaso: Case type

@@ -16,7 +16,7 @@
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-            <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTipoCaso}} </p>
+            <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTipoCaso | capitalize}} </p>
            <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTipoCaso}} </p>
           {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
             <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>

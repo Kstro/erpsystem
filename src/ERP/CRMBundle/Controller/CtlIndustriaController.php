@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CtlIndustria;
-use ERP\CRMBundle\Form\CtlIndustriaType;
 
 /**
  * CtlIndustria controller.
@@ -26,8 +25,7 @@ class CtlIndustriaController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
+        
         return $this->render('ctlindustria/index.html.twig', array(
             'menuIndustriaA' => true,
         ));
@@ -180,7 +178,7 @@ class CtlIndustriaController extends Controller
         if ($busqueda['value'] != '') {
 
 
-            $dql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\">',pac.nombre,'</div>') as name, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions FROM ERPCRMBundle:CtlIndustria pac "
+            $dql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div id=\"',pac.id,'\" style=\"text-align:left;\">',pac.nombre,'</div>') as name, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions FROM ERPCRMBundle:CtlIndustria pac "
                     . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ') LIKE upper(:busqueda) "
                     . "ORDER BY " . $orderByText . " " . $orderDir;
             $row['data'] = $em->createQuery($dql)
@@ -189,7 +187,7 @@ class CtlIndustriaController extends Controller
 
             $row['recordsFiltered'] = count($row['data']);
 
-            $dql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\">',pac.nombre,'</div>') as name,'<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions FROM ERPCRMBundle:CtlIndustria pac "
+            $dql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div id=\"',pac.id,'\" style=\"text-align:left;\">',pac.nombre,'</div>') as name,'<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions FROM ERPCRMBundle:CtlIndustria pac "
                     . "WHERE pac.estado=1 AND CONCAT(upper(pac.nombre),' ') LIKE upper(:busqueda) "
                     . "ORDER BY " . $orderByText . " " . $orderDir;
             $row['data'] = $em->createQuery($dql)
@@ -198,7 +196,7 @@ class CtlIndustriaController extends Controller
                     ->setMaxResults($longitud)
                     ->getResult();
         } else {
-            $dql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\">',pac.nombre,'</div>') as name, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions, pac.estado as estado FROM ERPCRMBundle:CtlIndustria pac "
+            $dql = "SELECT CONCAT('<div id=\"',pac.id,'\" style=\"text-align:center;\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div id=\"',pac.id,'\" style=\"text-align:left;\">',pac.nombre,'</div>') as name, '<a ><i style=\"cursor:pointer;\"  class=\"infoPaciente fa fa-info-circle\"></i></a>' as actions, pac.estado as estado FROM ERPCRMBundle:CtlIndustria pac "
                     . "WHERE pac.estado = 1 "
                     . "ORDER BY " . $orderByText . " " . $orderDir;
             $row['data'] = $em->createQuery($dql)
