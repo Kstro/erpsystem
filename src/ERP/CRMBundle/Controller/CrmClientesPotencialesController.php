@@ -307,8 +307,8 @@ class CrmClientesPotencialesController extends Controller
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
-                                        LEFT JOIN crm_cliente_potencial cli on(cli.persona=per.id)
-                                        LEFT JOIN ctl_nivel_interes inte on(cli.nivel_interes=inte.id)
+                                        INNER JOIN crm_cliente_potencial cli on(cli.persona=per.id)
+                                        INNER JOIN ctl_nivel_interes inte on(cli.nivel_interes=inte.id)
                                         LEFT JOIN ctl_fuente fue on(cli.fuente_principal=fue.id)
                                         WHERE per.id<>1 AND c.estado=1 AND c.tipo_cuenta=2
                                         GROUP BY 1

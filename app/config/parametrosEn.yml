@@ -325,7 +325,7 @@ parameters:
         app.taskNoEditTodasActividades: Can't be modified
         
         #Tareas
-        app.tituloTareas: Task | CRM
+        app.tituloTareas: Tasks | CRM
         app.menuTareas: Tasks
         app.encabezadoTareas: Tasks
         app.descripcionTareas: Add, modify or delete tasks.
@@ -348,7 +348,7 @@ parameters:
         app.tipoActividad: Activity type
 
         #Llamadas
-        app.tituloLlamadas: Call | CRM
+        app.tituloLlamadas: Calls | CRM
         app.menuLlamadas: Calls
         app.encabezadoLlamadas: Calls
         app.descripcionLlamadas: Add, modify or delete calls.
@@ -485,7 +485,7 @@ parameters:
         app.descripcionCalendar: Check your tasks, calls, meetings.
         
         #Tipo de cuenta (CRUD)
-        app.tituloTipoCuenta: CRM | Account type management
+        app.tituloTipoCuenta: Account type management | CRM
         app.encabezadoTipoCuenta: Account type
         app.descripcionTipoCuenta: Add, modify or delete Account type.
         app.nameTipoCuenta: Name
