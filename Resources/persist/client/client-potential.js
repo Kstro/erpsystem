@@ -677,6 +677,7 @@ $(document).ready(function() {
 //		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
 		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:25px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
 		//$('#contacts-'+numContacts).select2();
+                $('.firstPhoneTxt').mask('(000) 000-0000');
                 $('#contact-'+numContacts).select2({
                     ajax: {
                            url: Routing.generate('busqueda_contacto_select_info'),

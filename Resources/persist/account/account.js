@@ -543,6 +543,7 @@ $(document).ready(function() {
 		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
 		$('.addPhone').append('<button id="deletePhone-'+numPhones+'" style="margin-top:27px;" class="btn removePhone btn-danger"><i class="fa fa-remove"></i></button>');
 		$('#types-'+numPhones).select2();
+                $('.firstPhoneTxt').mask('(000) 000-0000');
 		return false;
 	});
 	$(document).on('click', '.removePhone', function(event) {

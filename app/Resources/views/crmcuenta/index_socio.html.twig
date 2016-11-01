@@ -78,8 +78,10 @@
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/mask/mask.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.firstPhoneTxt').mask('(000) 000-0000');
             /////Definición datatable
             $('#filterTag').removeClass('hidden');
             var valor = $('#selectTags').val();
