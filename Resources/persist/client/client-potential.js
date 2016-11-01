@@ -237,7 +237,7 @@ $(document).ready(function() {
                                         }
                                         /*// contactos*/
                                         for (var i = 0; i < numContactosR; i++) {
-                                                /*// console.log(i);*/
+                                                console.log(i);
                                                 /*// console.log(data.addressArray[i]);*/
                                                 switch(i){
                                                         case 0:
@@ -246,11 +246,12 @@ $(document).ready(function() {
                                                             $('.correoContactoFirst').html(data.correoContactos[i]);
                                                         break;
                                                         default:
-                                                                $('#plusContacto').click();
+                                                                $('#plusContact').click();
                                                                 /*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
-                                                                $('#contact-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
-                                                                $('#telefonoContact-'+(numPhones)).val(data.phoneArray[i]);
-                                                                $('#correoContact-'+(numPhones)).val(data.extPhoneArray[i]);
+                                                                $('#contact-'+(numContacts)).html('<option value='+data.idContactos[i]+'>'+data.nombreContactos[i]+'</option>');
+                                                                /*//$('#contact-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");*/
+                                                                $('#telefonoContact-'+(numContacts)).html(data.telefonoContactos[i]);
+                                                                $('#correoContact-'+(numContacts)).html(data.correoContactos[i]);
                                                         break;
                                                 }
                                         }

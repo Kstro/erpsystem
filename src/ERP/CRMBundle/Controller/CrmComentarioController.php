@@ -40,11 +40,14 @@ class CrmComentarioController extends Controller {
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
-                
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $id=$request->get("param1");
                 $comment=$request->get("param2");
                 $tipoComment=$request->get("param3");
                 $fechaRegistro = new \DateTime('now');
+//                var_dump($fechaRegistro->format('Y-m-d H:i'));
+//                die();
                 $response = new JsonResponse();
                 $usuarioObj = $this->get('security.token_storage')->getToken()->getUser();
 

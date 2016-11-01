@@ -171,7 +171,8 @@ class CrmCampaniaController extends Controller
                 $draw = $request->query->get('draw');
                 $longitud = $request->query->get('length');
                 $busqueda = $request->query->get('search');
-                
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $em = $this->getDoctrine()->getEntityManager();
                 
                 $sql = "SELECT cam.id as id FROM ERPCRMBundle:CrmCampania cam "
@@ -284,6 +285,8 @@ class CrmCampaniaController extends Controller
 
         
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $name=$request->get("param1");
                 
                 $id=$request->get("param2");
@@ -460,6 +463,8 @@ class CrmCampaniaController extends Controller
     public function retrievecampaignAction(Request $request)
     {
         try {
+            $timeZone = $this->get('time_zone')->getTimeZone();
+            date_default_timezone_set($timeZone->getNombre());
             $id=$request->get("param1");
             // var_dump($id);
             $response = new JsonResponse();
