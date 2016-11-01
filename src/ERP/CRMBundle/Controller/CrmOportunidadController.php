@@ -528,6 +528,7 @@ class CrmOportunidadController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
+        $data = array();
         
         try {
             $id = $request->get("param1");            
@@ -537,16 +538,21 @@ class CrmOportunidadController extends Controller
                 $data['name'] = $crmOportunidadObj->getNombre();
                 $data['description'] = $crmOportunidadObj->getDescripcion();
                 $data['probability'] = $crmOportunidadObj->getProbabilidad();
+                $data['fechaCierre'] = $crmOportunidadObj->getFechaCierre()->format('Y/m/d H:i:s');
                 
                 $data['compania'] = $crmOportunidadObj->getCuenta()->getId();                
+                $data['tipoCuenta'] = $crmOportunidadObj->getCuenta()->getTipoCuenta()->getId();                
                 $data['etapaVenta'] = $crmOportunidadObj->getEtapaVenta()->getId();                
                 $fuente = $crmOportunidadObj->getFuentePrincipal();
                 
                 $data['fuente'] = $fuente->getId();
                 
-                if($data['fuente'] == 1) {
-                    
+                if($crmOportunidadObj->getCampania()) {
+                    $data['campania'] = $crmOportunidadObj->getCampania()->getId();    
                 }
+                
+                var_dump($data);
+                die();
                 
             } else {
                 $data['error'] = "Error";
