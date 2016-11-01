@@ -250,21 +250,24 @@ class CrmClientesPotencialesController extends Controller
                         $orderByText = "name";
                         break;
                     case 2:
-                        $orderByText = "email";
+                        $orderByText = "account";
                         break;
                     case 3:
-                        $orderByText = "phone";
+                        $orderByText = "email";
                         break;
                     case 4:
-                        $orderByText = "origin";
+                        $orderByText = "phone";
                         break;
                     case 5:
+                        $orderByText = "origin";
+                        break;
+                    case 6:
                         $orderByText = "interes";
                         break;
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){
-                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
+                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -280,7 +283,7 @@ class CrmClientesPotencialesController extends Controller
                             $stmt->execute();
                             $row['data'] = $stmt->fetchAll();
                             $row['recordsFiltered']= count($row['data']);
-                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
+                            $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -308,7 +311,7 @@ class CrmClientesPotencialesController extends Controller
                                         WHERE per.id<>1 AND c.estado=1 AND c.tipo_cuenta=2
                                         GROUP BY 1
                                         ORDER BY ". $orderByText." ".$orderDir;*/
-                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
+                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -611,28 +614,29 @@ class CrmClientesPotencialesController extends Controller
                     $contactsLenght=count($contactos)-1;//Cantidad de telefono ingresados, menos 1 para index de array
                     $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[0]);//Para definir la variable
                     foreach ($contactos as $key => $contact) {
-                                          
-                        $crmContactoCuenta = new CrmContactoCuenta();
-                        $crmContactoCuenta->setCuenta($crmCuentaObj);
-                        //var_dump($key);
-//                        if ($key<$contactsLenght && $key!=0) {
-//                            if ($contact[$key]==$contact[$key-1]) {
-//                                //No buscar en la base contacto
-//                                $crmContactoCuenta->setContacto($crmContacto);
-//                            } else {
-                                //Buscar en la base el tipo de telefono
-                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
-                                $ctlTelefonoObj->setContacto($crmContacto);
-                                //var_dump('buscar base tipo telefono');
-//                            }
-//                        } else {
-                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
-                                //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
-                                //$crmContactoCuenta->setContacto($crmContacto);
-                                //var_dump('no buscar base tipo telefono');
-//                        }
-                        $em->persist($crmContactoCuenta);
-                        $em->flush();
+                        if($contact!=0){
+                            $crmContactoCuenta = new CrmContactoCuenta();
+                            $crmContactoCuenta->setCuenta($crmCuentaObj);
+                            //var_dump($key);
+    //                        if ($key<$contactsLenght && $key!=0) {
+    //                            if ($contact[$key]==$contact[$key-1]) {
+    //                                //No buscar en la base contacto
+    //                                $crmC|ontactoCuenta->setContacto($crmContacto);
+    //                            } else {
+                                    //Buscar en la base el tipo de telefono
+                                    $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
+                                    $crmContactoCuenta->setContacto($crmContacto);
+                                    //var_dump('buscar base tipo telefono');
+    //                            }
+    //                        } else {
+                                    //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                    //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                    //$crmContactoCuenta->setContacto($crmContacto);
+                                    //var_dump('no buscar base tipo telefono');
+    //                        }
+                            $em->persist($crmContactoCuenta);
+                            $em->flush();
+                        }
                     }
 
                     //Manejo de imagen
@@ -855,45 +859,46 @@ class CrmClientesPotencialesController extends Controller
 //                    $contactsLenght=count($contactos)-1;//Cantidad de contactos ingresados, menos 1 para index de array
 //                    
                     foreach ($contactos as $key => $contact) {
-                                          
-                        $crmContactoCuenta = new CrmContactoCuenta();
-                        $crmContactoCuenta->setCuenta($crmCuentaObj);
-                        //var_dump($key);
-//                        if ($key<$contactsLenght && $key!=0) {
-//                            if ($contact[$key]==$contact[$key-1]) {
-//                                //No buscar en la base contacto
-//                                $crmContactoCuenta->setContacto($crmContacto);
-//                            } else {
-//                                //Buscar en la base el tipo de telefono
-//                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
-//                                $ctlTelefonoObj->setContacto($crmContacto);
-//                                //var_dump('buscar base tipo telefono');
-//                            }
-//                        } else {
-                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
-                                //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
-//                        $sql = "SELECT c
-//                                        FROM ERPCRMBundle:CrmContacto c
-//                                        JOIN c.persona per
-//                                        WHERE per.id = :idPersona";
-//                        $crmContacto = $em->createQuery($sql)
-//                                    ->setParameters(array('idPersona'=>$contact))
-//                                    ->getResult();
-                            
-                            $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contact);//Para definir la variable
-                        if(count($crmContacto->getId()!=0)){
-                            $crmContactoCuenta->setContacto($crmContacto);
+                        if($contact!=0){
+                            $crmContactoCuenta = new CrmContactoCuenta();
+                            $crmContactoCuenta->setCuenta($crmCuentaObj);
+                            //var_dump($key);
+    //                        if ($key<$contactsLenght && $key!=0) {
+    //                            if ($contact[$key]==$contact[$key-1]) {
+    //                                //No buscar en la base contacto
+    //                                $crmContactoCuenta->setContacto($crmContacto);
+    //                            } else {
+    //                                //Buscar en la base el tipo de telefono
+    //                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
+    //                                $ctlTelefonoObj->setContacto($crmContacto);
+    //                                //var_dump('buscar base tipo telefono');
+    //                            }
+    //                        } else {
+                                    //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                    //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+    //                        $sql = "SELECT c
+    //                                        FROM ERPCRMBundle:CrmContacto c
+    //                                        JOIN c.persona per
+    //                                        WHERE per.id = :idPersona";
+    //                        $crmContacto = $em->createQuery($sql)
+    //                                    ->setParameters(array('idPersona'=>$contact))
+    //                                    ->getResult();
+
+                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contact);//Para definir la variable
+                            if(count($crmContacto->getId()!=0)){
+                                $crmContactoCuenta->setContacto($crmContacto);
+                            }
+                            else{
+                                $crmContactoCuenta->setContacto(null);
+                            }
+                                    //var_dump('no buscar base tipo telefono');
+                            //}
+    //                            var_dump($crmContacto);
+    //                            var_dump($crmContactoCuentas);
+    //                            die();
+                            $em->persist($crmContactoCuenta);
+                            $em->flush();
                         }
-                        else{
-                            $crmContactoCuenta->setContacto(null);
-                        }
-                                //var_dump('no buscar base tipo telefono');
-                        //}
-//                            var_dump($crmContacto);
-//                            var_dump($crmContactoCuentas);
-//                            die();
-                        $em->persist($crmContactoCuenta);
-                        $em->flush();
                     }                
 
                     //Manejo de imagen

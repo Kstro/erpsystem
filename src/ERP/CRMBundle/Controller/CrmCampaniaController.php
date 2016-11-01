@@ -255,7 +255,7 @@ class CrmCampaniaController extends Controller
                     $row['recordsFiltered']= 0;
                 }                                    
                 else{
-                        $data['error']=$e->getMessage();
+                        $row['error']=$e->getMessage();
                 }
                 return new Response(json_encode($row));            
         }   

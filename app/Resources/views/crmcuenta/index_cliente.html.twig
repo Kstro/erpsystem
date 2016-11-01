@@ -57,9 +57,9 @@
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        {# <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCliente}}</th> #}
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCliente}}</th>
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaCliente}}</th>
-                        <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailCliente}}</th>
+                        {#<th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailCliente}}</th>#}
                         <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneCliente}}</th>
                         {# <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fuenteCliente}}</th> #}
                         <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaRegistroCliente}}</th>
@@ -99,8 +99,8 @@
                 "columns": [
                     { "data": "chk" },
                     { "data": "name" },
-                    // { "data": "account" },
-                    { "data": "email" },
+                    { "data": "account" },
+                    {#{ "data": "email" },#}
                     { "data": "phone" },
                     { "data": "dateReg" }//,
                     // { "data": "interes" }
