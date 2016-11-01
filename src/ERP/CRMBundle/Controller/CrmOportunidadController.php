@@ -534,6 +534,9 @@ class CrmOportunidadController extends Controller
             $id = $request->get("param1");            
             $crmOportunidadObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
             
+            $asignadosOportunidad = $em->getRepository('ERPCRMBundle:CrmAsignadoOportunidad')->findBy(array('oportunidad' => $crmOportunidadObj));
+            $productosOportunidad = $em->getRepository('ERPCRMBundle:CrmProductoOportunidad')->findBy(array('oportunidad' => $crmOportunidadObj));
+            
             if(count($crmOportunidadObj) != 0){
                 $data['name'] = $crmOportunidadObj->getNombre();
                 $data['description'] = $crmOportunidadObj->getDescripcion();
@@ -549,6 +552,14 @@ class CrmOportunidadController extends Controller
                 
                 if($crmOportunidadObj->getCampania()) {
                     $data['campania'] = $crmOportunidadObj->getCampania()->getId();    
+                }
+                
+                foreach ($asignadosOportunidad as $key => $value) {
+                    $data['asignados'][$key] = $value->getUsuarioAsignado()->getId();
+                }
+                
+                foreach ($productosOportunidad as $key => $value) {
+                    $data['productos'][$key] = $value->getProducto()->getId();
                 }
                 
                 var_dump($data);
