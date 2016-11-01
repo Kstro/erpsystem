@@ -234,6 +234,7 @@ class CrmTipoCuentaController extends Controller
         $draw = $request->query->get('draw');
         $longitud = $request->query->get('length');
         $busqueda = $request->query->get('search');
+        //var_dump($start);
         
         $em = $this->getDoctrine()->getEntityManager();
         $rowsTotal = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findAll();
@@ -266,7 +267,7 @@ class CrmTipoCuentaController extends Controller
                     . "else 'Inactive' "
                     . "as state "
                     . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 AND CONCAT(upper(acc.nombre), ' ' , upper(acc.estado)) LIKE upper(:busqueda) "
+                    . "WHERE acc.id NOT IN (1, 2, 3, 4) AND acc.estado = 1 AND CONCAT(upper(acc.nombre), ' ' , upper(acc.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -283,7 +284,7 @@ class CrmTipoCuentaController extends Controller
                     . "else 'Inactive' "
                     . "as state "
                     . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 AND CONCAT(upper(acc.nombre),' ', upper(acc.estado)) LIKE upper(:busqueda) "
+                    . "WHERE acc.id NOT IN (1, 2, 3, 4) AND acc.estado = 1 AND CONCAT(upper(acc.nombre),' ', upper(acc.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -302,7 +303,7 @@ class CrmTipoCuentaController extends Controller
                     . "else 'Inactive' "
                     . "as state "
                     . "FROM ERPCRMBundle:CrmTipoCuenta acc "
-                    . "WHERE acc.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
+                    . "WHERE acc.id NOT IN (1, 2, 3, 4) AND acc.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
             
             $row['data'] = $em->createQuery($dql)
                     ->setFirstResult($start)
