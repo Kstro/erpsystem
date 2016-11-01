@@ -36,6 +36,8 @@ class CrmSeguimientoController extends Controller {
     public function busquedaSeguimientoGeneralAction(Request $request)
     {
         try {
+            $timeZone = $this->get('time_zone')->getTimeZone();
+            date_default_timezone_set($timeZone->getNombre());
             $response = new JsonResponse();
             $id=$request->get("param1"); /////Id de la cuenta que se esta viendo
             $longitud = $this->getParameter('app.serverSeguimientoLongitud'); /////Numero de items a recuperar por click y al inicio

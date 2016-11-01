@@ -160,7 +160,8 @@ function agregarComentario($btn,id,comment,tipoComment){
                     else{
                             $btn.button('reset');
                             /*console.log(data);*/
-                            var fechaRecuperada = data.fecha_registro; 
+                            /*/var fechaRecuperada = data.fecha_registro; */
+                            var fechaRecuperada = data.fecha; 
                             var momentFecha = moment(fechaRecuperada).format('MMM D, YYYY  HH:mm');
                             item+='<div class="message-item"><div class="message-inner"><div class="message-head clearfix">';
                             if (data.src!=null) {

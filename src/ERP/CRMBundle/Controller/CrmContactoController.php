@@ -966,7 +966,7 @@ class CrmContactoController extends Controller
             //$crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
                       
             //$crmContactoObj = $em->getRepository('ERPCRMBundle:CrmContacto')->findBy(array('nombre' =>'%'.$nombreContacto.'%'));
-            $dql = "SELECT CONCAT(per.nombre,' ',per.apellido) as nombre,per.id "
+            $dql = "SELECT CONCAT(per.nombre,' ',per.apellido) as nombre,cu.id "
                         . "FROM ERPCRMBundle:CrmContacto cu "
                         . "JOIN cu.persona per "
                         . "WHERE upper(CONCAT(per.nombre,' ',per.apellido)) LIKE upper(:busqueda) AND cu.estado=1 "

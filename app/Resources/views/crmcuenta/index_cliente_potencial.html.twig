@@ -156,10 +156,10 @@
             $('.dpbFuente').select2();
             $('.dpbCampania').select2();
             $('#selectTags').select2();            
-
+            console.log('lknkdfjsvnlfdjvnfdkljvngbkljg nkjldfssdjkl nvkjlnkj nkjl');
             $('#contactos').select2({
                  ajax: {
-                        url: Routing.generate('busqueda_contacto_select_info'),
+                        url: Routing.generate('busqueda_contacto_select_info')+'?q1=fv',
                         dataType: 'json',
                         delay: 250,
                         data: function (params) {
