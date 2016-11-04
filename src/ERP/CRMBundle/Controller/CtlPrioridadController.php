@@ -85,34 +85,34 @@ class CtlPrioridadController extends Controller
                 $objectDuplicate = $em->createQuery($sql)
                                      ->setParameters(array('busqueda'=>"%".strtoupper($priorityname)."%"))
                                      ->getResult(); 
-                
-                if (count($objectDuplicate)) {
-                    $data['error'] = $this->getParameter('app.serverDuplicateName');
-                } else {
-                    if ($id=='') {
+                                
+                if ($id=='') { 
+                    if (count($objectDuplicate)) {
+                        $data['error'] = $this->getParameter('app.serverDuplicateName'); 
+                    } else {
                         $priority = new CtlPrioridad();
                         $priority->setNombre($priorityname);
                         $priority->setEstado(1);
 
                         $em->persist($priority);
                         $em->flush();
-                        
+
                         $serverSave = $this->getParameter('app.serverMsgSave');
                         $data['msg']=$serverSave;
                         $data['id']=$priority->getId();
-                    } else {
-                        $priority = $em->getRepository('ERPCRMBundle:CtlPrioridad')->find($id);
-                        $priority->setNombre($priorityname);
-                        
-                        $em->merge($priority);
-                        $em->flush();
-                        
-                        $serverUpdate = $this->getParameter('app.serverMsgUpdate');
-                        $data['msg']=$serverUpdate; 
-                        $data['id']=$priority->getId();
-                    }                                        
-                }
-                
+                    }
+                } else {
+                    $priority = $em->getRepository('ERPCRMBundle:CtlPrioridad')->find($id);
+                    $priority->setNombre($priorityname);
+
+                    $em->merge($priority);
+                    $em->flush();
+
+                    $serverUpdate = $this->getParameter('app.serverMsgUpdate');
+                    $data['msg']=$serverUpdate; 
+                    $data['id']=$priority->getId();
+                }                                        
+                                
                 $response = new JsonResponse();
                 $response->setData(array(
                                   'msg'   => $data

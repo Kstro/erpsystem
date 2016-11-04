@@ -191,6 +191,10 @@ class CrmOportunidadController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                // Recuperando y seteando la zona horaria que se haya establecido
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
+                
                 $em = $this->getDoctrine()->getManager();
                 $response = new JsonResponse();
                 
@@ -298,78 +302,84 @@ class CrmOportunidadController extends Controller
                 }//Fin de if id, inserción
                 // Else para la modificación del objeto crmOportunidad y sus tablas dependientes
                 else {                    
-                        $crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($idOportunidad);
+                    $crmOportunidadObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($idOportunidad);
+
+                    //Seteo en Entidad CrmOportunidad
+                    $crmOportunidadObj->setNombre($nombreOportunidad);
+                    $crmOportunidadObj->setFechaCierre( new \DateTime($fechaCierre));
+                    $crmOportunidadObj->setDescripcion($descripcion);
+                    $crmOportunidadObj->setEtapaVenta($crmEtapaVentaObj);
+                    $crmOportunidadObj->setProbabilidad($probabilidad);
+                    $crmOportunidadObj->setCuenta($crmCuentaObj);
+                    $crmOportunidadObj->setFuentePrincipal($crmFuentePrincipalObj);
+
+                    // Si se ha seleccionado que la fuente de la oportunidad  
+                    // de venta ha sido a traves de una camapaña
+                    if($fuente == 1){
+                        // Objeto de la campaña seleccionada
+                        $crmCampaniaObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($campania);     
+
+                        // Seteo de la campaña seleccionada
+                        $crmOportunidadObj->setCampania($crmCampaniaObj);
+                    } else {
+                        $crmOportunidadObj->setCampania(NULL);
+                    }
+
+                    //Persistiendo $crmOportunidadObj
+                    $em->merge($crmOportunidadObj);
+                    $em->flush();
+
+                    //Eliminar personas asignadas a la oportunidad
+                    $asignacionArrayObj = $em->getRepository('ERPCRMBundle:CrmAsignadoOportunidad')->findBy(array('oportunidad'=>$crmOportunidadObj));
+                    foreach ($asignacionArrayObj as $key => $value) {
+                        $em->remove($value);
+                        $em->flush();
+                    }
+
+                    //Eliminar productos vinculados a la oportunidad
+                    $productosArrayObj = $em->getRepository('ERPCRMBundle:CrmProductoOportunidad')->findBy(array('oportunidad'=>$crmOportunidadObj));
+                    foreach ($productosArrayObj as $key => $value) {
+                        $em->remove($value);
+                        $em->flush();
+                    }
                         
-                        $crmCuentaObj->setTipoCuenta($crmTipoCuentaObj);
-                        $crmCuentaObj->setIndustria($industriaObj);
-                        $crmCuentaObj->setClientePotencial($clientePotencial);
-                        $crmCuentaObj->setNivelSatisfaccion($nivelSatisfaccion);
-                        $crmCuentaObj->setTipoEntidad($tipoEntidadObj);
-                        $crmCuentaObj->setNombre($nombreCuenta);
-                        $crmCuentaObj->setDescripcion($descripcionCuenta);
-                        // $crmCuentaObj->setFechaRegistro($fechaRegistro);
-                        $crmCuentaObj->setSitioWeb($sitioWeb);
-                        $crmCuentaObj->setEstado(1);
-                                        
-                        //Persist crmCuentaObj
-                        $em->merge($crmCuentaObj);
-                        $em->flush();
+                    // Personas asignadas a la oportunidad de venta
+                    foreach ($personaArray as $value) {
+                        // Objeto de la persona asignada a la oportunidad
+                        $personaObj = $em->getRepository('ERPCRMBundle:CtlUsuario')->find($value);
                         
-                        //Eliminar telefonos
-                        $ctlTelefonoArrayObj = $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlTelefonoArrayObj as $key => $value) {
-                            $em->remove($value);
-                            $em->flush();
-                        }
+                        //Seteo en Entidad CrmAsignadoOportunidad
+                        $crmAsignadoOportunidadObj = new CrmAsignadoOportunidad();
+                        $crmAsignadoOportunidadObj->setOportunidad($crmOportunidadObj);
+                        $crmAsignadoOportunidadObj->setUsuarioAsignado($personaObj);
+                        $crmAsignadoOportunidadObj->setPrioridad(NULL);
+                        $crmAsignadoOportunidadObj->setFechaLimite( new \DateTime($fecha[2] . '-' . $fecha[1] . '-' . $fecha[0]));
 
-                        //Eliminar correos
-                        $ctlCorreoArrayObj = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlCorreoArrayObj as $key => $value) {
-                            $em->remove($value);
-                            $em->flush();
-                        }
-
-                        //Eliminar direccion
-                        $ctlDireccionArrayObj = $em->getRepository('ERPCRMBundle:CtlDireccion')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlDireccionArrayObj as $key => $value) {
-                            $em->remove($value);
-                            $em->flush();
-                        }
-
-                        //Tabla ctlPersona
-                        $ctlPersonaObj = $em->getRepository('ERPCRMBundle:CtlPersona')->find($idPersona);
-                        $ctlPersonaObj->setNombre($nombrePersona);
-                        $ctlPersonaObj->setApellido($apellidoPersona);
-                        $ctlPersonaObj->setGenero($genero);
-                        // $ctlPersonaObj->setFechaRegistro($fechaRegistro);
-                        $ctlPersonaObj->setSucursal($sucursal);
-                        $ctlPersonaObj->setTratamientoProtocolario($tratamientoProtocolarioObj);
-
-                        //Persist ctlPersonaObj
-                        $em->merge($ctlPersonaObj);
+                        //Persistiendo $crmAsignadoOportunidadObj
+                        $em->persist($crmAsignadoOportunidadObj);
                         $em->flush();
-
-
-
-
-                    //Tabla ctlCorreo
-                    foreach ($emailArray as $key => $correo) {
-                        $ctlCorreoObj = new CtlCorreo();
-                        $ctlCorreoObj->setEmpresa(null);
-                        $ctlCorreoObj->setPersona(null);
-                        $ctlCorreoObj->setCuenta($crmCuentaObj);
-                        $ctlCorreoObj->setEmail($correo);
-                        $ctlCorreoObj->setEstado(1);
-                        //Persist ctlCorreo
-                        $em->persist($ctlCorreoObj);
-                        $em->flush();
-
                     }
                     
-                    $serverSave = $this->getParameter('app.serverMsgSave');
+                    // Productos relacionados a la oportunidad de venta
+                    foreach ($productosArray as $key => $producto) {
+                        // Objeto del producto relacionado a la oportunidad
+                        $productoObj = $em->getRepository('ERPCRMBundle:CtlProducto')->find($producto);
+                        
+                        // Seteo en Entidad CrmProductoOportunidad
+                        $productoOportunidadObj = new CrmProductoOportunidad();                        
+                        $productoOportunidadObj->setOportunidad($crmOportunidadObj);
+                        $productoOportunidadObj->setProducto($productoObj);
+                        $productoOportunidadObj->setCantidad($cantidadArray[$key]);
+                        
+                        //Persistiendo productoOportunidadObj
+                        $em->persist($productoOportunidadObj);
+                        $em->flush();
+                    }
+                    
+                    $serverUptate = $this->getParameter('app.servermsgupdate');
                     
                     $data['id']=$crmOportunidadObj->getId();
-                    $data['msg']=$serverSave;
+                    $data['msg']=$serverUptate;
                 }
                 
                 $response->setData($data); 
@@ -527,10 +537,12 @@ class CrmOportunidadController extends Controller
     public function retrieveAjaxOpportunityAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $response = new JsonResponse();
+        
         $data = array();
         
         try {
+            $response = new JsonResponse();
+            
             $id = $request->get("param1");            
             $crmOportunidadObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
             
@@ -554,16 +566,35 @@ class CrmOportunidadController extends Controller
                     $data['campania'] = $crmOportunidadObj->getCampania()->getId();    
                 }
                 
+                $data['asignados'] = array();
                 foreach ($asignadosOportunidad as $key => $value) {
                     $data['asignados'][$key] = $value->getUsuarioAsignado()->getId();
                 }
                 
+                $data['productos'] = array();
+                $data['cantProduct'] = array();
                 foreach ($productosOportunidad as $key => $value) {
                     $data['productos'][$key] = $value->getProducto()->getId();
+                    $data['cantProduct'][$key] = $value->getCantidad();
                 }
                 
-                var_dump($data);
-                die();
+                $crmCuentasObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->findBy(array('tipoCuenta' => $data['tipoCuenta'], 'estado' => 1));
+                
+                if(count($crmCuentasObj) != 0){
+                    $array=array();
+                    
+                    foreach ($crmCuentasObj as $key => $value) {
+                        $arrayAux = array();    
+                        array_push($arrayAux, $value->getId());
+                        array_push($arrayAux, $value->getNombre());
+                        array_push($array, $arrayAux);
+                    }
+                    
+                    $data['cuentas']=$array;
+                }
+                else{
+                    $data['cuentas']=[];
+                }                                
                 
             } else {
                 $data['error'] = "Error";
@@ -589,5 +620,7 @@ class CrmOportunidadController extends Controller
             }
             $response->setData($data);
         }
+        
+        return $response;
     }
 }

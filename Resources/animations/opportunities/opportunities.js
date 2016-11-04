@@ -3,7 +3,7 @@ var contador = 0;
 var totalVenta = 0;
 
 $(document).ready(function() {
-    $("input[name=checktodos]").prop({'checked': false});
+    limpiarCampos();
     
     // Estableciendo los combobox como Select2
     $('#tipoCuenta').select2();
@@ -47,6 +47,7 @@ $(document).ready(function() {
         $('#btnSaveTop').addClass('hidden');
         $('#btnCancelTop').addClass('hidden');
         $('.btnAddPage').removeClass('hidden');
+        limpiarCampos();
 
         return false;	
     });
@@ -150,3 +151,80 @@ $(document).ready(function() {
         }
     });
 });
+/* Función que pone el formulario en blanco*/
+function limpiarCampos() {
+    contador=0;
+    i=0;
+    
+    /* Obteniendo las opciones del select de usuario asignado   */
+    var personas = $('.firstResponsable').html();
+
+    /* Obteniendo el contenido del label*/
+    var assignedUserOportunidad =$('#assignedUserOportunidad').html();
+    
+    /* Obteniendo las opciones del select de los productos   */
+    var productos = $('.firstProduct').html();
+    
+    /* Limpiando los campos de texto */
+    $('#txtId').val('');
+    $('#txtName').val('');
+    $('#txtProbability').val('');
+    $('#descripcion').val('');
+    $('#txtFechaCierre').val('');
+
+    /*$('#txtAddComment').val('');*/
+    
+    /* Limpiando los select */
+    $('#tipoCuenta').val('0').change().trigger("change");
+    $('#etapaVenta').val('0').change().trigger("change");
+    $('#fuente').val('0').change().trigger("change");
+    $('#campania').val('0').change().trigger("change");
+
+    /* Removiendo la clase errorform de los campos de texto */
+    $('.validateInput').each(function(index, el) {
+        $(this).removeClass('errorform');
+    });
+    
+    /* Removiendo la clase errorform de los select */
+    $('.validateSelectP').each(function(index, el) {
+        $(this).removeClass('errorform');
+    });
+
+    /* Reseteando el bloque de usuarios asignados */
+    $('.responsable').html('');
+    $('.responsable').append('<label id="assignedUserOportunidad">'+assignedUserOportunidad+'</label>');
+    $('.responsable').append('<select id="persona-0" style="width:100%;" name="responsable[]" class="input-sm form-control validateSelectP dpbResponsable firstResponsable">'+personas+'</select>');
+
+
+    /* Estableciendo el checbox como false*/
+    $("input[name='hayProductos']").prop('checked', false);
+    
+    
+    /* Removiendo la clase*/
+    $('.btnAddPage').removeClass('hidden');
+    $('#campania').removeClass('validateSelectP');
+    
+    
+    /* Reseteando el bloque de productos/Servicios */
+    $('.sProducto').removeClass('validateSelectP');
+    $('.cant').removeClass('validateInput');
+    $('#productos').addClass('hidden');
+    
+    $('.producto').html('');
+    $('.cantidad').html('');
+           
+    $('.producto').append('<div id="producto-' + i + '" ><select id="sProducto-' + i + '" style="width:100%;" type="text" name="sProducto[]" class="sProducto firstProduct input-sm form-control validateSelectP">'+productos+'</select></div>');
+    $('.cantidad').append('<input id="txtCantidad-' + i + '" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" value="1" min="1">');        
+    $('.cant').numeric('.'); 
+    $('#sProducto-' + i).select2();        
+
+
+    /* Agregando la clase hidden*/
+    $('#divCampania').addClass('hidden');
+    $('#divCuentaOportunidad').addClass('hidden');
+    $('.btnDelete').addClass('hidden');
+    $('.btnDelete').addClass('hidden');
+    $('#btnBack').addClass('hidden');
+    $('#btnCancelTop').addClass('hidden');
+    $('#btnSaveTop').addClass('hidden');	
+} /* Fin de Función que pone el formulario en blanco*/

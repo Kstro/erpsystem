@@ -73,8 +73,8 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-md-4 responsable" style="margin-top:20px;">
-                    <label>{{assignedUserOportunidad}}</label>
-                    <select style="width:100%;" name="responsable[]" class="input-sm form-control validateSelectP dpbResponsable firstResponsable">
+                    <label id="assignedUserOportunidad">{{assignedUserOportunidad}}</label>
+                    <select id="persona-0" style="width:100%;" name="responsable[]" class="input-sm form-control validateSelectP dpbResponsable firstResponsable">
                         <option value="0" selected>{{selectOption}}</option>
                         {% for persona in personas %}
                             <option value={{persona.id}}>{{persona.persona}}</option>
