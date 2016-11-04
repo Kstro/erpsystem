@@ -33,28 +33,33 @@
                             </select>
                         </div>
                         <div class="clearfix"></div> 
-                        <div class="col-md-7 address" style="margin-top:20px;">
-                            <label>{{direccionContacto}}</label>
-                            <input type="text" name="address[]" class="input-sm form-control validateInput txtAddress txtAddressFirst">
+                        <div class="col-md-5 address" style="margin-top:20px;">
+                            <label>{{direccionCliente}}</label>
+                            <input type="text" name="address[]" class="input-sm form-control  txtAddress txtAddressFirst">
+                        </div>
+                        <div class="col-md-2 zipcode" style="margin-top:20px;">
+                            <label>{{zipCodeCliente}}</label>
+                            <input type="text" name="zipcode[]" class="input-sm form-control  txtZipCode txtZipCodeFirst">
                         </div>
                         <div class="col-md-2 state" style="margin-top:20px;">
-                            <label>{{departamentoContacto}}</label>
-                            {# <input type="text" name="" class="input-sm form-control validateInput txtState"> #}
-                            <select style="width:100%;" id name="addressDepartamento[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
+                            <label>{{departamentoCliente}}</label>
+                            <input type="text" name="addressDepartamento[]" class="input-sm form-control txtState">
+                            {#<select style="width:100%;" id name="addressDepartamento[]" class="input-sm form-control validateSelect dpbState dpbStateFirst">
                                     {% for estado in estados %}
                                         <option value={{estado.id}}>{{estado.nombre}}</option>
                                     {% endfor %}
-                            </select>
+                            </select>#}
                         </div>
                         <div class="col-md-2 city" style="margin-top:20px;">
-                            <label>{{ciudadContacto}}</label>
-                            <select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
+                            <label>{{ciudadCliente}}</label>
+                            <input type="text" name="addressCity[]" class="input-sm form-control txtCity">
+                            {#<select style="width:100%;" id name="addressCity[]" class="input-sm form-control validateSelect dpbCity dpbCityFirst">
                                 {% for ciudad in ciudades %}
                                     <option value={{ciudad.id}}>{{ciudad.nombre}}</option>
                                 {% endfor %}
-                            </select>
+                            </select>#}
                         </div>
-                        
+
                         <div class="col-md-1 addAddress" style="margin-top:20px;">
                             <button id="plusAddress" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
                         </div>

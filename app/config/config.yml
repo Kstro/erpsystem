@@ -14,6 +14,7 @@ parameters:
     files.cuentas: %kernel.root_dir%/../files/accounts/
     files.activities: %kernel.root_dir%/../files/activities/
     files.campaigns: %kernel.root_dir%/../files/campaigns/
+    photo.contacto: %kernel.root_dir%/../photos/contacto/
 
 framework:
     #esi:             ~

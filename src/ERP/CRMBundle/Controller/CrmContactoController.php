@@ -397,7 +397,7 @@ class CrmContactoController extends Controller
               
                 $addressDepartamentoArray = $_POST['addressDepartamento']; //apellido persona
               
-
+                $zipCodeArray = $_POST['zipcode'];//zipcode
                 //Busqueda objetos a partir de ids
                 // $tipoEntidadObj = $em->getRepository('ERPCRMBundle:CtlTipoEntidad')->find($tipoEntidadId); NULL
                 $tratamientoProtocolarioObj = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->find($tratamientoProtocolarioId);
@@ -493,20 +493,24 @@ class CrmContactoController extends Controller
 
                         $ctlDireccionObj = new CtlDireccion();
                         $ctlDireccionObj->setPersona($ctlPersonaObj);
-                        if ($key < $addressLenght && $key != 0) {
-                            if ($addressCityArray[$key] == $addressCityArray[$key - 1]) {
-                                //No buscar en la base ciudad
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            } else {
-                                //Buscar en la base la ciudad
-                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                            }
-                        } else {
-                            //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
-                            $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
-                            $ctlDireccionObj->setCiudad($ctlCiudadObj);
-                        }
+                        $ctlDireccionObj->setDireccion($addressArray[$key]);
+                        $ctlDireccionObj->setZipCode($zipCodeArray[$key]);
+                        $ctlDireccionObj->setCity($addressCityArray[$key]);
+                        $ctlDireccionObj->setState($addressDepartamentoArray[$key]);
+//                        if ($key < $addressLenght && $key != 0) {
+//                            if ($addressCityArray[$key] == $addressCityArray[$key - 1]) {
+//                                //No buscar en la base ciudad
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            } else {
+//                                //Buscar en la base la ciudad
+//                                $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                                $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                            }
+//                        } else {
+//                            //Buscar en la base la ciudad, primera iteracion debe buscar ciudad
+//                            $ctlCiudadObj = $em->getRepository('ERPCRMBundle:CtlCiudad')->find($addressCityArray[$key]);
+//                            $ctlDireccionObj->setCiudad($ctlCiudadObj);
+//                        }
                         $ctlDireccionObj->setDireccion($addressArray[$key]);
                         $ctlDireccionObj->setPersona($ctlPersonaObj);
                         $ctlDireccionObj->setEmpresa(null);
