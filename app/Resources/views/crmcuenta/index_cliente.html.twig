@@ -158,17 +158,20 @@
             $('.dpbTipoPersona').select2();
             $('#selectTags').select2();
             // $('.dpbCampania').select2();
-            
-            
-            
+            var idContacto = $('#txtId2').val();         
             
             
             $('#contactos').select2({
                  ajax: {
-                        url: Routing.generate('busqueda_contacto_select_info'),
+                        url: function () {
+                                return Routing.generate('busqueda_contacto_select_info')+'?param1='+$('#txtId2').val();
+                            },  
                         dataType: 'json',
                         delay: 250,
-                        data: function (params) {
+                        data: function (params,id,od) {
+                            console.log(params);
+                            console.log($('#txtId2').val());
+                            console.log(idContacto);
                           return {
                             q: params.term, // search term
                             page: params.page

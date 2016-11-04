@@ -41,7 +41,13 @@ class CrmContactoCuenta
      */
     private $contacto;
 
-
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="titular_cuenta", type="integer", length=65535, nullable=false)
+     */
+    private $titular;
 
     /**
      * Get id
@@ -97,5 +103,29 @@ class CrmContactoCuenta
     public function getContacto()
     {
         return $this->contacto;
+    }
+    
+    
+    /**
+     * Set titular
+     *
+     * @param string $titular
+     * @return CrmContactoCuenta
+     */
+    public function setTitular($titular)
+    {
+        $this->titular= $titular;
+
+        return $this;
+    }
+
+    /**
+     * Get titular
+     *
+     * @return int 
+     */
+    public function getTitular()
+    {
+        return $this->titular;
     }
 }

@@ -421,7 +421,13 @@ class CrmTasksController extends Controller
                 $descripcionTasks = $_POST['descripcion'];//descripcion
                 $tipoTasks =  $_POST['tipoActividades'];//id de las actividades para tareas/tasks
                 
-                $cuentaId =  $_POST['cuentaActividades'];//id de las cuentas
+                if(isset($_POST['cuentaActividades'])){
+                    $cuentaId =  $_POST['cuentaActividades'];//id de las cuentas
+                }
+                else{
+                    $cuentaId =  0;//id de las cuentas
+                }
+                
 
                 $fechaInicio = $_POST['inicio'];//Inicio de actividad, fecha
                 $fechaFin = $_POST['fin'];//Fin de actividad, fecha
@@ -645,6 +651,8 @@ class CrmTasksController extends Controller
                 $em->close();
                 $response->setData($data); 
             } catch (\Exception $e) {
+                    var_dump($e->getMessage());
+                    var_dump($e->getLine());
                     $em->getConnection()->rollback();
                     $em->close();
                      // var_dump($e);

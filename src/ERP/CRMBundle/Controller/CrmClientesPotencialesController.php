@@ -275,7 +275,7 @@ class CrmClientesPotencialesController extends Controller
                                         INNER JOIN crm_cliente_potencial cli on(cli.persona=per.id)
                                         INNER JOIN ctl_nivel_interes inte on(cli.nivel_interes=inte.id)
                                         INNER JOIN ctl_fuente fue on(cli.fuente_principal=fue.id)
-                                        WHERE c.tipo_cuenta=2 AND per.id<>1 AND c.estado=1 
+                                        WHERE cc.titular_cuenta=1 AND c.tipo_cuenta=2 AND per.id<>1 AND c.estado=1 
                                         GROUP BY 1
                                         HAVING name LIKE upper('%".$busqueda['value']."%') OR email LIKE upper('%".$busqueda['value']."%') OR origin LIKE upper('%".$busqueda['value']."%') OR phone LIKE upper('%".$busqueda['value']."%') OR interes LIKE upper('%".$busqueda['value']."%') OR name LIKE upper('%".$busqueda['value']."%') 
                                         ORDER BY ". $orderByText." ".$orderDir;
@@ -291,7 +291,7 @@ class CrmClientesPotencialesController extends Controller
                                         INNER JOIN crm_cliente_potencial cli on(cli.persona=per.id)
                                         INNER JOIN ctl_nivel_interes inte on(cli.nivel_interes=inte.id)
                                         INNER JOIN ctl_fuente fue on(cli.fuente_principal=fue.id)
-                                        WHERE c.tipo_cuenta=2 AND per.id<>1 AND c.estado=1 
+                                        WHERE cc.titular_cuenta=1 AND c.tipo_cuenta=2 AND per.id<>1 AND c.estado=1 
                                         GROUP BY 1
                                         HAVING name LIKE upper('%".$busqueda['value']."%') OR email LIKE upper('%".$busqueda['value']."%') OR origin LIKE upper('%".$busqueda['value']."%') OR phone LIKE upper('%".$busqueda['value']."%') OR interes LIKE upper('%".$busqueda['value']."%') OR name LIKE upper('%".$busqueda['value']."%') 
                                         ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
@@ -311,7 +311,7 @@ class CrmClientesPotencialesController extends Controller
                                         WHERE per.id<>1 AND c.estado=1 AND c.tipo_cuenta=2
                                         GROUP BY 1
                                         ORDER BY ". $orderByText." ".$orderDir;*/
-                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
+                    $sql = "SELECT DISTINCT(cc.cuenta), CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account,  CONCAT('<div style=\"text-align:left\">', fue.nombre,'</div>') as origin,  CONCAT('<div style=\"text-align:left\">', inte.nombre,'</div>') as interes 
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -319,7 +319,7 @@ class CrmClientesPotencialesController extends Controller
                                         INNER JOIN crm_cliente_potencial cli on(cli.persona=per.id)
                                         INNER JOIN ctl_nivel_interes inte on(cli.nivel_interes=inte.id)
                                         LEFT JOIN ctl_fuente fue on(cli.fuente_principal=fue.id)
-                                        WHERE per.id<>1 AND c.estado=1 AND c.tipo_cuenta=2
+                                        WHERE cc.titular_cuenta=1 AND per.id<>1 AND c.estado=1 AND c.tipo_cuenta=2
                                         GROUP BY 1
                                         ORDER BY ". $orderByText." ".$orderDir;
                             $stmt = $em->getConnection()->prepare($sql);
@@ -510,6 +510,7 @@ class CrmClientesPotencialesController extends Controller
                     $crmContactoCuentaObj = new CrmContactoCuenta();
                     $crmContactoCuentaObj->setCuenta($crmCuentaObj);
                     $crmContactoCuentaObj->setContacto($crmContactoObj);
+                    $crmContactoCuentaObj->setTitular(1);
                     
                     //Persist crmContactoCuenta
                     $em->persist($crmContactoCuentaObj);
@@ -612,7 +613,6 @@ class CrmClientesPotencialesController extends Controller
                     
                     //////Contactos
                     $contactsLenght=count($contactos)-1;//Cantidad de telefono ingresados, menos 1 para index de array
-                    $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[0]);//Para definir la variable
                     foreach ($contactos as $key => $contact) {
                         if($contact!=0){
                             $crmContactoCuenta = new CrmContactoCuenta();
@@ -624,8 +624,9 @@ class CrmClientesPotencialesController extends Controller
     //                                $crmC|ontactoCuenta->setContacto($crmContacto);
     //                            } else {
                                     //Buscar en la base el tipo de telefono
-                                    $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
-                                    $crmContactoCuenta->setContacto($crmContacto);
+                            $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
+                            $crmContactoCuenta->setContacto($crmContacto);
+                            $crmContactoCuenta->setTitular(0);
                                     //var_dump('buscar base tipo telefono');
     //                            }
     //                        } else {
@@ -726,9 +727,11 @@ class CrmClientesPotencialesController extends Controller
                         
                         //Eliminar contactos
                         $crmContactoCuentas = $em->getRepository('ERPCRMBundle:CrmContactoCuenta')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlDireccionArrayObj as $key => $value) {
-                            $em->remove($value);
-                            $em->flush();
+                        foreach ($crmContactoCuentas as $key => $value) {
+                            if($value->getContacto()->getPersona()->getId()!=$idPersona){
+                                $em->remove($value);
+                                $em->flush();
+                            }
                         }
 
                         //Tabla ctlPersona
@@ -749,7 +752,7 @@ class CrmClientesPotencialesController extends Controller
                         $crmClientePotencialObj = $em->getRepository('ERPCRMBundle:CrmClientePotencial')->findBy(array('persona'=>$idPersona));
                         $crmClientePotencialObj[0]->setPersona($ctlPersonaObj);
                         $crmClientePotencialObj[0]->setNivelInteres($interesObj);
-                        // $crmClientePotencialObj[0]->setEstadoClientePotencial($estadoCliObj);
+                        // $crmClientePotencialObj[0]->setEstadoClientePoten cial($estadoCliObj);
                         $crmClientePotencialObj[0]->setEstadoClientePotencial($estadoCliObj);
                         $crmClientePotencialObj[0]->setFuentePrincipal($fuenteObj);
                         $crmClientePotencialObj[0]->setCampania($campaniaObj);
@@ -884,22 +887,25 @@ class CrmClientesPotencialesController extends Controller
     //                                    ->setParameters(array('idPersona'=>$contact))
     //                                    ->getResult();
 
-                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contact);//Para definir la variable
-                            if(count($crmContacto->getId()!=0)){
+                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
                                 $crmContactoCuenta->setContacto($crmContacto);
-                            }
-                            else{
-                                $crmContactoCuenta->setContacto(null);
-                            }
                                     //var_dump('no buscar base tipo telefono');
                             //}
     //                            var_dump($crmContacto);
     //                            var_dump($crmContactoCuentas);
     //                            die();
-                            $em->persist($crmContactoCuenta);
-                            $em->flush();
+                                if($idPersona==$crmContacto->getPersona()->getId()){
+                                    $crmContactoCuenta->setTitular(1);
+                                }
+                                else{
+                                    $crmContactoCuenta->setTitular(0);
+                                }
+                                $em->persist($crmContactoCuenta);
+                                $em->flush();
+                                
+                                
                         }
-                    }                
+                    }
 
                     //Manejo de imagen
                     $nombreTmp = $_FILES['file']['name'];
@@ -949,8 +955,10 @@ class CrmClientesPotencialesController extends Controller
                 $em->close();
                 $response->setData($data); 
             } catch (\Exception $e) {
+                //var_dump($e);
                 echo $e->getMessage();
-                echo $e->getLine();
+                echo "dscdccc.".$e->getLine();
+                die();
                     $em->getConnection()->rollback();
                     $em->close();
                      // var_dump($e);
@@ -1169,24 +1177,63 @@ class CrmClientesPotencialesController extends Controller
                 $data['telefonoContactos']=array();
                 $data['correoContactos']=array();
                 foreach ($crmContactoCuentaObj as $key=>$contactoCuenta){
-                    if($key!=0){
+                    //if($key==0){
                         $dataTmp['correo']='';
                         $dataTmp['telefono']='';
                         $crmContactoObj = $contactoCuenta->getContacto();
+                        $crmContactoId = $contactoCuenta->getContacto()->getPersona()->getId();
+                        $crmCuentaId = $contactoCuenta->getCuenta()->getId();
                         $row=array();
-                        
+//                        var_dump($crmCuentaId);
+//                        var_dump($idPersona);
+//                        var_dump($crmContactoId);
+                        //die();
+                        if(intval($crmContactoId)!=intval($idPersona)){
                         if($crmContactoObj!=null){
                             if($crmContactoObj->getPersona()!=null){
-                                $idPersona= $crmContactoObj->getPersona()->getId();
-                                $personaContacto= $crmContactoObj->getPersona()->getNombre().' '.$crmContactoObj->getPersona()->getApellido();
-                                $ctlCorreo = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('persona'=>$idPersona));
-                                $ctlTelefono= $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('persona'=>$idPersona));
-                                foreach ($ctlCorreo as $key=>$correo){
-                                    $dataTmp['correo'].=', '.$correo->getCorreo();
-                                }
-                                foreach ($ctlTelefono as $key=>$telefono){
-                                    $dataTmp['telefono'].=', '.$telefono->getTelefono();
-                                }
+                                
+                                    $personaContacto= $crmContactoObj->getPersona()->getNombre().' '.$crmContactoObj->getPersona()->getApellido();
+                                    $ctlCorreo = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('persona'=>$crmContactoId));
+                                    $ctlTelefono= $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('persona'=>$crmContactoId));
+
+                                    //var_dump(count($ctlCorreo));
+
+                                    if(count($ctlCorreo)==0){
+                                        
+                                        $ctlObjTemp = $em->getRepository('ERPCRMBundle:CrmContacto')->findBy(array('persona'=>$crmContactoId));
+                                        
+                                        $ctlObjTemp = $em->getRepository('ERPCRMBundle:CrmContactoCuenta')->findBy(array('titular'=>1,'contacto'=>$ctlObjTemp[0]->getId()));
+                                        
+                                        //var_dump($ctlObjTemp[0]->getCuenta());
+                                        //die();
+                                        if(count($ctlObjTemp)!=0){
+                                            $ctlCorreo = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('cuenta'=>$ctlObjTemp[0]->getCuenta()->getId()));
+                                        }
+                                        
+                                    }
+                                    //var_dump($ctlCorreo);
+                                    //die;
+                                    foreach ($ctlCorreo as $key=>$correo){
+                                        if($key==0){
+                                            $dataTmp['correo'].=$correo->getEmail();
+                                        }
+                                        else{
+                                            $dataTmp['correo'].=', '.$correo->getEmail();
+                                        }
+                                    }
+                                    if(count($ctlTelefono)==0){
+                                        if(count($ctlObjTemp)!=0){
+                                            $ctlTelefono= $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('cuenta'=>$ctlObjTemp[0]->getCuenta()->getId()));
+                                        }
+                                    }
+                                    foreach ($ctlTelefono as $key=>$telefono){
+                                        if($key==0){
+                                            $dataTmp['telefono'].=$telefono->getNumTelefonico();
+                                        }
+                                        else{
+                                            $dataTmp['telefono'].=', '.$telefono->getNumTelefonico();
+                                        }
+                                    }
                             }
                             $dataTmp['i'] = 0;
                             $idCont = $contactoCuenta->getContacto()->getId();
@@ -1211,13 +1258,14 @@ class CrmClientesPotencialesController extends Controller
     //                    var_dump($row);
     //                    die();
     //                    array_push($data['contactos'],$row);
+                        }
                     }
 
                 }
                 
                 
                 
-            }
+            
             else{
                 $data['error']="Error";
             }
@@ -1226,6 +1274,8 @@ class CrmClientesPotencialesController extends Controller
             
         } catch (\Exception $e) {
             // var_dump($e);
+            var_dump($e->getMessage());
+            var_dump($e->getLine());
             if(method_exists($e,'getErrorCode')){
                 switch (intval($e->getErrorCode()))
                         {

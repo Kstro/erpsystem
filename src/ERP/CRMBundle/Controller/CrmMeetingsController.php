@@ -243,7 +243,7 @@ class CrmMeetingsController extends Controller
 
 
     /**
-     * Save calls
+     * Save meetings
      *
      * @Route("/meetings/save", name="admin_meetings_save_ajax",  options={"expose"=true}))
      * @Method("POST")
@@ -263,8 +263,6 @@ class CrmMeetingsController extends Controller
 
                 // var_dump($_POST);
                 
-                date_default_timezone_set("America/Los_Angeles");
-                
                 //tasks
                 $idTasks = $_POST['id'];//id crmActividad
                 $nombreTasks= $_POST['nombre'];//id crmActividad
@@ -274,7 +272,12 @@ class CrmMeetingsController extends Controller
                 
                 $direccionString =  $_POST['direccionEvent'];//id de las actividades para tareas/tasks
                 
-                $cuentaId =  $_POST['cuentaActividades'];//id de las cuentas
+                if(isset($_POST['cuentaActividades'])){
+                    $cuentaId =  $_POST['cuentaActividades'];//id de las cuentas
+                }
+                else{
+                    $cuentaId =  0;//id de las cuentas
+                }
 
                 $fechaInicio = $_POST['inicio'];//Inicio de actividad, fecha
                 $fechaFin = $_POST['fin'];//Fin de actividad, fecha

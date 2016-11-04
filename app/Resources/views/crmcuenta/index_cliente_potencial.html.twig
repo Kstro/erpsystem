@@ -161,7 +161,9 @@
             console.log('lknkdfjsvnlfdjvnfdkljvngbkljg nkjldfssdjkl nvkjlnkj nkjl');
             $('#contactos').select2({
                  ajax: {
-                        url: Routing.generate('busqueda_contacto_select_info')+'?q1=fv',
+                        url: function () {
+                                return Routing.generate('busqueda_contacto_select_info')+'?param1='+$('#txtId2').val();
+                            },  
                         dataType: 'json',
                         delay: 250,
                         data: function (params) {

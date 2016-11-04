@@ -270,8 +270,14 @@ class CrmLlamadasController extends Controller
                 $estado = $_POST['estado'];//Estado tasks
                 $descripcionTasks = $_POST['descripcion'];//descripcion
                 $tipoTasks =  $_POST['tipoActividades'];//id de las actividades para tareas/tasks
+           
+                if(isset($_POST['cuentaActividades'])){
+                    $cuentaId =  $_POST['cuentaActividades'];//id de las cuentas
+                }
+                else{
+                    $cuentaId =  0;//id de las cuentas
+                }
                 
-                $cuentaId =  $_POST['cuentaActividades'];//id de las cuentas
 
                 $fechaInicio = $_POST['inicio'];//Inicio de actividad, fecha
                 $fechaFin = $_POST['fin'];//Fin de actividad, fecha

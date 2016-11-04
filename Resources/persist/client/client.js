@@ -21,22 +21,22 @@ $(document).ready(function() {
 			filesSelectedPrev = document.getElementById("file").files;
 		}
 			var fileToLoad = filesSelected[0];
-		          var fileReader = new FileReader();
-		          if ((filesSelected[0].size<=4096000)){
-		          	fileReader.onload = function(fileLoadedEvent) {
-			          	srcData = fileLoadedEvent.target.result;
-			            	$('#imgTest').attr('src', srcData);
-			        	};
-			        	var imgBase64 = $('#imgTest').attr('src');
-			        	fileReader.readAsDataURL(fileToLoad);
-				$('#imgTest').show();
-		          }
-		          else{
-		          	$(this).val('');
-		          	$('#imgTest').attr('src', '');
-		          	$('#imgTest').hide();
-		          	swal('',$('.imageError').html(),'error');
-		          }
+                        var fileReader = new FileReader();
+                        if ((filesSelected[0].size<=4096000)){
+                            fileReader.onload = function(fileLoadedEvent) {
+                                srcData = fileLoadedEvent.target.result;
+                                $('#imgTest').attr('src', srcData);
+                            };
+                            var imgBase64 = $('#imgTest').attr('src');
+                            fileReader.readAsDataURL(fileToLoad);
+                            $('#imgTest').show();
+                        }
+                        else{
+                            $(this).val('');
+                            $('#imgTest').attr('src', '');
+                            $('#imgTest').hide();
+                            swal('',$('.imageError').html(),'error');
+                        }
 	});
 	$('#frmClient').on('submit',(function(event) {
 		/*/////Definición de variables*/
@@ -79,16 +79,9 @@ $(document).ready(function() {
 							var table = $('#clienteList').DataTable();
 							/*//id.val(data.id1);*/
 							$('#txtId1').val('');
+							$('#txtId2').val('');
 							$('#txtName').val('');
-							/*// $('#txtProbability').val('10');*/
-							/*// probability.slider('setValue', 10);*/
-                                                        $('#pnAdd').hide();
-                                                        
-                                                        
-							$('.btnAddPage').click();
-                                                        $('#clienteList').parent().show();
-							$btn.button('reset');
-							$btnT.button('reset');
+                                                        $('#btnCancelTop').click();
 						}
 						if(data.error){
 							/*// console.log(data.id);*/
@@ -190,9 +183,10 @@ $(document).ready(function() {
 						$('#txtCompania').val(data.compania);
 						/*// console.log(data.addressArray);*/
 						var numDirecciones = data.addressArray.length;
-						var numTelefonos = data.phoneArray.length;
-						var numCorreos = data.emailArray.length;
-						var numContactos = data.contactoIdArray.length;
+                                                var numContactosR = data.idContactos.length;
+                                                var numTelefonos = data.phoneArray.length;
+                                                var numCorreos = data.emailArray.length;
+						/*var numContactos = data.contactoIdArray.length;*/
 						$('.dpbTipoPersona').val(data.satisfaccion).change().trigger("change");
 						/*// Direcciones*/
 						for (var i = 0; i < numDirecciones; i++) {
@@ -251,21 +245,27 @@ $(document).ready(function() {
 								break;
 							}
 						}
-						/*// Contactos*/
-						for (var i = 0; i < numContactos; i++) {
-							/*// console.log(i);*/
-							/*// console.log(data.addressArray[i]);*/
-							switch(i){
-								case 0:
-									$('#contactos').html('<option value="'+data.contactoIdArray[i]+'">'+data.contactoNombreArray[i]+'</option>');
-								break;
-								default:
-									$('#plusContact').click();
-									$('#contact-'+numContacts).html('<option value="'+data.contactoIdArray[i]+'">'+data.contactoNombreArray[i]+'</option>');
-                                                                        
-								break;
-							}
-						}
+						/*// contactos*/
+                                                console.log(data);
+                                                for (var i = 0; i < numContactosR; i++) {
+                                                        console.log(i);
+                                                        /*// console.log(data.addressArray[i]);*/
+                                                        switch(i){
+                                                                case 0:
+                                                                    $('.dpbFirstContacts').html('<option value='+data.idContactos[i]+'>'+data.nombreContactos[i]+'</option>');
+                                                                    $('.telefonoContactoFirst').html(data.telefonoContactos[i]);
+                                                                    $('.correoContactoFirst').html(data.correoContactos[i]);
+                                                                break;
+                                                                default:
+                                                                        $('#plusContact').click();
+                                                                        /*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
+                                                                        $('#contact-'+(numContacts)).html('<option value='+data.idContactos[i]+'>'+data.nombreContactos[i]+'</option>');
+                                                                        /*//$('#contact-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");*/
+                                                                        $('#telefonoContact-'+(numContacts)).html(data.telefonoContactos[i]);
+                                                                        $('#correoContact-'+(numContacts)).html(data.correoContactos[i]);
+                                                                break;
+                                                        }
+                                                }
 						if(data.src!=''){
 							$('#imgTest').attr('src','../../../../photos/accounts/'+data.src);	
 						}
@@ -624,16 +624,18 @@ $(document).ready(function() {
 		//$('#contacts-'+numContacts).select2();
                 $('#contact-'+numContacts).select2({
                     ajax: {
-                           url: Routing.generate('busqueda_contacto_select_info'),
-                           dataType: 'json',
-                           delay: 250,
-                           data: function (params) {
-                             return {
-                               q: params.term, // search term
-                               page: params.page
-                             };
-                           },
-                           processResults: function (data, params) {
+                           url: function () {
+                                return Routing.generate('busqueda_contacto_select_info')+'?param1='+$('#txtId2').val();
+                              },  
+                            dataType: 'json',
+                            delay: 250,
+                            data: function (params) {
+                                return {
+                                    q: params.term, // search term
+                                    page: params.page
+                                };
+                            },
+                            processResults: function (data, params) {
                                                var select2Data = $.map(data.data, function (obj) {
                                                    obj.id = obj.id;
                                                    obj.text = obj.nombre;
@@ -645,7 +647,7 @@ $(document).ready(function() {
                                                    
                                                };
                                            },
-                           cache: true
+                            cache: true
                          },
                          escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
                          minimumInputLength: 1,
@@ -658,7 +660,10 @@ $(document).ready(function() {
 		var numDel = $(this).attr('id');
 		numDelArray= numDel.split('-');
 		$('#contact-'+numDelArray[1]).parent().remove();
-		$('#deleteContact-'+numDelArray[1]).remove();
+                $('#deleteContact-'+numDelArray[1]).remove();
+		$('#telefonoContact-'+numDelArray[1]).remove();
+		$('#correoContact-'+numDelArray[1]).remove();
+		
 		return false;
 	});
 	/*/////Fin de agregar/remover contactos*/
