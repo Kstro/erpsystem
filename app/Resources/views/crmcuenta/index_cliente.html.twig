@@ -25,7 +25,7 @@
 
 {% block descripcion %}
     <div class="col-md-5">
-        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCliente}}</p>
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoCliente | capitalize}}</p>
         <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionCliente}}</p>
         <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
         <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
@@ -57,9 +57,9 @@
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        {# <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCliente}}</th> #}
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCliente}}</th>
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaCliente}}</th>
-                        <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailCliente}}</th>
+                        {#<th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailCliente}}</th>#}
                         <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneCliente}}</th>
                         {# <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fuenteCliente}}</th> #}
                         <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaRegistroCliente}}</th>
@@ -81,8 +81,10 @@
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/mask/mask.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.firstPhoneTxt').mask('(000) 000-0000');
             /////Definición datatable
             $('#filterTag').removeClass('hidden');
             $('#btnLoadMoreFiles').addClass('hidden');
@@ -99,8 +101,8 @@
                 "columns": [
                     { "data": "chk" },
                     { "data": "name" },
-                    // { "data": "account" },
-                    { "data": "email" },
+                    { "data": "account" },
+                    {#{ "data": "email" },#}
                     { "data": "phone" },
                     { "data": "dateReg" }//,
                     // { "data": "interes" }

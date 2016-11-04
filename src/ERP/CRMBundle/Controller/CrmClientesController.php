@@ -215,7 +215,7 @@ class CrmClientesController extends Controller
                 
                 $sql = "SELECT obj.id as id FROM ERPCRMBundle:CrmCuenta obj "
                             ."JOIN obj.tipoCuenta tc"
-                            . " WHERE tc.id=1";
+                            . " WHERE tc.id=3";
                 $rowsTotal = $em->createQuery($sql)
                             ->getResult();
                
@@ -235,78 +235,79 @@ class CrmClientesController extends Controller
                         $orderByText = "name";
                         break;
                     case 2:
-                        $orderByText = "email";
+                        $orderByText = "account";
                         break;
                     case 3:
-                        $orderByText = "phone";
+                        $orderByText = "email";
                         break;
                     case 4:
+                        $orderByText = "phone";
+                        break;
+                    case 5:
                         $orderByText = "dateReg";
                         break;
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){
+                    //var_dump($busqueda['value']);
                     if ($tagId==0) {
-                            $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                            $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo,CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
-                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
-                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
-                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
-                                        WHERE c.tipo_cuenta=3 AND  per.id<>1 AND c.estado=1 AND e.id =".$tagId."
+                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+                                        
+                                        WHERE c.tipo_cuenta=3 AND  per.id<>1 AND c.estado=1
                                             GROUP BY 1
-                                            HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                            HAVING upper(CONCAT(name,' ',phone,' ',dateReg,' ',account)) LIKE upper('%".$busqueda['value']."%')  
                                             ORDER BY ". $orderByText." ".$orderDir;
                                 $stmt = $em->getConnection()->prepare($sql);
                                 $stmt->execute();
                                 $row['data'] = $stmt->fetchAll();
                                 $row['recordsFiltered']= count($row['data']);
-                                $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                                $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo,CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
-                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
-                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
-                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
-                                        WHERE c.tipo_cuenta=3 AND per.id<>1 AND c.estado=1 AND e.id =".$tagId."
+                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+                                        WHERE c.tipo_cuenta=3 AND per.id<>1 AND c.estado=1
                                             GROUP BY 1
-                                            HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                            HAVING upper(CONCAT(name,' ',phone,' ',dateReg,' ',account)) LIKE upper('%".$busqueda['value']."%')  
                                             ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
                                 $stmt = $em->getConnection()->prepare($sql);
                                 $stmt->execute();
                                 $row['data'] = $stmt->fetchAll();
                     }
                     else{
-                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo,CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
-                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
+                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
                                         INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
                                         INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
                                         WHERE c.tipo_cuenta=3 AND  per.id<>1 AND c.estado=1 AND e.id =".$tagId."
                                         GROUP BY 1
-                                        HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                        HAVING upper(CONCAT(name,' ',phone,' ',dateReg,' ',industry,' ',account)) LIKE upper('%".$busqueda['value']."%')  
                                         ORDER BY ". $orderByText." ".$orderDir;
                                     $stmt = $em->getConnection()->prepare($sql);
                                     $stmt->execute();
                                     $row['data'] = $stmt->fetchAll();
                                     $row['recordsFiltered']= count($row['data']);
-                                    $sql = "SELECT CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, ind.nombre as industry, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account
+                                    $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo,CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
-                                        INNER JOIN ctl_industria ind on(c.industria=ind.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
                                         INNER JOIN ctl_persona per on(con.persona=per.id)
-                                                INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
-                                                INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
+                                        INNER JOIN crm_tipo_cuenta tip on(c.tipo_cuenta=tip.id)
+                                        INNER JOIN crm_etiqueta_cuenta ec on(ec.cuenta=c.id)
+                                        INNER JOIN crm_etiqueta e on(ec.etiqueta=e.id)
                                                 WHERE c.tipo_cuenta=1 AND per.id<>1 AND c.estado=1 AND e.id =".$tagId."
                                                 GROUP BY 1
-                                                HAVING CONCAT(name,' ',phone,' ',email,' ',industry,' ',account) LIKE upper('%".$busqueda['value']."%')  
+                                                HAVING upper(CONCAT(name,' ',phone,' ',dateReg,' ',industry,' ',account)) LIKE upper('%".$busqueda['value']."%')  
                                                 ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
                                     $stmt = $em->getConnection()->prepare($sql);
                                     $stmt->execute();
@@ -315,7 +316,7 @@ class CrmClientesController extends Controller
                 }
                 else{ 
                     if ($tagId==0) {
-                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',per.nombre,' ',per.apellido,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo,CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -326,7 +327,7 @@ class CrmClientesController extends Controller
                                         ORDER BY ". $orderByText." ".$orderDir;
                     }
                     else{
-                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
+                        $sql = "SELECT DISTINCT(c.id),CONCAT('<div id=\"',c.id,'-',per.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as name, c.id, (SELECT CONCAT('<div style=\"text-align:left\">',num_telefonico,'</div>') FROM ctl_telefono tel WHERE tel.cuenta=c.id LIMIT 0,1 ) as phone,(SELECT CONCAT('<div style=\"text-align:left\">', corr.email,'</div>') FROM ctl_correo corr WHERE corr.cuenta=c.id LIMIT 1) as email, CONCAT('<div style=\"text-align:left\">',tip.nombre,'</div>') as tipo,CONCAT('<div style=\"text-align:left\">',c.nombre,'</div>') as account, CONCAT('<div style=\"text-align:left\">',c.fecha_registro,'</div>') as dateReg
                                         FROM crm_contacto_cuenta cc
                                         INNER JOIN crm_cuenta c on(cc.cuenta=c.id)
                                         INNER JOIN crm_contacto con on(cc.contacto=con.id)
@@ -353,7 +354,7 @@ class CrmClientesController extends Controller
                 }
                 return new Response(json_encode($row));
             } catch (\Exception $e) {  
-                // var_dump($e);
+                var_dump($e);
                 if(method_exists($e,'getErrorCode')){ 
                     switch (intval($e->getErrorCode()))
                     {
@@ -606,28 +607,29 @@ class CrmClientesController extends Controller
                     $contactsLenght=count($contactos)-1;//Cantidad de telefono ingresados, menos 1 para index de array
                     $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[0]);//Para definir la variable
                     foreach ($contactos as $key => $contact) {
-                                          
-                        $crmContactoCuenta = new CrmContactoCuenta();
-                        $crmContactoCuenta->setCuenta($crmCuentaObj);
-                        //var_dump($key);
-                        if ($key<$contactsLenght && $key!=0) {
-                            if ($contact[$key]==$contact[$key-1]) {
-                                //No buscar en la base contacto
-                                $crmContactoCuenta->setContacto($crmContacto);
+                        if($contact!=0){
+                            $crmContactoCuenta = new CrmContactoCuenta();
+                            $crmContactoCuenta->setCuenta($crmCuentaObj);
+                            //var_dump($key);
+                            if ($key<$contactsLenght && $key!=0) {
+                                if ($contact[$key]==$contact[$key-1]) {
+                                    //No buscar en la base contacto
+                                    $crmContactoCuenta->setContacto($crmContacto);
+                                } else {
+                                    //Buscar en la base el tipo de telefono
+                                    $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
+                                    $ctlTelefonoObj->setContacto($crmContacto);
+                                    //var_dump('buscar base tipo telefono');
+                                }
                             } else {
-                                //Buscar en la base el tipo de telefono
-                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
-                                $ctlTelefonoObj->setContacto($crmContacto);
-                                //var_dump('buscar base tipo telefono');
+                                    //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                    //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
+                                    $crmContactoCuenta->setContacto($crmContacto);
+                                    //var_dump('no buscar base tipo telefono');
                             }
-                        } else {
-                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
-                                //$ctlTipoTelefonoObj = $em->getRepository('ERPCRMBundle:CtlTipoTelefono')->find($phoneTypeArray[$key]);
-                                $crmContactoCuenta->setContacto($crmContacto);
-                                //var_dump('no buscar base tipo telefono');
+                            $em->persist($crmContactoCuenta);
+                            $em->flush();
                         }
-                        $em->persist($crmContactoCuenta);
-                        $em->flush();
                     }                
                     
                     
@@ -844,27 +846,28 @@ class CrmClientesController extends Controller
                     $contactsLenght=count($contactos)-1;//Cantidad de telefono ingresados, menos 1 para index de array
                     //////$crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[0]);//Para definir la variable
                     foreach ($contactos as $key => $contact) {
-                                          
-                        $crmContactoCuenta = new CrmContactoCuenta();
-                        $crmContactoCuenta->setCuenta($crmCuentaObj);
-                        //var_dump($key);
-                        if ($key<$contactsLenght && $key!=0) {
-                            if ($contact[$key]==$contact[$key-1]) {
-                                //No buscar en la base contacto
-                                $crmContactoCuenta->setContacto($crmContacto);
+                        if($contact!=0){                  
+                            $crmContactoCuenta = new CrmContactoCuenta();
+                            $crmContactoCuenta->setCuenta($crmCuentaObj);
+                            //var_dump($key);
+                            if ($key<$contactsLenght && $key!=0) {
+                                if ($contact[$key]==$contact[$key-1]) {
+                                    //No buscar en la base contacto
+                                    $crmContactoCuenta->setContacto($crmContacto);
+                                } else {
+                                    //Buscar en la base el tipo de telefono
+                                    $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
+                                    $ctlTelefonoObj->setContacto($crmContacto);
+                                }
                             } else {
-                                //Buscar en la base el tipo de telefono
-                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);//Para definir la variable
-                                $ctlTelefonoObj->setContacto($crmContacto);
+                                    //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
+                                    $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);
+                                    $crmContactoCuenta->setContacto($crmContacto);
+                                    //var_dump('no buscar base tipo telefono');
                             }
-                        } else {
-                                //Buscar en la base el tipo de telefono, primera iteracion debe buscar el tipo de telefono
-                                $crmContacto = $em->getRepository('ERPCRMBundle:CrmContacto')->find($contactos[$key]);
-                                $crmContactoCuenta->setContacto($crmContacto);
-                                //var_dump('no buscar base tipo telefono');
+                            $em->persist($crmContactoCuenta);
+                            $em->flush();
                         }
-                        $em->persist($crmContactoCuenta);
-                        $em->flush();
                     }
                     
 

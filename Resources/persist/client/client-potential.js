@@ -237,7 +237,7 @@ $(document).ready(function() {
                                         }
                                         /*// contactos*/
                                         for (var i = 0; i < numContactosR; i++) {
-                                                /*// console.log(i);*/
+                                                console.log(i);
                                                 /*// console.log(data.addressArray[i]);*/
                                                 switch(i){
                                                         case 0:
@@ -246,11 +246,12 @@ $(document).ready(function() {
                                                             $('.correoContactoFirst').html(data.correoContactos[i]);
                                                         break;
                                                         default:
-                                                                $('#plusContacto').click();
+                                                                $('#plusContact').click();
                                                                 /*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
-                                                                $('#contact-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
-                                                                $('#telefonoContact-'+(numPhones)).val(data.phoneArray[i]);
-                                                                $('#correoContact-'+(numPhones)).val(data.extPhoneArray[i]);
+                                                                $('#contact-'+(numContacts)).html('<option value='+data.idContactos[i]+'>'+data.nombreContactos[i]+'</option>');
+                                                                /*//$('#contact-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");*/
+                                                                $('#telefonoContact-'+(numContacts)).html(data.telefonoContactos[i]);
+                                                                $('#correoContact-'+(numContacts)).html(data.correoContactos[i]);
                                                         break;
                                                 }
                                         }
@@ -593,7 +594,7 @@ $(document).ready(function() {
 		var optionsCity = $('.dpbCityFirst').html();
 		var optionsState = $('.dpbStateFirst').html();
 		$('.address').append('<input style="margin-top:25px ;" id="address-'+numAddress+'" type="text" name="address[]" class="input-sm form-control validateInput txtAddress">');
-		$('.zipcode').append('<input style="margin-top:25px ;" id="zip-'+numAddress+'" type="text" name="zipcode[]" class="input-sm form-control validateInput txtAddress">');
+		$('.zipcode').append('<input style="margin-top:25px ;" id="zip-'+numAddress+'" type="text" name="zipcode[]" class="input-sm form-control validateInput txtZipCode">');
 		$('.city').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="validateInput input-sm form-control txtCity"></div>');
 		$('.state').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="validateInput input-sm form-control txtState"></div>');
 		/*//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');*/
@@ -676,6 +677,7 @@ $(document).ready(function() {
 //		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
 		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:25px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
 		//$('#contacts-'+numContacts).select2();
+                $('.firstPhoneTxt').mask('(000) 000-0000');
                 $('#contact-'+numContacts).select2({
                     ajax: {
                            url: Routing.generate('busqueda_contacto_select_info'),

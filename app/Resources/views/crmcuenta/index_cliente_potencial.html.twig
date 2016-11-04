@@ -22,7 +22,7 @@
 
 {% block descripcion %}
      <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoClientePotencial}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoClientePotencial | capitalize}}</p>
           <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionClientePotencial}}</p>
           {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
             <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
@@ -57,10 +57,10 @@
                 <thead>
                     <tr role="row">
                         <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        {# <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameClientePotencial}}</th> #}
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaClientePotencial}}</th>
                         
-                        <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailClientePotencial}}</th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameClientePotencial}}</th>
+                        <th aria-label="Company: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{companiaNombreClientePotencial}}</th>
+                        {#<th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailClientePotencial}}</th>#}
                         <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneClientePotencial}}</th>
                         <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fuenteClientePotencial}}</th>
                         <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{interesClientePotencial}}</th>
@@ -81,8 +81,10 @@
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/mask/mask.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.firstPhoneTxt').mask('(000) 000-0000');
             /////Definición datatable
             $('#filterTag').removeClass('hidden');
             var valor = $('#selectTags').val();
@@ -96,9 +98,9 @@
                 },
                 "columns": [
                     { "data": "chk" },
-                    // { "data": "name" },
+                    { "data": "name" },
                     { "data": "account" },
-                    { "data": "email" },
+                    {#{ "data": "email" },#}
                     { "data": "phone" },
                     { "data": "origin" },
                     { "data": "interes" }
@@ -156,10 +158,10 @@
             $('.dpbFuente').select2();
             $('.dpbCampania').select2();
             $('#selectTags').select2();            
-
+            console.log('lknkdfjsvnlfdjvnfdkljvngbkljg nkjldfssdjkl nvkjlnkj nkjl');
             $('#contactos').select2({
                  ajax: {
-                        url: Routing.generate('busqueda_contacto_select_info'),
+                        url: Routing.generate('busqueda_contacto_select_info')+'?q1=fv',
                         dataType: 'json',
                         delay: 250,
                         data: function (params) {

@@ -1,0 +1,100 @@
+{% extends ':layout:layouterp.html.twig' %}
+{% block title -%}<title>{{tituloIndustria}}</title>{% endblock %}
+{% block customcss %}
+    
+{% endblock %}
+{% block descripcion %}
+    <div class="col-md-5">
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoIndustria | capitalize}}</p>
+        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionIndustria}}</p>
+    </div>
+
+{% endblock %}
+{% block acciones %}
+    <div class="col-md-7 text-right panel-body">
+        <button data-loading-text="loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">{{add}}</button>
+        <button class="btnDelete btn btn-sm btn-danger btn-flat hidden">{{delete}}</button>
+        <button class="btnShow btn btn-sm btn-success btn-flat hidden">{{show}}</button>
+        <button class="btnAction btn btn-sm btn-default btn-flat hidden">{{action}}</button>
+    </div>
+{% endblock acciones %}
+
+{% block contenido %}
+	<div class="row">
+		<div class="col-md-12 col-xs-12">
+			<div id="pnAdd" class="panel panel-default" style="display:none;">
+    				<div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+    				<div class="panel-body">
+    					<div class="col-md-6">
+						<label>{{nameIndustria}}</label>
+                                                <input id="id" type="text" value="-1" name="" class="input-sm form-control validateInput hidden">
+						<input id="txtName" type="text" name="" class="input-sm form-control validateInput">
+					</div>					
+					<div class="col-md-6 pull-right text-right" style="margin-top:20px;">
+						<button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+						<button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
+					</div>
+    				</div>
+    				{# <div class="panel-footer">Panel Footer</div> #}
+  			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="col-md-12 col-xs-12">
+		    <table id="typeIndustry" class="mdl-data-table" width="100%" cellspacing="0">
+		        <thead>
+                            <tr>
+                                <th style="text-align:center; width: 10px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                                {#<th style="width: 20px; text-align: center;">Id</th>#}
+                                <th style="text-align: center;">{{nameIndustria}}</th>
+                            </tr>
+                        </thead>				  
+	            </table>
+		</div>
+	</div>
+{% endblock %}
+{% block js_extend %}
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/typeindustry/typeindustry.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/ctlindustria/ctlindustria.js') }}"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+            /////Definición datatable            
+            var table = $('#typeIndustry').DataTable({
+                    dom:'ftp',
+                    "processing": false,
+                    "serverSide": true,
+                    "ajax": {
+                            "url": '{{path('admin_tipo_industria_data')}}',
+                            "type": 'GET'
+                    },
+                    "columns": [
+                            { "data": "chk" },
+                            { "data": "name" }
+                            //{ "data": "Probability" },
+                            //{ "data": "State" },
+                            //{ "data": "actions" }
+                    ],
+                    "order":[1,'asc'],
+                    "columnDefs": [
+                            {"orderable": false, "targets": 0}                            
+                    ],
+                    "language": {
+                            "info": "{{dtInfo}} _PAGE_ de _PAGES_",
+                            "infoEmpty": "{{dtInfoEmpty}}",
+                            "zeroRecords": "{{dtZeroRecords}}",
+                            "emptyTable": "{{dtEmptyTable}}",
+                            "paginate": { 
+                                "next": "{{dtNext}}",
+                                "previous": "{{dtPrev}}"
+                            },
+                            "processing": "{{dtProcessing}}",
+                            "search": "{{dtSearch}}",
+                            "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
+                        }
+                });
+            /////Fin definición datatable
+    });
+    </script>
+    
+
+{% endblock %}

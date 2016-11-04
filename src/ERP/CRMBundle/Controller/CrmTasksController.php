@@ -251,6 +251,9 @@ class CrmTasksController extends Controller
     public function dataactivitiesAction(Request $request)
     {
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
+                
                 $start = $request->query->get('start');
                 $draw = $request->query->get('draw');
                 $longitud = $request->query->get('length');
@@ -276,22 +279,23 @@ class CrmTasksController extends Controller
                 $orderByText="";
                 switch(intval($orderBy)){
                     case 1:
+                        $orderByText = "dateStart";
+                        break;
+                    case 2:
                         $orderByText = "name";
                         break;
                     
-                    case 2:
-                        $orderByText = "priority";
-                        break;
+//                    case 2:
+//                        $orderByText = "priority";
+//                        break;
                     case 3:
                         $orderByText = "responsable";
                         break;
+                    
+//                    case 5:
+//                        $orderByText = "dateCancel";
+//                        break;
                     case 4:
-                        $orderByText = "dateStart";
-                        break;
-                    case 5:
-                        $orderByText = "dateCancel";
-                        break;
-                    case 6:
                         $orderByText = "estado";
                         break;
                 }
@@ -398,6 +402,9 @@ class CrmTasksController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
+                
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->getConnection()->beginTransaction();
                 $response = new JsonResponse();
@@ -405,8 +412,8 @@ class CrmTasksController extends Controller
                 //Captura de parametros
 
                 // var_dump($_POST);
-
-
+                
+                
                 //tasks
                 $idTasks = $_POST['id'];//id crmActividad
                 $nombreTasks= $_POST['nombre'];//id crmActividad
@@ -690,6 +697,9 @@ class CrmTasksController extends Controller
             
             $response = new JsonResponse();
             
+            $timeZone = $this->get('time_zone')->getTimeZone();
+            date_default_timezone_set($timeZone->getNombre());
+            
             $em = $this->getDoctrine()->getManager();
             $crmActividadObj = $em->getRepository('ERPCRMBundle:CrmActividad')->find($idAct);
             // $calendarId =$serverSave = $this->getParameter('app.googlecalendar');
@@ -837,6 +847,8 @@ class CrmTasksController extends Controller
                      
                         if(count($object)!=0){
                             if ($object->getEstadoActividad()->getId()!=3) {//Estado cancelado, por defecto
+                                $timeZone = $this->get('time_zone')->getTimeZone();
+                                date_default_timezone_set($timeZone->getNombre());
                                 $object->setFechaCancelacion(new  \DateTime('now'));
                                 $estatus = $em->getRepository('ERPCRMBundle:CrmEstadoActividad')->find(3);
                                 $object->setEstadoActividad($estatus);
@@ -913,6 +925,8 @@ class CrmTasksController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $idActividad=$request->get("param0");
                 $ids=$request->get("param1");
                 $fechaInicio=$request->get("param2");
@@ -1033,6 +1047,8 @@ class CrmTasksController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $idActividad=$request->get("param1");
                 $fechaInicio=$request->get("param2");
                 $fechaFin=$request->get("param3");

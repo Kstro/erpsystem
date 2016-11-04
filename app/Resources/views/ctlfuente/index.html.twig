@@ -8,7 +8,7 @@
 
 {% block descripcion %}
     <div class="col-md-5">
-        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoFuenteOrigen}}</p>
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoFuenteOrigen | capitalize}}</p>
         <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionFuenteOrigen}}</p>
     </div>
 
@@ -33,7 +33,7 @@
                 <thead>
                     <tr role="row">
                         <th style="width: 20px; padding-left: 8px;"><input type="checkbox" name="checktodos" onclick = "seleccionarTodo();"></th> 
-                        <th style="text-align: left">Name</th>
+                        <th style="text-align: left">{{nameFuenteOrigen}}</th>
                     </tr>
                 </thead>
             </table>                

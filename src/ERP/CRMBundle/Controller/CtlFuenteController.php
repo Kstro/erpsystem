@@ -270,7 +270,7 @@ class CtlFuenteController extends Controller
                     . "else 'Inactive' "
                     . "as state "
                     . "FROM ERPCRMBundle:CtlFuente sou "
-                    . "WHERE sou.estado = 1 AND CONCAT(upper(sou.nombre), ' ' , upper(sou.estado)) LIKE upper(:busqueda) "
+                    . "WHERE sou.id <> 1 AND sou.estado = 1 AND CONCAT(upper(sou.nombre), ' ' , upper(sou.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -287,14 +287,14 @@ class CtlFuenteController extends Controller
                     . "else 'Inactive' "
                     . "as state "
                     . "FROM ERPCRMBundle:CtlFuente sou "
-                    . "WHERE sou.estado = 1 AND CONCAT(upper(sou.nombre),' ', upper(sou.estado)) LIKE upper(:busqueda) "
+                    . "WHERE sou.id <> 1 AND sou.estado = 1 AND CONCAT(upper(sou.nombre),' ', upper(sou.estado)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
                     ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
                     ->setFirstResult($start)
                     ->setMaxResults($longitud)
-                    ->getResult();              
+                    ->getResult(); 
         }
         else{
             $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', sou.nombre, '</div>') as name, "
@@ -305,8 +305,8 @@ class CtlFuenteController extends Controller
                     . "else 'Inactive' "
                     . "as state "
                     . "FROM ERPCRMBundle:CtlFuente sou "
-                    . "WHERE sou.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
-            
+                    . "WHERE sou.id <> 1 AND sou.estado = 1 ORDER BY ".$orderByText." ".$orderDir;
+                    
             $row['data'] = $em->createQuery($dql)
                     ->setFirstResult($start)
                     ->setMaxResults($longitud)

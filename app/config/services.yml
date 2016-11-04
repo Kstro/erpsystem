@@ -26,7 +26,13 @@ services:
 #        tags:
 #            - { name: kernel.event_subscriber }   
 #        arguments: ['@doctrine.orm.entity_manager', '@session', '@logger']
-
+    time_zone:
+        class: ERP\CRMBundle\Services\TimeZoneService
+        arguments: 
+                - @service_container
+                - @router
+                - @doctrine.orm.entity_manager
+        
     erp.security.authentication_handler:
             class: ERP\CRMBundle\Listener\AuthenticationHandler
             public: false

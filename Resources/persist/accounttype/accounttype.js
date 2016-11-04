@@ -2,7 +2,7 @@ $(document).ready(function() {
     $("input[name=checktodos]").prop({'checked': false});
     
     $(document).on('click', '#btnCancel', function(event) {
-        $('.btAdd').click();
+        $('.btnAdd').click();
     });
     
     $(document).on('click', '#btnSave', function(event) {

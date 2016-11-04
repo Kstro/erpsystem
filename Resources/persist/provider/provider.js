@@ -257,7 +257,7 @@ $(document).ready(function() {
 							}
 						}
 						if(data.src!=''){
-							$('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
+							$('#imgTest').attr('src','../../../../photos/accounts/'+data.src);	
 						}
 						else{
 							$('#imgTest').attr('src','http://placehold.it/250x250');
@@ -539,6 +539,7 @@ $(document).ready(function() {
 		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
 		$('.addPhone').append('<button id="deletePhone-'+numPhones+'" style="margin-top:27px;" class="btn removePhone btn-danger"><i class="fa fa-remove"></i></button>');
 		$('#types-'+numPhones).select2();
+                $('.firstPhoneTxt').mask('(000) 000-0000');
 		return false;
 	});
 	$(document).on('click', '.removePhone', function(event) {
@@ -578,7 +579,7 @@ $(document).ready(function() {
 		var optionsCity = $('.dpbCityFirst').html();
 		var optionsState = $('.dpbStateFirst').html();
 		$('.address').append('<input style="margin-top:25px ;" id="address-'+numAddress+'" type="text" name="address[]" class="input-sm form-control validateInput txtAddress">');
-		$('.zipcode').append('<input style="margin-top:25px ;" id="zip-'+numAddress+'" type="text" name="zipcode[]" class="input-sm form-control validateInput txtAddress">');
+		$('.zipcode').append('<input style="margin-top:25px ;" id="zip-'+numAddress+'" type="text" name="zipcode[]" class="input-sm form-control validateInput txtZipCode">');
 		$('.city').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="city-'+numAddress+'" name="addressCity[]" class="validateInput input-sm form-control txtCity"></div>');
 		$('.state').append('<div style="margin-top:25px;"><input type="text" style="width:100%;" id="state-'+numAddress+'" name="addressDepartamento[]" class="validateInput input-sm form-control txtState"></div>');
 		/*//$('.state').append('<input style="margin-top:25px ;" id="state-'+numAddress+'" type="text" name="" class="input-sm form-control validateInput txtState">');*/

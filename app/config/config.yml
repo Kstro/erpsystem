@@ -977,6 +977,13 @@ twig:
         encabezadoPrioridadEs: '%app.encabezadoPrioridadEs%'
         descripcionPrioridadEs: '%app.descripcionPrioridadEs%'
         namePrioridadEs: '%app.namePrioridadEs%'
+        
+        #Industria (CRUD) - Ingles
+        tituloIndustria: '%app.tituloIndustria%'
+        encabezadoIndustria: '%app.encabezadoIndustria%'
+        descripcionIndustria: '%app.descripcionIndustria%'
+        nameIndustria: '%app.nameIndustria%'
+        menuIndustria: '%app.menuIndustria%'
 
         #Login - Ingles
         tituloLogin: '%app.tituloLogin%'        

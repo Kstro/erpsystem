@@ -104,6 +104,8 @@ class CrmMeetingsController extends Controller
     public function dataactivitiesAction(Request $request)
     {
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $start = $request->query->get('start');
                 $draw = $request->query->get('draw');
                 $longitud = $request->query->get('length');
@@ -129,22 +131,22 @@ class CrmMeetingsController extends Controller
                 $orderByText="";
                 switch(intval($orderBy)){
                     case 1:
+                        $orderByText = "dateStart";
+                        break;
+                    case 2:
                         $orderByText = "name";
                         break;
-                    
-                    case 2:
-                        $orderByText = "priority";
-                        break;
+//                    case 2:
+//                        $orderByText = "priority";
+//                        break;
                     case 3:
                         $orderByText = "responsable";
                         break;
+                    
+//                    case 5:
+//                        $orderByText = "dateCancel";
+//                        break;
                     case 4:
-                        $orderByText = "dateStart";
-                        break;
-                    case 5:
-                        $orderByText = "dateCancel";
-                        break;
-                    case 6:
                         $orderByText = "estado";
                         break;
                 }
@@ -251,6 +253,8 @@ class CrmMeetingsController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->getConnection()->beginTransaction();
                 $response = new JsonResponse();
@@ -258,8 +262,9 @@ class CrmMeetingsController extends Controller
                 //Captura de parametros
 
                 // var_dump($_POST);
-
-
+                
+                date_default_timezone_set("America/Los_Angeles");
+                
                 //tasks
                 $idTasks = $_POST['id'];//id crmActividad
                 $nombreTasks= $_POST['nombre'];//id crmActividad
@@ -544,6 +549,8 @@ class CrmMeetingsController extends Controller
     public function retrieveajaxAction(Request $request)
     {
         try {
+            $timeZone = $this->get('time_zone')->getTimeZone();
+            date_default_timezone_set($timeZone->getNombre());
             $idAct=$request->get("param1");
             
             $response = new JsonResponse();
@@ -677,6 +684,8 @@ class CrmMeetingsController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
                 $ids=$request->get("param1");
                 $response = new JsonResponse();
                  // var_dump($ids);
@@ -763,6 +772,7 @@ class CrmMeetingsController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                
                 $idActividad=$request->get("param1");
                 $fechaInicio=$request->get("param2");
                 $fechaFin=$request->get("param3");

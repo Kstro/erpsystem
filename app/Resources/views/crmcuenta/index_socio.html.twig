@@ -22,7 +22,7 @@
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSocio}}</p>
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoSocio | capitalize}}</p>
           <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionSocio}}</p>
           {# <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p> #}
             <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
@@ -60,7 +60,7 @@
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameSocio}}</th>
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaSocio}}</th>
                         
-                        <th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailSocio}}</th>
+                        {#<th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailSocio}}</th>#}
                         <th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneSocio}}</th>
                         <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{industriaSocio}}</th>
                     </tr>
@@ -78,8 +78,10 @@
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/mask/mask.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.firstPhoneTxt').mask('(000) 000-0000');
             /////Definición datatable
             $('#filterTag').removeClass('hidden');
             var valor = $('#selectTags').val();
@@ -95,7 +97,7 @@
                     { "data": "chk" },
                     { "data": "name" },
                     { "data": "account" },
-                    { "data": "email" },
+                    {#{ "data": "email" },#}
                     { "data": "phone" },
                     { "data": "industry" },
 

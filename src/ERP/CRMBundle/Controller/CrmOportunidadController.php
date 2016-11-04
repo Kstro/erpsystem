@@ -528,24 +528,42 @@ class CrmOportunidadController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
+        $data = array();
         
         try {
             $id = $request->get("param1");            
             $crmOportunidadObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
             
+            $asignadosOportunidad = $em->getRepository('ERPCRMBundle:CrmAsignadoOportunidad')->findBy(array('oportunidad' => $crmOportunidadObj));
+            $productosOportunidad = $em->getRepository('ERPCRMBundle:CrmProductoOportunidad')->findBy(array('oportunidad' => $crmOportunidadObj));
+            
             if(count($crmOportunidadObj) != 0){
                 $data['name'] = $crmOportunidadObj->getNombre();
                 $data['description'] = $crmOportunidadObj->getDescripcion();
-                $data['probability'] = $crmOportunidadObj->getDescripcion();
+                $data['probability'] = $crmOportunidadObj->getProbabilidad();
+                $data['fechaCierre'] = $crmOportunidadObj->getFechaCierre()->format('Y/m/d H:i:s');
                 
                 $data['compania'] = $crmOportunidadObj->getCuenta()->getId();                
+                $data['tipoCuenta'] = $crmOportunidadObj->getCuenta()->getTipoCuenta()->getId();                
+                $data['etapaVenta'] = $crmOportunidadObj->getEtapaVenta()->getId();                
                 $fuente = $crmOportunidadObj->getFuentePrincipal();
                 
                 $data['fuente'] = $fuente->getId();
                 
-                if($data['fuente'] == 1) {
-                    
+                if($crmOportunidadObj->getCampania()) {
+                    $data['campania'] = $crmOportunidadObj->getCampania()->getId();    
                 }
+                
+                foreach ($asignadosOportunidad as $key => $value) {
+                    $data['asignados'][$key] = $value->getUsuarioAsignado()->getId();
+                }
+                
+                foreach ($productosOportunidad as $key => $value) {
+                    $data['productos'][$key] = $value->getProducto()->getId();
+                }
+                
+                var_dump($data);
+                die();
                 
             } else {
                 $data['error'] = "Error";
