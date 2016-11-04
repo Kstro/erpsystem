@@ -108,6 +108,9 @@ function limpiarCampos(){
         $('.removeContact').each(function(index, el) {
 		$(this).click();
 	});
+        $('.dpbFirstContacts').html('<option value=0></option>');
+        $('.telefonoContactoFirst').html('');
+        $('.correoContactoFirst').html('');
 		
 	$('.chkItemAll').prop({'checked': false});
 	$('.btnAddPage').removeClass('hidden');

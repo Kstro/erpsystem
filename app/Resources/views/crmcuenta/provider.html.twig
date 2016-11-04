@@ -143,13 +143,36 @@
                                 </div>
                             </div>                               
                         </div>
-                            <div class="clearfix"></div> 
-                            <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
-                                <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
-                                <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
-                            </div>
-                        </form>
+                        <div class="clearfix"></div>
+                        
+                        
+                        <div class="col-md-3 contacts" style="margin-top:20px;">
+                            <label>Contacts</label>
+                            <label >{{cuentaActividad}}</label>
+                            <select style="width:100%;" id="contactos" name="contactos[]" class=" cal input-sm form-control validateSelect  dpbContacts dpbFirstContacts">
+                                <option value="0"></option>
+                                {# {% for actividad in actividades %}
+                                    <option value={{actividad.id}}>{{actividad.nombre}}</option>
+                                {% endfor %} #}
+                            </select>
                         </div>
+                        <div class="col-md-4 contactsTelefono" style="margin-top:20px;">
+                            <label>{{telefonoContacto}}</label>
+                            <label class="telefonoContactoFirst" style="width:100%;"> </label>
+                        </div>
+                        <div class="col-md-4 contactsCorreo" style="margin-top:20px;">
+                            <label>{{correoContacto}}</label>
+                            <label class="correoContactoFirst" style="width:100%;"> </label>
+                        </div>
+                        <div class="col-md-1 addContact" style="margin-top:20px;">
+                            <button id="plusContact" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                            <a id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</a>
+                            <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                        </div>
+                    </form>
+                </div>
                         
                     {# <div class="panel-footer">Panel Footer</div> #}
 

@@ -618,7 +618,7 @@ $(document).ready(function() {
 
 
 
-        /*/////Agregar/remover contactos*/
+        /*/////Buscar contactos*/
 	$(document).on('change', '.dpbContacts', function(event) {
             
             var id = $(this).val();
@@ -673,19 +673,21 @@ $(document).ready(function() {
 		$('.contacts').append('<div style="margin-top:27px;"><select id="contact-'+numContacts+'" style="width:100%;margin-top:25px !important;" name="contactos[]" class="input-sm form-control validateInput dpbContacts"></select></div>');
 		$('.contactsTelefono').append('<div style="margin-top:30px;"><label id="telefonoContact-'+numContacts+'" style="width:100%;!important;"></label></div>');
 		$('.contactsCorreo').append('<div style="margin-top:30px;"><label id="correoContact-'+numContacts+'" style="width:100%;!important;"></label></div>');
-//          	$('.phonesText').append('<input id="phones-'+numPhones+'" style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone">');
-//		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');
+/*//          	$('.phonesText').append('<input id="phones-'+numPhones+'" style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone">');
+//		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');*/
 		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:25px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
-		//$('#contacts-'+numContacts).select2();
+		/*//$('#contacts-'+numContacts).select2();*/
                 $('.firstPhoneTxt').mask('(000) 000-0000');
                 $('#contact-'+numContacts).select2({
                     ajax: {
-                           url: Routing.generate('busqueda_contacto_select_info'),
+                           url: function () {
+                                return Routing.generate('busqueda_contacto_select_info')+'?param1='+$('#txtId2').val();
+                              },  
                            dataType: 'json',
                            delay: 250,
                            data: function (params) {
                              return {
-                               q: params.term, // search term
+                               q: params.term, 
                                page: params.page
                              };
                            },
@@ -703,10 +705,10 @@ $(document).ready(function() {
                                            },
                            cache: true
                          },
-                         escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                         escapeMarkup: function (markup) { return markup; }, 
                          minimumInputLength: 1,
-                         templateResult: formatRepo, // omitted for brevity, see the source of this page
-                         // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+                         templateResult: formatRepo, 
+                         
                        });
 		return false;
 	});
@@ -715,6 +717,8 @@ $(document).ready(function() {
 		numDelArray= numDel.split('-');
 		$('#contact-'+numDelArray[1]).parent().remove();
 		$('#deleteContact-'+numDelArray[1]).remove();
+		$('#telefonoContact-'+numDelArray[1]).remove();
+		$('#correoContact-'+numDelArray[1]).remove();
 		return false;
 	});
 	/*/////Fin de agregar/remover contactos*/
