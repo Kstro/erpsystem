@@ -646,4 +646,61 @@ class CrmOportunidadController extends Controller
         
         return $response;
     }
+    
+    /**
+     * Delete opportunities
+     *
+     * @Route("/delete/opportunities", name="admin_oportunities_delete_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function deleteajaxAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $ids=$request->get("param1");
+                $response = new JsonResponse();
+                
+                $em = $this->getDoctrine()->getManager();
+                foreach ($ids as $key => $id) {
+                    $object = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);    
+                    if(count($object)){
+                        $object->setEstado(0);
+                        $em->merge($object);
+                        $em->flush();    
+                        $serverDelete = $this->getParameter('app.serverMsgDelete');
+                        $data['msg']=$serverDelete;
+                    }
+                    else{
+                        echo "sdcasdc";
+                        $data['error']="Error";
+                    }
+                }
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }      
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
 }

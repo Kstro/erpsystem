@@ -336,6 +336,71 @@ $(document).ready(function() {
         }
     }); /* Fin del on click de la fila del datatable oppotunitiesList */
     
+    
+    /* Al momento que se desea eliminar una o varias oportunidades de venta */
+    $(document).on('click', '.btnDelete', function(event) {
+        var $btn = $(this).button('loading');
+        /* Definición de variables */
+        var id=$(this).children().first().children().attr('id');
+        var ids=[];
+        var table = $('#oppotunitiesList').DataTable();
+        
+        $('.chkItem').each(function() {
+            if ($(this).is(':checked')) {
+                ids.push($(this).parent().attr('id'));
+            }
+        });	
+            
+        swal({
+                title: "",
+                text: "Remove selected rows?",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonText: "Remove",
+                cancelButtonText: "Cancel",
+                reverseButtons: true,
+            }).then(function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: Routing.generate('admin_oportunities_delete_ajax'),
+                        type: 'POST',
+                        data: {param1: ids},
+                        success:function(data){
+                            if(data.error){
+                                swal('',data.error,'error');
+                            }
+                            else{
+                                $('#txtId').val(data.id);
+                                $('#txtName').val(data.name);
+                                $("input[name='hayProductos']").prop({'checked': false});
+                                $btn.button('reset');
+                                table.ajax.reload();
+                                    
+                                swal('',data.msg,'success');
+                            }
+
+                            $('#pnAdd').slideUp();
+                        },
+                        error:function(data){
+                            if(data.error){
+                                /*console.log(data.id);*/
+                                swal('',data.error,'error');
+                            }
+                            
+                            $btn.button('reset');
+                        }
+                    });
+                    
+                    $('.btnDelete').addClass('hidden');
+                    $('.btnAction').addClass('hidden');
+                    $('.btnAddPage').removeClass('hidden');
+                }
+        });
+        
+        $btn.button('reset');		
+    });
+    /*/////Fin definición persist data (Delete method)*/
+    
     /* Al momento de seleccionar un tipo de cuenta filtra las cuentas vinculadas al */
     /* tipo de cuenta seleccionado llenando el combobox con las cuentas recuperadas */
     $(document).on('change', '#tipoCuenta', function(event) {
