@@ -293,7 +293,7 @@ $(document).ready(function() {
                                         /*cargarTags();*/
                                         var addItem = '';
                                         for (var i = 0; i < data.tags.length; i++) {
-                                            /*console.log(i);*/
+                                            console.log(i);
                                             addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
                                             $('#addedTags').append(addItem);
                                         }
