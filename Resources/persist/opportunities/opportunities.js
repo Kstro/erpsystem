@@ -123,7 +123,8 @@ $(document).ready(function() {
                         id.val(data.id);
                     }
                     else{
-                        console.log(data);
+                        /*console.log(data);*/
+                        
                         /* Seteando Id de oportunidad de venta en campo de texto oculto */
                         $('#txtId').val(data.id);
 
@@ -253,11 +254,16 @@ $(document).ready(function() {
                             i++;
                             contador++;                                    
                         } 
-
+                                                
                         if(data.productos.length > 0) {
                             $('#productos').removeClass('hidden');	
-                            $("input[name='hayProductos']").prop('checked', true);                                    
+                            $("input[name='hayProductos']").prop('checked', true);
+                            
+                            contador--;
                         } else { 
+                            $('.producto').append('<div id="producto-0" ><select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto firstProduct input-sm form-control validateSelectP">'+productos+'</select></div>');
+                            $('.cantidad').append('<input id="txtCantidad-0" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" value="1" min="1">');
+                            
                             $('#productos').addClass('hidden');	
                             $("input[name='hayProductos']").prop('checked', false);
                         } /* Fin de seteo de los productos/servicios y sus opciones del select */
@@ -268,11 +274,28 @@ $(document).ready(function() {
 
                         /* Mostrando el formulario con la información a editar */
                         $('#pnAdd').show();
+                        
+                        /* Mostrando las cotizaciones vinculadas a la oportunidad de venta */
+/****                        $('#pnCotizacion').show();        ****/
 
                         $('.btnAddPage').addClass('hidden');
                         $('#btnBack').removeClass('hidden');
                         $('#btnCancelTop').removeClass('hidden');
                         $('#btnSaveTop').removeClass('hidden');
+/****                        $('#btnNewQuotation').removeClass('hidden');        ****/
+                        
+                        /* Mostrando data de las cotizaciones vinculadas a la oportunidad de venta */
+                        for (var j = 0; j < data.cotizaciones.length; j++) {                            
+                            /*$('#cuenta').append('<option selected value="'+data.cuentas[0][0]+'">'+data.cuentas[0][1]+'</option>');*/
+                        }
+
+                        if(data.cotizaciones.length > 0) {
+                            $('#divQuotes').removeClass('hidden');
+                            $('#noQuotes').addClass('hidden');
+                        } else {
+                            $('#divQuotes').addClass('hidden');
+                            $('#noQuotes').removeClass('hidden');
+                        } /*  Fin de Data Cotizaciones vinculadas  a la oportunidad de venta  */
 
                         /*var addItem = '';
                         for (var i = 0; i < data.tags.length; i++) {
@@ -285,7 +308,7 @@ $(document).ready(function() {
                         $('#filterTag').addClass('hidden');
 
                         recuperaDataCuenta = false;  
-                        recuperaDataProbabilidad = false;  
+                        recuperaDataProbabilidad = false;                         
                     }	
                     
                     objClicked.on('click');

@@ -86,7 +86,7 @@ class CrmOportunidadController extends Controller
         $busqueda = $request->query->get('search');
         
         $em = $this->getDoctrine()->getManager();
-        $rowsTotal = $em->getRepository('ERPCRMBundle:CrmOportunidad')->findAll();
+        $rowsTotal = $em->getRepository('ERPCRMBundle:CrmOportunidad')->findBy(array('estado' => 1));
         
         $row['draw']=$draw++;  
         $row['recordsTotal'] = count($rowsTotal);
@@ -130,7 +130,7 @@ class CrmOportunidadController extends Controller
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
-                    . "WHERE CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                    . "WHERE opo.estado = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -149,7 +149,7 @@ class CrmOportunidadController extends Controller
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
-                    . "WHERE CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                    . "WHERE opo.estado = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -169,6 +169,7 @@ class CrmOportunidadController extends Controller
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
+                    . "WHERE opo.estado = 1 "
                     . "ORDER BY ".$orderByText." ".$orderDir;
             
             $row['data'] = $em->createQuery($dql)
@@ -594,7 +595,29 @@ class CrmOportunidadController extends Controller
                 }
                 else{
                     $data['cuentas']=[];
-                }                                
+                }    
+                
+                $crmCotizacionesObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->findBy(array('oportunidad' => $crmOportunidadObj));
+                
+                if(count($crmCotizacionesObj) != 0){
+                    $array=array();
+                    
+                    foreach ($crmCotizacionesObj as $key => $value) {
+                        
+                        $arrayAux = array();    
+                        array_push($arrayAux, $key + 1);
+                        array_push($arrayAux, $value->getId());
+                        array_push($arrayAux, $value->getUsuario()->getPersona()->getNombre() . ' ' . $value->getUsuario()->getPersona()->getApellido());
+                        array_push($arrayAux, $value->getFechaRegistro());
+                        array_push($arrayAux, $value->getFechaVencimiento());
+                        array_push($array, $arrayAux);
+                    }
+                    
+                    $data['cotizaciones']=$array;
+                }
+                else{
+                    $data['cotizaciones']=[];
+                }    
                 
             } else {
                 $data['error'] = "Error";

@@ -1010,7 +1010,7 @@ twig:
         addRowOportunidad: '%app.addRowOportunidad%'
         productoOportunidad: '%app.productoOportunidad%'
         cantidadOportunidad: '%app.cantidadOportunidad%'
-        
+                        
         #Oportunidades - Español
         tituloOportunidadEs: '%app.tituloOportunidadEs%'
         menuOportunidadEs: '%app.menuOportunidadEs%'
@@ -1032,6 +1032,24 @@ twig:
         addRowOportunidadEs: '%app.addRowOportunidadEs%'
         productoOportunidadEs: '%app.productoOportunidadEs%'
         cantidadOportunidadEs: '%app.cantidadOportunidadEs%'
+        
+        #Cotizacion en oportunidad - Ingles
+        pnHeadingLabelCotizacion: '%app.pnHeadingLabelCotizacion%'
+        newQuote: '%app.newQuote%'
+        noQuote: '%app.noQuote%'
+        correlativoQuote: '%app.correlativoQuote%'
+        userQuote: '%app.userQuote%'
+        dateCreatedQuote: '%app.dateCreatedQuote%'
+        dateExpirationQuote: '%app.dateExpirationQuote%'
+        
+        #Cotizacion en oportunidad - Español
+        pnHeadingLabelCotizacionEs: '%app.pnHeadingLabelCotizacionEs%'
+        newQuoteEs: '%app.newQuoteEs%'
+        noQuoteEs: '%app.noQuoteEs%'
+        correlativoQuoteEs: '%app.correlativoQuoteEs%'
+        userQuoteEs: '%app.userQuoteEs%'
+        dateCreatedQuoteEs: '%app.dateCreatedQuoteEs%'
+        dateExpirationQuoteEs: '%app.dateExpirationQuoteEs%'
         
         #Login - Español
         tituloLoginEs: '%app.tituloLoginEs%'        

@@ -95,7 +95,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-12 col-xs-12" style="margin-top: 10px; margin-bottom: 15px;">                
-                        <button id="btnAddRow" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i>{{addRowOportunidad}}</button>
+                        <button id="btnAddRow" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> {{addRowOportunidad}}</button>
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-sm-offset-1 col-sm-11">
@@ -138,5 +138,31 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div id="pnCotizacion" class="panel panel-default" style="display:none;">
+        <div class="panel-heading">
+            <div class="pnHeadingLabelCotizacion">
+                {{pnHeadingLabelCotizacion}}
+                <button id="btnAddQuote" class="btn btn-sm btn-default btnNewQuotation pull-right" data-toggle="tooltip" data-original-title="{{newQuote}}" rel="tooltip"><i class="fa fa-plus"></i></button>
+            </div>                                        
+        </div>
+        <div class="panel-body">
+            <div id="noQuotes" class="text-center hidden">{{noQuote}}</div>
+            <div id="divQuotes" class="hidden">
+                <table id="tablaQuotes" class="mdl-data-table table-hover no-margin" width="100%" cellspacing="0" style="text-align:left;">
+                    <thead id ="theadQuotes">
+                        <tr role="row">
+                            <th style="text-align: center;" >{{correlativoQuote}}</th>
+                            <th style="text-align: center;">{{dateCreatedQuote}}</th>
+                            <th style="text-align: center;" >{{userQuote}}</th>
+                            <th style="text-align: center;">{{dateExpirationQuote}}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyQuotes">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>                
     </div>
 </div>

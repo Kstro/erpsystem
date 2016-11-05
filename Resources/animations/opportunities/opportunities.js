@@ -104,7 +104,7 @@ $(document).ready(function() {
         var numDelArray = numDel.split('-');
         
         contador--;
-        
+        console.log(contador);
         $('#txtCantidad-' + numDelArray[1]).remove();
         $('#producto-' + numDelArray[1]).remove();
         $('#deleteProd-' + numDelArray[1]).remove();
@@ -187,14 +187,16 @@ function limpiarCampos() {
     
     /* Removiendo la clase errorform de los select */
     $('.validateSelectP').each(function(index, el) {
-        $(this).removeClass('errorform');
+        $(this).next().children().children().removeClass('errorform');
     });
 
     /* Reseteando el bloque de usuarios asignados */
     $('.responsable').html('');
+    $('.addUser').html('');
     $('.responsable').append('<label id="assignedUserOportunidad">'+assignedUserOportunidad+'</label>');
     $('.responsable').append('<select id="persona-0" style="width:100%;" name="responsable[]" class="input-sm form-control validateSelectP dpbResponsable firstResponsable">'+personas+'</select>');
-
+    $('#persona-0').select2(); 
+    $('.addUser').append('<button id="plusUser" style="margin-top:25px;" class="btn btn-success"><i class="fa fa-plus"></i></button>');        
 
     /* Estableciendo el checbox como false*/
     $("input[name='hayProductos']").prop('checked', false);
@@ -212,13 +214,19 @@ function limpiarCampos() {
     
     $('.producto').html('');
     $('.cantidad').html('');
+    $('.removeRow').html('');
            
     $('.producto').append('<div id="producto-' + i + '" ><select id="sProducto-' + i + '" style="width:100%;" type="text" name="sProducto[]" class="sProducto firstProduct input-sm form-control validateSelectP">'+productos+'</select></div>');
     $('.cantidad').append('<input id="txtCantidad-' + i + '" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" value="1" min="1">');        
+    $('.removeRow').append('<button id="deleteProd-' + i + '" class="btn removeProd btn-danger hidden"><i class="fa fa-remove"></i></button>');        
+    
     $('.cant').numeric('.'); 
     $('#sProducto-' + i).select2();        
 
 
+    /* Ocultando el panel con las cotizaciones vinculadas a la oportunidad de venta */
+    $('#pnCotizacion').hide();
+    
     /* Agregando la clase hidden*/
     $('#divCampania').addClass('hidden');
     $('#divCuentaOportunidad').addClass('hidden');
@@ -226,5 +234,7 @@ function limpiarCampos() {
     $('.btnDelete').addClass('hidden');
     $('#btnBack').addClass('hidden');
     $('#btnCancelTop').addClass('hidden');
-    $('#btnSaveTop').addClass('hidden');	
+    $('#btnSaveTop').addClass('hidden');
+    $('#btnNewQuotation').addClass('hidden');
+    
 } /* Fin de Función que pone el formulario en blanco*/

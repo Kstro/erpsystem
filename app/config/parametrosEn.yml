@@ -553,6 +553,15 @@ parameters:
         app.addRowOportunidad: Add row
         app.productoOportunidad: Product / Service
         app.cantidadOportunidad: Quantity
+        
+        #Cotizacion en oportunidad
+        app.pnHeadingLabelCotizacion: Quotes
+        app.newQuote: New quote
+        app.noQuote: No quotes found
+        app.correlativoQuote: No.
+        app.userQuote: Assigned to
+        app.dateCreatedQuote: Created date
+        app.dateExpirationQuote: Valid until
        
         #Login
         app.tituloLogin: Login | CRM

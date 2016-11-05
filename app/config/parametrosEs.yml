@@ -455,6 +455,15 @@ parameters:
         app.addRowOportunidadEs: Nueva fila
         app.productoOportunidadEs: Producto / Servicio
         app.cantidadOportunidadEs: Cantidad
+        
+        #Cotizacion en oportunidad
+        app.pnHeadingLabelCotizacionEs: Cotizaciones
+        app.newQuoteEs: Nueva cotización
+        app.noQuoteEs: No se encontraron cotizaciones
+        app.correlativoQuoteEs: No.
+        app.userQuoteEs: Asignado a
+        app.dateCreatedQuoteEs: Fecha de registro
+        app.dateExpirationQuoteEs: Válido hasta
        
         #Login
         app.tituloLoginEs: Sistema CRM | Inicio de sesión
