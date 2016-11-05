@@ -404,7 +404,7 @@ class CrmClientesPotencialesController extends Controller
                     $row['recordsFiltered']= 0;
                     }                                    
                     else{
-                            $data['error']=$e->getMessage();
+                        $data['error']=$e->getMessage();
                     }
                 return new Response(json_encode($row));            
         }
