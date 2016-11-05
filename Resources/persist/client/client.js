@@ -246,7 +246,7 @@ $(document).ready(function() {
 							}
 						}
 						/*// contactos*/
-                                                console.log(data);
+                                                /*console.log(data);*/
                                                 for (var i = 0; i < numContactosR; i++) {
                                                         console.log(i);
                                                         /*// console.log(data.addressArray[i]);*/
@@ -560,7 +560,7 @@ $(document).ready(function() {
 
 
 
-/*/////Agregar/remover contactos*/
+        /*/////Cambiar contactos*/  
 	$(document).on('change', '.dpbContacts', function(event) {
             
             var id = $(this).val();
