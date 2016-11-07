@@ -24,13 +24,13 @@ class CrmContactoCuenta
     /**
      * @var \CrmCuenta
      *
-     * @ORM\ManyToOne(targetEntity="CrmCuenta")
+     * @ORM\ManyToOne(targetEntity="CrmCuenta", inversedBy="contactoCuenta", cascade={"persist", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="cuenta", referencedColumnName="id")
      * })
      */
     private $cuenta;
-
+        
     /**
      * @var \CrmContacto
      *

@@ -40,9 +40,10 @@
                         {#<th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>#}
                         <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameOportunidad}}</th>
                         <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaOportunidad}}</th>
+                        <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{accountManagerOportunidad}}</th>
                         <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{etapaOportunidad}}</th>
                         <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaCierreOportunidad}}</th>
-                        <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaRegistroOportunidad}}</th>
+                        {#<th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaRegistroOportunidad}}</th>#}
                     </tr>
                 </thead>      
              </table>
@@ -75,9 +76,10 @@
                     { "data": "chk" },
                     { "data": "name" },
                     { "data": "account" },
+                    { "data": "contact" },
                     { "data": "stage" },
                     { "data": "close" },
-                    { "data": "created" },
+                    /*{ "data": "created" },*/
                 ],
                 "order":[1,'desc'],
                 "columnDefs": [
