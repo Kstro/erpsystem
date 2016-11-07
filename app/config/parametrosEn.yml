@@ -537,8 +537,9 @@ parameters:
         app.descripcionOportunidad: Add, modify or delete opportunity.
         
         app.nameOportunidad: Name
-        app.tipoCuentaOportunidad: Account type
-        app.cuentaOportunidad: Account name
+        app.tipoCuentaOportunidad: Account Type
+        app.cuentaOportunidad: Account Name
+        app.accountManagerOportunidad: Account Manager
         app.etapaOportunidad: Sales Stage
         app.fechaCierreOportunidad: Expected Close Date
         app.fechaRegistroOportunidad: Date Created 

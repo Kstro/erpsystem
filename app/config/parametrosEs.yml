@@ -441,6 +441,7 @@ parameters:
         app.nameOportunidadEs: Nombre
         app.tipoCuentaOportunidadEs: Tipo de cuenta
         app.cuentaOportunidadEs: Nombre de cuenta
+        app.accountManagerOportunidadEs: Responsable de cuenta
         app.etapaOportunidadEs: Etapa de venta
         app.fechaCierreOportunidadEs: Fecha de cierre
         app.fechaRegistroOportunidadEs: Fecha de registro

@@ -114,7 +114,7 @@ class CrmOportunidadController extends Controller
                 $orderByText = "close";
                 break;
             case 5:
-                $orderByText = "created";
+                $orderByText = "contact";
                 break;
         }
         
@@ -126,11 +126,15 @@ class CrmOportunidadController extends Controller
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
                     . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account "
+                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
-                    . "WHERE opo.estado = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                    . "JOIN cta.contactoCuenta cc "
+                    . "JOIN cc.contacto con "
+                    . "JOIN con.persona per "
+                    . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -145,11 +149,15 @@ class CrmOportunidadController extends Controller
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
                     . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account "
+                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
-                    . "WHERE opo.estado = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                    . "JOIN cta.contactoCuenta cc "
+                    . "JOIN cc.contacto con "
+                    . "JOIN con.persona per "
+                    . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -165,11 +173,15 @@ class CrmOportunidadController extends Controller
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
                     . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account "
+                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
-                    . "WHERE opo.estado = 1 "
+                    . "JOIN cta.contactoCuenta cc "
+                    . "JOIN cc.contacto con "
+                    . "JOIN con.persona per "
+                    . "WHERE opo.estado = 1 AND cc.titular = 1 "
                     . "ORDER BY ".$orderByText." ".$orderDir;
             
             $row['data'] = $em->createQuery($dql)
@@ -431,7 +443,18 @@ class CrmOportunidadController extends Controller
                 $response = new JsonResponse();
                  
                 $em = $this->getDoctrine()->getManager();
-                $object = $em->getRepository('ERPCRMBundle:CrmCuenta')->findBy(array('tipoCuenta' => $id, 'estado' => 1));
+                //$object = $em->getRepository('ERPCRMBundle:CrmCuenta')->findBy(array('tipoCuenta' => $id, 'estado' => 1));
+                
+                $dql = "SELECT * "
+                        . "FROM ERPCRMBundle:CrmCuenta cta "
+                        . "JOIN cta.tipoCuenta tipo "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "WHERE cta.estado = 1 AND cc.titular = 1 AND tipo.id = " . $id;
+
+                $object = $em->createQuery($dql)                        
+                        ->getResult();
                 
                 if(count($object)!=0){
                     $array=array();
