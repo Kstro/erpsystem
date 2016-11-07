@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CrmTipoActividad</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ crmTipoActividad.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ crmTipoActividad.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Iconoclase</th>
+                <td>{{ crmTipoActividad.iconoClase }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{% if crmTipoActividad.estado %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_activities-types_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_activities-types_edit', { 'id': crmTipoActividad.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

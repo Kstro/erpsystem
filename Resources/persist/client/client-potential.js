@@ -6,6 +6,7 @@ $(document).ready(function() {
         $('.btnAddCommentGen').attr('id',1);
 	var numAddress = 0;
         var numPedidos=0;
+        var numPedidosAjaxEdit=0;
         var numContacts = 0;
 	/*/////Persist datatable (Save method)*/
 	var filesSelectedPrev = document.getElementById("file").files;
@@ -158,7 +159,8 @@ $(document).ready(function() {
                             selected++;
                     }
 		});	
-		if (text=='TD' && id!=idForm && selected==0) {
+		if (text=='TD' && id!=idForm && selected==0 && numPedidosAjaxEdit==0) {
+                    numPedidosAjaxEdit = 1;
                     objClicked.off('click');
                     objClicked.css('cursor','progress');
                     $.ajax({
@@ -304,6 +306,7 @@ $(document).ready(function() {
                                 }	
                                 objClicked.on('click');
                                 objClicked.css('cursor', 'pointer');
+                                numPedidosAjaxEdit = 0;
                         },
                         error:function(data){
                                 if(data.error){
@@ -315,6 +318,7 @@ $(document).ready(function() {
                                 $('#filterTag').removeClass('hidden');
                                 objClicked.on('click');
                                 objClicked.css('cursor', 'pointer');	
+                                numPedidosAjaxEdit = 0;
                         }
                     });
 		} 

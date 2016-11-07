@@ -4,8 +4,8 @@ $(document).ready(function() {
 	$("#txtId1").val('');
 	$("#txtId2").val('');
         $('.btnAddCommentGen').attr('id',1);
+        var numPedidosAjaxEdit = 0;
         var numPedidos=0;
-        var activeAjaxConnections=0;
 	var numAddress = 0;
         var numContacts = 0;
 	/*/////Persist datatable (Save method)*/
@@ -151,7 +151,8 @@ $(document).ready(function() {
 				selected++;
 			}
 		});	
-		if (text=='TD' && id!=idForm && selected==0) {
+		if (text=='TD' && id!=idForm && selected==0 && numPedidosAjaxEdit==0) {
+                    numPedidosAjaxEdit=1;
                         objClicked.off('click');
 			objClicked.css('cursor','progress');
 			$.ajax({
@@ -287,18 +288,20 @@ $(document).ready(function() {
                                         objClicked.on('click');
 					activeAjaxConnections=0;
 					objClicked.css('cursor', 'pointer');
+                                        numPedidosAjaxEdit = 0;
 				},
 				error:function(data){
-					if(data.error){
-						// console.log(data.id);
-						swal('',data.error,'error');
-					}
-                                        $('#addTag').addClass('hidden');
-					$('#addedTags').addClass('hidden');
-					$('#filterTag').removeClass('hidden');
-					objClicked.on('click');
-					activeAjaxConnections=0;
-					objClicked.css('cursor', 'pointer');	
+                                    if(data.error){
+                                            // console.log(data.id);
+                                            swal('',data.error,'error');
+                                    }
+                                    $('#addTag').addClass('hidden');
+                                    $('#addedTags').addClass('hidden');
+                                    $('#filterTag').removeClass('hidden');
+                                    objClicked.on('click');
+                                    activeAjaxConnections=0;
+                                    objClicked.css('cursor', 'pointer');	
+                                    numPedidosAjaxEdit = 0;
 				}
 			});
 		} 
