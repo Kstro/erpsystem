@@ -441,6 +441,7 @@ parameters:
         app.nameOportunidadEs: Nombre
         app.tipoCuentaOportunidadEs: Tipo de cuenta
         app.cuentaOportunidadEs: Nombre de cuenta
+        app.accountManagerOportunidadEs: Responsable de cuenta
         app.etapaOportunidadEs: Etapa de venta
         app.fechaCierreOportunidadEs: Fecha de cierre
         app.fechaRegistroOportunidadEs: Fecha de registro
@@ -455,6 +456,15 @@ parameters:
         app.addRowOportunidadEs: Nueva fila
         app.productoOportunidadEs: Producto / Servicio
         app.cantidadOportunidadEs: Cantidad
+        
+        #Cotizacion en oportunidad
+        app.pnHeadingLabelCotizacionEs: Cotizaciones
+        app.newQuoteEs: Nueva cotización
+        app.noQuoteEs: No se encontraron cotizaciones
+        app.correlativoQuoteEs: No.
+        app.userQuoteEs: Asignado a
+        app.dateCreatedQuoteEs: Fecha de registro
+        app.dateExpirationQuoteEs: Válido hasta
        
         #Login
         app.tituloLoginEs: Sistema CRM | Inicio de sesión

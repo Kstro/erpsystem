@@ -86,7 +86,7 @@ class CrmOportunidadController extends Controller
         $busqueda = $request->query->get('search');
         
         $em = $this->getDoctrine()->getManager();
-        $rowsTotal = $em->getRepository('ERPCRMBundle:CrmOportunidad')->findAll();
+        $rowsTotal = $em->getRepository('ERPCRMBundle:CrmOportunidad')->findBy(array('estado' => 1));
         
         $row['draw']=$draw++;  
         $row['recordsTotal'] = count($rowsTotal);
@@ -114,7 +114,7 @@ class CrmOportunidadController extends Controller
                 $orderByText = "close";
                 break;
             case 5:
-                $orderByText = "created";
+                $orderByText = "contact";
                 break;
         }
         
@@ -126,11 +126,15 @@ class CrmOportunidadController extends Controller
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
                     . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account "
+                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
-                    . "WHERE CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                    . "JOIN cta.contactoCuenta cc "
+                    . "JOIN cc.contacto con "
+                    . "JOIN con.persona per "
+                    . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -145,11 +149,15 @@ class CrmOportunidadController extends Controller
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
                     . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account "
+                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
-                    . "WHERE CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                    . "JOIN cta.contactoCuenta cc "
+                    . "JOIN cc.contacto con "
+                    . "JOIN con.persona per "
+                    . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
                     . "ORDER BY ".$orderByText." ".$orderDir;
 
             $row['data'] = $em->createQuery($dql)
@@ -165,10 +173,15 @@ class CrmOportunidadController extends Controller
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
                     . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
                     . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account "
+                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
                     . "FROM ERPCRMBundle:CrmOportunidad opo "
                     . "JOIN opo.etapaVenta sta "
                     . "JOIN opo.cuenta cta "
+                    . "JOIN cta.contactoCuenta cc "
+                    . "JOIN cc.contacto con "
+                    . "JOIN con.persona per "
+                    . "WHERE opo.estado = 1 AND cc.titular = 1 "
                     . "ORDER BY ".$orderByText." ".$orderDir;
             
             $row['data'] = $em->createQuery($dql)
@@ -191,6 +204,10 @@ class CrmOportunidadController extends Controller
         $isAjax = $this->get('Request')->isXMLhttpRequest();
         if($isAjax){
             try {
+                // Recuperando y seteando la zona horaria que se haya establecido
+                $timeZone = $this->get('time_zone')->getTimeZone();
+                date_default_timezone_set($timeZone->getNombre());
+                
                 $em = $this->getDoctrine()->getManager();
                 $response = new JsonResponse();
                 
@@ -298,78 +315,84 @@ class CrmOportunidadController extends Controller
                 }//Fin de if id, inserción
                 // Else para la modificación del objeto crmOportunidad y sus tablas dependientes
                 else {                    
-                        $crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($idOportunidad);
+                    $crmOportunidadObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($idOportunidad);
+
+                    //Seteo en Entidad CrmOportunidad
+                    $crmOportunidadObj->setNombre($nombreOportunidad);
+                    $crmOportunidadObj->setFechaCierre( new \DateTime($fechaCierre));
+                    $crmOportunidadObj->setDescripcion($descripcion);
+                    $crmOportunidadObj->setEtapaVenta($crmEtapaVentaObj);
+                    $crmOportunidadObj->setProbabilidad($probabilidad);
+                    $crmOportunidadObj->setCuenta($crmCuentaObj);
+                    $crmOportunidadObj->setFuentePrincipal($crmFuentePrincipalObj);
+
+                    // Si se ha seleccionado que la fuente de la oportunidad  
+                    // de venta ha sido a traves de una camapaña
+                    if($fuente == 1){
+                        // Objeto de la campaña seleccionada
+                        $crmCampaniaObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($campania);     
+
+                        // Seteo de la campaña seleccionada
+                        $crmOportunidadObj->setCampania($crmCampaniaObj);
+                    } else {
+                        $crmOportunidadObj->setCampania(NULL);
+                    }
+
+                    //Persistiendo $crmOportunidadObj
+                    $em->merge($crmOportunidadObj);
+                    $em->flush();
+
+                    //Eliminar personas asignadas a la oportunidad
+                    $asignacionArrayObj = $em->getRepository('ERPCRMBundle:CrmAsignadoOportunidad')->findBy(array('oportunidad'=>$crmOportunidadObj));
+                    foreach ($asignacionArrayObj as $key => $value) {
+                        $em->remove($value);
+                        $em->flush();
+                    }
+
+                    //Eliminar productos vinculados a la oportunidad
+                    $productosArrayObj = $em->getRepository('ERPCRMBundle:CrmProductoOportunidad')->findBy(array('oportunidad'=>$crmOportunidadObj));
+                    foreach ($productosArrayObj as $key => $value) {
+                        $em->remove($value);
+                        $em->flush();
+                    }
                         
-                        $crmCuentaObj->setTipoCuenta($crmTipoCuentaObj);
-                        $crmCuentaObj->setIndustria($industriaObj);
-                        $crmCuentaObj->setClientePotencial($clientePotencial);
-                        $crmCuentaObj->setNivelSatisfaccion($nivelSatisfaccion);
-                        $crmCuentaObj->setTipoEntidad($tipoEntidadObj);
-                        $crmCuentaObj->setNombre($nombreCuenta);
-                        $crmCuentaObj->setDescripcion($descripcionCuenta);
-                        // $crmCuentaObj->setFechaRegistro($fechaRegistro);
-                        $crmCuentaObj->setSitioWeb($sitioWeb);
-                        $crmCuentaObj->setEstado(1);
-                                        
-                        //Persist crmCuentaObj
-                        $em->merge($crmCuentaObj);
-                        $em->flush();
+                    // Personas asignadas a la oportunidad de venta
+                    foreach ($personaArray as $value) {
+                        // Objeto de la persona asignada a la oportunidad
+                        $personaObj = $em->getRepository('ERPCRMBundle:CtlUsuario')->find($value);
                         
-                        //Eliminar telefonos
-                        $ctlTelefonoArrayObj = $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlTelefonoArrayObj as $key => $value) {
-                            $em->remove($value);
-                            $em->flush();
-                        }
+                        //Seteo en Entidad CrmAsignadoOportunidad
+                        $crmAsignadoOportunidadObj = new CrmAsignadoOportunidad();
+                        $crmAsignadoOportunidadObj->setOportunidad($crmOportunidadObj);
+                        $crmAsignadoOportunidadObj->setUsuarioAsignado($personaObj);
+                        $crmAsignadoOportunidadObj->setPrioridad(NULL);
+                        $crmAsignadoOportunidadObj->setFechaLimite( new \DateTime($fecha[2] . '-' . $fecha[1] . '-' . $fecha[0]));
 
-                        //Eliminar correos
-                        $ctlCorreoArrayObj = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlCorreoArrayObj as $key => $value) {
-                            $em->remove($value);
-                            $em->flush();
-                        }
-
-                        //Eliminar direccion
-                        $ctlDireccionArrayObj = $em->getRepository('ERPCRMBundle:CtlDireccion')->findBy(array('cuenta'=>$idCuenta));
-                        foreach ($ctlDireccionArrayObj as $key => $value) {
-                            $em->remove($value);
-                            $em->flush();
-                        }
-
-                        //Tabla ctlPersona
-                        $ctlPersonaObj = $em->getRepository('ERPCRMBundle:CtlPersona')->find($idPersona);
-                        $ctlPersonaObj->setNombre($nombrePersona);
-                        $ctlPersonaObj->setApellido($apellidoPersona);
-                        $ctlPersonaObj->setGenero($genero);
-                        // $ctlPersonaObj->setFechaRegistro($fechaRegistro);
-                        $ctlPersonaObj->setSucursal($sucursal);
-                        $ctlPersonaObj->setTratamientoProtocolario($tratamientoProtocolarioObj);
-
-                        //Persist ctlPersonaObj
-                        $em->merge($ctlPersonaObj);
+                        //Persistiendo $crmAsignadoOportunidadObj
+                        $em->persist($crmAsignadoOportunidadObj);
                         $em->flush();
-
-
-
-
-                    //Tabla ctlCorreo
-                    foreach ($emailArray as $key => $correo) {
-                        $ctlCorreoObj = new CtlCorreo();
-                        $ctlCorreoObj->setEmpresa(null);
-                        $ctlCorreoObj->setPersona(null);
-                        $ctlCorreoObj->setCuenta($crmCuentaObj);
-                        $ctlCorreoObj->setEmail($correo);
-                        $ctlCorreoObj->setEstado(1);
-                        //Persist ctlCorreo
-                        $em->persist($ctlCorreoObj);
-                        $em->flush();
-
                     }
                     
-                    $serverSave = $this->getParameter('app.serverMsgSave');
+                    // Productos relacionados a la oportunidad de venta
+                    foreach ($productosArray as $key => $producto) {
+                        // Objeto del producto relacionado a la oportunidad
+                        $productoObj = $em->getRepository('ERPCRMBundle:CtlProducto')->find($producto);
+                        
+                        // Seteo en Entidad CrmProductoOportunidad
+                        $productoOportunidadObj = new CrmProductoOportunidad();                        
+                        $productoOportunidadObj->setOportunidad($crmOportunidadObj);
+                        $productoOportunidadObj->setProducto($productoObj);
+                        $productoOportunidadObj->setCantidad($cantidadArray[$key]);
+                        
+                        //Persistiendo productoOportunidadObj
+                        $em->persist($productoOportunidadObj);
+                        $em->flush();
+                    }
+                    
+                    $serverUptate = $this->getParameter('app.servermsgupdate');
                     
                     $data['id']=$crmOportunidadObj->getId();
-                    $data['msg']=$serverSave;
+                    $data['msg']=$serverUptate;
                 }
                 
                 $response->setData($data); 
@@ -420,7 +443,18 @@ class CrmOportunidadController extends Controller
                 $response = new JsonResponse();
                  
                 $em = $this->getDoctrine()->getManager();
-                $object = $em->getRepository('ERPCRMBundle:CrmCuenta')->findBy(array('tipoCuenta' => $id, 'estado' => 1));
+                //$object = $em->getRepository('ERPCRMBundle:CrmCuenta')->findBy(array('tipoCuenta' => $id, 'estado' => 1));
+                
+                $dql = "SELECT * "
+                        . "FROM ERPCRMBundle:CrmCuenta cta "
+                        . "JOIN cta.tipoCuenta tipo "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "WHERE cta.estado = 1 AND cc.titular = 1 AND tipo.id = " . $id;
+
+                $object = $em->createQuery($dql)                        
+                        ->getResult();
                 
                 if(count($object)!=0){
                     $array=array();
@@ -527,10 +561,12 @@ class CrmOportunidadController extends Controller
     public function retrieveAjaxOpportunityAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $response = new JsonResponse();
+        
         $data = array();
         
         try {
+            $response = new JsonResponse();
+            
             $id = $request->get("param1");            
             $crmOportunidadObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
             
@@ -554,16 +590,57 @@ class CrmOportunidadController extends Controller
                     $data['campania'] = $crmOportunidadObj->getCampania()->getId();    
                 }
                 
+                $data['asignados'] = array();
                 foreach ($asignadosOportunidad as $key => $value) {
                     $data['asignados'][$key] = $value->getUsuarioAsignado()->getId();
                 }
                 
+                $data['productos'] = array();
+                $data['cantProduct'] = array();
                 foreach ($productosOportunidad as $key => $value) {
                     $data['productos'][$key] = $value->getProducto()->getId();
+                    $data['cantProduct'][$key] = $value->getCantidad();
                 }
                 
-                var_dump($data);
-                die();
+                $crmCuentasObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->findBy(array('tipoCuenta' => $data['tipoCuenta'], 'estado' => 1));
+                
+                if(count($crmCuentasObj) != 0){
+                    $array=array();
+                    
+                    foreach ($crmCuentasObj as $key => $value) {
+                        $arrayAux = array();    
+                        array_push($arrayAux, $value->getId());
+                        array_push($arrayAux, $value->getNombre());
+                        array_push($array, $arrayAux);
+                    }
+                    
+                    $data['cuentas']=$array;
+                }
+                else{
+                    $data['cuentas']=[];
+                }    
+                
+                $crmCotizacionesObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->findBy(array('oportunidad' => $crmOportunidadObj));
+                
+                if(count($crmCotizacionesObj) != 0){
+                    $array=array();
+                    
+                    foreach ($crmCotizacionesObj as $key => $value) {
+                        
+                        $arrayAux = array();    
+                        array_push($arrayAux, $key + 1);
+                        array_push($arrayAux, $value->getId());
+                        array_push($arrayAux, $value->getUsuario()->getPersona()->getNombre() . ' ' . $value->getUsuario()->getPersona()->getApellido());
+                        array_push($arrayAux, $value->getFechaRegistro());
+                        array_push($arrayAux, $value->getFechaVencimiento());
+                        array_push($array, $arrayAux);
+                    }
+                    
+                    $data['cotizaciones']=$array;
+                }
+                else{
+                    $data['cotizaciones']=[];
+                }    
                 
             } else {
                 $data['error'] = "Error";
@@ -589,5 +666,64 @@ class CrmOportunidadController extends Controller
             }
             $response->setData($data);
         }
+        
+        return $response;
+    }
+    
+    /**
+     * Delete opportunities
+     *
+     * @Route("/delete/opportunities", name="admin_oportunities_delete_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function deleteajaxAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $ids=$request->get("param1");
+                $response = new JsonResponse();
+                
+                $em = $this->getDoctrine()->getManager();
+                foreach ($ids as $key => $id) {
+                    $object = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);    
+                    if(count($object)){
+                        $object->setEstado(0);
+                        $em->merge($object);
+                        $em->flush();    
+                        $serverDelete = $this->getParameter('app.serverMsgDelete');
+                        $data['msg']=$serverDelete;
+                    }
+                    else{
+                        echo "sdcasdc";
+                        $data['error']="Error";
+                    }
+                }
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }      
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
     }
 }

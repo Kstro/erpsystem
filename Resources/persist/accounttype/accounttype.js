@@ -2,7 +2,9 @@ $(document).ready(function() {
     $("input[name=checktodos]").prop({'checked': false});
     
     $(document).on('click', '#btnCancel', function(event) {
-        $('.btnAdd').click();
+        $('#txtId').val('');
+        $('#txtName').val('');
+        $('#pnAdd').slideToggle();
     });
     
     $(document).on('click', '#btnSave', function(event) {
@@ -11,11 +13,9 @@ $(document).ready(function() {
         var name=$('#txtName');
         var table = $('#accountTypesList').DataTable();
         var errores = 0; 
-        /*//Contador de errores, para antes de la persistencia*/
+        /* Contador de errores, para antes de la persistencia */
 
         $('.validateInput').each(function() {
-            console.log($(this).val());
-            
             if (!required($(this))) {
                 errores++;
             }
@@ -34,19 +34,21 @@ $(document).ready(function() {
                 dataType: 'json',
                 success: function (response)
                 {
-                    console.log(response.msg.error);
+                    /*console.log(response.msg.error);*/
                     
                     if(!response.msg.error){
                         swal('', response.msg.msg,'success');
                         $('#txtId').val('');
                         $('#txtName').val('');
-                        btn.button('reset');
+                        
                         table.ajax.reload();
-                        $('.btAdd').click();
+                        $('#pnAdd').slideToggle();
                     } else {
                         swal('', response.msg.error, 'error');
-                        btn.button('reset');
-                    }                    
+                        /*btn.button('reset');*/
+                    }    
+                    
+                    btn.button('reset');
                     
                     return false;
                 },
@@ -73,12 +75,19 @@ $(document).ready(function() {
         var text = $(this).prop('tagName');
         var id=$(this).parent().children().first().children().attr('id');
         var idForm=$('#txtId').val();
+        var selected = 0;
         
         /*//Cambiar nombre del panel heading para Modify*/
         $('.pnHeadingLabelAdd').addClass('hidden');
         $('.pnHeadingLabelEdit').removeClass('hidden');
         
-        if (text=='TD' && id!=idForm) {
+        $('.chkItem').each(function() {
+            if ($(this).is(':checked')) {
+                selected++;
+            }
+        });
+        
+        if (text=='TD' && id!=idForm && selected==0) {
             $.ajax({
                 url: Routing.generate('admin_retrieve_accounttype'),
                 type: 'POST',
@@ -103,7 +112,9 @@ $(document).ready(function() {
             });
         } 
         else {
-
+            if(id==idForm && selected==0){
+                $('#pnAdd').slideDown();
+            }
         }					
     });
     /*/////Fin definición persist data (Edit method)*/

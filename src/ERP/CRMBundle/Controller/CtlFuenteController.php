@@ -85,35 +85,34 @@ class CtlFuenteController extends Controller
                 $objectDuplicate = $em->createQuery($sql)
                                      ->setParameters(array('busqueda'=>"%".strtoupper($originsourcename)."%"))
                                      ->getResult(); 
-                
-                if (count($objectDuplicate)) {
-                    $data['error'] = $this->getParameter('app.serverDuplicateName');
-                    //$exito = '0';
-                } else {
-                    if ($id=='') {
+                                
+                if ($id=='') {
+                    if (count($objectDuplicate)) {
+                        $data['error'] = $this->getParameter('app.serverDuplicateName');
+                    } else {
                         $originsource = new CtlFuente();
                         $originsource->setNombre($originsourcename);
                         $originsource->setEstado(1);
 
                         $em->persist($originsource);
                         $em->flush();
-                        
+
                         $serverSave = $this->getParameter('app.serverMsgSave');
                         $data['msg']=$serverSave;
                         $data['id']=$originsource->getId();
-                    } else {
-                        $originsource = $em->getRepository('ERPCRMBundle:CtlFuente')->find($id);
-                        $originsource->setNombre($originsourcename);
-                        
-                        $em->merge($originsource);
-                        $em->flush();
-                        
-                        $serverUpdate = $this->getParameter('app.serverMsgUpdate');
-                        $data['msg']=$serverUpdate; 
-                        $data['id']=$originsource->getId();
-                    }                                        
-                }
-                
+                    }
+                } else {
+                    $originsource = $em->getRepository('ERPCRMBundle:CtlFuente')->find($id);
+                    $originsource->setNombre($originsourcename);
+
+                    $em->merge($originsource);
+                    $em->flush();
+
+                    $serverUpdate = $this->getParameter('app.serverMsgUpdate');
+                    $data['msg']=$serverUpdate; 
+                    $data['id']=$originsource->getId();
+                }                                        
+                                
                 $response = new JsonResponse();
                 $response->setData(array(
                                   'msg'   => $data

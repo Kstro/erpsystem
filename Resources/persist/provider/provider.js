@@ -1,7 +1,8 @@
 $(document).ready(function() {
-	var activeAjaxConnections=0;
+	var numPedidosAjaxEdit=0;
 	var numPedidos=0;
 	var dataId=0;
+        var numContacts = 0;
 	// var table= $('#providersList').dataTable();
         $('.btnAddCommentGen').attr('id',1);
 	$('.dpbCityFirst').select2();
@@ -162,9 +163,9 @@ $(document).ready(function() {
 				selected++;
 			}
 		});	
-		console.log(activeAjaxConnections);
-		if (text=='TD' && id!=idForm && selected==0 && activeAjaxConnections==0) {
-			activeAjaxConnections=1;
+		/*console.log(numPedidosAjaxEdit);*/
+		if (text=='TD' && id!=idForm && selected==0 && numPedidosAjaxEdit==0) {
+			numPedidosAjaxEdit=1;
 			objClicked.off('click');
 			objClicked.css('cursor','progress');
 			$.ajax({
@@ -173,7 +174,6 @@ $(document).ready(function() {
 				data: {param1: idArray[0],param2:idArray[1]},
 				success:function(data){
 					if(data.error){
-						activeAjaxConnections=0;
 						swal('',data.error,'error');
 						id.val(data.id);
 						$('#addTag').addClass('hidden');
@@ -192,6 +192,7 @@ $(document).ready(function() {
 						/*// console.log(data.addressArray);*/
 						var numDirecciones = data.addressArray.length;
 						var numTelefonos = data.phoneArray.length;
+                                                var numContactosR = data.idContactos.length;
 						var numCorreos = data.emailArray.length;
 						$('.dpbTipoPersona').val(data.entidad).change().trigger("change");
 						/*// Direcciones*/
@@ -256,6 +257,29 @@ $(document).ready(function() {
 								break;
 							}
 						}
+                                                
+                                                
+                                                for (var i = 0; i < numContactosR; i++) {
+                                                        console.log(i);
+                                                        /*// console.log(data.addressArray[i]);*/
+                                                        switch(i){
+                                                                case 0:
+                                                                    $('.dpbFirstContacts').html('<option value='+data.idContactos[i]+'>'+data.nombreContactos[i]+'</option>');
+                                                                    $('.telefonoContactoFirst').html(data.telefonoContactos[i]);
+                                                                    $('.correoContactoFirst').html(data.correoContactos[i]);
+                                                                break;
+                                                                default:
+                                                                        $('#plusContact').click();
+                                                                        /*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
+                                                                        $('#contact-'+(numContacts)).html('<option value='+data.idContactos[i]+'>'+data.nombreContactos[i]+'</option>');
+                                                                        /*//$('#contact-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");*/
+                                                                        $('#telefonoContact-'+(numContacts)).html(data.telefonoContactos[i]);
+                                                                        $('#correoContact-'+(numContacts)).html(data.correoContactos[i]);
+                                                                break;
+                                                        }
+                                                }
+                                                
+                                                
 						if(data.src!=''){
 							$('#imgTest').attr('src','../../../../photos/accounts/'+data.src);	
 						}
@@ -291,7 +315,7 @@ $(document).ready(function() {
 						
 					}	
 					objClicked.on('click');
-					activeAjaxConnections=0;
+					numPedidosAjaxEdit=0;
 					objClicked.css('cursor', 'pointer');
 				},
 				error:function(data){
@@ -303,7 +327,7 @@ $(document).ready(function() {
 					$('#addedTags').addClass('hidden');
 					$('#filterTag').removeClass('hidden');
 					objClicked.on('click');
-					activeAjaxConnections=0;
+					numPedidosAjaxEdit=0;
 					objClicked.css('cursor', 'pointer');					
 				}
 			});
@@ -517,6 +541,7 @@ $(document).ready(function() {
 	/*/////Contadores para agregar o eliminar telefono, email y direccion*/
 	var numPhones = 0;
 	var numEmail = 0;
+        numContacts= 0;
 	
 	$('.txtPhone').each(function(index, el) {
 		numPhones++;
@@ -599,6 +624,120 @@ $(document).ready(function() {
 		return false;
 	});
 	/*/////Fin de agregar/remover direccion*/
+        
+        
+        
+        
+        
+        /*/////Buscar contactos*/
+	$(document).on('change', '.dpbContacts', function(event) {
+            
+            var id = $(this).val();
+            var idS=[];
+            var objDOM = $(this);
+            
+            
+            
+                $.ajax({
+                    url: Routing.generate('busqueda_info_contacto_select_info'),
+                    type: 'GET',
+                    data: {param1: id},
+                    success:function(data){
+                        if(data.error){
+                            swal('',data.error,'error');
+                        }
+                        else{
+                            
+                                if(objDOM.hasClass('dpbFirstContacts')){
+                                    $('.telefonoContactoFirst').html(data.telefono);
+                                    $('.correoContactoFirst').html(data.correo);
+                                }
+                                else{
+                                    idS=(objDOM.attr('id')).split('-');
+                                    $('#telefonoContact-'+idS[1]).html(data.telefono);
+                                    $('#correoContact-'+idS[1]).html(data.correo);
+                                }
+                            
+                            
+                        }
+                    },
+                    error:function(data){
+                        if(data.error){
+                            /*console.log(data.id);*/
+                            swal('',data.error,'error');
+                        }
+                        $btn.button('reset');
+                    }
+                });
+                /*console.log(idS[1]);*/
+		return false;
+	});
+
+
+
+
+
+        /*/////Agregar/remover contactos*/
+	$(document).on('click', '#plusContact', function(event) {
+		numContacts++;
+		//var optionsPhoneType = $('.firstPhoneType').html();
+		$('.contacts').append('<div style="margin-top:27px;"><select id="contact-'+numContacts+'" style="width:100%;margin-top:25px !important;" name="contactos[]" class="input-sm form-control validateInput dpbContacts"></select></div>');
+		$('.contactsTelefono').append('<div style="margin-top:30px;"><label id="telefonoContact-'+numContacts+'" style="width:100%;!important;"></label></div>');
+		$('.contactsCorreo').append('<div style="margin-top:30px;"><label id="correoContact-'+numContacts+'" style="width:100%;!important;"></label></div>');
+/*//          	$('.phonesText').append('<input id="phones-'+numPhones+'" style="margin-top:25px;" type="text" name="phone[]" class="input-sm form-control validateInput txtPhone">');
+//		$('.phonesExtension').append('<input id="extension-'+numPhones+'" style="margin-top:25px;" type="text" name="phoneExt[]" class="input-sm form-control txtExtension">');*/
+		$('.addContact').append('<button id="deleteContact-'+numContacts+'" style="margin-top:25px;" class="btn removeContact btn-danger"><i class="fa fa-remove"></i></button>');
+		/*//$('#contacts-'+numContacts).select2();*/
+                $('.firstPhoneTxt').mask('(000) 000-0000');
+                $('#contact-'+numContacts).select2({
+                    ajax: {
+                           url: function () {
+                                return Routing.generate('busqueda_contacto_select_info')+'?param1='+$('#txtId2').val();
+                              },  
+                           dataType: 'json',
+                           delay: 250,
+                           data: function (params) {
+                             return {
+                               q: params.term, 
+                               page: params.page
+                             };
+                           },
+                           processResults: function (data, params) {
+                                               var select2Data = $.map(data.data, function (obj) {
+                                                   obj.id = obj.id;
+                                                   obj.text = obj.nombre;
+
+                                                   return obj;
+                                               });
+                                               return {
+                                                   results: select2Data
+                                                   
+                                               };
+                                           },
+                           cache: true
+                         },
+                         escapeMarkup: function (markup) { return markup; }, 
+                         minimumInputLength: 1,
+                         templateResult: formatRepo, 
+                         
+                       });
+		return false;
+	});
+	$(document).on('click', '.removeContact', function(event) {
+		var numDel = $(this).attr('id');
+		numDelArray= numDel.split('-');
+		$('#contact-'+numDelArray[1]).parent().remove();
+		$('#deleteContact-'+numDelArray[1]).remove();
+		$('#telefonoContact-'+numDelArray[1]).remove();
+		$('#correoContact-'+numDelArray[1]).remove();
+		return false;
+	});
+	/*/////Fin de agregar/remover contactos*/
+        
+        
+        
+        
+        
 
 
 	/*/////Agregar/remover direccion*/

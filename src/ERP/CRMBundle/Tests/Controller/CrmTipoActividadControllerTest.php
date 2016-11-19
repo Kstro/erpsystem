@@ -4,7 +4,7 @@ namespace ERP\CRMBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CrmActividadControllerTest extends WebTestCase
+class CrmTipoActividadControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()
@@ -13,13 +13,13 @@ class CrmActividadControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/admin/crmactivity/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/crmactivity/");
+        $crawler = $client->request('GET', '/admin/activities-types/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/activities-types/");
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'erp_crmbundle_crmactividad[field_name]'  => 'Test',
+            'erp_crmbundle_crmtipoactividad[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class CrmActividadControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Update')->form(array(
-            'erp_crmbundle_crmactividad[field_name]'  => 'Foo',
+            'erp_crmbundle_crmtipoactividad[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 

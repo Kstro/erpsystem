@@ -1036,7 +1036,9 @@ class CrmContactoController extends Controller
     public function contactsajaxAction(Request $request) {
         try {
             $nombreContacto = $request->get("q");
-            //echo $idContacto;            
+            $idPersona = $request->get("param1");
+            //var_dump($idPersona);
+            
             $response = new JsonResponse();
             
             $em = $this->getDoctrine()->getManager();
@@ -1045,14 +1047,14 @@ class CrmContactoController extends Controller
             //$crmCuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCuenta);
                       
             //$crmContactoObj = $em->getRepository('ERPCRMBundle:CrmContacto')->findBy(array('nombre' =>'%'.$nombreContacto.'%'));
-            $dql = "SELECT CONCAT(per.nombre,' ',per.apellido) as nombre,cu.id "
+            $dql = "SELECT CONCAT(per.nombre,' ',per.apellido) as nombre,cu.id, per.id as idp "
                         . "FROM ERPCRMBundle:CrmContacto cu "
                         . "JOIN cu.persona per "
-                        . "WHERE upper(CONCAT(per.nombre,' ',per.apellido)) LIKE upper(:busqueda) AND cu.estado=1 "
+                        . "WHERE upper(CONCAT(per.nombre,' ',per.apellido)) LIKE upper(:busqueda) AND cu.estado=1 AND per.id <> :id AND per.id <> 1 "
                         . "ORDER BY per.nombre ASC ";
         
             $row['data'] = $em->createQuery($dql)
-                ->setParameters(array('busqueda'=>"%".$nombreContacto."%"))
+                ->setParameters(array('busqueda'=>"%".$nombreContacto."%",'id'=>$idPersona))
                 ->getResult();
             //var_dump($row);
             return new Response(json_encode($row));
@@ -1094,11 +1096,30 @@ class CrmContactoController extends Controller
                     $idPersona= $crmContactoObj->getPersona()->getId();
                     $ctlCorreo = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('persona'=>$idPersona));
                     $ctlTelefono= $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('persona'=>$idPersona));
+                    
+                    if(count($ctlCorreo)==0){
+                        $ctlObjTemp = $em->getRepository('ERPCRMBundle:CrmContactoCuenta')->findBy(array('contacto'=>$crmContactoObj->getId()));
+                        $ctlCorreo = $em->getRepository('ERPCRMBundle:CtlCorreo')->findBy(array('cuenta'=>$ctlObjTemp[0]->getCuenta()->getId()));
+                    }
                     foreach ($ctlCorreo as $key=>$correo){
-                        $data['correo'].=', '.$correo->getCorreo();
+                        if($key==0){
+                            $data['correo'].=$correo->getEmail();
+                        }
+                        else{
+                            $data['correo'].=', '.$correo->getEmail();
+                        }
+                    }
+                    if(count($ctlTelefono)==0)
+                    {
+                        $ctlTelefono= $em->getRepository('ERPCRMBundle:CtlTelefono')->findBy(array('cuenta'=>$ctlObjTemp[0]->getCuenta()->getId()));
                     }
                     foreach ($ctlTelefono as $key=>$telefono){
-                        $data['telefono'].=', '.$telefono->getTelefono();
+                        if($key==0){
+                            $data['telefono'].=$telefono->getNumTelefonico();
+                        }
+                        else{
+                            $data['telefono'].=', '.$telefono->getNumTelefonico();
+                        }
                     }
                 }
                 $data['i'] = 0;

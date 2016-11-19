@@ -80,35 +80,34 @@ class CrmTipoCuentaController extends Controller
                 $objectDuplicate = $em->createQuery($sql)
                                     ->setParameters(array('busqueda'=>"%".strtoupper($accounttypename)."%"))
                                     ->getResult(); 
-                
-                if (count($objectDuplicate)) {
-                    $data['error'] = $this->getParameter('app.serverDuplicateName');
-                    //$exito = '0';
-                } else {
-                    if ($id=='') {
+                                                                    
+                if ($id=='') {
+                    if (count($objectDuplicate)) {
+                        $data['error'] = $this->getParameter('app.serverDuplicateName');
+                    } else {    
                         $accounttype = new CrmTipoCuenta();
                         $accounttype->setNombre($accounttypename);
                         $accounttype->setEstado(1);
 
                         $em->persist($accounttype);
                         $em->flush();
-                        
+
                         $serverSave = $this->getParameter('app.serverMsgSave');
                         $data['msg']=$serverSave;
                         $data['id']=$accounttype->getId();
-                    } else {
-                        $accounttype = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
-                        $accounttype->setNombre($accounttypename);
-                        
-                        $em->merge($accounttype);
-                        $em->flush();
-                        
-                        $serverUpdate = $this->getParameter('app.serverMsgUpdate');
-                        $data['msg']=$serverUpdate; 
-                        $data['id']=$accounttype->getId();
-                    }                                        
-                }
-                
+                    }    
+                } else {
+                    $accounttype = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->find($id);
+                    $accounttype->setNombre($accounttypename);
+
+                    $em->merge($accounttype);
+                    $em->flush();
+
+                    $serverUpdate = $this->getParameter('app.serverMsgUpdate');
+                    $data['msg']=$serverUpdate; 
+                    $data['id']=$accounttype->getId();
+                }                                        
+                                
                 $response = new JsonResponse();
                 $response->setData(array(
                                   //'exito'   => $exito,

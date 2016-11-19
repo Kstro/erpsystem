@@ -80,6 +80,7 @@ $(document).on('click', '#clienteList>thead>tr>th:gt(0)', function(event) {
 
 function limpiarCampos(){
 	$('#txtId1').val('');
+	$('#txtId2').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');
@@ -111,6 +112,10 @@ function limpiarCampos(){
         $('.removeContact').each(function(index, el) {
 		$(this).click();
 	});
+        
+        $('.dpbFirstContacts').html('<option value=0></option>');
+        $('.telefonoContactoFirst').html('');
+        $('.correoContactoFirst').html('');
 		
 	$('.chkItemAll').prop({'checked': false});
 	$('.btnAddPage').removeClass('hidden'); 

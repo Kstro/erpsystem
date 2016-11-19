@@ -1,37 +1,39 @@
 /*/////Show forms panel*/
 
 $(document).on('click', '.btnAddPage', function(event) {
-	/*//console.log('add');*/
-	var id = $('#txtId1').val();
 	
-        $('#comentarios').hide();
-	$('#wallmessages').hide();
-	$('#btnLoadMore').hide();
-
+	var id = $('#txtId').val();
+	
+        var numPedidos=0;
+        
+        $('#btnLoadMoreGen').hide();
 	$('#addTag').addClass('hidden');
+	$('#addFile').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
 	$('#addedTags').addClass('hidden');
+	$('#wallmessages').addClass('hidden');
+	$('#comentarios').addClass('hidden');
 	$('#filterTag').addClass('hidden');
         
-	/*// console.log("ID: "+id);*/
-	/*//Cambiar nombre del panel heading para add (Inserción)*/
 	$('.pnHeadingLabelAdd').removeClass('hidden');
 	$('.pnHeadingLabelEdit').addClass('hidden');
 	if (id!='') {
 		/*// console.log("if");*/
 		limpiarCampos();
-		$('#btnBack').removeClass('hidden');
-		$('#btnCancelTop').removeClass('hidden');
-		$('#btnSaveTop').removeClass('hidden');
+		$('#btnSaveTop').addClass('hidden');
+		$('#btnCancelTop').addClass('hidden');
+		$('#btnAddPage').removeClass('hidden');
 		$(this).addClass('hidden');
 	}
 	else{
-		/*// console.log("else");*/
-		/*// limpiarCampos();*/
 		$('#pnAdd').show();
-		$('#socioList').parent().hide();
+		$('#tasksList').parent().hide();
+		$('#btnSave').removeClass('hidden');
+		$('#btnSaveTop').removeClass('hidden');
+		$('#btnCancelTop').removeClass('hidden');
+
 	}
-	$('#btnSaveTop').removeClass('hidden');
-	$('#btnCancelTop').removeClass('hidden');
+	
 	$('.btnAddPage').addClass('hidden');
 	$('#txtName').focus();
 });
@@ -42,7 +44,7 @@ $(document).on('click', '.btnAddPage', function(event) {
 
 $(document).on('input', 'div.dataTables_filter input', function(event) {
 	/*//console.log('add');*/
-	$('#txtId1').val('');
+	$('#txtId').val('');
 	$('#txtName').val('');
 	$('#txtDuracion').val('');
 	$('#pnAdd').slideUp();
@@ -56,71 +58,48 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 
 
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
+	
 	/*// console.log('cancel');*/
         $('#filterTag').removeClass('hidden');
 	$('#addTag').addClass('hidden');
 	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMore').addClass('hidden');
 	limpiarCampos();
 	return false;
 	
 });
-$(document).on('click', '#socioList>thead>tr>th:gt(0)', function(event) {
+$(document).on('click', '#tasksList>thead>tr>th:gt(0)', function(event) {
 	
-	console.log('cancel');
+	/*// console.log('cancel');*/
 	$('.chkItemAll').prop({'checked': false});
-
 	
 });
 
-
 function limpiarCampos(){
-	$('#txtId1').val('');
-        $('#txtId2').val('');
+	$('#txtId').val('');
 	$('#txtName').val('');
-	$('#txtApellido').val('');
-	$('#txtDuracion').val('');
+	$('#txtDescripcion').val('');
 	$('#txtCompania').val('');
-	$('.txtAddressFirst').val('');
-        $('.txtCity').val('');
-        $('.txtState').val('');
-        $('.txtZipCode').val('');
-	$('.firstPhoneTxt').val('');
-	$('.firstPhoneExtension').val('');
-	$('.txtEmailFirst').val('');
-        $('.txtWebsite').val('');
-        $('#txtAddComment').val('');
-	$('#imgTest').attr('src','http://placehold.it/250x250');
-	$('#file').val('');
-
+	$('#txtFechaInicio').val('');
+	$('#txtFechaFin').val('');
+	
 	$('.validateInput').each(function(index, el) {
 		$(this).removeClass('errorform');
 	});
-	$('.removeAddress').each(function(index, el) {
+	$('.removePersona').each(function(index, el) {
 		$(this).click();
 	});
-	$('.removePhone').each(function(index, el) {
-		$(this).click();
-	});
-	$('.removeEmail').each(function(index, el) {
-		$(this).click();
-	});
-        
-        $('.removeContact').each(function(index, el) {
-		$(this).click();
-	});
-        
-        $('.dpbFirstContacts').html('<option value=0></option>');
-        $('.telefonoContactoFirst').html('');
-        $('.correoContactoFirst').html('');
-		
-	$('.chkItemAll').prop({'checked': false});
+	
 	$('.btnAddPage').removeClass('hidden');
 	$('.btnDelete').addClass('hidden');
 	$('#btnBack').addClass('hidden');
 	$('#btnCancelTop').addClass('hidden');
 	$('#btnSaveTop').addClass('hidden');
+
 	$('#pnAdd').hide();
-	$('#socioList').parent().show();
+	$('#tasksList').parent().show();
 }
 
 /*/////Fin hide forms panel*/

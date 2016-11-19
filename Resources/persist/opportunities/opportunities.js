@@ -1,5 +1,7 @@
 $(document).ready(function() {
     var numPersonas = 0;
+    var recuperaDataCuenta = false;
+    var recuperaDataProbabilidad = false;
     
     /* Al momento que se dé click en guardar la información del formulario */
     $('#frmOpportunities').on('submit',(function(event) {
@@ -36,7 +38,7 @@ $(document).ready(function() {
                 success: function(data)  
                 {
                     $("#message").html(data);
-                    $("#txtId").val(data.id);
+                    $("#txtId").val(data.id);                    
                     
                     if(data.msg){
                         swal('',data.msg,'success');
@@ -58,7 +60,7 @@ $(document).ready(function() {
                     
                     $('#btnSaveTop').addClass('hidden');
                     $('#btnCancelTop').addClass('hidden');
-                    $('.btnAddPage').removeClass('hidden');
+                    $('.btnAddPage').removeClass('hidden');                                        
                 },
                 error:function(data) {
                         /* Act on the event */
@@ -84,11 +86,14 @@ $(document).ready(function() {
       se edita la información de la oportunidad                                         */
     $(document).on('click', '#oppotunitiesList>tbody>tr>td:nth-child(2),#oppotunitiesList>tbody>tr>td:nth-child(3),#oppotunitiesList>tbody>tr>td:nth-child(4),#oppotunitiesList>tbody>tr>td:nth-child(5),#oppotunitiesList>tbody>tr>td:nth-child(6)', function(event) {
         /* Definición de variables */
+        var table = $('#oppotunitiesList').DataTable();
         var text = $(this).prop('tagName');
         var id=$(this).parent().children().first().children().attr('id');
         var idForm=$('#txtId').val();
         var selected = 0;
         var objClicked = $(this);
+        recuperaDataCuenta = true;
+        recuperaDataProbabilidad = true;
         
         /* Cambio del nombre del panel heading para Modify */
         $('.pnHeadingLabelAdd').addClass('hidden');
@@ -100,7 +105,7 @@ $(document).ready(function() {
         /* Verificando si se ha seleccionado algún checkbox del datatable */
         $('.chkItem').each(function() {
             if ($(this).is(':checked')) {
-                    selected++;
+                selected++;
             }
         });
         
@@ -113,134 +118,215 @@ $(document).ready(function() {
                 type: 'POST',
                 data: {param1: id},
                 success:function(data){
-                        if(data.error){
-                                swal('',data.error,'error');
-                                id.val(data.id);
+                    if(data.error){
+                        swal('',data.error,'error');
+                        id.val(data.id);
+                    }
+                    else{
+                        /*console.log(data);*/
+                        
+                        /* Seteando Id de oportunidad de venta en campo de texto oculto */
+                        $('#txtId').val(data.id);
+
+                        /* Seteando Nombre de oportunidad de venta en su respectivo campo de texto */
+                        $('#txtName').val(data.name);
+
+                        /* seteando el valor del tipo de cuenta en su respectivo select */
+                        $('#tipoCuenta').val(data.tipoCuenta).change().trigger("change");
+
+
+                        /* Seteando la respectiva cuenta asociada a la oportunidad, así como las opciones */
+                        /* del tipo de cuenta asociado a la cuenta seleccionada                           */ 
+                        $('#cuenta').select2('destroy');
+                        $('#cuenta').html('');
+
+                        for (var j = 0; j < data.cuentas.length; j++) {
+                            if (j==0) {
+                                $('#cuenta').append('<option selected value="'+data.cuentas[0][0]+'">'+data.cuentas[0][1]+'</option>');
+                            } 
+                            else {
+                                $('#cuenta').append('<option value="'+data.cuentas[j][0]+'">'+data.cuentas[j][1]+'</option>');
+                            }
                         }
-                        else{
-                                /*// console.log(data);*/
-                                $('#txtId1').val(data.id1);
-                                $('#txtId2').val(data.id2);
-                                $('#dpbTitulo').val(data.titulo);
-                                $('#txtName').val(data.nombre);
-                                $('#txtApellido').val(data.apellido);
-                                $('#txtCompania').val(data.compania);
-                                /*// console.log(data.addressArray);*/
-                                var numDirecciones = data.addressArray.length;
-                                var numTelefonos = data.phoneArray.length;
-                                var numCorreos = data.emailArray.length;
-                                $('.dpbTipoPersona').val(data.entidad).change().trigger("change");
-                                /*// Direcciones*/
-                                for (var i = 0; i < numDirecciones; i++) {
-                                        /*// console.log(i);*/
-                                        /*// console.log(data.addressArray[i]);*/
-                                        switch(i){
-                                                case 0:
-                                                        /*$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
-                                                        $(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
-                                                        $('.txtAddressFirst').val(data.addressArray[i]);*/
 
-                                                        /*$(".dpbStateFirst").val(data.stateArray[i]);
-                                                        $(".dpbCityFirst").val(data.cityArray[i]);
-                                                        $('.txtAddressFirst').val(data.addressArray[i]);*/
+                        $('#cuenta').addClass('validateSelectP');
+                        $('#cuenta').select2();
 
-                                                        /*****************/
-                                                        $('.txtState').val(data.stateArray[i]);
-                                                        $('.txtcity').val(data.cityArray[i]);
-                                                        $('.txtAddress').val(data.addressArray[i]);
-                                                        $('.txtZipCode').val(data.zipCodeArray[i]);
+                        if(data.cuentas.length > 0) {
+                            $('#divCuentaOportunidad').removeClass('hidden');
+                        } else {
+                            $('#divCuentaOportunidad').addClass('hidden');
+                        }
 
-                                                break;
-                                                default:
-                                                        $('#plusAddress').click();
-                                                        $("#state-"+(numAddress)).val(data.stateArray[i]);
-                                                        $("#city-"+(numAddress)).val(data.cityArray[i]);
-                                                        $('#address-'+(numAddress)).val(data.addressArray[i]);
-                                                        $('#zip-'+(numAddress)).val(data.zipCodeArray[i]);
-                                                break;
-                                        }
+                        $('#cuenta').val(data.compania).change().trigger("change");
+                        $('#divCuentaOportunidad').removeClass('hidden');
+                        /* Fin de seteo de la cuenta asociada y las opciones del select */
+
+
+                        /* seteando el valor de la etapa de venta en su respectivo select */
+                        $('#etapaVenta').val(data.etapaVenta).change().trigger("change");
+
+                        /* Seteando fecha de cierre de oportunidad de venta en su respectivo campo de texto */
+                        $('#txtFechaCierre').val(data.fechaCierre);
+
+                        /* Seteando la probabilidad de que la oportunidad de venta cierre con exito en su respectivo campo de texto */
+                        $('#txtProbability').val(data.probability);
+
+                        /* Seteando fecha de cierre de oportunidad de venta en su respectivo campo de texto */
+                        $('#descripcion').val(data.description);
+
+                        /* seteando el valor de la fuente de origen en su respectivo select */
+                        $('#fuente').val(data.fuente).change().trigger("change");
+
+                        /*   Si la fuente de origen ha sido a traves de una campaña   */
+                        /*   Se setea la campaña asociada a la oportunidad de venta   */ 
+                        if(data.fuente == 1) {
+                            $('#campania').val(data.campania).change().trigger("change");
+                            $('#divCampania').removeClass('hidden');
+                        }
+
+
+                        /* Obteniendo las opciones del select de usuario asignado   */
+                        var personas = $('.firstResponsable').html();
+
+                        /* Obteniendo el contenido del label*/
+                        var assignedUserOportunidad =$('#assignedUserOportunidad').html();
+
+                        /* Seteando a los usuarios asignados  a la oportunidad, así como las opciones */
+                        /* de los usuarios que pueden ser asignados a la oportunidad                  */ 
+                        $('.responsable').html('');
+                        numPersonas = 0;
+                        $('.responsable').append('<label id="assignedUserOportunidad">'+assignedUserOportunidad+'</label>');
+
+                        for (var j = 0; j < data.asignados.length; j++) {
+                            if(j > 0) {
+                                $('.responsable').append('<div style="margin-top:27px;"><select id="persona-'+numPersonas+'" style="width:100%;margin-top:25px !important;" name="responsable[]" class="input-sm form-control validateSelectP ">'+personas+'</select></div>');
+                                $('.addUser').append('<button id="deletePersona-'+numPersonas+'" style="margin-top:25px;" class="btn removePersona btn-danger"><i class="fa fa-remove"></i></button>');
+                            } else {
+                                $('.responsable').append('<select id="persona-'+numPersonas+'" style="width:100%;" name="responsable[]" class="input-sm form-control validateSelectP dpbResponsable firstResponsable">'+personas+'</select>');
+                            }
+
+                            $('#persona-'+numPersonas).select2();
+                            $('#persona-'+numPersonas).val(data.asignados[j]).change().trigger("change");
+                            numPersonas++;                                                                        
+                        } /* Fin de seteo de los usuarios asignados y sus opciones del select */                                
+
+
+                        /* Seteando los productos / servicios vinculados  a la oportunidad, así como las opciones */
+                        /* de los productos / servicios que pueden ser asignados a la oportunidad de venta        */ 
+                        var productos = $('.firstProduct').html();
+                        contador=0;
+                        i=0;
+
+                        $('.producto').html('');
+                        $('.cantidad').html('');
+
+                        for (var j = 0; j < data.productos.length; j++) {
+                            if(j == 0) {
+                                $('.producto').append('<div id="producto-' + i + '" ><select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto firstProduct input-sm form-control validateSelectP">'+productos+'</select></div>');
+                                $('.cantidad').append('<input id="txtCantidad-' + i + '" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" min="1">');
+                            } else {
+                                $('.producto').append('<div id="producto-' + i + '" style="margin-top:6px;"><select id="sProducto-' + i + '" style="width:100%;" type="text" name="sProducto[]" class="sProducto input-sm form-control validateSelectP">'+productos+'</select></div>');
+                                $('.cantidad').append('<input id="txtCantidad-' + i + '" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" min="1" style="margin-top:5px;">');
+
+                                if(contador > 1) {
+                                    $('.removeRow').append('<button id="deleteProd-' + i + '" class="btn removeProd btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');            
+                                } else {
+                                    if(i == 1) {
+                                        $('#deleteProd-0').removeClass('hidden');
+                                        $('#deleteProd-0').show();
+                                    } else if(contador == 1) {
+                                        $('.removeProd').each(function( index, value ) { 
+                                            $('#' + $(this).attr('id')).removeClass('hidden');
+                                        });
+                                    }
+
+                                    $('.removeRow').append('<button id="deleteProd-' + i + '" class="btn removeProd btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');
                                 }
-                                /*// Telefonos*/
-                                for (var i = 0; i < numTelefonos; i++) {
-                                        /*// console.log(i);*/
-                                        /*// console.log(data.addressArray[i]);*/
-                                        switch(i){
-                                                case 0:
-                                                        $(".firstPhoneType").val(data.typePhoneArray[i]).trigger("change");
+                            }
 
-                                                        $('.firstPhoneTxt').val(data.phoneArray[i]);
-                                                        $('.firstPhoneExtension').val(data.extPhoneArray[i]);
-                                                break;
-                                                default:
-                                                        $('#plusPhone').click();
-                                                        /*//$('#types-'+(numPhones)).val(data.typePhoneArray[i]).change();*/
-                                                        $('#types-'+(numPhones)).val(data.typePhoneArray[i]).trigger("change");
+                            $('.cant').numeric('.'); 
+                            $('#sProducto-' + i).select2();    
 
-                                                        $('#phones-'+(numPhones)).val(data.phoneArray[i]);
-                                                        $('#extension-'+(numPhones)).val(data.extPhoneArray[i]);
-                                                break;
-                                        }
-                                }
-                                /*// Correos*/
-                                for (var i = 0; i < numCorreos; i++) {
-                                        /*// console.log(i);*/
-                                        /*// console.log(data.addressArray[i]);*/
-                                        switch(i){
-                                                case 0:
-                                                        $('.txtEmailFirst').val(data.emailArray[i]);
-                                                break;
-                                                default:
-                                                        $('#plusEmail').click();
-                                                        $('#email-'+(numEmail)).val(data.emailArray[i]);
-                                                break;
-                                        }
-                                }
-                                if(data.src!=''){
-                                        $('#imgTest').attr('src','../../../photos/accounts/'+data.src);	
-                                }
-                                else{
-                                        $('#imgTest').attr('src','http://placehold.it/250x250');
-                                }
+                            $('#sProducto-' + i).val(data.productos[j]).change().trigger("change");
+                            $('#txtCantidad-' + i).val(data.cantProduct[j]);
 
-                                $('.dpbInteres').val(data.interes).change().trigger("change");
-                                $('.dpbEstado').val(data.estado).change().trigger("change");
-                                $('.dpbFuente').val(data.fuente).change().trigger("change");
-                                /*// $('.dpbCampania').val(data.campania).change().trigger("change");*/
+                            i++;
+                            contador++;                                    
+                        } 
+                                                
+                        if(data.productos.length > 0) {
+                            $('#productos').removeClass('hidden');	
+                            $("input[name='hayProductos']").prop('checked', true);
+                            
+                            contador--;
+                        } else { 
+                            $('.producto').append('<div id="producto-0" ><select id="sProducto-0" style="width:100%;" type="text" name="sProducto[]" class="sProducto firstProduct input-sm form-control validateSelectP">'+productos+'</select></div>');
+                            $('.cantidad').append('<input id="txtCantidad-0" type="text" name="cantidad[]" class="cant input-sm form-control text-right validateInput" value="1" min="1">');
+                            
+                            $('#productos').addClass('hidden');	
+                            $("input[name='hayProductos']").prop('checked', false);
+                        } /* Fin de seteo de los productos/servicios y sus opciones del select */
 
 
-                                $('#pnAdd').show();
-                                $('.btnAddPage').addClass('hidden');
-                                $('#clientePotencialList').parent().hide();
-                                $('#btnBack').removeClass('hidden');
-                                $('#btnCancelTop').removeClass('hidden');
-                                $('#btnSaveTop').removeClass('hidden');
-                                /*seguimiento(data.id1, numPedidos,null);*/
-                                seguimientoGeneral(data.id1, numPedidos,null,1);
-                                /*cargarTags();*/
-                                var addItem = '';
-                                for (var i = 0; i < data.tags.length; i++) {
-                                    /*console.log(i);*/
-                                    addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
-                                    $('#addedTags').append(addItem);
-                                }
-                                /*//seguimientoComet(data.id1);*/
-                                $('#addTag').removeClass('hidden');
-                                $('#addedTags').removeClass('hidden');
-                                $('#filterTag').addClass('hidden');
-                        }	
-                        objClicked.on('click');
-                        objClicked.css('cursor', 'pointer');
+                        /* Ocultando Tabla de oportunidades */
+                        $('#oppotunitiesList').parent().hide();
+
+                        /* Mostrando el formulario con la información a editar */
+                        $('#pnAdd').show();
+                        
+                        /* Mostrando las cotizaciones vinculadas a la oportunidad de venta */
+/****                        $('#pnCotizacion').show();        ****/
+
+                        $('.btnAddPage').addClass('hidden');
+                        $('#btnBack').removeClass('hidden');
+                        $('#btnCancelTop').removeClass('hidden');
+                        $('#btnSaveTop').removeClass('hidden');
+/****                        $('#btnNewQuotation').removeClass('hidden');        ****/
+                        
+                        /* Mostrando data de las cotizaciones vinculadas a la oportunidad de venta */
+                        for (var j = 0; j < data.cotizaciones.length; j++) {                            
+                            /*$('#cuenta').append('<option selected value="'+data.cuentas[0][0]+'">'+data.cuentas[0][1]+'</option>');*/
+                        }
+
+                        if(data.cotizaciones.length > 0) {
+                            $('#divQuotes').removeClass('hidden');
+                            $('#noQuotes').addClass('hidden');
+                        } else {
+                            $('#divQuotes').addClass('hidden');
+                            $('#noQuotes').removeClass('hidden');
+                        } /*  Fin de Data Cotizaciones vinculadas  a la oportunidad de venta  */
+
+                        /*var addItem = '';
+                        for (var i = 0; i < data.tags.length; i++) {
+                            addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
+                            $('#addedTags').append(addItem);
+                        }*/
+                        /* seguimientoComet(data.id1); */
+                        $('#addTag').removeClass('hidden');
+                        $('#addedTags').removeClass('hidden');
+                        $('#filterTag').addClass('hidden');
+
+                        recuperaDataCuenta = false;  
+                        recuperaDataProbabilidad = false;                         
+                    }	
+                    
+                    objClicked.on('click');
+                    objClicked.css('cursor', 'pointer');
+
+                    return false;
                 },
                 error:function(data){
-                        if(data.error){
-                                /*// console.log(data.id);*/
-                                swal('',data.error,'error');
-                        }
-                        $('#addTag').addClass('hidden');
-                        $('#addedTags').addClass('hidden');
-                        $('#filterTag').removeClass('hidden');
-                        objClicked.on('click');
-                        objClicked.css('cursor', 'pointer');	
+                    if(data.error){
+                        swal('',data.error,'error');
+                    }
+
+                    $('#addTag').addClass('hidden');
+                    $('#addedTags').addClass('hidden');
+                    $('#filterTag').removeClass('hidden');
+
+                    objClicked.on('click');
+                    objClicked.css('cursor', 'pointer');	
                 }
             });
         } else {
@@ -250,51 +336,118 @@ $(document).ready(function() {
         }
     }); /* Fin del on click de la fila del datatable oppotunitiesList */
     
+    
+    /* Al momento que se desea eliminar una o varias oportunidades de venta */
+    $(document).on('click', '.btnDelete', function(event) {
+        var $btn = $(this).button('loading');
+        /* Definición de variables */
+        var id=$(this).children().first().children().attr('id');
+        var ids=[];
+        var table = $('#oppotunitiesList').DataTable();
+        
+        $('.chkItem').each(function() {
+            if ($(this).is(':checked')) {
+                ids.push($(this).parent().attr('id'));
+            }
+        });	
+            
+        swal({
+                title: "",
+                text: "Remove selected rows?",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonText: "Remove",
+                cancelButtonText: "Cancel",
+                reverseButtons: true,
+            }).then(function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: Routing.generate('admin_oportunities_delete_ajax'),
+                        type: 'POST',
+                        data: {param1: ids},
+                        success:function(data){
+                            if(data.error){
+                                swal('',data.error,'error');
+                            }
+                            else{
+                                $('#txtId').val(data.id);
+                                $('#txtName').val(data.name);
+                                $("input[name='hayProductos']").prop({'checked': false});
+                                $btn.button('reset');
+                                table.ajax.reload();
+                                    
+                                swal('',data.msg,'success');
+                            }
+
+                            $('#pnAdd').slideUp();
+                        },
+                        error:function(data){
+                            if(data.error){
+                                /*console.log(data.id);*/
+                                swal('',data.error,'error');
+                            }
+                            
+                            $btn.button('reset');
+                        }
+                    });
+                    
+                    $('.btnDelete').addClass('hidden');
+                    $('.btnAction').addClass('hidden');
+                    $('.btnAddPage').removeClass('hidden');
+                }
+        });
+        
+        $btn.button('reset');		
+    });
+    /*/////Fin definición persist data (Delete method)*/
+    
     /* Al momento de seleccionar un tipo de cuenta filtra las cuentas vinculadas al */
     /* tipo de cuenta seleccionado llenando el combobox con las cuentas recuperadas */
     $(document).on('change', '#tipoCuenta', function(event) {
         var id = $(this).val();
         
-        $.ajax({
-            url: Routing.generate('admin_opportunities_search_accounts_ajax'),
-            type: 'GET',
-            data: {param1: id},
-            success:function(data){
-                if(data.error){
-                    swal('',data.error,'error');
-                }
-                else{
-                    $('#cuenta').select2('destroy');
-                    $('#cuenta').html('');
-                    console.log(data.cuentas);
-                    
-                    for (var i = 0; i < data.cuentas.length; i++) {
-                        if (i==0) {
-                            $('#cuenta').append('<option selected value="'+data.cuentas[0][0]+'">'+data.cuentas[0][1]+'</option>');
-                        } 
-                        else {
-                            $('#cuenta').append('<option value="'+data.cuentas[i][0]+'">'+data.cuentas[i][1]+'</option>');
-                        }
+        if(!recuperaDataCuenta) {
+            $.ajax({
+                url: Routing.generate('admin_opportunities_search_accounts_ajax'),
+                type: 'GET',
+                data: {param1: id},
+                success:function(data){
+                    if(data.error){
+                        swal('',data.error,'error');
                     }
-                    
-                    $('#cuenta').addClass('validateSelectP');
-                    $('#cuenta').select2();
-                    
-                    if(data.cuentas.length > 0) {
-                        $('#divCuentaOportunidad').removeClass('hidden');
-                    } else {
-                        $('#divCuentaOportunidad').addClass('hidden');
-                    }    
+                    else{
+                        $('#cuenta').select2('destroy');
+                        $('#cuenta').html('');
+                        console.log(data.cuentas);
+
+                        for (var i = 0; i < data.cuentas.length; i++) {
+                            if (i==0) {
+                                $('#cuenta').append('<option selected value="'+data.cuentas[0][0]+'">'+data.cuentas[0][1]+'</option>');
+                            } 
+                            else {
+                                $('#cuenta').append('<option value="'+data.cuentas[i][0]+'">'+data.cuentas[i][1]+'</option>');
+                            }
+                        }
+
+                        $('#cuenta').addClass('validateSelectP');
+                        $('#cuenta').select2();
+
+                        if(data.cuentas.length > 0) {
+                            $('#divCuentaOportunidad').removeClass('hidden');
+                        } else {
+                            $('#divCuentaOportunidad').addClass('hidden');
+                        }    
+                    }
+
+                    return false;
+                },
+                error:function(data){
+                    if(data.error){
+                        swal('',data.error,'error');
+                    }
                 }
-                                        
-                return false;
-            },
-            error:function(data){
-                if(data.error){
-                    swal('',data.error,'error');
-                }
-            }
-        });
+            });
+        }
         
         return false;
     }); /* Fin del onChange del combobox tipoCuenta */
@@ -304,26 +457,28 @@ $(document).ready(function() {
     $(document).on('change', '#etapaVenta', function(event) {
         var id = $(this).val();
         
-        $.ajax({
-            url: Routing.generate('admin_opportunities_search_probability_ajax'),
-            type: 'GET',
-            data: {param1: id},
-            success:function(data){
-                if(data.error){
-                    swal('',data.error,'error');
+        if(!recuperaDataProbabilidad) {
+            $.ajax({
+                url: Routing.generate('admin_opportunities_search_probability_ajax'),
+                type: 'GET',
+                data: {param1: id},
+                success:function(data){
+                    if(data.error){
+                        swal('',data.error,'error');
+                    }
+                    else{
+                        $('#txtProbability').val(data.probabilidad);
+                    }
+
+                    return false;
+                },
+                error:function(data){
+                    if(data.error){
+                        swal('',data.error,'error');
+                    }
                 }
-                else{
-                    $('#txtProbability').val(data.probabilidad);
-                }
-                                        
-                return false;
-            },
-            error:function(data){
-                if(data.error){
-                    swal('',data.error,'error');
-                }
-            }
-        });
+            });
+        }
         
         return false;
     }); /* Fin del onChange del combobox etapaVenta */

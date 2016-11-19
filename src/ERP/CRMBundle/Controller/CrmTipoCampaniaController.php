@@ -161,7 +161,7 @@ class CrmTipoCampaniaController extends Controller
                 $busqueda = $request->query->get('search');
                 
                 $em = $this->getDoctrine()->getEntityManager();
-                $rowsTotal = $em->getRepository('ERPCRMBundle:CrmTipoCampania')->findAll();
+                $rowsTotal = $em->getRepository('ERPCRMBundle:CrmTipoCampania')->findBy(array('estado'=>1));
                 
                 $row['draw']=$draw++;  
                 $row['recordsTotal'] = count($rowsTotal);

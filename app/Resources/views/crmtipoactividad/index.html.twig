@@ -1,0 +1,97 @@
+{% extends ':layout:layouterp.html.twig' %}
+
+
+{% block title -%}<title>{{tituloTipoActividad}}</title>{% endblock %}
+
+{% block customcss %}
+    {#<link rel="stylesheet" href="{{ asset('Resources/customscss/activitytypes.css') }}">#}
+    <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+{% endblock %}
+{% block descripcion %}
+     <div class="col-md-5">
+          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTipoActividad | capitalize}}</p>
+          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTipoActividad}}</p>
+     </div>
+
+{% endblock %}
+
+
+{% block acciones %}
+     <div class="col-md-7 text-right panel-body">
+          <button data-loading-text="Loading..." autocomplete="off" class="btnAdd btn btn-sm btn-primary btn-flat">{{add}}</button>
+          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
+          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
+     </div>
+{% endblock acciones %}
+
+
+{% block contenido %}
+    <div class="row">
+        {% include ':crmtipocampania:new.html.twig' %}
+
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-xs-12">
+            <table id="activityList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+                  
+                <thead>
+                    <tr role="row">
+                        <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameTipoActividad}}</th>
+                        <th aria-sort="descending" aria-label="Icon: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="mdl-data-table__cell--non-numeric sorting_desc">{{iconTipoActividad}}</th>
+                        {# <th aria-label="State: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" >State</th> #}
+                        {# <th aria-label="Actions: activate to sort column ascending" style="width: 33px;" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sorting">Actions</th> #}
+                    </tr>
+                </thead>      
+             </table>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js_extend %}
+    <script type="text/javascript" src="{{ asset('Resources/animations/activitytypes/activitytypes.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/activitytypes/activitytypes.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            /////Definición datatable
+            var table = $('#activityList').DataTable({
+                dom:'ftp',
+                "processing": false,
+                "serverSide": true,
+                "ajax": {
+                    "url": '{{path('admin_types_activities_data')}}',
+                    "type": 'GET'
+                },
+                "columns": [
+                    { "data": "chk" },
+                    { "data": "name" },
+                    { "data": "icono" },
+                    // { "data": "state" }
+                    // { "data": "actions" }
+                ],
+                "order":[1,'asc'],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                    
+                ],
+                "language": {
+                    "info": "{{dtInfo}} _PAGE_ de _PAGES_",
+                    "infoEmpty": "{{dtInfoEmpty}}",
+                    "zeroRecords": "{{dtZeroRecords}}",
+                    "emptyTable": "{{dtEmptyTable}}",
+                    "paginate": { 
+                        "next": "{{dtNext}}",
+                        "previous": "{{dtPrev}}"
+                    },
+                    "processing": "{{dtProcessing}}",
+                    "search": "{{dtSearch}}",
+                    "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
+                }
+            });
+            /////Fin definición datatable
+        });
+    </script>
+     
+{% endblock %}
