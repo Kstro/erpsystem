@@ -61,11 +61,15 @@ $(document).on('click', '#clientePotencialList>thead>tr>th:gt(0)', function(even
 
 function limpiarCampos(){
 	$('#txtId1').val('');
+        $('#txtId2').val('');
 	$('#txtName').val('');
 	$('#txtApellido').val('');
 	$('#txtDuracion').val('');
 	$('#txtCompania').val('');
 	$('.txtAddressFirst').val('');
+        $('.txtCity').val('');
+        $('.txtState').val('');
+        $('.txtZipCode').val('');
 	$('.firstPhoneTxt').val('');
 	$('.firstPhoneExtension').val('');
 	$('.txtEmailFirst').val('');
