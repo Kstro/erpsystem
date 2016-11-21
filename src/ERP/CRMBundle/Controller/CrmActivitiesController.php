@@ -49,7 +49,7 @@ class CrmActivitiesController extends Controller
                 'recordatorios'=>$recordatorios,
                 'tiempos'=>$tiempos,
                 'prioridad'=>$prioridad,
-                'actividades'=>$tipoActividades,
+                'crmActividades'=>$tipoActividades,
                 'menuTodasActividadesA'=>true,
             ));
         

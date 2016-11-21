@@ -687,6 +687,16 @@ twig:
         taskNoEdit: '%app.taskNoEdit%'
         tipoActividad: '%app.tipoActividad%'
         
+        
+        #TipoActividad
+        tituloTipoActividad: '%app.tituloTipoActividad%'
+        menuTipoActividad: '%app.menuTipoActividad%'
+        encabezadoTipoActividad: '%app.encabezadoTipoActividad%'
+        descripcionTipoActividad: '%app.descripcionTipoActividad%'
+        nameTipoActividad: '%app.nameTipoActividad%'
+        iconTipoActividad: '%app.iconTipoActividad%'
+        
+        
         recordarEvento: '%app.recordarEvento%'
         cancelarEvento: '%app.cancelarEvento%'
         enProcesoEvento: '%app.enProcesoEvento%'

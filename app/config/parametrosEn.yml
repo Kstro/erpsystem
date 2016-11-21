@@ -347,6 +347,16 @@ parameters:
         app.cuentaActividad: Account
         app.tipoActividad: Activity type
 
+
+        #TipoActividad
+        app.tituloTipoActividad: Activity types management | CRM
+        app.menuTipoActividad: Activity types
+        app.encabezadoTipoActividad: Activity types list
+        app.descripcionTipoActividad: Add, modify or delete Activity types.
+        app.nameTipoActividad: Name
+        app.iconTipoActividad: Icon
+
+
         #Llamadas
         app.tituloLlamadas: Calls | CRM
         app.menuLlamadas: Calls
