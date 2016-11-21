@@ -29,11 +29,18 @@ class CrmDetalleCotizacion
     private $cantidad;
 
     /**
-     * @var float
+     * @var string
      *
-     * @ORM\Column(name="valor_unitario", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="valor_unitario", type="decimal", precision=15, scale=2, nullable=false)
      */
     private $valorUnitario;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tax", type="decimal", precision=15, scale=2, nullable=true)
+     */
+    private $tax;
 
     /**
      * @var \CrmCotizacion
@@ -93,7 +100,7 @@ class CrmDetalleCotizacion
     /**
      * Set valorUnitario
      *
-     * @param float $valorUnitario
+     * @param string $valorUnitario
      * @return CrmDetalleCotizacion
      */
     public function setValorUnitario($valorUnitario)
@@ -106,11 +113,34 @@ class CrmDetalleCotizacion
     /**
      * Get valorUnitario
      *
-     * @return float 
+     * @return string 
      */
     public function getValorUnitario()
     {
         return $this->valorUnitario;
+    }
+    
+    /**
+     * Set tax
+     *
+     * @param string $tax
+     * @return CrmDetalleCotizacion
+     */
+    public function setTax($tax)
+    {
+        $this->tax = $tax;
+
+        return $this;
+    }
+
+    /**
+     * Get tax
+     *
+     * @return string 
+     */
+    public function getTax()
+    {
+        return $this->tax;
     }
 
     /**

@@ -568,11 +568,25 @@ parameters:
         #Cotizacion en oportunidad
         app.pnHeadingLabelCotizacion: Quotes
         app.newQuote: New quote
+        app.deleteOpQuote: Delete
         app.noQuote: No quotes found
+        app.errorTaxQOp: It must be greater than or equal to 0.00 and less than or equal to 100.00
         app.correlativoQuote: No.
         app.userQuote: Assigned to
         app.dateCreatedQuote: Created date
         app.dateExpirationQuote: Valid until
+        app.statusQuote: Status
+        app.conditionssQuote: General conditions
+        app.addRowQuote: Add row
+        app.totalQuote: Total ($)
+        app.cantidadItemQuote: Quantity
+        app.itemQuote: Product / Service
+        app.itemPriceQuote: Unit price ($)
+        app.itemTotalQuote: Total ($)
+        app.itemTaxQuote: Tax (%)
+        app.totalPrice: Total price ($)
+        app.taxQuoteOp: Tax ($)
+        app.subTotalQuoteOp: Sub-total ($)
        
         #Login
         app.tituloLogin: Login | CRM

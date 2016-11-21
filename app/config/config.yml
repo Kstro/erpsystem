@@ -994,11 +994,6 @@ twig:
         nameIndustria: '%app.nameIndustria%'
         menuIndustria: '%app.menuIndustria%'
 
-        #Login - Ingles
-        tituloLogin: '%app.tituloLogin%'        
-        usernameTxt: '%app.usernameTxt%'        
-        passwordTxt: '%app.passwordTxt%'   
-        
         #Oportunidades - Ingles
         tituloOportunidad: '%app.tituloOportunidad%'
         menuOportunidad: '%app.menuOportunidad%'
@@ -1048,20 +1043,53 @@ twig:
         #Cotizacion en oportunidad - Ingles
         pnHeadingLabelCotizacion: '%app.pnHeadingLabelCotizacion%'
         newQuote: '%app.newQuote%'
+        deleteOpQuote: '%app.deleteOpQuote%'
         noQuote: '%app.noQuote%'
+        errorTaxQOp: '%app.errorTaxQOp%'
         correlativoQuote: '%app.correlativoQuote%'
         userQuote: '%app.userQuote%'
         dateCreatedQuote: '%app.dateCreatedQuote%'
         dateExpirationQuote: '%app.dateExpirationQuote%'
+        statusQuote: '%app.statusQuote%'
+        conditionssQuote: '%app.conditionssQuote%'
+        totalQuote: '%app.totalQuote%'
+        cantidadItemQuote: '%app.cantidadItemQuote%'
+        itemQuote: '%app.itemQuote%'
+        itemPriceQuote: '%app.itemPriceQuote%'
+        itemTotalQuote: '%app.itemTotalQuote%'
+        itemTaxQuote: '%app.itemTaxQuote%'
+        totalPrice: '%app.totalPrice%'
+        taxQuoteOp: '%app.taxQuoteOp%'
+        subTotalQuoteOp: '%app.subTotalQuoteOp%'
+        addRowQuote: '%app.addRowQuote%'
         
         #Cotizacion en oportunidad - Español
         pnHeadingLabelCotizacionEs: '%app.pnHeadingLabelCotizacionEs%'
         newQuoteEs: '%app.newQuoteEs%'
+        deleteOpQuoteEs: '%app.deleteOpQuoteEs%'
         noQuoteEs: '%app.noQuoteEs%'
+        errorTaxQOpEs: '%app.errorTaxQOpEs%'
         correlativoQuoteEs: '%app.correlativoQuoteEs%'
         userQuoteEs: '%app.userQuoteEs%'
         dateCreatedQuoteEs: '%app.dateCreatedQuoteEs%'
         dateExpirationQuoteEs: '%app.dateExpirationQuoteEs%'
+        statusQuoteEs: '%app.statusQuoteEs%'
+        conditionssQuoteEs: '%app.conditionssQuoteEs%'
+        totalQuoteEs: '%app.totalQuoteEs%'
+        cantidadItemQuoteEs: '%app.cantidadItemQuoteEs%'
+        itemQuoteEs: '%app.itemQuoteEs%'
+        itemPriceQuoteEs: '%app.itemPriceQuoteEs%'
+        itemTotalQuoteEs: '%app.itemTotalQuoteEs%'
+        itemTaxQuoteEs: '%app.itemTaxQuoteEs%'
+        totalPriceEs: '%app.totalPriceEs%'
+        taxQuoteOpEs: '%app.taxQuoteOpEs%'
+        subTotalQuoteOpEs: '%app.subTotalQuoteOpEs%'
+        addRowQuoteEs: '%app.addRowQuoteEs%'
+        
+        #Login - Ingles
+        tituloLogin: '%app.tituloLogin%'        
+        usernameTxt: '%app.usernameTxt%'        
+        passwordTxt: '%app.passwordTxt%'   
         
         #Login - Español
         tituloLoginEs: '%app.tituloLoginEs%'        

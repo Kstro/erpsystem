@@ -48,6 +48,13 @@ class CrmCotizacion
      * @ORM\Column(name="condiciones_generales", type="text", length=65535, nullable=true)
      */
     private $condicionesGenerales;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
 
     /**
      * @var \CrmOportunidad
@@ -181,6 +188,29 @@ class CrmCotizacion
     public function getCondicionesGenerales()
     {
         return $this->condicionesGenerales;
+    }
+    
+    /**
+     * Set estado
+     *
+     * @param boolean $estado
+     * @return CrmCotizacion
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return boolean 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 
     /**
