@@ -1,7 +1,11 @@
+var recuperaDataCuenta = true;
+var recuperaDataProbabilidad = true;
+
+var contadorQ=0;
+var k=0;
+    
 $(document).ready(function() {
     var numPersonas = 0;
-    var recuperaDataCuenta = false;
-    var recuperaDataProbabilidad = false;
     
     /* Al momento que se dé click en guardar la información del formulario */
     $('#frmOpportunities').on('submit',(function(event) {
@@ -45,7 +49,8 @@ $(document).ready(function() {
                         
                         $('#txtId').val('');
                         $('#txtName').val('');
-
+                        
+                        limpiarCampos();
                         $('#pnAdd').hide();
                         $('#oppotunitiesList').parent().show();
                         $btn.button('reset');
@@ -276,20 +281,37 @@ $(document).ready(function() {
                         $('#pnAdd').show();
                         
                         /* Mostrando las cotizaciones vinculadas a la oportunidad de venta */
-/****                        $('#pnCotizacion').show();        ****/
+                        $('#pnCotizacion').show();        
 
                         $('.btnAddPage').addClass('hidden');
                         $('#btnBack').removeClass('hidden');
                         $('#btnCancelTop').removeClass('hidden');
                         $('#btnSaveTop').removeClass('hidden');
-/****                        $('#btnNewQuotation').removeClass('hidden');        ****/
+                        $('#btnNewQuotation').removeClass('hidden');        
+                        
+                        if(data.cotizaciones.length > 0) {
+                            $('#tbodyQuotes').html(''); 
+                        }
+                        
+                        var tbody = '';
                         
                         /* Mostrando data de las cotizaciones vinculadas a la oportunidad de venta */
-                        for (var j = 0; j < data.cotizaciones.length; j++) {                            
-                            /*$('#cuenta').append('<option selected value="'+data.cuentas[0][0]+'">'+data.cuentas[0][1]+'</option>');*/
+                        for (var j = 0; j < data.cotizaciones.length; j++) {   
+                            tbody+='<tr id="'+data.cotizaciones[j][1]+'">';
+                            tbody+='<td style="text-align: center;" >'+'<div id="' + data.cotizaciones[j][1]+'" style="text-align:left"><input style="z-index:5;" class="chkItemQ" type="checkbox"></div></td>';
+                            tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][0]+'</td>';
+                            tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][3]+'</td>';
+                            tbody+='<td style="text-align: left;" >'+data.cotizaciones[j][2]+'</td>';
+                            tbody+='<td style="text-align: left;" >'+data.cotizaciones[j][4]+'</td>';   
+                            tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][5]+'</td>';   
+                            tbody+='<td style="text-align: right;" >'+(data.cotizaciones[j][6]).toFixed(2)+'</td>';   
+                            tbody+='</tr>';
+                            
+                            $('#tbodyQuotes').append(tbody); 
+                            tbody = '';
                         }
 
-                        if(data.cotizaciones.length > 0) {
+                        if(data.cotizaciones.length > 0) {                                                        
                             $('#divQuotes').removeClass('hidden');
                             $('#noQuotes').addClass('hidden');
                         } else {
@@ -522,4 +544,462 @@ $(document).ready(function() {
         
         return false;
     }); /* Fin de remover personas */
+    
+    /* Al momento que se dé click en guardar la información del formulario frmQuotes        */
+    /* Para registrar la información ingresada de la cotizaci+on vinculada a la oportunidad */
+    $('#frmQuotes').on('submit',(function(event) {
+        event.preventDefault();
+        /*var table = $('#oppotunitiesList').DataTable();*/
+        var errores = 0;
+        var $btn;
+        var idOportunidad = $("#txtId").val();
+        var form = new FormData(this);
+        form.append("idOportunidad", idOportunidad);
+        
+        $btn = $('#btnSaveQuote').button('loading');
+        
+        /* Verificando si se ha ingresado la información necesaria de la oportunidad */
+        $('.validateSelectQ').each(function() {
+            if (!requiredSelectP($(this))) {
+                $(this).next().children().children().addClass('errorform');
+                errores++;
+            }
+        });        
+        $('.validateInputQ').each(function() {
+            if (!required($(this))) {
+                $(this).addClass('errorform');
+                errores++;
+            }
+        });
+        
+        /* Si se ha ingresado toda la información necesaria sobre la oportunidad de venta */
+        if (errores==0) {
+            $.ajax({
+                url: Routing.generate('admin_opportunity_quotes_save_ajax'),
+                type: "POST",            
+                data: form,
+                contentType: false,      
+                cache: false,            
+                processData:false,     
+                success: function(data)  
+                {
+                    /*$("#message").html(data);*/
+                    $("#txtIdQuote").val(data.id);                    
+                    
+                    if(data.msg){
+                        swal('',data.msg,'success');
+                        
+                        if(data.cotizaciones.length > 0) {
+                            $('#tbodyQuotes').html(''); 
+                        }
+                        
+                        var tbody = '';
+                        
+                        /* Mostrando data de las cotizaciones vinculadas a la oportunidad de venta */
+                        for (var j = 0; j < data.cotizaciones.length; j++) {   
+                            tbody+='<tr id="'+data.cotizaciones[j][1]+'">';
+                            tbody+='<td style="text-align: center;" >'+'<div id="' + data.cotizaciones[j][1]+'" style="text-align:left"><input style="z-index:5;" class="chkItemQ" type="checkbox"></div></td>';
+                            tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][0]+'</td>';
+                            tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][3]+'</td>';
+                            tbody+='<td style="text-align: left;" >'+data.cotizaciones[j][2]+'</td>';
+                            tbody+='<td style="text-align: left;" >'+data.cotizaciones[j][4]+'</td>';   
+                            tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][5]+'</td>';   
+                            tbody+='<td style="text-align: right;" >'+(data.cotizaciones[j][6]).toFixed(2)+'</td>';   
+                            tbody+='</tr>';
+                            
+                            $('#tbodyQuotes').append(tbody); 
+                            tbody = '';
+                        }
+
+                        if(data.cotizaciones.length > 0) {                                                        
+                            $('#divQuotes').removeClass('hidden');
+                            $('#noQuotes').addClass('hidden');
+                        } else {
+                            $('#divQuotes').addClass('hidden');
+                            $('#noQuotes').removeClass('hidden');
+                        } /*  Fin de Data Cotizaciones vinculadas  a la oportunidad de venta  */
+                        
+                        limpiarCamposDivQuotes();
+                        $('#btnSaveTop').removeClass('hidden');
+                        $('#btnSave').removeClass('hidden');
+
+                        $('#detalleQuote').addClass('hidden');
+                        $('#btnAddQuote').removeClass('hidden');
+                        $('#divQuotes').removeClass('hidden');
+                        
+                        $btn.button('reset');
+                    }
+                    if(data.error){
+                        swal('',data.error,'error');
+                        $btn.button('reset');
+                    }
+                    
+                    /*table.ajax.reload();*/
+                    $btn.button('reset');
+                    
+                    $('#btnSaveTop').addClass('hidden');
+                    $('#btnCancelTop').addClass('hidden');
+                    /*$('.btnNewQuotation').removeClass('hidden');*/
+                },
+                error:function(data) {
+                        /* Act on the event */
+                        $btn.button('reset');
+                }
+            });
+        } /* Si no se ha ingresado toda la información necesaria sobre la oportunidad */
+        else {
+            var requiredFields = $('.requiredFields').html();
+            swal('',requiredFields,'error');
+            
+            $btn.button('reset');
+            return false;
+        }
+        
+        event.preventDefault();
+        
+        return false;
+    })); /* Fin del submit del formulario frmQuotes */
+    
+    /* Al momento de hacer click en una cotización de una determinada oportunidad de venta. */
+    /* Mostrando a detalle la cotización que se ha seleccionado, para su edición            */
+    $(document).on('click', '#tablaQuotes>tbody>tr>td:nth-child(2),#tablaQuotes>tbody>tr>td:nth-child(3),#tablaQuotes>tbody>tr>td:nth-child(4),#tablaQuotes>tbody>tr>td:nth-child(5),#tablaQuotes>tbody>tr>td:nth-child(6)', function(event) {
+        var text = $(this).prop('tagName');
+        var id = $(this).parent().attr('id');
+        var idForm = $('#txtIdQuote').val();
+        var selected = 0;
+        var objClicked = $(this);
+        
+        /* Verificando si se ha seleccionado algún checkbox del datatable */
+        /*$('.chkItem').each(function() {
+            if ($(this).is(':checked')) {
+                selected++;
+            }
+        });*/
+        
+        if (text=='TD' && id!=idForm && selected==0) {
+            objClicked.off('click');
+            objClicked.css('cursor','progress');
+            $.ajax({
+                url: Routing.generate('admin_quotes_opportunities_retrieve_ajax'),
+                type: 'POST',
+                data: {param1: id},
+                success:function(data){
+                    if(data.error){
+                        swal('',data.error,'error');
+                        id.val(data.id);
+                    }
+                    else{
+                        /* Seteando Id de la cotización en campo de texto oculto */
+                        $('#txtIdQuote').val(data.id);
+
+                        /* seteando a la persona que realiza la cotización en su respectivo select */
+                        $('#assignedUserQuote').val(data.assignedTo).change().trigger("change");
+
+                        /* seteando el valor del estado de la cotización en su respectivo select */
+                        $('#statusQuote').val(data.status).change().trigger("change");
+
+                        /* Seteando fecha de vencimiento de la cotización en su respectivo campo de texto */
+                        $('#txtDateExpirationQuote').val(data.validUntil);
+                        
+                        /* Seteando las condiciones generales de la cotización en su respectivo textarea */
+                        $('#conditionssQuote').val(data.gnalConditions);        
+                        
+                        /* Seteando los productos / servicios vinculados  a la cotización, así como las opciones */
+                        /* de los productos / servicios que pueden ser asignados a la cotizacion                 */ 
+                        var itemsQ = $('.firstItemQ').html();
+                        contadorQ=0;
+                        k=0;
+
+                        $('.cantItemQ').html('');
+                        $('.itemsQ').html('');
+                        $('.priceItemQ').html('');
+                        $('.taxItemQ').html('');
+                        $('.totalItemQ').html('');
+
+                        for (var j = 0; j < data.items.length; j++) {
+                            if(j == 0) {
+                                $('.itemsQ').append('<div id="itemQ-' + k + '" ><select id="sItemQ-' + k + '" style="width:100%;" type="text" name="sItemQ[]" class="sItemQ firstItemQ input-sm form-control validateSelectQ">'+itemsQ+'</select></div>');
+                                $('.cantItemQ').append('<input id="txtCantItemQ-' + k + '" type="text" name="txtCantItemQ[]" class="cantQ input-sm form-control text-right validateInputQ" min="1">');
+                                $('.priceItemQ').append('<input id="txtPriceItemQ-' + k + '" type="text" name="txtPriceItemQ[]" class="priceQ input-sm form-control text-right validateInputOQ" min="1">');
+                                $('.taxItemQ').append('<input id="txtTaxItemQ-' + k + '" type="text" name="txtTaxItemQ[]" class="taxQ input-sm form-control text-right validateInputOQ" min="1">');
+                                $('.totalItemQ').append('<div id="totalItemQ-' + k + '" style="margin-top: 10px;"><label class="totalQ control-label">'+(data.totalItem[j]).toFixed(2)+'</label></div>');
+                            } else {
+                                $('.itemsQ').append('<div id="itemQ-' + k + '" style="margin-top:7px;"><select id="sItemQ-' + k + '" style="width:100%;" type="text" name="sItemQ[]" class="sItemQ input-sm form-control validateSelectQ">'+itemsQ+'</select></div>');
+                                $('.cantItemQ').append('<input id="txtCantItemQ-' + k + '" type="text" name="txtCantItemQ[]" class="cantQ input-sm form-control text-right validateInputQ" min="1" style="margin-top:5px;">');
+                                $('.priceItemQ').append('<input id="txtPriceItemQ-' + k + '" type="text" name="txtPriceItemQ[]" class="priceQ input-sm form-control text-right validateInputOQ" min="1" style="margin-top:5px;">');
+                                $('.taxItemQ').append('<input id="txtTaxItemQ-' + k + '" type="text" name="txtTaxItemQ[]" class="taxQ input-sm form-control text-right validateInputOQ" min="1" style="margin-top:5px;">');
+                                $('.totalItemQ').append('<div id="totalItemQ-' + k + '" style="margin-top: 10px;"><label class="totalQ control-label">'+(data.totalItem[j]).toFixed(2)+'</label></div>');
+
+                                if(contadorQ > 1) {
+                                    $('.removeRowQ').append('<button id="deleteItemQ-' + k + '" class="btn removeItemQ btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');            
+                                } else {
+                                    if(k == 1) {
+                                        $('#deleteItemQ-0').removeClass('hidden');
+                                        $('#deleteItemQ-0').show();
+                                    } else if(contadorQ == 1) {
+                                        $('.removeItemQ').each(function( index, value ) { 
+                                            $('#' + $(this).attr('id')).removeClass('hidden');
+                                        });
+                                    }
+
+                                    $('.removeRowQ').append('<button id="deleteItemQ-' + k + '" class="btn removeItemQ btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');
+                                }
+                            }
+
+                            $('.cantQ').numeric('.'); 
+                            $('.priceQ').numeric('.'); 
+                            $('.taxQ').numeric('.'); 
+                            $('#sItemQ-' + k).select2();    
+
+                            $('#sItemQ-' + k).val(data.items[j]).change().trigger("change");
+                            $('#txtCantItemQ-' + k).val(data.cantItem[j]);
+                            $('#txtPriceItemQ-' + k).val(data.priceItem[j]);
+                            $('#txtTaxItemQ-' + k).val(data.tax[j]);                                                        
+
+                            k++;
+                            contadorQ++;                                    
+                        } 
+                                                
+                        if(data.items.length > 0) {
+                            $('.subTotalVenta').html((data.priceSale).toFixed(2));
+                            $('.totalTaxVenta').html((data.taxTotal).toFixed(2));
+                            $('.totalVenta').html((data.priceTotal).toFixed(2));
+                            
+                            contadorQ--;
+                        } else {
+                            $('.itemsQ').append('<div id="itemQ-' + k + '" ><select id="sItemQ-' + k + '" style="width:100%;" type="text" name="sItemQ[]" class="sItemQ firstItemQ input-sm form-control validateSelectQ">'+itemsQ+'</select></div>');
+                            $('.cantItemQ').append('<input id="txtCantItemQ-' + k + '" type="text" name="txtCantItemQ[]" class="cantQ input-sm form-control text-right validateInputQ" min="1">');
+                            $('.priceItemQ').append('<input id="txtPriceItemQ-' + k + '" type="text" name="txtPriceItemQ[]" class="priceQ input-sm form-control text-right validateInputQ" min="1">');
+                            $('.taxItemQ').append('<input id="txtTaxItemQ-' + k + '" type="text" name="txtTaxItemQ[]" class="taxQ input-sm form-control text-right validateInputQ" min="1">');
+                            $('.totalItemQ').append('<div id="totalItemQ-' + k + '" style="margin-top: 10px;"><label class="totalQ control-label">'+(data.totalItem[j]).toFixed(2)+'</label></div>');
+                        }
+                        /* Fin de seteo de los productos/servicios y sus opciones del select */
+                        
+                        $('#detalleQuote').removeClass('hidden');
+                        $('#btnAddQuote').addClass('hidden');
+                        $('#btnNewQuotation').addClass('hidden');
+                        $('#btnCancelQuote').removeClass('hidden');  
+                        $('#divQuotes').addClass('hidden');
+                        
+                        $('#btnSaveTop').addClass('hidden');
+                        $('#btnSave').addClass('hidden');
+                    }	                                        
+
+                    return false;
+                },
+                error:function(data){
+                    if(data.error){
+                        swal('',data.error,'error');
+                    }                   	
+                }
+            });    
+        } else {
+            if(id==idForm && selected==0){
+                $('#detalleQuote').addClass('hidden');
+                $('#btnAddQuote').removeClass('hidden');
+                $('#divQuotes').removeClass('hidden');
+            }
+        }
+    });
+    
+    $(document).on('click', '#btnAddRowQ', function(event) {
+        k++;
+        contadorQ++;
+        
+        /* Obteniendo las opciones del select de los productos / servicios  */
+        var itemsQ = $('.firstItemQ').html();
+        
+        $('.itemsQ').append('<div id="itemQ-' + k + '" style="margin-top:7px;"><select id="sItemQ-' + k + '" style="width:100%;" type="text" name="sItemQ[]" class="sItemQ firstItemQ input-sm form-control validateSelectQ">'+itemsQ+'</select></div>');
+        $('.cantItemQ').append('<input id="txtCantItemQ-' + k + '" type="text" name="txtCantItemQ[]" class="cantQ input-sm form-control text-right validateInputQ" min="1" value="1" style="margin-top: 5px;">');
+        $('.priceItemQ').append('<input id="txtPriceItemQ-' + k + '" type="text" name="txtPriceItemQ[]" class="priceQ input-sm form-control text-right" validateInputQ" value="0.00" min="0" style="margin-top: 5px;">');
+        $('.taxItemQ').append('<input id="txtTaxItemQ-' + k + '" type="text" name="txtTaxItemQ[]" class="taxQ input-sm form-control text-right" validateInputQ" value="0.00" min="0" style="margin-top: 5px;">');
+        $('.totalItemQ').append('<div id="totalItemQ-' + k + '" style="margin-top: 10px;"><label class="totalQ control-label">0.00</label></div>');
+        
+        $('.cantQ').numeric('.'); 
+        $('.priceQ').numeric('.'); 
+        $('.taxQ').numeric('.'); 
+        $('#sItemQ-' + k).select2();              
+                
+        if(contadorQ > 1) {
+            $('.removeRowQ').append('<button id="deleteItemQ-' + k + '" class="btn removeItemQ btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');
+        } else {
+            if(k == 1) {
+                $('#deleteItemQ-0').removeClass('hidden');
+                $('#deleteItemQ-0').show();
+            } else if(contadorQ == 1) {
+                $('.removeItemQ').each(function( index, value ) { 
+                    $('#' + $(this).attr('id')).removeClass('hidden');
+                });
+            }
+            
+            $('.removeRowQ').append('<button id="deleteItemQ-' + k + '" class="btn removeItemQ btn-danger" style="margin-top:7px;"><i class="fa fa-remove"></i></button>');
+        }
+        
+        return false;
+    });
+    
+    /* Al momento de eliminar una fila del detalle de una determinada cotizacion */
+    $(document).on('click', '.removeItemQ', function(event) {
+        var numDel = $(this).attr('id');
+        var numDelArray = numDel.split('-');
+        var corr = $(this).attr('id');
+        var corrArray = corr.split('-');
+        var totalItem = parseFloat($('#totalItemQ-' + corrArray[1]).children().html());
+        
+        var tax = parseFloat($('#txtTaxItemQ-' + corrArray[1]).val())/100;
+        var price = parseFloat($('#txtPriceItemQ-' + corrArray[1]).val());
+        var quantity = parseFloat($('#txtCantItemQ-' + corrArray[1]).val());
+        
+        var totalVenta = parseFloat($('.totalVenta').html());   
+        var totalTax = parseFloat($('.totalTaxVenta').html());   
+        var totalTaxNvo = totalTax - (quantity * price * tax);   
+        
+        contadorQ--;
+        $('#txtCantItemQ-' + numDelArray[1]).remove();
+        $('#itemQ-' + numDelArray[1]).remove();
+        $('#txtPriceItemQ-' + numDelArray[1]).remove();
+        $('#txtTaxItemQ-' + numDelArray[1]).remove();
+        $('#deleteItemQ-' + numDelArray[1]).remove();
+        $('#totalItemQ-' + numDelArray[1]).remove();
+        
+        $('.subTotalVenta').html(((totalVenta - totalItem) - totalTaxNvo).toFixed(2));  
+        $('.totalVenta').html(((totalVenta - totalItem)- (quantity * price * tax)).toFixed(2));  
+        $('.totalTaxVenta').html((totalTaxNvo).toFixed(2));                            
+                
+        if(contadorQ == 0) {
+            $('.removeItemQ').each(function( index, value ) { 
+               $('#' + $(this).attr('id')).addClass('hidden');
+            });
+        }
+        
+        return false;
+    });
+    
+    /* Al momento que se desea eliminar una o varias oportunidades de venta */
+    $(document).on('click', '.btnDeleteQuotation', function(event) {
+        var $btn = $(this).button('loading');
+        /* Definición de variables */
+        var id = $(this).parent().attr('id');
+        var ids=[];
+        /*var table = $('#oppotunitiesList').DataTable();*/
+        
+        $('.chkItemQ').each(function() {
+            if ($(this).is(':checked')) {
+                ids.push($(this).parent().attr('id'));
+            }
+        });	
+            
+        swal({
+                title: "",
+                text: "Remove selected rows?",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonText: "Remove",
+                cancelButtonText: "Cancel",
+                reverseButtons: true,
+            }).then(function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: Routing.generate('admin_quotes_delete_ajax'),
+                        type: 'POST',
+                        data: {param1: ids},
+                        success:function(data){
+                            if(data.error){
+                                swal('',data.error,'error');
+                            }
+                            else{
+                                /*$('#txtId').val(data.id);
+                                $('#txtName').val(data.name);*/
+                                $("input[name='hayProductosQ']").prop({'checked': false});
+                                $btn.button('reset');
+                                /*table.ajax.reload();*/
+                                    
+                                swal('',data.msg,'success');
+                            }
+
+                            /*$('#pnAdd').slideUp();*/
+                        },
+                        error:function(data){
+                            if(data.error){
+                                /*console.log(data.id);*/
+                                swal('',data.error,'error');
+                            }
+                            
+                            $btn.button('reset');
+                        }
+                    });
+                    
+                    $('.btnDeleteQuotation').addClass('hidden');
+                    /*$('.btnAction').addClass('hidden');*/
+                    $('.btnNewQuotation').removeClass('hidden');
+                }
+        });
+        
+        $btn.button('reset');		
+    });
+    /*/////Fin definición persist data (Delete method)*/
 });
+
+/* Función que pone el formulario de registro de cotizaciones en blanco*/
+function limpiarCamposDivQuotes() {
+    contadorQ=0;
+    k=0;
+    
+    /* Obteniendo las opciones del select de los productos / servicios  */
+    var itemsQ = $('.firstItemQ').html();
+    
+    /* Limpiando los campos de texto */
+    $('#txtIdQuote').val('');
+    $('#conditionssQuote').val('');
+    $('#txtDateExpirationQuote').val('');
+
+    /*$('#txtAddComment').val('');*/
+    
+    /* Limpiando los select */
+    $('#assignedUserQuote').val('0').change().trigger("change");
+    $('#statusQuote').val('0').change().trigger("change");
+
+    /* Removiendo la clase errorform de los campos de texto */
+    $('.validateInput').each(function(index, el) {
+        $(this).removeClass('errorform');
+    });
+    
+    /* Removiendo la clase errorform de los select */
+    $('.validateSelectP').each(function(index, el) {
+        $(this).next().children().children().removeClass('errorform');
+    });
+
+    /* Removiendo la clase */
+    $('#btnNewQuotation').removeClass('hidden');
+    $('#btnAddQuote').removeClass('hidden');
+    
+    /* Reseteando el bloque de productos/Servicios */
+    $('.cantItemQ').html('');
+    $('.itemsQ').html('');
+    $('.priceItemQ').html('');
+    $('.taxItemQ').html('');
+    $('.totalItemQ').html('');
+    $('.removeRowQ').html('');
+           
+    $('.removeRowQ').append('<button id="deleteItemQ-' + k + '" class="btn removeItemQ btn-danger hidden"><i class="fa fa-remove"></i></button>');
+    $('.itemsQ').append('<div id="itemQ-' + k + '" ><select id="sItemQ-' + k + '" style="width:100%;" type="text" name="sItemQ[]" class="sItemQ firstItemQ input-sm form-control validateSelectQ">'+itemsQ+'</select></div>');
+    $('.cantItemQ').append('<input id="txtCantItemQ-' + k + '" type="text" name="txtCantItemQ[]" class="cantQ input-sm form-control text-right validateInputQ" min="1" value="1">');
+    $('.priceItemQ').append('<input id="txtPriceItemQ-' + k + '" type="text" name="txtPriceItemQ[]" class="priceQ input-sm form-control text-right validateInputQ" min="1" value="0.00">');
+    $('.taxItemQ').append('<input id="txtTaxItemQ-' + k + '" type="text" name="txtTaxItemQ[]" class="taxQ input-sm form-control text-right validateInputQ" min="1" value="0.00">');
+    $('.totalItemQ').append('<div id="totalItemQ-' + k + '" style="margin-top: 10px;"><label class="totalQ control-label">0.00</label></div>');
+    
+    $('.cantQ').numeric('.'); 
+    $('.priceQ').numeric('.'); 
+    $('.taxQ').numeric('.'); 
+    $('#sItemQ-' + k).select2();    
+    
+    $('.subTotalVenta').html('0.00');
+    $('.totalTaxVenta').html('0.00');
+    $('.totalVenta').html('0.00');
+
+    
+    /* Agregando la clase hidden*/
+    /*$('.btnDelete').addClass('hidden');*/
+    $('#btnCancelQuote').addClass('hidden');  
+    
+} /* Fin de Función que pone el formulario de registro de cotizaciones en blanco */
