@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var activeAjaxConnections=0;
+	var numPedidosAjaxEdit=0;
 	var numPedidos=0;
 	var dataId=0;
         var numContacts = 0;
@@ -163,9 +163,9 @@ $(document).ready(function() {
 				selected++;
 			}
 		});	
-		console.log(activeAjaxConnections);
-		if (text=='TD' && id!=idForm && selected==0 && activeAjaxConnections==0) {
-			activeAjaxConnections=1;
+		/*console.log(numPedidosAjaxEdit);*/
+		if (text=='TD' && id!=idForm && selected==0 && numPedidosAjaxEdit==0) {
+			numPedidosAjaxEdit=1;
 			objClicked.off('click');
 			objClicked.css('cursor','progress');
 			$.ajax({
@@ -174,7 +174,6 @@ $(document).ready(function() {
 				data: {param1: idArray[0],param2:idArray[1]},
 				success:function(data){
 					if(data.error){
-						activeAjaxConnections=0;
 						swal('',data.error,'error');
 						id.val(data.id);
 						$('#addTag').addClass('hidden');
@@ -316,7 +315,7 @@ $(document).ready(function() {
 						
 					}	
 					objClicked.on('click');
-					activeAjaxConnections=0;
+					numPedidosAjaxEdit=0;
 					objClicked.css('cursor', 'pointer');
 				},
 				error:function(data){
@@ -328,7 +327,7 @@ $(document).ready(function() {
 					$('#addedTags').addClass('hidden');
 					$('#filterTag').removeClass('hidden');
 					objClicked.on('click');
-					activeAjaxConnections=0;
+					numPedidosAjaxEdit=0;
 					objClicked.css('cursor', 'pointer');					
 				}
 			});
@@ -664,13 +663,13 @@ $(document).ready(function() {
                     },
                     error:function(data){
                         if(data.error){
-                            console.log(data.id);
+                            /*console.log(data.id);*/
                             swal('',data.error,'error');
                         }
                         $btn.button('reset');
                     }
                 });
-                console.log(idS[1]);
+                /*console.log(idS[1]);*/
 		return false;
 	});
 

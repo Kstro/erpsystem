@@ -2514,7 +2514,6 @@ class CrmCuentaController extends Controller
                     $data['addressArray']=[];
                 }
                 if(count($ctlTelefonoObj)!=0){
-
                     // $data['phoneArray']=$ctlTelefonoObj[0];
                     $telTipoArray=array();
                     $telArray=array();
@@ -2555,7 +2554,6 @@ class CrmCuentaController extends Controller
                     }
                     // $data['addressArray']=$ctlDireccionObj[0];
                     $data['src']=$dirArray;
-
                 }
                 else{
                     $data['src']='';

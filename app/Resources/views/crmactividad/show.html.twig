@@ -18,6 +18,14 @@
                 <td>{{ crmActividad.descripcion }}</td>
             </tr>
             <tr>
+                <th>Googleid</th>
+                <td>{{ crmActividad.googleId }}</td>
+            </tr>
+            <tr>
+                <th>Direccion</th>
+                <td>{{ crmActividad.direccion }}</td>
+            </tr>
+            <tr>
                 <th>Fecharegistro</th>
                 <td>{% if crmActividad.fechaRegistro %}{{ crmActividad.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
@@ -38,10 +46,10 @@
 
     <ul>
         <li>
-            <a href="{{ path('admin_tasks_index') }}">Back to the list</a>
+            <a href="{{ path('admin_crmactivity_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('admin_tasks_edit', { 'id': crmActividad.id }) }}">Edit</a>
+            <a href="{{ path('admin_crmactivity_edit', { 'id': crmActividad.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

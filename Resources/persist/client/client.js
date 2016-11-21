@@ -7,6 +7,7 @@ $(document).ready(function() {
 	$("#txtId2").val('');
 	var numAddress = 0;
         var numContacts = 0;
+        var numPedidosAjaxEdit=0;
 	/*/////Persist datatable (Save method)*/
 	var filesSelectedPrev = document.getElementById("file").files;
 	/*// console.log(filesSelectedPrev[0]);*/
@@ -161,7 +162,8 @@ $(document).ready(function() {
 				selected++;
 			}
 		});	
-		if (text=='TD' && id!=idForm && selected==0) {
+		if (text=='TD' && id!=idForm && selected==0 && numPedidosAjaxEdit==0) {
+                        numPedidosAjaxEdit=1;
 			$.ajax({
 				url: Routing.generate('admin_client_retrieve_ajax'),
 				type: 'POST',
@@ -327,13 +329,15 @@ $(document).ready(function() {
 						$('#filterTag').addClass('hidden');
                                                 $('#addFile').removeClass('hidden');
                                                 $('#btnLoadMoreFiles').removeClass('hidden');
-					}					
+					}
+                                        numPedidosAjaxEdit=0;
 				},
 				error:function(data){
 					if(data.error){
 						/*// console.log(data.id);*/
 						swal('',data.error,'error');
 					}
+                                        numPedidosAjaxEdit=0;
 				}
 			});
 		} 

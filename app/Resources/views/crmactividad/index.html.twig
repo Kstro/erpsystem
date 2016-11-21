@@ -1,234 +1,53 @@
-{% extends ':layout:layouterp.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title -%}<title>{{tituloTodasActividades}}</title>{% endblock %}
+{% block body %}
+    <h1>CrmActividad list</h1>
 
-{% block navegacion %}
-    {% include ':crmactividad:menu_actividades.html.twig' %}
-    {#{% include ':crmcuenta:opciones_cuenta.html.twig' %}#}
-    {% include ':crmcuenta:add_files.html.twig' %}
-    
-{% endblock %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Googleid</th>
+                <th>Direccion</th>
+                <th>Fecharegistro</th>
+                <th>Fechainicio</th>
+                <th>Fechafin</th>
+                <th>Fechacancelacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for crmActividad in crmActividads %}
+            <tr>
+                <td><a href="{{ path('admin_crmactivity_show', { 'id': crmActividad.id }) }}">{{ crmActividad.id }}</a></td>
+                <td>{{ crmActividad.nombre }}</td>
+                <td>{{ crmActividad.descripcion }}</td>
+                <td>{{ crmActividad.googleId }}</td>
+                <td>{{ crmActividad.direccion }}</td>
+                <td>{% if crmActividad.fechaRegistro %}{{ crmActividad.fechaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if crmActividad.fechaInicio %}{{ crmActividad.fechaInicio|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if crmActividad.fechaFin %}{{ crmActividad.fechaFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if crmActividad.fechaCancelacion %}{{ crmActividad.fechaCancelacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_crmactivity_show', { 'id': crmActividad.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_crmactivity_edit', { 'id': crmActividad.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-
-{% block customcss %}
-    <link rel="stylesheet" href="{{ asset('Resources/customscss/salestage.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('Resources/customscss/timeline/timeline.css') }}">
-    <style type="text/css">
-        .errorform{
-            border: 1px solid #F00 !important;
-        }
-    </style>
-{% endblock %}
-{% block descripcion %}
-     <div class="col-md-5">
-          <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoTodasActividades | capitalize}}</p>
-          <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionTodasActividades}}</p>
-          <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
-          <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
-          <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
-          <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
-          <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEditTodasActividades}}</p>
-     </div>
-
-{% endblock %}
-{% block acciones %}
-     <div class="col-md-7 text-right panel-body">
-          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
-          <button data-loading-text="Loading..." autocomplete="off" class="btnAddPage btn btn-sm btn-primary btn-flat">{{add}}</button>
-          <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
-          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
-                            
-          {# <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button> #}
-          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{cancel}}</button>
-          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
-          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{action}}</button>
-     </div>
-{% endblock acciones %}
-
-{% block contenido %}
-    <div class="row">
-        {% include ':crmactividad:activity.html.twig' %}
-        <div class="clearfix"></div>
-        <div class="col-md-12 col-xs-12">
-            <table id="activitiesList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
-                  
-                <thead>
-                    <tr role="row">
-                        <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
-                        <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaInicioTodasActividades}}</th>
-                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameTodasActividades}}</th>
-                        <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{tipoTodasActividades}}</th>
-                        {#<th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{prioridadTodasActividades}}</th>#}
-                        <th aria-label="Responsable: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{responsableTodasActividades}}</th>
-                        
-                        {#<th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaCancelTodasActividades}}</th>   #}
-                        <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{estadoTodasActividades}}</th>
-                    </tr>
-                </thead>      
-             </table>
-        </div>
-    </div>
-
-    
-{% endblock %}
-{% block js_extend %}
-    
-    <script type="text/javascript" src="{{ asset('Resources/validations/validation.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/activities/activities.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/animations/activities/activities.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
-    
-    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/collapse.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/transition.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/datetime.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('Resources/fullcalendar300/fullcalendar.min.js') }}"></script>
-    
-    
-    <link rel="stylesheet" href="{{ asset('Resources/bootstrap/css/datetime.min.css') }}" />
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#estado').val(2).trigger('change');
-            
-            /////Definición datatable
-            var table = $('#activitiesList').DataTable({
-                dom:'ftp',
-                "processing": false,
-                "serverSide": true,
-                "ajax": {
-                    "url": '{{path('admin_all_activities_data')}}',
-                    "type": 'GET'
-                },
-                "columns": [
-                    { "data": "chk" },
-                    { "data": "dateStart" },
-                    { "data": "name" },
-                    { "data": "tipoCuenta" },
-                    {#{ "data": "priority" },#}
-                    { "data": "responsable" },
-                    
-                    /*{ "data": "dateCancel" }*/
-                    { "data": "estado" }
-                ],
-                "order":[1,'desc'],
-                "columnDefs": [
-                    { "orderable": false, "targets": 0 }
-                    
-                ],
-                "language": {
-                    "info": "{{dtInfo}} _PAGE_ de _PAGES_",
-                    "infoEmpty": "{{dtInfoEmpty}}",
-                    "emptyTable": "{{dtEmptyTable}}",
-                    "paginate": { 
-                        "next": "{{dtNext}}",
-                        "previous": "{{dtPrev}}"
-                    },
-                    "processing": "{{dtProcessing}}",
-                    "search": "{{dtSearch}}",
-                    "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
-                }
-            });
-            //Buscar hasta que se presione enter
-            $('#providersList_filter input').unbind();
-            $('#providersList_filter input').bind('keyup', function(e) {
-                if(e.keyCode == 13) {
-                    table.search( this.value ).draw();
-                    $('.chkItemAll').prop({'checked': false});
-                }
-            });
-            /////Fin definición datatable
-
-            $('#dpbTitulo').select2();
-            $('.dpbResponsable').select2();
-            $('.dpbTipoRecordatorio').select2();
-            $('.dpbTiempoRecordatorio').select2();
-            $('.dpbPriority').select2();
-            $('#tipoActividades').select2();
-            
-            $('#datetimepicker1').datetimepicker({
-                format: 'Y/MM/DD HH:mm',
-                allowInputToggle:true,
-                ignoreReadonly:true,
-                // minDate: Date(),
-            });
-            $('#datetimepicker2').datetimepicker({
-                format: 'Y/MM/DD HH:mm',
-                allowInputToggle: true,
-                ignoreReadonly:true,
-                useCurrent: false //Important! See issue #1075
-            });
-
-            $("#datetimepicker1").on("dp.change", function (e) {
-                   $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-            });
-            $("#datetimepicker2").on("dp.change", function (e) {
-                $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-            });
-
-
-             $('#cuentaActividades').select2({
-                 ajax: {
-                        url: Routing.generate('busqueda_cuenta_select_info'),
-                        dataType: 'json',
-                        delay: 250,
-                        data: function (params) {
-                          return {
-                            q: params.term, // search term
-                            page: params.page
-                          };
-                        },
-                        processResults: function (data, params) {
-                                            var select2Data = $.map(data.data, function (obj) {
-                                                obj.id = obj.id;
-                                                obj.text = obj.nombre;
-
-                                                return obj;
-                                            });
-
-                                            return {
-                                                results: select2Data
-                                                {#pagination: {
-                                                    more: (params.page * 30) < data.total_count
-                                                }#}
-                                            };
-                                        },
-                        cache: true
-                      },
-                      escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-                      minimumInputLength: 1,
-                      templateResult: formatRepo, // omitted for brevity, see the source of this page
-                      // templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-                    });
-
-        });
-
-
-    function formatRepo (data) {
-                if(data.nombre){
-                    // console.log('sdcsda');
-                    var markup = "<div class='select2-result-repository clearfix'>" +
-                                 "<div class='select2-result-repository__meta'>" +
-                                 "<div class='select2-result-repository__title'>" + data.nombre+"</div>" +
-                                 "</div></div>";
-                } else {
-                    var markup = "";
-                }
-                return markup;
-            }
-
-            function formatRepoSelection (data) {
-                if(data.nombre){
-                    // console.log('a');
-                    return data.nombre;
-                } else {
-                    return "Realice una búsqueda (Ctrl+g)"; 
-                }    
-            }
-    </script>
-     
+    <ul>
+        <li>
+            <a href="{{ path('admin_crmactivity_new') }}">Create a new entry</a>
+        </li>
+    </ul>
 {% endblock %}
