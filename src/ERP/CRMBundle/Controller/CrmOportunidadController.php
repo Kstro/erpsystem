@@ -60,7 +60,15 @@ class CrmOportunidadController extends Controller
             
             // Estados de la cotización
             $statusCot = $em->getRepository('ERPCRMBundle:CrmEstadoCotizacion')->findAll();
-
+            
+            //Tipos de etiqueta
+            $sql = "SELECT tag.id as id, tag.nombre as nombre "
+                    . "FROM ERPCRMBundle:CrmEtiquetaOportunidad obj "
+                    ."JOIN obj.etiqueta tag";
+            
+            $etiquetas = $em->createQuery($sql)
+                        ->getResult();
+            
             return $this->render('crm_oportunidad/index.html.twig', array(
                 'tiposCuenta'=>$tiposCuenta,
                 'fuentes'=>$fuentes,
@@ -69,6 +77,7 @@ class CrmOportunidadController extends Controller
                 'productos'=>$productos,
                 'personas'=>$personas,
                 'statusCot'=>$statusCot,
+                'etiquetas'=>$etiquetas,
                 'menuOportunidadesA' => true,
             ));
         } catch (\Exception $e) {  
@@ -656,7 +665,10 @@ class CrmOportunidadController extends Controller
                     $data['cuentas']=[];
                 }    
                 
-                $crmCotizacionesObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->findBy(array('oportunidad' => $crmOportunidadObj));
+                $crmCotizacionesObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->findBy(array(
+                                                                                            'oportunidad' => $crmOportunidadObj,
+                                                                                            'estado'      => TRUE
+                                                                                        ));
                 
                 if(count($crmCotizacionesObj) != 0){
                     $array=array();
@@ -693,7 +705,27 @@ class CrmOportunidadController extends Controller
                 }
                 else{
                     $data['cotizaciones']=[];
-                }    
+                }  
+                
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaOportunidad ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.oportunidad c "
+                            ." WHERE c.id=:idOportunidad";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('idOportunidad'=>$id))
+                                    ->getResult();
+                
+                $data['tags']=$tags;
+                
+                
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoOportunidad doc"
+                            ." JOIN doc.oportunidad c "
+                            ." WHERE c.id=:idOportunidad ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                                    ->setParameters(array('idOportunidad'=>$id))
+                                    ->getResult();
+                
+                $data['docs']=$docs;
                 
             } else {
                 $data['error'] = "Error";
@@ -748,7 +780,6 @@ class CrmOportunidadController extends Controller
                         $data['msg']=$serverDelete;
                     }
                     else{
-                        echo "sdcasdc";
                         $data['error']="Error";
                     }
                 }
@@ -989,7 +1020,10 @@ class CrmOportunidadController extends Controller
                     $data['msg']=$serverUptate;
                 }
                 
-                $crmCotizacionesObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->findBy(array('oportunidad' => $crmOportunidadObj));
+                $crmCotizacionesObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->findBy(array(
+                                                                                            'oportunidad' => $crmOportunidadObj,
+                                                                                            'estado'      => TRUE
+                                                                                        ));
                 
                 if(count($crmCotizacionesObj) != 0){
                     $array=array();
@@ -1070,9 +1104,12 @@ class CrmOportunidadController extends Controller
         if($isAjax){
             try {
                 $ids=$request->get("param1");
+                $idOportunidad = $request->get("param2");
                 $response = new JsonResponse();
                 
                 $em = $this->getDoctrine()->getManager();
+                $crmOportunidadObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->find($idOportunidad);    
+                
                 foreach ($ids as $key => $id) {
                     $object = $em->getRepository('ERPCRMBundle:CrmCotizacion')->find($id);    
                     if(count($object)){
@@ -1083,10 +1120,51 @@ class CrmOportunidadController extends Controller
                         $data['msg']=$serverDelete;
                     }
                     else{
-                        echo "sdcasdc";
                         $data['error']="Error";
                     }
                 }
+                
+                $crmCotizacionesObj = $em->getRepository('ERPCRMBundle:CrmCotizacion')->findBy(array(
+                                                                                            'oportunidad' => $crmOportunidadObj,
+                                                                                            'estado'      => TRUE
+                                                                                        ));
+                
+                if(count($crmCotizacionesObj) != 0){
+                    $array=array();
+                    
+                    foreach ($crmCotizacionesObj as $key => $value) {
+                        //var_dump($value);
+                        //die();
+                        
+                        $arrayAux = array();    
+                        array_push($arrayAux, $key + 1);
+                        array_push($arrayAux, $value->getId());
+                        array_push($arrayAux, $value->getUsuario()->getPersona()->getNombre() . ' ' . $value->getUsuario()->getPersona()->getApellido());
+                        array_push($arrayAux, $value->getFechaRegistro()->format('Y-m-d H:i'));
+                        array_push($arrayAux, $value->getEstadoCotizacion()->getNombre());
+                        array_push($arrayAux, $value->getFechaVencimiento()->format('Y-m-d'));
+                        
+                        $itemsCotizacion = $em->getRepository('ERPCRMBundle:CrmDetalleCotizacion')->findBy(array('cotizacion' => $value));
+                        $totalCotizacion = 0;
+                        $totalTax = 0;
+                        foreach ($itemsCotizacion as $key => $item) {
+                            $tax = $item->getTax() / 100;
+                            
+                            $totalCotizacion+=($item->getCantidad() * $item->getValorUnitario());
+                            $totalTax+=($item->getCantidad() * $item->getValorUnitario() * $tax);
+                        }
+                        
+                        array_push($arrayAux, ($totalCotizacion + $totalTax));
+                        
+                        array_push($array, $arrayAux);
+                    }
+                    
+                    $data['cotizaciones']=$array;
+                }
+                else{
+                    $data['cotizaciones']=[];
+                }
+                
                 $response->setData($data); 
             } catch (\Exception $e) {
                 if(method_exists($e,'getErrorCode')){

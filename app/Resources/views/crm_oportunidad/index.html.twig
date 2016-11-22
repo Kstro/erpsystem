@@ -1,7 +1,8 @@
 {% extends ':layout:layouterp.html.twig' %}
 {% block title -%}<title>{{tituloOportunidad}}</title>{% endblock %}
 {% block navegacion %}
-    {% include ':layout:menuventas.html.twig' %}
+    {% include ':crm_oportunidad:opciones_oportunidad.html.twig' %}
+    {% include ':crm_oportunidad:add_files.html.twig' %}
 {% endblock %} 
 {% block customcss %}
     <link rel="stylesheet" href="{{ asset('Resources/bootstrap/css/datetime.min.css') }}" />
@@ -61,8 +62,20 @@
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/collapse.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/transition.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/datetime.js') }}"></script>
+    
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
+    
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#filterTag').removeClass('hidden');
+            $('#btnLoadMoreFiles').addClass('hidden');
+            $('#selectTags').select2();
+            
+            var valor = $('#selectTags').val();       
+            
             /*/////Definición datatable*/
             var table = $('#oppotunitiesList').DataTable({
                 dom:'ftp',

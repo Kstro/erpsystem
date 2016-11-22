@@ -27,6 +27,13 @@ class CrmComentarioOportunidad
      * @ORM\Column(name="comentario", type="text", length=65535, nullable=false)
      */
     private $comentario;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_comentario", type="integer", nullable=false)
+     */
+    private $tipoComentario;
 
     /**
      * @var \DateTime
@@ -88,6 +95,29 @@ class CrmComentarioOportunidad
     public function getComentario()
     {
         return $this->comentario;
+    }
+    
+    /**
+     * Set tipoComentario
+     *
+     * @param string $tipoComentario
+     * @return CrmComentarioCuenta
+     */
+    public function setTipoComentario($tipoComentario)
+    {
+        $this->tipoComentario = $tipoComentario;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoComentario
+     *
+     * @return string 
+     */
+    public function getTipoComentario()
+    {
+        return $this->tipoComentario;
     }
 
     /**
