@@ -307,6 +307,7 @@ parameters:
         #Todas las actividades
         app.tituloTodasActividades: All the activities | CRM
         app.menuTodasActividades: All
+        app.menuTiposActividades: Activities types
         app.encabezadoTodasActividades: All the activities
         app.descripcionTodasActividades: Add, modify or delete any activity.
         app.nameTodasActividades: Name

@@ -34,10 +34,18 @@ services:
                 - @doctrine.orm.entity_manager
         
     erp.security.authentication_handler:
-            class: ERP\CRMBundle\Listener\AuthenticationHandler
-            public: false
-            arguments:
-                - @service_container
-                - @router
-                - @session
-                - @doctrine.orm.entity_manager                
+        class: ERP\CRMBundle\Listener\AuthenticationHandler
+        public: false
+        arguments:
+            - @service_container
+            - @router
+            - @session
+            - @doctrine.orm.entity_manager          
+                
+    envio_correo:
+        class: ERP\CRMBundle\Services\EmailService
+        arguments: ["@mailer",""]
+        
+    bitacora:
+        class: ERP\CRMBundle\Services\Bitacora
+        arguments:  ["@doctrine.orm.entity_manager"]

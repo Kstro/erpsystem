@@ -11,6 +11,7 @@ parameters:
     locale: en
     photo.proveedor: %kernel.root_dir%/../photos/proveedor/
     photo.cuentas: %kernel.root_dir%/../photos/accounts/
+    photo.correos: %kernel.root_dir%/../photos/correos/
     files.cuentas: %kernel.root_dir%/../files/accounts/
     files.activities: %kernel.root_dir%/../files/activities/
     files.campaigns: %kernel.root_dir%/../files/campaigns/
@@ -603,6 +604,7 @@ twig:
         #Todas las actividades (Llamadas, reuniones, tareas u otro tipo actividad) - Ingles
         tituloTodasActividades: '%app.tituloTodasActividades%'
         menuTodasActividades: '%app.menuTodasActividades%'
+        menuTiposActividades: '%app.menuTiposActividades%'
         encabezadoTodasActividades: '%app.encabezadoTodasActividades%'
         descripcionTodasActividades: '%app.descripcionTodasActividades%'
         nameTodasActividades: '%app.nameTodasActividades%'

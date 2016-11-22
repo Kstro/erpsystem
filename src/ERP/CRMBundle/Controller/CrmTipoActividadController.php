@@ -37,7 +37,7 @@ class CrmTipoActividadController extends Controller
             'campanias' => $campanias,
             'personas' => $personas,
             // 'crmTipoCampanias' => $crmTipoCampanias,
-            'menuCampaniaA' => true,
+            'menuTodasActividadesA' => true,
         ));
     }
 
