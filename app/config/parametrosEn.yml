@@ -502,6 +502,13 @@ parameters:
         app.nameTipoCuenta: Name
         app.menuTipoCuenta: Account types
         
+        #Roles (CRUD)
+        app.tituloRoles: Roles management | CRM
+        app.encabezadoRoles: Roles
+        app.descripcionRoles: Add, modify or delete roles.
+        app.nameRoles: Name
+        app.menuRoles: Roles
+        
         #Industria (CRUD)
         app.tituloIndustria: Industry management | CRM
         app.encabezadoIndustria: Industry
