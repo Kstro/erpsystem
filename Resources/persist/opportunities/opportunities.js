@@ -1,11 +1,39 @@
 var recuperaDataCuenta = true;
 var recuperaDataProbabilidad = true;
 
-var contadorQ=0;
-var k=0;
+var contadorQ = 0;
+var k = 0;
     
 $(document).ready(function() {
     var numPersonas = 0;
+    var numPedidos = 0;
+    var numPedidosAjaxEdit=0;
+    /* Persist datatable (Save method) */
+    //var filesSelectedPrev = document.getElementById("file").files;
+    //console.log(document.getElementById("file").files);
+    $(document).on('change', '#file', function(event) {
+        var filesSelected = document.getElementById("file").files;
+        if(filesSelectedPrev[0]=="undefined"){
+            filesSelectedPrev = document.getElementById("file").files;
+        }
+        var fileToLoad = filesSelected[0];
+        var fileReader = new FileReader();
+        if ((filesSelected[0].size<=4096000)){
+            fileReader.onload = function(fileLoadedEvent) {
+                srcData = fileLoadedEvent.target.result;
+                $('#imgTest').attr('src', srcData);
+            };
+            var imgBase64 = $('#imgTest').attr('src');
+            fileReader.readAsDataURL(fileToLoad);
+            $('#imgTest').show();
+        }
+        else{
+            $(this).val('');
+            $('#imgTest').attr('src', '');
+            $('#imgTest').hide();
+            swal('',$('.imageError').html(),'error');
+        }
+    });
     
     /* Al momento que se dé click en guardar la información del formulario */
     $('#frmOpportunities').on('submit',(function(event) {
@@ -96,9 +124,19 @@ $(document).ready(function() {
         var id=$(this).parent().children().first().children().attr('id');
         var idForm=$('#txtId').val();
         var selected = 0;
-        var objClicked = $(this);
+        var objClicked = $(this);        
+        numPedidos = 1;
+        
         recuperaDataCuenta = true;
         recuperaDataProbabilidad = true;
+        
+        $('.btnAddCommentGen').attr('id',1);
+        $('#iteracion').val(numPedidos);
+        $('#comentarios').show();
+        $('#wallmessages').show();
+        $('#wallmessages').html('');
+        $('#addedTags').html('');//limpiar tags anteriores
+        $('#addedFiles').html('');//limpiar archivos anteriores
         
         /* Cambio del nombre del panel heading para Modify */
         $('.pnHeadingLabelAdd').addClass('hidden');
@@ -114,7 +152,8 @@ $(document).ready(function() {
             }
         });
         
-        if (text=='TD' && id!=idForm && selected==0) {
+        if (text=='TD' && id!=idForm && selected==0 && numPedidosAjaxEdit==0) {
+            numPedidosAjaxEdit=1;
             objClicked.off('click');
             objClicked.css('cursor','progress');
             
@@ -318,20 +357,49 @@ $(document).ready(function() {
                             $('#divQuotes').addClass('hidden');
                             $('#noQuotes').removeClass('hidden');
                         } /*  Fin de Data Cotizaciones vinculadas  a la oportunidad de venta  */
-
-                        /*var addItem = '';
+                        
+                        
+                       seguimientoGeneral(data.id, numPedidos, null, 5);
+                        
+                        var addItem = '';
                         for (var i = 0; i < data.tags.length; i++) {
                             addItem='<div class="col-xs-1" style="vertical-align:middle;"><a id="'+data.tags[i].id+'" href="" class="tagDelete"><i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i></a></div><div class="col-xs-10">'+data.tags[i].nombre+'</div>';
                             $('#addedTags').append(addItem);
-                        }*/
-                        /* seguimientoComet(data.id1); */
+                        }
+
+                        for (var i = 0; i < data.docs.length; i++) {
+                            if(data.docs[i].estado==1){
+                                var addItem='<div class="col-xs-1" style="vertical-align:middle;">';
+
+                                addItem+='<a id="'+data.docs[i].id+'" href="" class="fileDelete">';
+                                addItem+='<i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i>';
+                                addItem+='</a>';
+
+                                addItem+='</div><div class="col-xs-10">';
+                                addItem+='<a target="_blank" href="../../../files/opportunities/';
+                                addItem+=data.docs[i].nombre;
+                                addItem+='">';
+
+                                addItem+=data.docs[i].nombre;
+                                addItem+='</a>';
+                                addItem+='</div>';
+                                
+                                $('#addedFiles').append(addItem);
+                            }
+                        }
+
                         $('#addTag').removeClass('hidden');
                         $('#addedTags').removeClass('hidden');
+                        $('#addedFiles').removeClass('hidden');
                         $('#filterTag').addClass('hidden');
-
+                        $('#addFile').removeClass('hidden');
+                        $('#btnLoadMoreFiles').removeClass('hidden');
+                        
                         recuperaDataCuenta = false;  
                         recuperaDataProbabilidad = false;                         
                     }	
+                    
+                    numPedidosAjaxEdit=0;
                     
                     objClicked.on('click');
                     objClicked.css('cursor', 'pointer');
@@ -346,7 +414,9 @@ $(document).ready(function() {
                     $('#addTag').addClass('hidden');
                     $('#addedTags').addClass('hidden');
                     $('#filterTag').removeClass('hidden');
-
+                    
+                    numPedidosAjaxEdit=0;
+                    
                     objClicked.on('click');
                     objClicked.css('cursor', 'pointer');	
                 }
@@ -670,11 +740,11 @@ $(document).ready(function() {
         var objClicked = $(this);
         
         /* Verificando si se ha seleccionado algún checkbox del datatable */
-        /*$('.chkItem').each(function() {
+        $('.chkItemQ').each(function() {
             if ($(this).is(':checked')) {
                 selected++;
             }
-        });*/
+        });
         
         if (text=='TD' && id!=idForm && selected==0) {
             objClicked.off('click');
@@ -881,6 +951,7 @@ $(document).ready(function() {
         /* Definición de variables */
         var id = $(this).parent().attr('id');
         var ids=[];
+        var idOportunidad = $("#txtId").val();
         /*var table = $('#oppotunitiesList').DataTable();*/
         
         $('.chkItemQ').each(function() {
@@ -902,18 +973,50 @@ $(document).ready(function() {
                     $.ajax({
                         url: Routing.generate('admin_quotes_delete_ajax'),
                         type: 'POST',
-                        data: {param1: ids},
+                        data: {param1: ids, param2: idOportunidad},
                         success:function(data){
                             if(data.error){
                                 swal('',data.error,'error');
                             }
                             else{
-                                /*$('#txtId').val(data.id);
-                                $('#txtName').val(data.name);*/
+                                $('#txtIdQuote').val('');
+                                /*$('#txtName').val(data.name);*/
                                 $("input[name='hayProductosQ']").prop({'checked': false});
+                                
+                                if(data.cotizaciones.length > 0) {
+                                    $('#tbodyQuotes').html(''); 
+                                }
+
+                                var tbody = '';
+
+                                /* Mostrando data de las cotizaciones vinculadas a la oportunidad de venta */
+                                for (var j = 0; j < data.cotizaciones.length; j++) {   
+                                    tbody+='<tr id="'+data.cotizaciones[j][1]+'">';
+                                    tbody+='<td style="text-align: center;" >'+'<div id="' + data.cotizaciones[j][1]+'" style="text-align:left"><input style="z-index:5;" class="chkItemQ" type="checkbox"></div></td>';
+                                    tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][0]+'</td>';
+                                    tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][3]+'</td>';
+                                    tbody+='<td style="text-align: left;" >'+data.cotizaciones[j][2]+'</td>';
+                                    tbody+='<td style="text-align: left;" >'+data.cotizaciones[j][4]+'</td>';   
+                                    tbody+='<td style="text-align: center;" >'+data.cotizaciones[j][5]+'</td>';   
+                                    tbody+='<td style="text-align: right;" >'+(data.cotizaciones[j][6]).toFixed(2)+'</td>';   
+                                    tbody+='</tr>';
+
+                                    $('#tbodyQuotes').append(tbody); 
+                                    tbody = '';
+                                }
+
+                                if(data.cotizaciones.length > 0) {                                                        
+                                    $('#divQuotes').removeClass('hidden');
+                                    $('#noQuotes').addClass('hidden');
+                                } else {
+                                    $('#divQuotes').addClass('hidden');
+                                    $('#noQuotes').removeClass('hidden');
+                                } /*  Fin de Data Cotizaciones vinculadas  a la oportunidad de venta  */
+                                
+                                $('.btnNewQuotation').removeClass('hidden');
+                                $('.btnDeleteQuotation').addClass('hidden');
+                                
                                 $btn.button('reset');
-                                /*table.ajax.reload();*/
-                                    
                                 swal('',data.msg,'success');
                             }
 

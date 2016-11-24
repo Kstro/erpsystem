@@ -23,6 +23,16 @@ $(document).ready(function() {
     // Al hacer click en el Botón "Add"
     $(document).on('click', '.btnAddPage', function(event) {
             var id = $('#txtId').val();
+            
+            $('#comentarios').hide();
+            $('#wallmessages').hide();
+
+            $('#btnLoadMore').hide();
+            $('#addTag').addClass('hidden');
+            $('#addFile').addClass('hidden');
+            $('#addedTags').addClass('hidden');
+            $('#filterTag').addClass('hidden');
+            
             recuperaDataCuenta = false;
             recuperaDataProbabilidad = false;
 

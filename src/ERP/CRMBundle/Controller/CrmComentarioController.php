@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCampania;
+use ERP\CRMBundle\Entity\CrmComentarioOportunidad;
 use ERP\CRMBundle\Entity\CrmActividad;
 use ERP\CRMBundle\Entity\CrmComentarioActividad;
 use ERP\CRMBundle\Entity\CtlPersona;
@@ -77,6 +78,13 @@ class CrmComentarioController extends Controller {
                         $actObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($id);
                         $crmComentario->setCampania($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
+                        break;
+                    
+                    case 5:///// CRM - Oportunidad
+                        $crmComentario= new CrmComentarioOportunidad();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
+                        $crmComentario->setCampania($actObj);
+                        $sql="SELECT COUNT(*) as total FROM seguimientopport where oportunidad=".$id;
                         break;
                 }
                 
