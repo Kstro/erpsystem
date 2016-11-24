@@ -484,6 +484,12 @@ parameters:
         app.tituloLoginEs: Sistema CRM | Inicio de sesión
         app.usernameTxtEs: Nombre de usuario
         app.passwordTxtEs: Contraseña
+        
+        # Cotizacion
+        app.menuCotizacionEs: Cotizaciones
+        app.tituloCotizacionEs: Cotizaciones | CRM
+        app.encabezadoCotizacionEs: Listado de cotizaciones
+        app.descripcionCotizacionEs: Registrar, actualizar o eliminar cotizaciones.
        
         #perfil
         app.perfilEs: e

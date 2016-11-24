@@ -62,7 +62,7 @@ class CrmOportunidadController extends Controller
             $statusCot = $em->getRepository('ERPCRMBundle:CrmEstadoCotizacion')->findAll();
             
             //Tipos de etiqueta
-            $sql = "SELECT tag.id as id, tag.nombre as nombre "
+            $sql = "SELECT DISTINCT tag.id as id, tag.nombre as nombre "
                     . "FROM ERPCRMBundle:CrmEtiquetaOportunidad obj "
                     ."JOIN obj.etiqueta tag";
             
@@ -107,6 +107,7 @@ class CrmOportunidadController extends Controller
         $draw = $request->query->get('draw');
         $longitud = $request->query->get('length');
         $busqueda = $request->query->get('search');
+        $tagId = $request->query->get('param1');
         
         $em = $this->getDoctrine()->getManager();
         $rowsTotal = $em->getRepository('ERPCRMBundle:CrmOportunidad')->findBy(array('estado' => 1));
@@ -142,75 +143,167 @@ class CrmOportunidadController extends Controller
         }
         
         $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
-        if($busqueda['value']!=''){                                
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
-                    . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
-                    . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
-                    . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
-                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
-                    . "FROM ERPCRMBundle:CrmOportunidad opo "
-                    . "JOIN opo.etapaVenta sta "
-                    . "JOIN opo.cuenta cta "
-                    . "JOIN cta.contactoCuenta cc "
-                    . "JOIN cc.contacto con "
-                    . "JOIN con.persona per "
-                    . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
-                    . "ORDER BY ".$orderByText." ".$orderDir;
+        if($busqueda['value']!=''){ 
+            if ($tagId==0) {
+                $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
+                        . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
+                        . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
+                        . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
+                        . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                        . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
+                        . "FROM ERPCRMBundle:CrmOportunidad opo "
+                        . "JOIN opo.etapaVenta sta "
+                        . "JOIN opo.cuenta cta "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                        . "ORDER BY ".$orderByText." ".$orderDir;
 
-            $row['data'] = $em->createQuery($dql)
-                    ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
-                    ->getResult();
+                $row['data'] = $em->createQuery($dql)
+                        ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
+                        ->getResult();
 
-            $row['recordsFiltered']= count($row['data']);
+                $row['recordsFiltered']= count($row['data']);
 
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
-                    . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
-                    . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
-                    . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
-                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
-                    . "FROM ERPCRMBundle:CrmOportunidad opo "
-                    . "JOIN opo.etapaVenta sta "
-                    . "JOIN opo.cuenta cta "
-                    . "JOIN cta.contactoCuenta cc "
-                    . "JOIN cc.contacto con "
-                    . "JOIN con.persona per "
-                    . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
-                    . "ORDER BY ".$orderByText." ".$orderDir;
+                $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
+                        . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
+                        . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
+                        . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
+                        . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                        . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
+                        . "FROM ERPCRMBundle:CrmOportunidad opo "
+                        . "JOIN opo.etapaVenta sta "
+                        . "JOIN opo.cuenta cta "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                        . "ORDER BY ".$orderByText." ".$orderDir;
 
-            $row['data'] = $em->createQuery($dql)
-                    ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
-                    ->setFirstResult($start)
-                    ->setMaxResults($longitud)
-                    ->getResult();              
+                $row['data'] = $em->createQuery($dql)
+                        ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
+                        ->setFirstResult($start)
+                        ->setMaxResults($longitud)
+                        ->getResult();    
+            } else {
+                $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
+                        . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
+                        . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
+                        . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
+                        . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                        . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
+                        . "FROM ERPCRMBundle:CrmOportunidad opo "
+                        . "JOIN opo.etapaVenta sta "
+                        . "JOIN opo.cuenta cta "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "JOIN opo.tagOportunidad topo "
+                        . "JOIN topo.etiqueta tag "
+                        . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                        . "AND tag.id =".$tagId
+                        . " ORDER BY ".$orderByText." ".$orderDir;
+
+                $row['data'] = $em->createQuery($dql)
+                        ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
+                        ->getResult();
+
+                $row['recordsFiltered']= count($row['data']);
+
+                $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
+                        . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
+                        . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
+                        . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
+                        . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                        . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
+                        . "FROM ERPCRMBundle:CrmOportunidad opo "
+                        . "JOIN opo.etapaVenta sta "
+                        . "JOIN opo.cuenta cta "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "JOIN opo.tagOportunidad topo "
+                        . "JOIN topo.etiqueta tag "
+                        . "WHERE opo.estado = 1 AND cc.titular = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(opo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(opo.fechaCierre), ' ' , upper(sta.nombre), ' ' , upper(cta.nombre)) LIKE upper(:busqueda) "
+                        . "AND tag.id =".$tagId
+                        . " ORDER BY ".$orderByText." ".$orderDir;
+
+                $row['data'] = $em->createQuery($dql)
+                        ->setParameters(array('busqueda'=>"%".$busqueda['value']."%"))
+                        ->setFirstResult($start)
+                        ->setMaxResults($longitud)
+                        ->getResult(); 
+            }
         }
         else{
-            $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
-                    . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
-                    . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
-                    . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
-                    . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
-                    . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
-                    . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
-                    . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
-                    . "FROM ERPCRMBundle:CrmOportunidad opo "
-                    . "JOIN opo.etapaVenta sta "
-                    . "JOIN opo.cuenta cta "
-                    . "JOIN cta.contactoCuenta cc "
-                    . "JOIN cc.contacto con "
-                    . "JOIN con.persona per "
-                    . "WHERE opo.estado = 1 AND cc.titular = 1 "
-                    . "ORDER BY ".$orderByText." ".$orderDir;
-            
-            $row['data'] = $em->createQuery($dql)
-                    ->setFirstResult($start)
-                    ->setMaxResults($longitud)
-                    ->getResult();
+            if ($tagId==0) {
+                $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
+                        . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
+                        . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
+                        . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
+                        . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                        . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
+                        . "FROM ERPCRMBundle:CrmOportunidad opo "
+                        . "JOIN opo.etapaVenta sta "
+                        . "JOIN opo.cuenta cta "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "WHERE opo.estado = 1 AND cc.titular = 1 "
+                        . "ORDER BY ".$orderByText." ".$orderDir;
+
+                $row['data'] = $em->createQuery($dql)
+                        ->setFirstResult($start)
+                        ->setMaxResults($longitud)
+                        ->getResult();
+            } else {
+                $dql = "SELECT CONCAT('<div style=\"text-align: left;\">', opo.nombre, '</div>') as name, "
+                        . "'<a ><i style=\"cursor:pointer;\"  class=\"infoOportunidad fa fa-info-circle\"></i></a>' as link, "
+                        . "CONCAT('<div id=\"',opo.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaRegistro, '</div>') as created, "
+                        . "CONCAT('<div style=\"text-align: left;\">', opo.fechaCierre, '</div>') as close, "
+                        . "CONCAT('<div style=\"text-align: left;\">', sta.nombre, '</div>') as stage, "
+                        . "CONCAT('<div style=\"text-align: left;\">', cta.nombre, '</div>') as account, "
+                        . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as contact "
+                        . "FROM ERPCRMBundle:CrmOportunidad opo "
+                        . "JOIN opo.etapaVenta sta "
+                        . "JOIN opo.cuenta cta "
+                        . "JOIN cta.contactoCuenta cc "
+                        . "JOIN cc.contacto con "
+                        . "JOIN con.persona per "
+                        . "JOIN opo.tagOportunidad topo "
+                        . "JOIN topo.etiqueta tag "
+                        . "WHERE opo.estado = 1 AND cc.titular = 1 AND tag.id = " . $tagId
+                        . " ORDER BY ".$orderByText." ".$orderDir;
+
+                $row['data'] = $em->createQuery($dql)
+                        ->setFirstResult($start)
+                        ->setMaxResults($longitud)
+                        ->getResult();
+                
+                $sql = "SELECT et.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmOportunidad op"
+                            ." JOIN op.tagOportunidad et "
+                            ." JOIN et.etiqueta e "
+                            ." WHERE e.id=:id";
+                $rowsTotal = $em->createQuery($sql)
+                                    ->setParameters(array('id'=>$tagId))
+                                    ->getResult();
+        
+                //$row['draw']=$draw++;  
+                $row['recordsTotal'] = count($rowsTotal);
+                $row['recordsFiltered']= count($rowsTotal);
+            }
         }
         
         return new Response(json_encode($row));
@@ -246,6 +339,7 @@ class CrmOportunidadController extends Controller
                 $descripcion = $_POST['descripcion'];     // Descripcion de la oportunidad de venta.
                 $fuente = $_POST['fuente'];               // Fuente de origen de la oportunidad de venta.
                 $campania = $_POST['campania'];           // Campaña de donde se obtuvo la oportunidad de venta.
+                $isProduct = $_POST['isProduct'];         // Si en la oportunidad de venta registraran productos / servicios o no.
                 $estado = 1;                              // Estado de la oporunidad de venta
                 
                 // Personas
@@ -314,22 +408,24 @@ class CrmOportunidadController extends Controller
                         $em->flush();
                     }
                     
-                    // Productos relacionados a la oportunidad de venta
-                    foreach ($productosArray as $key => $producto) {
-                        // Objeto del producto relacionado a la oportunidad
-                        $productoObj = $em->getRepository('ERPCRMBundle:CtlProducto')->find($producto);
-                        
-                        // Seteo en Entidad CrmProductoOportunidad
-                        $productoOportunidadObj = new CrmProductoOportunidad();                        
-                        $productoOportunidadObj->setOportunidad($crmOportunidadObj);
-                        $productoOportunidadObj->setProducto($productoObj);
-                        $productoOportunidadObj->setCantidad($cantidadArray[$key]);
-                        
-                        //Persistiendo productoOportunidadObj
-                        $em->persist($productoOportunidadObj);
-                        $em->flush();
+                    if($isProduct == 1) {
+                        // Productos relacionados a la oportunidad de venta
+                        foreach ($productosArray as $key => $producto) {
+                            // Objeto del producto relacionado a la oportunidad
+                            $productoObj = $em->getRepository('ERPCRMBundle:CtlProducto')->find($producto);
+
+                            // Seteo en Entidad CrmProductoOportunidad
+                            $productoOportunidadObj = new CrmProductoOportunidad();                        
+                            $productoOportunidadObj->setOportunidad($crmOportunidadObj);
+                            $productoOportunidadObj->setProducto($productoObj);
+                            $productoOportunidadObj->setCantidad($cantidadArray[$key]);
+
+                            //Persistiendo productoOportunidadObj
+                            $em->persist($productoOportunidadObj);
+                            $em->flush();
+                        }
                     }
-                                
+                    
                     $serverSave = $this->getParameter('app.serverMsgSave');
                     
                     $data['id']=$crmOportunidadObj->getId();
@@ -395,22 +491,24 @@ class CrmOportunidadController extends Controller
                         $em->flush();
                     }
                     
-                    // Productos relacionados a la oportunidad de venta
-                    foreach ($productosArray as $key => $producto) {
-                        // Objeto del producto relacionado a la oportunidad
-                        $productoObj = $em->getRepository('ERPCRMBundle:CtlProducto')->find($producto);
-                        
-                        // Seteo en Entidad CrmProductoOportunidad
-                        $productoOportunidadObj = new CrmProductoOportunidad();                        
-                        $productoOportunidadObj->setOportunidad($crmOportunidadObj);
-                        $productoOportunidadObj->setProducto($productoObj);
-                        $productoOportunidadObj->setCantidad($cantidadArray[$key]);
-                        
-                        //Persistiendo productoOportunidadObj
-                        $em->persist($productoOportunidadObj);
-                        $em->flush();
+                    if($isProduct == 1) {
+                        // Productos relacionados a la oportunidad de venta
+                        foreach ($productosArray as $key => $producto) {
+                            // Objeto del producto relacionado a la oportunidad
+                            $productoObj = $em->getRepository('ERPCRMBundle:CtlProducto')->find($producto);
+
+                            // Seteo en Entidad CrmProductoOportunidad
+                            $productoOportunidadObj = new CrmProductoOportunidad();                        
+                            $productoOportunidadObj->setOportunidad($crmOportunidadObj);
+                            $productoOportunidadObj->setProducto($productoObj);
+                            $productoOportunidadObj->setCantidad($cantidadArray[$key]);
+
+                            //Persistiendo productoOportunidadObj
+                            $em->persist($productoOportunidadObj);
+                            $em->flush();
+                        }
                     }
-                    
+                        
                     $serverUptate = $this->getParameter('app.servermsgupdate');
                     
                     $data['id']=$crmOportunidadObj->getId();

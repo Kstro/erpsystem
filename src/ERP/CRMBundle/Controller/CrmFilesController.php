@@ -11,8 +11,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoActividad;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCampania;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCuenta;
+use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoOportunidad;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCampania;
+use ERP\CRMBundle\Entity\CrmComentarioOportunidad;
 use ERP\CRMBundle\Form\CtlRolType;
 
 /**
@@ -127,8 +129,10 @@ class CrmFilesController extends Controller
                     case 4:///// CRM - 
                         $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                         break;
-                    case 5:///// CRM -
-                        $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                    case 5:///// CRM - Oportunidades
+                        $path = $this->getParameter('files.opportunities');
+                        $cuentaObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
+                        $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoOportunidad doc";
                         break;
                 }
                 
@@ -175,8 +179,10 @@ class CrmFilesController extends Controller
                                 case 4:///// CRM - 
                                     //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                                     break;
-                                case 5:///// CRM -
-                                    //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                                case 5:///// CRM - opportunities
+                                    $crmFile= new CrmDocumentoAdjuntoOportunidad();
+                                    $crmFile->setOportunidad($cuentaObj);
+                                    $data['path'].='opportunities/';
                                     break;
                             }                            
                             $crmFile->setUsuario($usuarioObj);
@@ -370,6 +376,14 @@ class CrmFilesController extends Controller
                         $actObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($idCuenta);
                         $crmComentario->setCampania($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
+                        break;
+                    case 5:///// CRM - Campaña
+                        $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoOportunidad')->find($id);
+
+                        $crmComentario= new CrmComentarioOportunidad();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($idCuenta);
+                        $crmComentario->setOportunidad($actObj);
+                        $sql="SELECT COUNT(*) as total FROM seguimientopport where oportunidad=".$id;
                         break;
                 }
                 if(count($docObj)!=0){

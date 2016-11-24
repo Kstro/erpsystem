@@ -66,6 +66,14 @@ $(document).ready(function() {
         $('#btnSaveTop').addClass('hidden');
         $('#btnCancelTop').addClass('hidden');
         $('.btnAddPage').removeClass('hidden');
+        
+        $('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMoreFiles').addClass('hidden');
+        
         limpiarCampos();
 
         return false;	

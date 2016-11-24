@@ -5,6 +5,7 @@ var contadorQ = 0;
 var k = 0;
     
 $(document).ready(function() {
+    $('.btnAddCommentGen').attr('id',5);
     var numPersonas = 0;
     var numPedidos = 0;
     var numPedidosAjaxEdit=0;
@@ -41,7 +42,14 @@ $(document).ready(function() {
         var table = $('#oppotunitiesList').DataTable();
         var errores = 0;
         var $btn;
+        var productos = 0;
+        var form = new FormData(this);
         
+        if ($("input[name=hayProductos]").is(':checked')) {
+            productos = 1;
+        }
+        
+        form.append("isProduct", productos);
         $btn = $('#btnSave').button('loading');
         
         /* Verificando si se ha ingresado la información necesaria de la oportunidad */
@@ -63,7 +71,7 @@ $(document).ready(function() {
             $.ajax({
                 url: Routing.generate('admin_opportunity_save_ajax'),
                 type: "POST",            
-                data: new FormData(this),
+                data: form,
                 contentType: false,      
                 cache: false,            
                 processData:false,     
@@ -90,6 +98,13 @@ $(document).ready(function() {
                     
                     table.ajax.reload();
                     $btn.button('reset');
+                    
+                    $('#filterTag').removeClass('hidden');
+                    $('#addTag').addClass('hidden');
+                    $('#addedTags').addClass('hidden');
+                    $('#addedFiles').addClass('hidden');
+                    $('#addFile').addClass('hidden');
+                    $('#btnLoadMoreFiles').addClass('hidden');
                     
                     $('#btnSaveTop').addClass('hidden');
                     $('#btnCancelTop').addClass('hidden');
@@ -130,7 +145,7 @@ $(document).ready(function() {
         recuperaDataCuenta = true;
         recuperaDataProbabilidad = true;
         
-        $('.btnAddCommentGen').attr('id',1);
+        $('.btnAddCommentGen').attr('id',5);
         $('#iteracion').val(numPedidos);
         $('#comentarios').show();
         $('#wallmessages').show();
@@ -310,6 +325,9 @@ $(document).ready(function() {
                             
                             $('#productos').addClass('hidden');	
                             $("input[name='hayProductos']").prop('checked', false);
+                            
+                            $('.cant').numeric('.'); 
+                            $('#sProducto-0').select2(); 
                         } /* Fin de seteo de los productos/servicios y sus opciones del select */
 
 

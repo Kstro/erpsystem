@@ -1,0 +1,138 @@
+<div class="col-md-12 col-xs-12">
+    <div id="pnAdd" style="display:none;">
+        <div class="panel panel-default">
+            <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+            <div class="panel-body">
+                <form id="frmCotizaciones"  method="post">
+                    <div id="errorPorcTax" class="hidden">{{errorTaxQOp}}</div>
+                    <div class="col-md-4 col-xs-12" style="margin-top: 10px;">
+                        <label>{{userQuote}}</label>
+                        <label class="hidden requiredFields">{{requiredFields}}</label>
+                        <input id="txtIdQuote" type="hidden" name="txtIdQuote" class="input-sm form-control">
+                        <select id="assignedUserQuote" style="width:100%;" name="assignedUserQuote" class="input-sm form-control validateSelectQ dpbRespQute firstRespQuote">
+                            <option value="0" selected>{{selectOption}}</option>
+                            {% for persona in personas %}
+                                <option value={{persona.id}}>{{persona.persona}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-xs-12" style="margin-top: 10px;">
+                        <label>{{statusQuote}}</label>
+                        <select id="statusQuote" style="width:100%;" name="statusQuote" class="input-sm form-control validateSelectQ statusQuote">
+                            <option value="0" selected>{{selectOption}}</option>
+                            {% for row in statusCot %}
+                                <option value={{row.id}}>{{row.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 col-xs-12" style="margin-top: 10px;">
+                        <label>{{dateExpirationQuote}}</label>
+                        <div class='input-group date' id='datetimepicker2'>
+                            <input id="txtDateExpirationQuote" readonly type='text' class="form-control validateInputQ" name="txtDateExpirationQuote"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                         </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-8 col-xs-12" style="margin-top: 10px;">
+                        <label>{{conditionssQuote}}</label>
+                        <textarea id="conditionssQuote" name="conditionssQuote" rows="3" style="width: 100%;" class="form-control"></textarea>
+                    </div>
+                    <div class="col-md-4 col-xs-12 addRowItemQ text-right" style="margin-top:45px;">
+                        <button id="btnAddRowQ" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> {{addRowQuote}}</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div style="margin-top: 10px;">
+                        <hr>
+                    </div>
+                    <div id="itemsQuotes" class="">
+                        <div class="clearfix"></div>
+                        <div class="col-sm-offset-1 col-sm-11">
+                            <hr>
+                        </div>
+                        <div class="col-sm-offset-1 col-sm-1 text-center">
+                            <label class="control-label" style="font-size: 12px;">{{cantidadItemQuote}}</label>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <label class="control-label" style="font-size: 12px;">{{itemQuote}}</label>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <label class="control-label" style="font-size: 12px;">{{itemPriceQuote}}</label>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <label class="control-label" style="font-size: 12px;">{{itemTaxQuote}}</label>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <label class="control-label" style="font-size: 12px;">{{itemTotalQuote}}</label>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-sm-offset-1 col-sm-11">
+                            <hr>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="removeRowQ col-sm-1">
+                            <button id="deleteItemQ-0" class="btn removeItemQ btn-danger hidden"><i class="fa fa-remove"></i></button>
+                        </div>
+                        <div class="cantItemQ col-sm-1">
+                            <input id="txtCantItemQ-0" type="text" name="txtCantItemQ[]" class="cantQ input-sm form-control text-right validateInputQ" value="1" min="1">                                                       
+                        </div>
+                        <div class="itemsQ col-sm-4">
+                            <div id="itemQ-0" >
+                                <select id="sItemQ-0" style="width:100%;" type="text" name="sItemQ[]" class="sItemQ firstItemQ input-sm form-control validateSelectQ">
+                                    <option value="0" selected>{{selectOption}}</option>
+                                    {% for producto in productos %}
+                                        <option value={{producto.id}}>{{producto.nombre}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="priceItemQ col-sm-2">
+                            <input id="txtPriceItemQ-0" type="text" name="txtPriceItemQ[]" class="priceQ input-sm form-control text-right validateInputOQ" value="0.00" min="0">                                                       
+                        </div>
+                        <div class="taxItemQ col-sm-2">
+                            <input id="txtTaxItemQ-0" type="text" name="txtTaxItemQ[]" class="taxQ input-sm form-control text-right validateInputOQ" value="0.00" min="0">                                                       
+                        </div>
+                        <div class="totalItemQ col-sm-2" style="text-align: right;">
+                            <div id="totalItemQ-0" style="margin-top: 10px;"><label class="totalQ control-label">0.00</label></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-offset-10 col-sm-2"><hr></div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-offset-7 col-sm-3" style="text-align: right;">
+                        <label class="control-label">{{subTotalQuoteOp}}</label>
+                    </div>
+                    <div class="col-sm-2" style="text-align: right; margin-bottom: 10px;">
+                        <div id="subTotalQ-0">
+                            <label class="subTotalVenta control-label">0.00</label>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-sm-offset-7 col-sm-3" style="text-align: right;">
+                        <label class="control-label">{{taxQuoteOp}}</label>
+                    </div>
+                    <div class="col-sm-2" style="text-align: right; margin-bottom: 10px;">
+                        <div id="totalTaxQ-0">
+                            <label class="totalTaxVenta control-label">0.00</label>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="col-sm-offset-10 col-sm-2"><hr></div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-offset-7 col-sm-3" style="text-align: right;">
+                        <label class="control-label">{{totalPrice}}</label>
+                    </div>
+                    <div class="col-sm-2" style="text-align: right; margin-bottom: 25px;">
+                        <div id="total-0">
+                            <label class="totalVenta control-label">0.00</label>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>  
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

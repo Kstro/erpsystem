@@ -15,7 +15,7 @@ parameters:
     files.cuentas: %kernel.root_dir%/../files/accounts/
     files.activities: %kernel.root_dir%/../files/activities/
     files.campaigns: %kernel.root_dir%/../files/campaigns/
-
+    
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }

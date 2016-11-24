@@ -1,0 +1,1279 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10.14
+-- http://www.phpmyadmin.net
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 03-11-2016 a las 11:01:53
+-- Versión del servidor: 5.5.53-MariaDB
+-- Versión de PHP: 5.4.31
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Base de datos: `marvinvi_ariastore`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `atributoproducto`
+--
+
+CREATE TABLE IF NOT EXISTS `atributoproducto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `porcentaje` int(11) DEFAULT NULL,
+  `producto_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_atributoproducto_producto1_idx` (`producto_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carrusel`
+--
+
+CREATE TABLE IF NOT EXISTS `carrusel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  `tipoimagen` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+
+--
+-- Volcado de datos para la tabla `carrusel`
+--
+
+INSERT INTO `carrusel` (`id`, `nombre`, `estado`, `tipoimagen`) VALUES
+(1, '02016-10-13-12-31-18.png', 0, 1),
+(2, '12016-10-13-12-31-18.png', 0, 1),
+(3, 'home1.png', 0, 2),
+(4, 'home2.png', 0, 2),
+(5, '22016-10-13-09-58-48.jpeg', 0, 1),
+(6, '02016-10-13-10-00-28.png', 0, 2),
+(7, '12016-10-13-10-00-28.png', 0, 2),
+(8, '02016-10-13-12-30-18.png', 0, 2),
+(9, '12016-10-13-12-30-18.png', 0, 2),
+(10, '02016-10-13-12-31-18.png', 1, 2),
+(11, '12016-10-13-12-31-18.png', 1, 2),
+(12, '22016-10-13-12-41-35.jpeg', 0, 1),
+(13, '22016-10-13-12-41-46.jpeg', 0, 1),
+(14, '32016-10-13-12-43-51.jpeg', 0, 1),
+(15, '02016-10-17-11-12-07.jpeg', 0, 1),
+(16, '112016-10-27-18-03-54.jpeg', 0, 1),
+(17, '112016-10-27-18-04-48.jpeg', 0, 1),
+(18, '222016-10-27-18-04-48.jpeg', 0, 1),
+(19, '112016-10-27-18-05-19.jpeg', 0, 1),
+(20, '222016-10-27-18-05-19.jpeg', 0, 1),
+(21, '12016-10-27-18-05-19.jpeg', 1, 1),
+(22, '22016-10-27-18-05-19.jpeg', 1, 1),
+(23, '02016-10-28-16-44-28.jpeg', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoria`
+--
+
+CREATE TABLE IF NOT EXISTS `categoria` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`id`, `nombre`, `estado`) VALUES
+(1, 'Activerwear', 1),
+(2, 'Underwear', 1),
+(3, 'Accesorios ', 1),
+(4, 'Swimwear', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoriablog`
+--
+
+CREATE TABLE IF NOT EXISTS `categoriablog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cliente`
+--
+
+CREATE TABLE IF NOT EXISTS `cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(200) NOT NULL,
+  `apellido` varchar(200) NOT NULL,
+  `estado` int(1) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `color`
+--
+
+CREATE TABLE IF NOT EXISTS `color` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Volcado de datos para la tabla `color`
+--
+
+INSERT INTO `color` (`id`, `nombre`, `estado`) VALUES
+(1, 'Azul', 1),
+(2, 'Negro', 1),
+(3, 'Verde', 1),
+(4, 'Gris', 1),
+(5, 'Blanco', 1),
+(6, 'Rojo', 1),
+(9, 'Amarillo', 1),
+(10, 'Celeste', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `color_producto`
+--
+
+CREATE TABLE IF NOT EXISTS `color_producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `color_id` int(11) NOT NULL,
+  `producto_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_color_producto_color1_idx` (`color_id`),
+  KEY `fk_color_producto_producto1_idx` (`producto_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=155 ;
+
+--
+-- Volcado de datos para la tabla `color_producto`
+--
+
+INSERT INTO `color_producto` (`id`, `color_id`, `producto_id`) VALUES
+(97, 5, 20),
+(98, 5, 21),
+(99, 5, 22),
+(102, 5, 23),
+(103, 2, 24),
+(105, 5, 25),
+(107, 2, 26),
+(108, 3, 27),
+(109, 5, 28),
+(112, 9, 29),
+(114, 6, 31),
+(115, 3, 32),
+(116, 1, 30),
+(118, 3, 34),
+(119, 5, 33),
+(120, 3, 35),
+(121, 1, 36),
+(122, 1, 37),
+(123, 4, 39),
+(124, 6, 40),
+(125, 10, 41),
+(126, 10, 42),
+(127, 10, 43),
+(128, 2, 44),
+(129, 5, 45),
+(130, 2, 46),
+(131, 2, 47),
+(132, 9, 48),
+(133, 3, 49),
+(134, 3, 50),
+(136, 1, 52),
+(137, 2, 53),
+(138, 5, 54),
+(139, 1, 55),
+(140, 1, 56),
+(141, 2, 57),
+(142, 5, 58),
+(143, 1, 59),
+(144, 2, 60),
+(145, 6, 61),
+(146, 2, 62),
+(147, 2, 63),
+(149, 1, 64),
+(150, 5, 65),
+(151, 5, 66),
+(154, 1, 51);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cookie`
+--
+
+CREATE TABLE IF NOT EXISTS `cookie` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `valor` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `cookie`
+--
+
+INSERT INTO `cookie` (`id`, `valor`) VALUES
+(1, 157);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ctl_rol`
+--
+
+CREATE TABLE IF NOT EXISTS `ctl_rol` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rol` varchar(75) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `ctl_rol`
+--
+
+INSERT INTO `ctl_rol` (`id`, `rol`) VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_USER');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ctl_usuario`
+--
+
+CREATE TABLE IF NOT EXISTS `ctl_usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `salt` varchar(255) NOT NULL,
+  `ultimointento` datetime DEFAULT NULL,
+  `intentos` int(11) DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL,
+  `persona_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_ctl_usuario_persona1_idx` (`persona_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `ctl_usuario`
+--
+
+INSERT INTO `ctl_usuario` (`id`, `username`, `password`, `salt`, `ultimointento`, `intentos`, `estado`, `persona_id`) VALUES
+(1, 'admin', 'jng1BlP0Sol45oseguy6qIocmVLm+LGbrZRz+8re3Tx4r/1zQf9a0F5DQt+L5fz8hHPR0V7/WYo/HnhVTYuzpA==', '4b945e5d26b754193d1faae5d9897999', '2016-11-01 14:12:59', 0, 1, 1),
+(2, 'superadmin', '/rGawGF0tRIi0jbQ/eaUSBbgs1TcRRO6G9QE4HJaaKn+AbvvA0LQ2NrL9vPo13F6wlHM3L8GskILLf2wsn+0GA==', '5cd01ad642231c9cbef3892dd1150208', '2016-11-03 10:33:17', 0, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `departamento`
+--
+
+CREATE TABLE IF NOT EXISTS `departamento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `pais_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_departamento_pais1_idx` (`pais_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+
+--
+-- Volcado de datos para la tabla `departamento`
+--
+
+INSERT INTO `departamento` (`id`, `nombre`, `pais_id`) VALUES
+(1, 'Ahuachapán', 1),
+(2, 'Cabañas', 1),
+(3, 'Chalatenango', 1),
+(4, 'Cuscatlán', 1),
+(5, 'La Libertad', 1),
+(6, 'La Paz', 1),
+(7, 'La Unión', 1),
+(8, 'Morazán', 1),
+(9, 'San Miguel', 1),
+(10, 'San Salvador', 1),
+(11, 'San Vicente', 1),
+(12, 'Santa Ana', 1),
+(13, 'Sonsonate', 1),
+(14, 'Usulután', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `entrada`
+--
+
+CREATE TABLE IF NOT EXISTS `entrada` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(200) DEFAULT NULL,
+  `escritopor` varchar(100) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `contenido` text,
+  `categoriablog_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_entrada_categoriablog1_idx` (`categoriablog_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estado_paquete`
+--
+
+CREATE TABLE IF NOT EXISTS `estado_paquete` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imagenblog`
+--
+
+CREATE TABLE IF NOT EXISTS `imagenblog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `imagen1` varchar(255) DEFAULT NULL,
+  `entrada_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_imagenblog_entrada1_idx` (`entrada_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imagenproducto`
+--
+
+CREATE TABLE IF NOT EXISTS `imagenproducto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `imagen1` varchar(255) DEFAULT NULL,
+  `imagen2` varchar(255) DEFAULT NULL,
+  `imagen3` varchar(255) DEFAULT NULL,
+  `imagen4` varchar(255) DEFAULT NULL,
+  `imagen5` varchar(255) DEFAULT NULL,
+  `producto_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_imagenproducto_producto1_idx` (`producto_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=48 ;
+
+--
+-- Volcado de datos para la tabla `imagenproducto`
+--
+
+INSERT INTO `imagenproducto` (`id`, `imagen1`, `imagen2`, `imagen3`, `imagen4`, `imagen5`, `producto_id`) VALUES
+(1, 'producto_2016-10-28-173513_0001 (1).jpg', 'producto_2016-10-28-173513_0001 (2).jpg', NULL, NULL, NULL, 20),
+(2, NULL, NULL, NULL, NULL, NULL, 21),
+(3, 'producto_2016-10-28-185239_0001 (1).jpg', 'producto_2016-10-28-185239_0001 (2).jpg', NULL, NULL, NULL, 22),
+(4, 'producto_2016-10-28-185756_0001 (1).jpg', 'producto_2016-10-28-185756_0001 (2).jpg', NULL, NULL, NULL, 23),
+(5, 'producto_2016-10-28-190343_0001 (3).jpg', 'producto_2016-10-28-190343_0001 (4).jpg', NULL, NULL, NULL, 24),
+(6, 'producto_2016-10-28-191144_2210 (1).jpg', 'producto_2016-10-28-191144_2210 (2).jpg', NULL, NULL, NULL, 25),
+(7, 'producto_2016-10-28-191510_2210 (3).jpg', 'producto_2016-10-28-191510_2210 (4).jpg', NULL, NULL, NULL, 26),
+(8, 'producto_2016-10-28-192839_2247 (1).jpg', 'producto_2016-10-28-192839_2247 (2).jpg', NULL, NULL, NULL, 27),
+(9, 'producto_2016-10-28-193828_2250 (1).jpg', 'producto_2016-10-28-193828_2250 (2).jpg', NULL, NULL, NULL, 28),
+(10, 'producto_2016-10-28-194652_2251 (1).jpg', 'producto_2016-10-28-194652_2251 (2).jpg', NULL, NULL, NULL, 29),
+(11, 'producto_2016-10-28-200830_2251 (3).jpg', 'producto_2016-10-28-200830_2251 (4).jpg', NULL, NULL, NULL, 30),
+(12, 'producto_2016-10-28-195624_2252 (1).jpg', 'producto_2016-10-28-195624_2252 (2).jpg', NULL, NULL, NULL, 31),
+(13, 'producto_2016-10-28-200653_2265 (1).jpg', 'producto_2016-10-28-200653_2265 (2).jpg', NULL, NULL, NULL, 32),
+(14, 'producto_2016-10-29-165638_2266 (1).jpg', 'producto_2016-10-29-165638_2266 (2).jpg', NULL, NULL, NULL, 33),
+(15, 'producto_2016-10-29-170151_2266 (3).jpg', 'producto_2016-10-29-170151_2266 (4).jpg', NULL, NULL, NULL, 34),
+(16, 'producto_2016-10-29-170844_2264 (1).jpg', 'producto_2016-10-29-170844_2264 (2).jpg', NULL, NULL, NULL, 35),
+(17, 'producto_2016-10-29-171343_2271 (1).jpg', 'producto_2016-10-29-171343_2271 (2).jpg', NULL, NULL, NULL, 36),
+(18, 'producto_2016-10-29-172918_2275 (1).jpg', 'producto_2016-10-29-172918_2275 (2).jpg', NULL, NULL, NULL, 37),
+(19, NULL, NULL, NULL, NULL, NULL, 38),
+(20, 'producto_2016-10-29-173443_2277 (1).jpg', 'producto_2016-10-29-173443_2277 (2).jpg', NULL, NULL, NULL, 39),
+(21, 'producto_2016-10-29-173702_2269 (1).jpg', 'producto_2016-10-29-173702_2269 (2).jpg', NULL, NULL, NULL, 40),
+(22, 'producto_2016-10-29-173916_2269 (3).jpg', 'producto_2016-10-29-173916_2269 (4).jpg', NULL, NULL, NULL, 41),
+(23, 'producto_2016-10-30-124147_0612 (1).jpg', 'producto_2016-10-30-124147_0612 (2).jpg', NULL, NULL, NULL, 42),
+(24, 'producto_2016-10-30-124748_0614 (1).jpg', 'producto_2016-10-30-124748_0614 (2).jpg', NULL, NULL, NULL, 43),
+(25, 'producto_2016-10-30-125412_3003 (2).jpg', 'producto_2016-10-30-125412_3003 (1).jpg', NULL, NULL, NULL, 44),
+(26, 'producto_2016-10-30-125755_5219 (1).jpg', 'producto_2016-10-30-125755_5219 (2).jpg', NULL, NULL, NULL, 45),
+(27, 'producto_2016-10-30-130045_5219 (3).jpg', 'producto_2016-10-30-130045_5219 (4).jpg', NULL, NULL, NULL, 46),
+(28, 'producto_2016-10-30-130809_5247 (1).jpg', 'producto_2016-10-30-130809_5247 (2).jpg', NULL, NULL, NULL, 47),
+(29, 'producto_2016-10-30-131242_5251 (1).jpg', 'producto_2016-10-30-131242_5251 (2).jpg', NULL, NULL, NULL, 48),
+(30, 'producto_2016-10-30-131615_5264 (1).jpg', 'producto_2016-10-30-131615_5264 (2).jpg', NULL, NULL, NULL, 49),
+(31, 'producto_2016-10-30-132424_5265 (1).jpg', 'producto_2016-10-30-132424_5265 (2).jpg', NULL, NULL, NULL, 50),
+(32, 'producto_2016-10-30-221534_14859526_10209760779112864_1566639583_o.jpg', NULL, NULL, NULL, NULL, 51),
+(33, 'producto_2016-10-30-222841_0236 CLASSIC TANK TOP BLUE (1).jpg', 'producto_2016-10-30-222841_0236 CLASSIC TANK TOP BLUE (2).jpg', NULL, NULL, NULL, 52),
+(34, 'producto_2016-10-30-223352_0236 CLASSIC TANK TOP BLACK.jpg', 'producto_2016-10-30-223352_0236 CLASSIC TANK TOP BLACK 1.jpg', NULL, NULL, NULL, 53),
+(35, 'producto_2016-10-30-223608_0236 CLASSIC TANK TOP WHITE (1).jpg', NULL, NULL, NULL, NULL, 54),
+(36, 'producto_2016-10-30-224543_0294 LONDON BLUE TANK TOP (1).jpg', 'producto_2016-10-30-224543_0294 LONDON BLUE TANK TOP (2).jpg', NULL, NULL, NULL, 55),
+(37, 'producto_2016-10-30-225359_0235 CLASSIC SHORT BLUE (1).jpg', 'producto_2016-10-30-225359_0235 CLASSIC SHORT BLUE (2).jpg', NULL, NULL, NULL, 56),
+(38, 'producto_2016-10-30-225553_0235 CLASSIC SHORT BLACK (2).jpg', 'producto_2016-10-30-225553_0235 CLASSIC SHORT BLACK.jpg', NULL, NULL, NULL, 57),
+(39, 'producto_2016-10-30-225756_0235 CLASSIC SHORT WHITE (1).jpg', 'producto_2016-10-30-225756_0235 CLASSIC SHORT WHITE.jpg', NULL, NULL, NULL, 58),
+(40, 'producto_2016-10-30-230152_0300 ULTRA BLUE (1).jpg', 'producto_2016-10-30-230152_0300 ULTRA BLUE (2).jpg', NULL, NULL, NULL, 59),
+(41, 'producto_2016-10-30-230441_0299 FIGHTER MINI-SHORT BLACK (1).jpg', 'producto_2016-10-30-230441_0299 FIGHTER MINI-SHORT BLACK (2).jpg', NULL, NULL, NULL, 60),
+(42, 'producto_2016-10-30-230638_0220 RUNNER RED (1).jpg', 'producto_2016-10-30-230638_0220 RUNNER RED (2).jpg', NULL, NULL, NULL, 61),
+(43, 'producto_2016-10-30-230955_0220 RUNNER BLACK (1).jpg', 'producto_2016-10-30-230955_0220 RUNNER BLACK (2).jpg', 'producto_2016-10-30-230955_0220 RUNNER BLACK (3).jpg', NULL, NULL, 62),
+(44, 'producto_2016-10-30-231139_OLYMPIC LONG PANT BLACK (1).jpg', 'producto_2016-10-30-231139_OLYMPIC LONG PANT BLACK (2).jpg', NULL, NULL, NULL, 63),
+(45, 'producto_2016-10-30-231416_0295 LONDON BLUE JOGGER (1).jpg', 'producto_2016-10-30-231416_0295 LONDON BLUE JOGGER (4).jpg', 'producto_2016-10-30-231416_0295 LONDON BLUE JOGGER.jpg', NULL, NULL, 64),
+(46, 'producto_2016-10-30-231811_0295 LONDON WHITE JOGGER (1).jpg', 'producto_2016-10-30-231811_0295 LONDON WHITE JOGGER (2).jpg', NULL, NULL, NULL, 65),
+(47, 'producto_2016-10-30-232102_0294 LONDON WHITE TANK TOP (1).jpg', 'producto_2016-10-30-232102_0294 LONDON WHITE TANK TOP (2).jpg', NULL, NULL, NULL, 66);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imagen_carrusel`
+--
+
+CREATE TABLE IF NOT EXISTS `imagen_carrusel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `imagen` varchar(255) DEFAULT NULL,
+  `carrusel_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_imagen_carrusel_carrusel1_idx` (`carrusel_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `municipio`
+--
+
+CREATE TABLE IF NOT EXISTS `municipio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `departamento_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_municipio_departamento1_idx` (`departamento_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=263 ;
+
+--
+-- Volcado de datos para la tabla `municipio`
+--
+
+INSERT INTO `municipio` (`id`, `nombre`, `departamento_id`) VALUES
+(1, 'Ahuachapán', 1),
+(2, 'Jujutla', 1),
+(3, 'Atiquizaya', 1),
+(4, 'Concepción de Ataco', 1),
+(5, 'El Refugio', 1),
+(6, 'Guaymango', 1),
+(7, 'Apaneca', 1),
+(8, 'San Francisco Menéndez', 1),
+(9, 'San Lorenzo', 1),
+(10, 'San Pedro Puxtla', 1),
+(11, 'Tacuba', 1),
+(12, 'Turín', 1),
+(13, 'Cinquera', 2),
+(14, 'Villa Dolores', 2),
+(15, 'Guacotecti', 2),
+(16, 'Ilobasco', 2),
+(17, 'Jutiapa', 2),
+(18, 'San Isidro', 2),
+(19, 'Sensuntepeque', 2),
+(20, 'Ciudad de Tejutepeque', 2),
+(21, 'Victoria', 2),
+(22, 'Agua Caliente', 3),
+(23, 'Arcatao', 3),
+(24, 'Azacualpa', 3),
+(25, 'Chalatenango', 3),
+(26, 'Citalá', 3),
+(27, 'Comalapa', 3),
+(28, 'Concepción Quezaltepeque', 3),
+(29, 'Dulce Nombre de María', 3),
+(30, 'El Carrizal', 3),
+(31, 'El Paraíso', 3),
+(32, 'La Laguna', 3),
+(33, 'La Palma', 3),
+(34, 'La Reina', 3),
+(35, 'Las Vueltas', 3),
+(36, 'Nombre de Jesús', 3),
+(37, 'Nueva Concepción', 3),
+(38, 'Nueva Trinidad', 3),
+(39, 'Ojos de Agua', 3),
+(40, 'Potonico', 3),
+(41, 'San Antonio de la Cruz', 3),
+(42, 'San Antonio Los Ranchos', 3),
+(43, 'San Fernando', 3),
+(44, 'San Francisco Lempa', 3),
+(45, 'San Francisco Morazán', 3),
+(46, 'San Ignacio', 3),
+(47, 'San Isidro Labrador', 3),
+(48, 'San José Cancasque', 3),
+(49, 'San José Las Flores', 3),
+(50, 'San Luis del Carmen', 3),
+(51, 'San Miguel de Mercedes', 3),
+(52, 'San Rafael', 3),
+(53, 'Santa Rita', 3),
+(54, 'Tejutla', 3),
+(55, 'Candelaria', 4),
+(56, 'Cojutepeque', 4),
+(57, 'El Carmen', 4),
+(58, 'El Rosario', 4),
+(59, 'Monte San Juan', 4),
+(60, 'Oratorio de Concepción', 4),
+(61, 'San Bartolomé Perulapía', 4),
+(62, 'San Cristóbal', 4),
+(63, 'San José Guayabal', 4),
+(64, 'San Pedro Perulapán', 4),
+(65, 'San Rafael Cedros', 4),
+(66, 'San Ramón', 4),
+(67, 'Santa Cruz Analquito', 4),
+(68, 'Santa Cruz Michapa', 4),
+(69, 'Suchitoto', 4),
+(70, 'Tenancingo', 4),
+(71, 'Antiguo Cuscatlán', 5),
+(72, 'Chiltiupán', 5),
+(73, 'Ciudad Arce', 5),
+(74, 'Colón', 5),
+(75, 'Comasagua', 5),
+(76, 'Huizúcar', 5),
+(77, 'Jayaque', 5),
+(78, 'Jicalapa', 5),
+(79, 'La Libertad', 5),
+(80, 'Santa Tecla', 5),
+(81, 'Nuevo Cuscatlán', 5),
+(82, 'San Juan Opico', 5),
+(83, 'Quezaltepeque', 5),
+(84, 'Sacacoyo', 5),
+(85, 'San José Villanueva', 5),
+(86, 'San Matías', 5),
+(87, 'San Pablo Tacachico', 5),
+(88, 'Talnique', 5),
+(89, 'Tamanique', 5),
+(90, 'Teotepeque', 5),
+(91, 'Tepecoyo', 5),
+(92, 'Zaragoza', 5),
+(93, 'Cuyultitán', 6),
+(94, 'El Rosario', 6),
+(95, 'Jerusalén', 6),
+(96, 'Mercedes La Ceiba', 6),
+(97, 'Olocuilta', 6),
+(98, 'Paraíso de Osorio', 6),
+(99, 'San Antonio Masahuat', 6),
+(100, 'San Emigdio', 6),
+(101, 'San Francisco Chinameca', 6),
+(102, 'San Juan Nonualco', 6),
+(103, 'San Juan Talpa', 6),
+(104, 'San Juan Tepezontes', 6),
+(105, 'San Luis La Herradura', 6),
+(106, 'San Luis Talpa', 6),
+(107, 'San Miguel Tepezontes', 6),
+(108, 'San Pedro Masahuat', 6),
+(109, 'San Pedro Nonualco', 6),
+(110, 'San Rafael Obrajuelo', 6),
+(111, 'Santa María Ostuma', 6),
+(112, 'Santiago Nonualco', 6),
+(113, 'Tapalhuaca', 6),
+(114, 'Zacatecoluca', 6),
+(115, 'Anamorós', 7),
+(116, 'Bolívar', 7),
+(117, 'Concepción de Oriente', 7),
+(118, 'Conchagua', 7),
+(119, 'El Carmen', 7),
+(120, 'El Sauce', 7),
+(121, 'Intipucá', 7),
+(122, 'La Unión', 7),
+(123, 'Lislique', 7),
+(124, 'Meanguera del Golfo', 7),
+(125, 'Nueva Esparta', 7),
+(126, 'Pasaquina', 7),
+(127, 'Polorós', 7),
+(128, 'San Alejo', 7),
+(129, 'San José', 7),
+(130, 'Santa Rosa de Lima', 7),
+(131, 'Yayantique', 7),
+(132, 'Yucuayquín', 7),
+(133, 'Arambala', 8),
+(134, 'Cacaopera', 8),
+(135, 'Chilanga', 8),
+(136, 'Corinto', 8),
+(137, 'Delicias de Concepción', 8),
+(138, 'El Divisadero', 8),
+(139, 'El Rosario', 8),
+(140, 'Gualococti', 8),
+(141, 'Guatajiagua', 8),
+(142, 'Joateca', 8),
+(143, 'Jocoaitique', 8),
+(144, 'Jocoro', 8),
+(145, 'Lolotiquillo', 8),
+(146, 'Meanguera', 8),
+(147, 'Osicala', 8),
+(148, 'Perquín', 8),
+(149, 'San Carlos', 8),
+(150, 'San Fernando', 8),
+(151, 'San Francisco Gotera', 8),
+(152, 'San Isidro', 8),
+(153, 'San Simón', 8),
+(154, 'Sensembra', 8),
+(155, 'Sociedad', 8),
+(156, 'Torola', 8),
+(157, 'Yamabal', 8),
+(158, 'Yoloaiquín', 8),
+(159, 'Carolina', 9),
+(160, 'Chapeltique', 9),
+(161, 'Chinameca', 9),
+(162, 'Chirilagua', 9),
+(163, 'Ciudad Barrios', 9),
+(164, 'Comacarán', 9),
+(165, 'El Tránsito', 9),
+(166, 'Lolotique', 9),
+(167, 'Moncagua', 9),
+(168, 'Nueva Guadalupe', 9),
+(169, 'Nuevo Edén de San Juan', 9),
+(170, 'Quelepa', 9),
+(171, 'San Antonio', 9),
+(172, 'San Gerardo', 9),
+(173, 'San Jorge', 9),
+(174, 'San Luis de la Reina', 9),
+(175, 'San Miguel', 9),
+(176, 'San Rafael', 9),
+(177, 'Sesori', 9),
+(178, 'Uluazapa', 9),
+(179, 'Aguilares', 10),
+(180, 'Apopa', 10),
+(181, 'Ayutuxtepeque', 10),
+(182, 'Cuscatancingo', 10),
+(183, 'Delgado', 10),
+(184, 'El Paisnal', 10),
+(185, 'Guazapa', 10),
+(186, 'Ilopango', 10),
+(187, 'Mejicanos', 10),
+(188, 'Nejapa', 10),
+(189, 'Panchimalco', 10),
+(190, 'Rosario de Mora', 10),
+(191, 'San Marcos', 10),
+(192, 'San Martín', 10),
+(193, 'San Salvador', 10),
+(194, 'Santiago Texacuangos', 10),
+(195, 'Santo Tomás', 10),
+(196, 'Soyapango', 10),
+(197, 'Tonacatepeque', 10),
+(198, 'Apastepeque', 11),
+(199, 'Guadalupe', 11),
+(200, 'San Cayetano Istepeque', 11),
+(201, 'San Esteban Catarina', 11),
+(202, 'San Ildefonso', 11),
+(203, 'San Lorenzo', 11),
+(204, 'San Sebastián', 11),
+(205, 'Santa Clara', 11),
+(206, 'Santo Domingo', 11),
+(207, 'San Vicente', 11),
+(208, 'Tecoluca', 11),
+(209, 'Tepetitán', 11),
+(210, 'Verapaz', 11),
+(211, 'Candelaria de la Frontera', 12),
+(212, 'Chalchuapa', 12),
+(213, 'Coatepeque', 12),
+(214, 'El Congo', 12),
+(215, 'El Porvenir', 12),
+(216, 'Masahuat', 12),
+(217, 'Metapán', 12),
+(218, 'San Antonio Pajonal', 12),
+(219, 'San Sebastián Salitrillo', 12),
+(220, 'Santa Ana', 12),
+(221, 'Santa Rosa Guachipilín', 12),
+(222, 'Santiago de la Frontera', 12),
+(223, 'Texistepeque', 12),
+(224, 'Acajutla', 13),
+(225, 'Armenia', 13),
+(226, 'Caluco', 13),
+(227, 'Cuisnahuat', 13),
+(228, 'Izalco', 13),
+(229, 'Juayúa', 13),
+(230, 'Nahuizalco', 13),
+(231, 'Nahulingo', 13),
+(232, 'Salcoatitán', 13),
+(233, 'San Antonio del Monte', 13),
+(234, 'San Julián', 13),
+(235, 'Santa Catarina Masahuat', 13),
+(236, 'Santa Isabel Ishuatán', 13),
+(237, 'Santo Domingo', 13),
+(238, 'Sonsonate', 13),
+(239, 'Sonzacate', 13),
+(240, 'Alegría', 14),
+(241, 'Berlín', 14),
+(242, 'California', 14),
+(243, 'Concepción Batres', 14),
+(244, 'El Triunfo', 14),
+(245, 'Ereguayquín', 14),
+(246, 'Estanzuelas', 14),
+(247, 'Jiquilisco', 14),
+(248, 'Jucuapa', 14),
+(249, 'Jucuarán', 14),
+(250, 'Mercedes Umaña', 14),
+(251, 'Nueva Granada', 14),
+(252, 'Ozatlán', 14),
+(253, 'Puerto El Triunfo', 14),
+(254, 'San Agustín', 14),
+(255, 'San Buenaventura', 14),
+(256, 'San Dionisio', 14),
+(257, 'San Francisco Javier', 14),
+(258, 'Santa Elena', 14),
+(259, 'Santa María', 14),
+(260, 'Santiago de María', 14),
+(261, 'Tecapán', 14),
+(262, 'Usulután', 14);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `orden`
+--
+
+CREATE TABLE IF NOT EXISTS `orden` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `cookie` bigint(20) DEFAULT NULL,
+  `nombre_prod` varchar(500) DEFAULT NULL,
+  `precio` decimal(15,2) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `numero_referencia` varchar(30) DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `estado` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `orden_creada`
+--
+
+CREATE TABLE IF NOT EXISTS `orden_creada` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `cookie` bigint(20) DEFAULT NULL,
+  `nombre_prod` varchar(500) DEFAULT NULL,
+  `precio` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `cantidad` int(11) NOT NULL DEFAULT '0',
+  `fecha_registro` datetime NOT NULL,
+  `direccion` varchar(200) DEFAULT '',
+  `numero_referencia` varchar(30) DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `producto` int(11) NOT NULL,
+  `estado` varchar(45) NOT NULL,
+  `tipo_orden` int(11) DEFAULT NULL,
+  `estado_paquete_id` int(11) DEFAULT NULL,
+  `cliente_id` int(11) DEFAULT NULL,
+  `shipping` int(11) DEFAULT NULL,
+  `municipio_id` int(11) DEFAULT NULL,
+  `talla` varchar(50) NOT NULL DEFAULT '',
+  `color` varchar(50) NOT NULL DEFAULT '',
+  `id_venta` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_orden_creada_estado_paquete1_idx` (`estado_paquete_id`),
+  KEY `fk_orden_creada_cliente1_idx` (`cliente_id`),
+  KEY `fk_orden_creada_municipio1_idx` (`municipio_id`),
+  KEY `producto` (`producto`),
+  KEY `shipping` (`shipping`),
+  KEY `tipo_orden` (`tipo_orden`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `orden_creada`
+--
+
+INSERT INTO `orden_creada` (`id`, `cookie`, `nombre_prod`, `precio`, `cantidad`, `fecha_registro`, `direccion`, `numero_referencia`, `imagen`, `producto`, `estado`, `tipo_orden`, `estado_paquete_id`, `cliente_id`, `shipping`, `municipio_id`, `talla`, `color`, `id_venta`) VALUES
+(1, 142, 'Zulu Swimsuit Trunk', '39.95', 3, '2016-11-02 16:08:03', '', '0612', 'producto_2016-10-30-124147_0612 (1).jpg', 42, '1', 1, NULL, NULL, NULL, NULL, 'M', 'Celeste', NULL),
+(2, 144, 'Ammolite Latin Boxer White ', '24.95', 1, '2016-11-02 17:18:19', '', '2210', 'producto_2016-10-28-191144_2210 (1).jpg', 25, '1', 1, NULL, NULL, NULL, NULL, 'S', 'Blanco', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pais`
+--
+
+CREATE TABLE IF NOT EXISTS `pais` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `pais`
+--
+
+INSERT INTO `pais` (`id`, `nombre`) VALUES
+(1, 'El Salvador');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `persona`
+--
+
+CREATE TABLE IF NOT EXISTS `persona` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombres` varchar(200) NOT NULL,
+  `apellidos` varchar(200) NOT NULL,
+  `correo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `persona`
+--
+
+INSERT INTO `persona` (`id`, `nombres`, `apellidos`, `correo`) VALUES
+(1, 'Usuario', 'Administrador', 'elman@digitalitygarage.com'),
+(2, 'super', 'admin', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `producto`
+--
+
+CREATE TABLE IF NOT EXISTS `producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(200) NOT NULL,
+  `precio` decimal(15,2) NOT NULL,
+  `numeroReferencia` varchar(30) DEFAULT NULL,
+  `estado` tinyint(1) NOT NULL,
+  `descripcion` varchar(600) DEFAULT NULL,
+  `link` varchar(200) DEFAULT NULL,
+  `ingredientes` varchar(500) DEFAULT NULL,
+  `presentacion` varchar(150) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `categoria_id` int(11) NOT NULL,
+  `destacar` tinyint(1) DEFAULT '0',
+  `disponible` tinyint(1) DEFAULT '1',
+  `mensaje` text,
+  `precioanterior` decimal(15,2) DEFAULT NULL,
+  `tipo` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_producto_categoria_idx` (`categoria_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=67 ;
+
+--
+-- Volcado de datos para la tabla `producto`
+--
+
+INSERT INTO `producto` (`id`, `nombre`, `precio`, `numeroReferencia`, `estado`, `descripcion`, `link`, `ingredientes`, `presentacion`, `stock`, `categoria_id`, `destacar`, `disponible`, `mensaje`, `precioanterior`, `tipo`) VALUES
+(20, 'Thong Mesh White', '19.95', '0001', 0, 'Nylon 80% Spandex 20%\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', '22.95', 2),
+(21, 'Thong Mesh White', '19.95', '0001', 0, 'Nylon 80% Spandex 20%\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', '22.95', 2),
+(22, 'Thong Mesh White', '19.95', '0001', 0, '', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(23, 'Thong Mesh White ', '19.95', '0001', 1, 'Nylon 80% Spandex 20%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(24, 'Thong Mesh Black ', '19.95', '0001', 1, 'Nylon 80% Spandex 20%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(25, 'Ammolite Latin Boxer White ', '24.95', '2210', 1, 'Nylon 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(26, 'Ammolite Latin Boxer Black ', '24.95', '2210', 1, 'Nylon 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(27, 'Pinerolo Boxer Gold ', '24.95', '2247', 1, 'Polyester 91% Spandex 9%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(28, 'Sailor Life Boxer White', '22.95', '2250', 1, 'Polyester 83% Spandex 17%\r\n\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(29, 'Bars & Bars Boxer Yellow', '23.95', '2251', 1, 'Polyester 71% Nylon24% Spandex 5%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(30, 'Bars & Bars Boxer Blue', '23.95', '2251', 1, 'Polyester 71% Nylon24% Spandex 5%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(31, 'Fluorescence Boxer Red', '23.95', '2252', 1, 'Nylon 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(32, 'Forbidden Desire Boxer', '19.95', '2265', 1, 'Nylon 94% Spandex 6%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(33, 'Day by Day Boxer white', '20.95', '2266', 1, 'Nylon 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(34, 'Day by Day Boxer Green', '20.95', '2266', 1, 'Nylon 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(35, 'Burning Cold Latin Boxer', '19.95', '2264', 1, 'Polyester 79% Spandex 21%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(36, 'Sounds Of Machu Picchu Boxer BLUE', '24.95', '2271', 1, 'Polyester 80% Spandex 20%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(37, 'One Human Race Boxer ', '22.95', '2275', 1, 'Polyester 86% Spandex 14%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(38, 'Azteca Magic Boxer', '24.00', '2277', 1, '', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(39, 'Azteca Magic Boxer', '24.95', '2277', 1, 'Polyester 93% Spandex 7%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(40, 'Mayan Pantheon Boxer Red', '23.95', '2269', 1, '', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(41, 'Mayan Pantheon Boxer', '23.95', '2269', 1, '', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(42, 'Zulu Swimsuit Trunk', '39.95', '0612', 1, 'Polyester 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 4, NULL, 1, '', NULL, 2),
+(43, 'Scandinavian Swimsult Brief', '35.95', '0614', 1, 'Polyester 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 4, NULL, 1, '', NULL, 2),
+(44, 'Jade Jockstrap Black', '18.95', '3003', 1, 'Nylon 85% Spandex 15%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(45, 'Classic Brief White ', '22.95', '5219', 1, 'Cotton 94% Spandex 6%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(46, 'Classic Brief Black', '22.95', '5219', 1, 'Cotton 94% Spandex 6%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(47, 'Pinerolo Cheeky Brief Black ', '22.95', '5247', 1, 'Polyester 91% Spandex 9%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(48, 'Bars & Bars Latin Brief Yellow', '19.95', '5251', 1, 'Polyester 71% Nylon24% Spandex 5%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(49, 'Burning Cold Classic Brief Geen', '19.95', '5264', 1, 'Polyester 79% Spandex 21%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(50, 'Forbidden Desire Latin Brief', '19.95', '5265', 1, 'Nylon 94% Spandex 6%\r\n', NULL, NULL, NULL, NULL, 2, NULL, 1, '', NULL, 2),
+(51, 'MUY PRONTO!!!', '0.01', '0001', 1, 'MUY PRONTO TENDREMOS PARA TI TAMBIÉN ', NULL, NULL, NULL, NULL, 3, NULL, 1, '', NULL, 1),
+(52, 'CLASSIC TANK TOP BLUE', '19.95', '0236', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(53, 'CLASSIC TANK TOP BLACK', '19.95', '0236', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(54, 'CLASSICTANK TOP WHITE', '19.95', '0236', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(55, 'LONDON TANK TOP BLUE', '19.95', '0294', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(56, 'CLASSIC SHORT BLUE', '19.95', '0235', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(57, 'CLASSIC SHORT BLACK', '19.95', '0235', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(58, 'CLASSIC SHORT WHITE', '19.95', '0235', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(59, 'ULTRA MINI-SHORT BLUE', '26.95', '0300', 1, '96%POLYESTER 4%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(60, 'FIGTHER MINI-SHORT BLACK', '26.95', '0299', 1, 'FIGTHER MINI-SHORT BLACK\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(61, 'RUNNER LONG PANT RED', '39.95', '0220', 1, '96%POLYESTER 4%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(62, 'RUNNER LONG PANT BLACK', '39.95', '0220', 1, '96%POLYESTER 4%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(63, 'OLYMPIC LONG PANT BLACK', '39.95', '0163', 1, '96%POLYESTER 4%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(64, 'LONDON JOGGER BLUE', '28.95', '0295', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(65, 'LONDON JOGGER WHITE', '28.95', '0295', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2),
+(66, 'LONDON TANK TOP WHITE', '19.95', '0294', 1, '94%COTTON 6%SPANDEX\r\n', NULL, NULL, NULL, NULL, 1, NULL, 1, '', NULL, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol_usuario`
+--
+
+CREATE TABLE IF NOT EXISTS `rol_usuario` (
+  `ctl_usuario_id` int(11) NOT NULL,
+  `ctl_rol_id` int(11) NOT NULL,
+  PRIMARY KEY (`ctl_usuario_id`,`ctl_rol_id`),
+  KEY `fk_ctl_usuario_has_ctl_rol_ctl_rol1_idx` (`ctl_rol_id`),
+  KEY `fk_ctl_usuario_has_ctl_rol_ctl_usuario1_idx` (`ctl_usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `rol_usuario`
+--
+
+INSERT INTO `rol_usuario` (`ctl_usuario_id`, `ctl_rol_id`) VALUES
+(1, 1),
+(2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `shipping`
+--
+
+CREATE TABLE IF NOT EXISTS `shipping` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `valor` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `departamento_id` int(11) NOT NULL,
+  `estado` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `fk_shipping_departamento1_idx` (`departamento_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+
+--
+-- Volcado de datos para la tabla `shipping`
+--
+
+INSERT INTO `shipping` (`id`, `valor`, `departamento_id`, `estado`) VALUES
+(1, '3.50', 1, 0),
+(2, '3.50', 2, 0),
+(3, '3.50', 3, 0),
+(4, '3.50', 4, 0),
+(5, '3.50', 5, 0),
+(6, '3.50', 6, 0),
+(7, '3.50', 7, 0),
+(8, '3.50', 8, 0),
+(9, '3.50', 9, 0),
+(10, '3.50', 10, 0),
+(11, '3.50', 11, 0),
+(12, '3.50', 12, 0),
+(13, '3.50', 13, 0),
+(14, '3.50', 14, 0),
+(15, '3.50', 1, 0),
+(16, '0.00', 2, 1),
+(17, '0.00', 3, 1),
+(18, '0.00', 1, 1),
+(19, '0.00', 4, 1),
+(20, '0.00', 5, 1),
+(21, '3.50', 6, 0),
+(22, '0.00', 6, 1),
+(23, '0.00', 7, 1),
+(24, '0.00', 8, 1),
+(25, '0.00', 9, 1),
+(26, '0.00', 10, 1),
+(27, '0.00', 11, 1),
+(28, '0.00', 12, 1),
+(29, '0.00', 13, 1),
+(30, '0.00', 14, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `suscripcion`
+--
+
+CREATE TABLE IF NOT EXISTS `suscripcion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `correo` varchar(100) DEFAULT NULL,
+  `fecha` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `talla`
+--
+
+CREATE TABLE IF NOT EXISTS `talla` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Volcado de datos para la tabla `talla`
+--
+
+INSERT INTO `talla` (`id`, `nombre`, `estado`) VALUES
+(1, 'S', 1),
+(2, 'M', 1),
+(3, 'L', 1),
+(4, 'XL', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `talla_producto`
+--
+
+CREATE TABLE IF NOT EXISTS `talla_producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `talla_id` int(11) NOT NULL,
+  `producto_id` int(11) NOT NULL,
+  `stock` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_talla_producto_talla1_idx` (`talla_id`),
+  KEY `fk_talla_producto_producto1_idx` (`producto_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=134 ;
+
+--
+-- Volcado de datos para la tabla `talla_producto`
+--
+
+INSERT INTO `talla_producto` (`id`, `talla_id`, `producto_id`, `stock`) VALUES
+(1, 3, 20, 1),
+(2, 3, 21, 1),
+(3, 3, 22, 1),
+(6, 3, 23, 1),
+(7, 2, 24, 2),
+(9, 1, 25, 3),
+(13, 1, 26, 3),
+(14, 2, 26, 2),
+(15, 3, 26, 3),
+(16, 2, 27, 3),
+(17, 3, 27, 3),
+(18, 1, 28, 2),
+(19, 2, 28, 2),
+(20, 3, 28, 3),
+(27, 1, 29, 3),
+(28, 2, 29, 3),
+(29, 3, 29, 3),
+(33, 1, 31, 3),
+(34, 2, 31, 2),
+(35, 3, 31, 3),
+(36, 2, 32, 3),
+(37, 3, 32, 2),
+(38, 1, 30, 3),
+(39, 2, 30, 3),
+(40, 3, 30, 3),
+(43, 1, 34, 3),
+(44, 1, 33, 3),
+(45, 3, 33, 1),
+(46, 1, 35, 2),
+(47, 1, 36, 3),
+(48, 2, 36, 3),
+(49, 3, 36, 3),
+(50, 1, 37, 3),
+(51, 2, 37, 3),
+(52, 3, 37, 3),
+(53, 1, 39, 3),
+(54, 2, 39, 3),
+(55, 3, 39, 3),
+(56, 1, 40, 3),
+(57, 2, 40, 3),
+(58, 3, 40, 3),
+(59, 1, 41, 3),
+(60, 2, 41, 3),
+(61, 3, 41, 3),
+(62, 1, 42, 3),
+(63, 2, 42, 3),
+(64, 3, 42, 3),
+(65, 1, 43, 3),
+(66, 2, 43, 3),
+(67, 3, 43, 3),
+(68, 3, 44, 4),
+(69, 1, 45, 2),
+(70, 2, 45, 1),
+(71, 3, 45, 2),
+(72, 1, 46, 2),
+(73, 2, 46, 2),
+(74, 3, 46, 2),
+(75, 1, 47, 3),
+(76, 2, 47, 3),
+(77, 3, 48, 3),
+(78, 2, 49, 3),
+(79, 3, 49, 3),
+(80, 2, 50, 3),
+(81, 3, 50, 3),
+(83, 1, 52, 3),
+(84, 2, 52, 2),
+(85, 3, 52, 3),
+(86, 1, 53, 3),
+(87, 2, 53, 3),
+(88, 3, 53, 3),
+(89, 1, 54, 3),
+(90, 2, 54, 3),
+(91, 3, 54, 3),
+(92, 1, 55, 3),
+(93, 2, 55, 3),
+(94, 3, 55, 2),
+(95, 1, 56, 3),
+(96, 2, 56, 3),
+(97, 3, 56, 3),
+(98, 1, 57, 3),
+(99, 2, 57, 3),
+(100, 3, 57, 3),
+(101, 1, 58, 3),
+(102, 2, 58, 3),
+(103, 3, 58, 3),
+(104, 1, 59, 2),
+(105, 2, 59, 3),
+(106, 3, 59, 1),
+(107, 1, 60, 3),
+(108, 2, 60, 3),
+(109, 3, 60, 3),
+(110, 1, 61, 3),
+(111, 2, 61, 3),
+(112, 3, 61, 3),
+(113, 1, 62, 3),
+(114, 2, 62, 3),
+(115, 3, 62, 3),
+(116, 1, 63, 3),
+(117, 2, 63, 3),
+(118, 3, 63, 3),
+(122, 1, 64, 2),
+(123, 2, 64, 2),
+(124, 3, 64, 2),
+(125, 1, 65, 3),
+(126, 2, 65, 3),
+(127, 3, 65, 3),
+(128, 1, 66, 3),
+(129, 2, 66, 3),
+(130, 3, 66, 2),
+(133, 1, 51, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_orden`
+--
+
+CREATE TABLE IF NOT EXISTS `tipo_orden` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `estado` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `tipo_orden`
+--
+
+INSERT INTO `tipo_orden` (`id`, `nombre`, `estado`) VALUES
+(1, 'venta online', 1),
+(2, 'venta desde tienda', 1);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `atributoproducto`
+--
+ALTER TABLE `atributoproducto`
+  ADD CONSTRAINT `fk_atributoproducto_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `color_producto`
+--
+ALTER TABLE `color_producto`
+  ADD CONSTRAINT `fk_color_producto_color1` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_color_producto_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `ctl_usuario`
+--
+ALTER TABLE `ctl_usuario`
+  ADD CONSTRAINT `fk_ctl_usuario_persona1` FOREIGN KEY (`persona_id`) REFERENCES `persona` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `departamento`
+--
+ALTER TABLE `departamento`
+  ADD CONSTRAINT `fk_departamento_pais1` FOREIGN KEY (`pais_id`) REFERENCES `pais` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `entrada`
+--
+ALTER TABLE `entrada`
+  ADD CONSTRAINT `fk_entrada_categoriablog1` FOREIGN KEY (`categoriablog_id`) REFERENCES `categoriablog` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `imagenblog`
+--
+ALTER TABLE `imagenblog`
+  ADD CONSTRAINT `fk_imagenblog_entrada1` FOREIGN KEY (`entrada_id`) REFERENCES `entrada` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `imagenproducto`
+--
+ALTER TABLE `imagenproducto`
+  ADD CONSTRAINT `fk_imagenproducto_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `imagen_carrusel`
+--
+ALTER TABLE `imagen_carrusel`
+  ADD CONSTRAINT `fk_imagen_carrusel_carrusel1` FOREIGN KEY (`carrusel_id`) REFERENCES `carrusel` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `municipio`
+--
+ALTER TABLE `municipio`
+  ADD CONSTRAINT `fk_municipio_departamento1` FOREIGN KEY (`departamento_id`) REFERENCES `departamento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `orden_creada`
+--
+ALTER TABLE `orden_creada`
+  ADD CONSTRAINT `fk_orden_creada_cliente1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_orden_creada_estado_paquete1` FOREIGN KEY (`estado_paquete_id`) REFERENCES `estado_paquete` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_orden_creada_municipio1` FOREIGN KEY (`municipio_id`) REFERENCES `municipio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_orden_creada_producto1` FOREIGN KEY (`producto`) REFERENCES `producto` (`id`),
+  ADD CONSTRAINT `fk_orden_creada_shipping1` FOREIGN KEY (`shipping`) REFERENCES `shipping` (`id`),
+  ADD CONSTRAINT `fk_orden_creada_tipo_orden1` FOREIGN KEY (`tipo_orden`) REFERENCES `tipo_orden` (`id`);
+
+--
+-- Filtros para la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `rol_usuario`
+--
+ALTER TABLE `rol_usuario`
+  ADD CONSTRAINT `fk_ctl_usuario_has_ctl_rol_ctl_rol1` FOREIGN KEY (`ctl_rol_id`) REFERENCES `ctl_rol` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ctl_usuario_has_ctl_rol_ctl_usuario1` FOREIGN KEY (`ctl_usuario_id`) REFERENCES `ctl_usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `shipping`
+--
+ALTER TABLE `shipping`
+  ADD CONSTRAINT `fk_shipping_departamento1` FOREIGN KEY (`departamento_id`) REFERENCES `departamento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `talla_producto`
+--
+ALTER TABLE `talla_producto`
+  ADD CONSTRAINT `fk_talla_producto_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_talla_producto_talla1` FOREIGN KEY (`talla_id`) REFERENCES `talla` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

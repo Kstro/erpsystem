@@ -59,7 +59,7 @@ class CrmComentarioController extends Controller {
 
                 $crmComentario = null;
                 
-                //echo "cac";
+               //echo $tipoComment;
                 switch($tipoComment){
                     case 1:///// CRM - Cuenta
                         $crmComentario= new CrmComentarioCuenta();
@@ -83,7 +83,7 @@ class CrmComentarioController extends Controller {
                     case 5:///// CRM - Oportunidad
                         $crmComentario= new CrmComentarioOportunidad();
                         $actObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
-                        $crmComentario->setCampania($actObj);
+                        $crmComentario->setOportunidad($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientopport where oportunidad=".$id;
                         break;
                 }

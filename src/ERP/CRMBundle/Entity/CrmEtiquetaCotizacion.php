@@ -5,12 +5,12 @@ namespace ERP\CRMBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CrmEtiquetaOportunidad
+ * CrmEtiquetaCotizacion
  *
- * @ORM\Table(name="crm_etiqueta_oportunidad", indexes={@ORM\Index(name="fk_crm_etiqueta_oportunidad_crm_etiqueta1_idx", columns={"etiqueta"}), @ORM\Index(name="fk_crm_etiqueta_oportunidad_crm_oportunidad1_idx", columns={"oportunidad"})})
+ * @ORM\Table(name="crm_etiqueta_oportunidad", indexes={@ORM\Index(name="etiqueta", columns={"etiqueta"}), @ORM\Index(name="cotizacion", columns={"cotizacion"})})
  * @ORM\Entity
  */
-class CrmEtiquetaOportunidad
+class CrmEtiquetaCotizacion
 {
     /**
      * @var integer
@@ -32,14 +32,14 @@ class CrmEtiquetaOportunidad
     private $etiqueta;
 
     /**
-     * @var \CrmOportunidad
+     * @var \CrmCotizacion
      *
-     * @ORM\ManyToOne(targetEntity="CrmOportunidad", inversedBy="tagOportunidad", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="CrmCotizacion", inversedBy="tagCotizacion", cascade={"persist", "remove"})
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="oportunidad", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="cotizacion", referencedColumnName="id")
      * })
      */
-    private $oportunidad;
+    private $cotizacion;
 
 
 
@@ -57,7 +57,7 @@ class CrmEtiquetaOportunidad
      * Set etiqueta
      *
      * @param \ERP\CRMBundle\Entity\CrmEtiqueta $etiqueta
-     * @return CrmEtiquetaOportunidad
+     * @return CrmEtiquetaCotizacion
      */
     public function setEtiqueta(\ERP\CRMBundle\Entity\CrmEtiqueta $etiqueta = null)
     {
@@ -77,25 +77,25 @@ class CrmEtiquetaOportunidad
     }
 
     /**
-     * Set oportunidad
+     * Set cotizacion
      *
-     * @param \ERP\CRMBundle\Entity\CrmOportunidad $oportunidad
-     * @return CrmEtiquetaOportunidad
+     * @param \ERP\CRMBundle\Entity\CrmCotizacion $cotizacion
+     * @return CrmEtiquetaCotizacion
      */
-    public function setOportunidad(\ERP\CRMBundle\Entity\CrmOportunidad $oportunidad = null)
+    public function setCotizacion(\ERP\CRMBundle\Entity\CrmCotizacion $cotizacion = null)
     {
-        $this->oportunidad = $oportunidad;
+        $this->cotizacion = $cotizacion;
 
         return $this;
     }
 
     /**
-     * Get oportunidad
+     * Get cotizacion
      *
-     * @return \ERP\CRMBundle\Entity\CrmOportunidad 
+     * @return \ERP\CRMBundle\Entity\CrmCotizacion 
      */
-    public function getOportunidad()
+    public function getCotizacion()
     {
-        return $this->oportunidad;
+        return $this->cotizacion;
     }
 }

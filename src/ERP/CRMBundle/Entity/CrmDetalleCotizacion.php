@@ -45,7 +45,7 @@ class CrmDetalleCotizacion
     /**
      * @var \CrmCotizacion
      *
-     * @ORM\ManyToOne(targetEntity="CrmCotizacion")
+     * @ORM\ManyToOne(targetEntity="CrmCotizacion", inversedBy="detalleCotizacion", cascade={"persist", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="cotizacion", referencedColumnName="id")
      * })

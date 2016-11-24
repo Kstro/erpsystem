@@ -59,7 +59,12 @@ class CrmClientesController extends Controller
             //Tipos de cuenta
             $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
             //Tipos de etiqueta
-            $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
+            $sql = "SELECT DISTINCT tag.id as id, tag.nombre as nombre "
+                    . "FROM ERPCRMBundle:CrmEtiquetaCuenta obj "
+                    ."JOIN obj.etiqueta tag";
+            
+            $etiquetas = $em->createQuery($sql)
+                        ->getResult();
             return $this->render('crmcuenta/index_cliente.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
