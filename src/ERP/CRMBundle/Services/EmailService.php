@@ -26,7 +26,7 @@ class EmailService
         $this->subject = 'La Plus Belle & Sonodigest';
         $this->from   = 'gerencia@laplusbelle.com.sv'; 
         $this->info = 'La Plus Belle y Sonodigest';
-    }  
+    }
     
     public function setEmail($to,$bcc=null){
         

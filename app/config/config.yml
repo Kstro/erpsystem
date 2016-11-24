@@ -938,6 +938,13 @@ twig:
         nameTipoCuenta: '%app.nameTipoCuenta%'
         menuTipoCuenta: '%app.menuTipoCuenta%'
         
+        #Tipo de cuenta (CRUD) - Ingles
+        tituloRoles: '%app.tituloRoles%'
+        encabezadoRoles: '%app.encabezadoRoles%'
+        descripcionRoles: '%app.descripcionRoles%'
+        nameRoles: '%app.nameRoles%'
+        menuRoles: '%app.menuRoles%'
+        
         #Tipo de cuenta (CRUD) - Español
         tituloTipoCuentaEs: '%app.tituloTipoCuentaEs%'
         encabezadoTipoCuentaEs: '%app.encabezadoTipoCuentaEs%'
