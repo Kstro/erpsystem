@@ -14,11 +14,27 @@ $(document).ready(function() {
     $('#sProducto-0').select2();
     $('.firstResponsable').select2();
     
+    $('#assignedUserQuote').select2();
+    $('#statusQuote').select2();
+    $('#sItemQ-0').select2();
+    
     $('#txtProbability').numeric('.'); 
     
     // Al hacer click en el Botón "Add"
     $(document).on('click', '.btnAddPage', function(event) {
             var id = $('#txtId').val();
+            
+            $('#comentarios').hide();
+            $('#wallmessages').hide();
+
+            $('#btnLoadMore').hide();
+            $('#addTag').addClass('hidden');
+            $('#addFile').addClass('hidden');
+            $('#addedTags').addClass('hidden');
+            $('#filterTag').addClass('hidden');
+            
+            recuperaDataCuenta = false;
+            recuperaDataProbabilidad = false;
 
             /*//Cambiar nombre del panel heading para add (Inserción)*/
             $('.pnHeadingLabelAdd').removeClass('hidden');
@@ -42,11 +58,22 @@ $(document).ready(function() {
     });
     
     $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
+        recuperaDataCuenta = true;
+        recuperaDataProbabilidad = true;
+        
         $('#pnAdd').hide();
         $('#oppotunitiesList').parent().show();
         $('#btnSaveTop').addClass('hidden');
         $('#btnCancelTop').addClass('hidden');
         $('.btnAddPage').removeClass('hidden');
+        
+        $('#filterTag').removeClass('hidden');
+	$('#addTag').addClass('hidden');
+	$('#addedTags').addClass('hidden');
+	$('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMoreFiles').addClass('hidden');
+        
         limpiarCampos();
 
         return false;	
@@ -54,6 +81,13 @@ $(document).ready(function() {
     
     $('#datetimepicker1').datetimepicker({
         format: 'Y/MM/DD HH:mm',
+        allowInputToggle:true,
+        ignoreReadonly:true,
+        // minDate: Date(),
+    });
+    
+    $('#datetimepicker2').datetimepicker({
+        format: 'Y/MM/DD',
         allowInputToggle:true,
         ignoreReadonly:true,
         // minDate: Date(),
@@ -150,7 +184,216 @@ $(document).ready(function() {
             }
         }
     });
+    
+    $(document).on('click', '.chkItemQ', function(event) {
+        var count = 0;
+        var totalchk = $('.chkItemQ').length;        
+        
+        if ($(this).is(':checked')) {
+            $('.btnNewQuotation').addClass('hidden');
+            $('.btnDeleteQuotation').removeClass('hidden');
+            
+            $('.chkItemQ').each( function() {			
+                if ($(this).is(':checked')) {
+                    count++;
+                }
+            });
+            
+            if(count == totalchk){
+                $("input[name=checktodosQ]").prop({'checked': true});
+            }
+        } else {
+            $("input[name=checktodosQ]").prop({'checked': false});
+            
+            $('.chkItemQ').each( function() {			
+                if ($(this).is(':checked')) {
+                    count++;
+                }
+            });
+            
+            if(count == 0){
+                $('.btnNewQuotation').removeClass('hidden');
+                $('.btnDeleteQuotation').addClass('hidden');
+            }
+        }
+    });
+    
+    /* Al hacer click en el Botón para registrar una nueva cotización */
+    /* desde la gestión de oportunidades de venta                     */
+    $(document).on('click', '.btnNewQuotation', function(event) {
+            var id = $('#txtIdQuote').val();
+            recuperaDataCuenta = false;
+            recuperaDataProbabilidad = false;
+
+            if (id!='') {
+                limpiarCamposDivQuotes();
+                /*$('#btnBack').removeClass('hidden');
+                $('#btnCancelTop').removeClass('hidden');
+                $('#btnSaveTop').removeClass('hidden');*/
+                $(this).addClass('hidden');
+            }
+            else{
+                $('#detalleQuote').removeClass('hidden');
+                $('#divQuotes').addClass('hidden');
+            }
+
+            $('#btnAddQuote').addClass('hidden');
+            $('#btnNewQuotation').addClass('hidden');
+            $('#btnCancelQuote').removeClass('hidden');  
+            
+            $('#btnSaveTop').addClass('hidden');
+            $('#btnSave').addClass('hidden');
+            /*$('#txtName').focus();*/
+    });
+    
+    $(document).on('input', '.cantQ', function(event) {
+        var corr = $(this).attr('id');
+        var corrArray = corr.split('-');
+        var venta = 0;
+        var taxTotal = 0;
+        var cantidad = $(this).val();
+        var precio = $('#txtPriceItemQ-' + corrArray[1]).val();
+        var tax = $('#txtTaxItemQ-' + corrArray[1]).val();
+        var totalProducto = parseFloat(precio) * parseFloat(cantidad);
+        
+        if(!isNaN(totalProducto)) {
+            $('#totalItemQ-' + corrArray[1]).html('<label class="totalQ control-label">' + (totalProducto).toFixed(2) + '</label>');
+        } 
+        
+        $('.totalQ').each(function( index, value ) { 
+            if(!isNaN(parseFloat($(this).html()))) {
+                venta+=parseFloat($(this).html()); 
+            }
+        });
+        
+        $('.taxQ').each(function( index, value ) { 
+            var id = $(this).attr('id');
+            var idArray = id.split('-');
+            var cantQ = $('#txtCantItemQ-' + idArray[1]).val();
+            var priceQ = $('#txtPriceItemQ-' + idArray[1]).val();
+            var taxQ = $(this).val();
+            
+            taxTotal+= parseFloat(cantQ) * parseFloat(priceQ) * (parseFloat(taxQ)/100);
+        });
+
+        $('.subTotalVenta').html((venta).toFixed(2));   
+        
+        if(!isNaN(taxTotal)) {
+            $('.totalTaxVenta').html((taxTotal).toFixed(2));    
+        }
+        
+        if(!isNaN((venta + taxTotal))) {
+            $('.totalVenta').html((venta + taxTotal).toFixed(2));    
+        }    
+    });
+    
+    $(document).on('input', '.priceQ', function(event) {
+        var corr = $(this).attr('id');
+        var corrArray = corr.split('-');
+        var venta = 0;
+        var taxTotal = 0;
+        var precio = $(this).val();
+        var cantidad = $('#txtCantItemQ-' + corrArray[1]).val();
+        var totalProducto = parseFloat(precio) * parseFloat(cantidad);
+        
+        if(!isNaN(totalProducto)) {
+            $('#totalItemQ-' + corrArray[1]).html('<label class="totalQ control-label">' + (totalProducto).toFixed(2) + '</label>');
+        } 
+        
+        $('.totalQ').each(function( index, value ) { 
+            if(!isNaN(parseFloat($(this).html()))) {
+                venta+=parseFloat($(this).html()); 
+            }
+        });
+
+        $('.taxQ').each(function( index, value ) { 
+            var id = $(this).attr('id');
+            var idArray = id.split('-');
+            var cantQ = $('#txtCantItemQ-' + idArray[1]).val();
+            var priceQ = $('#txtPriceItemQ-' + idArray[1]).val();
+            var taxQ = $(this).val();
+            
+            taxTotal+= parseFloat(cantQ) * parseFloat(priceQ) * (parseFloat(taxQ)/100);
+        });
+
+        $('.subTotalVenta').html((venta).toFixed(2));    
+        
+        if(!isNaN(taxTotal)) {
+            $('.totalTaxVenta').html((taxTotal).toFixed(2));    
+        }
+
+        if(!isNaN((venta + taxTotal))) {
+            $('.totalVenta').html((venta + taxTotal).toFixed(2));    
+        }
+    });
+    
+    $(document).on('input', '.taxQ', function(event) {
+        var corr = $(this).attr('id');
+        var corrArray = corr.split('-');
+        var venta = 0;
+        var taxTotal = 0;
+        var cantidad = $('#txtCantItemQ-' + corrArray[1]).val();
+        var precio = $('#txtPriceItemQ-' + corrArray[1]).val();
+        var totalProducto = parseFloat(precio) * parseFloat(cantidad);
+        var tax = $(this).val();
+        var valor = "";
+        
+        if(parseFloat($(this).val()) > 100){
+            for (var i = 1; i< tax.length-3; i++) {
+                valor+=tax.charAt(i - 1);                                                
+            }
+
+            $(this).val(valor + '.00');
+            swal('', $('#errorPorcTax').html(), 'error');	
+        } else {
+            if(!isNaN(totalProducto)) {
+                $('#totalItemQ-' + corrArray[1]).html('<label class="totalQ control-label">' + (totalProducto).toFixed(2) + '</label>');
+            } 
+
+            $('.totalQ').each(function( index, value ) { 
+                if(!isNaN(parseFloat($(this).html()))) {
+                    venta+=parseFloat($(this).html()); 
+                }
+            });
+
+            $('.taxQ').each(function( index, value ) { 
+                var id = $(this).attr('id');
+                var idArray = id.split('-');
+                var cantQ = $('#txtCantItemQ-' + idArray[1]).val();
+                var priceQ = $('#txtPriceItemQ-' + idArray[1]).val();
+                var taxQ = $(this).val();
+
+                taxTotal+= parseFloat(cantQ) * parseFloat(priceQ) * (parseFloat(taxQ)/100);
+            });
+
+            $('.subTotalVenta').html((venta).toFixed(2));    
+            
+            if(!isNaN(taxTotal)) {
+                $('.totalTaxVenta').html((taxTotal).toFixed(2));    
+            }
+
+            if(!isNaN((venta + taxTotal))) {
+                $('.totalVenta').html((venta + taxTotal).toFixed(2));    
+            } 
+        }
+    });
+    
+    $(document).on('click', '#btnCancelQuote', function(event) {
+        /*recuperaDataCuenta = true;
+        recuperaDataProbabilidad = true;*/
+        
+        $('#btnSaveTop').removeClass('hidden');
+        $('#btnSave').removeClass('hidden');
+        
+        $('#detalleQuote').addClass('hidden');
+        $('#btnAddQuote').removeClass('hidden');
+        $('#divQuotes').removeClass('hidden');    
+        limpiarCamposDivQuotes();
+
+        return false;	
+    });
 });
+
 /* Función que pone el formulario en blanco*/
 function limpiarCampos() {
     contador=0;
@@ -235,6 +478,11 @@ function limpiarCampos() {
     $('#btnBack').addClass('hidden');
     $('#btnCancelTop').addClass('hidden');
     $('#btnSaveTop').addClass('hidden');
+    $('#btnNewQuotation').addClass('hidden');
+    
+    /* Limpiar campos  de la sección de cotizaciones */
+    limpiarCamposDivQuotes();
+    $('#detalleQuote').addClass('hidden');
     $('#btnNewQuotation').addClass('hidden');
     
 } /* Fin de Función que pone el formulario en blanco*/

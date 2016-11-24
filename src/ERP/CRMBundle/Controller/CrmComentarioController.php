@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCampania;
+use ERP\CRMBundle\Entity\CrmComentarioOportunidad;
 use ERP\CRMBundle\Entity\CrmActividad;
 use ERP\CRMBundle\Entity\CrmComentarioActividad;
 use ERP\CRMBundle\Entity\CtlPersona;
@@ -59,7 +60,7 @@ class CrmComentarioController extends Controller {
 
                 $crmComentario = null;
                 
-                //echo "cac";
+               //echo $tipoComment;
                 switch($tipoComment){
                     case 1:///// CRM - Cuenta
                         $crmComentario= new CrmComentarioCuenta();
@@ -79,11 +80,12 @@ class CrmComentarioController extends Controller {
                         $crmComentario->setCampania($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
                         break;
-                    case 4:///// CRM - Contacto
-                        $crmComentario = new CrmComentarioContacto();
-                        $actObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($id);
-                        $crmComentario->setContacto($actObj);
-                        $sql = "SELECT COUNT(*) as total FROM seguimientocont where contacto=" . $id;
+                    
+                    case 5:///// CRM - Oportunidad
+                        $crmComentario= new CrmComentarioOportunidad();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
+                        $crmComentario->setOportunidad($actObj);
+                        $sql="SELECT COUNT(*) as total FROM seguimientopport where oportunidad=".$id;
                         break;
                 }
                 

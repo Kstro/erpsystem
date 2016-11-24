@@ -6,6 +6,14 @@
 {% block customcss %}
     {#<link rel="stylesheet" href="{{ asset('Resources/customscss/activitytypes.css') }}">#}
     <link rel="stylesheet" href="{{ asset('Resources/slider/css/bootstrap-slider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Resources/iconpicker/dist/css/fontawesome-iconpicker.min.css') }}">
+    <style>
+        
+        .iconpicker-popover{
+            width:550px !important;
+        }
+        
+    </style>
 {% endblock %}
 {% block descripcion %}
      <div class="col-md-5">
@@ -28,7 +36,7 @@
 
 {% block contenido %}
     <div class="row">
-        {% include ':crmtipocampania:new.html.twig' %}
+        {% include ':crmtipoactividad:new.html.twig' %}
 
         <div class="clearfix"></div>
         <div class="col-md-12 col-xs-12">
@@ -51,10 +59,18 @@
 
 {% block js_extend %}
     <script type="text/javascript" src="{{ asset('Resources/animations/activitytypes/activitytypes.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/iconpicker/dist/js/fontawesome-iconpicker.min.js') }}"></script>
+    {#<script type="text/javascript" src="{{ asset('Resources/jqueryui/jquery-ui.min.js') }}"></script>#}
     <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/persist/activitytypes/activitytypes.js') }}"></script>
+    {#<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>#}
+    {#<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+    {#<script type="text/javascript" src="https://itsjavi.com/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.js"></script>#}
     <script type="text/javascript">
         $(document).ready(function() {
+            /////Icons picker
+            $('#txtIcon').iconpicker();
+            
             /////Definición datatable
             var table = $('#activityList').DataTable({
                 dom:'ftp',

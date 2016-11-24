@@ -11,12 +11,12 @@ parameters:
     locale: en
     photo.proveedor: %kernel.root_dir%/../photos/proveedor/
     photo.cuentas: %kernel.root_dir%/../photos/accounts/
+    photo.correos: %kernel.root_dir%/../photos/correos/
     files.cuentas: %kernel.root_dir%/../files/accounts/
     files.activities: %kernel.root_dir%/../files/activities/
     files.campaigns: %kernel.root_dir%/../files/campaigns/
-    files.contacts: %kernel.root_dir%/../files/contacts/
-    photo.contacto: %kernel.root_dir%/../photos/contacto/
-
+    files.opportunities: %kernel.root_dir%/../files/opportunities/
+    
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
@@ -605,6 +605,7 @@ twig:
         #Todas las actividades (Llamadas, reuniones, tareas u otro tipo actividad) - Ingles
         tituloTodasActividades: '%app.tituloTodasActividades%'
         menuTodasActividades: '%app.menuTodasActividades%'
+        menuTiposActividades: '%app.menuTiposActividades%'
         encabezadoTodasActividades: '%app.encabezadoTodasActividades%'
         descripcionTodasActividades: '%app.descripcionTodasActividades%'
         nameTodasActividades: '%app.nameTodasActividades%'
@@ -688,6 +689,16 @@ twig:
         prioridadLlamadas: '%app.prioridadLlamadas%'
         taskNoEdit: '%app.taskNoEdit%'
         tipoActividad: '%app.tipoActividad%'
+        
+        
+        #TipoActividad
+        tituloTipoActividad: '%app.tituloTipoActividad%'
+        menuTipoActividad: '%app.menuTipoActividad%'
+        encabezadoTipoActividad: '%app.encabezadoTipoActividad%'
+        descripcionTipoActividad: '%app.descripcionTipoActividad%'
+        nameTipoActividad: '%app.nameTipoActividad%'
+        iconTipoActividad: '%app.iconTipoActividad%'
+        
         
         recordarEvento: '%app.recordarEvento%'
         cancelarEvento: '%app.cancelarEvento%'
@@ -928,6 +939,13 @@ twig:
         nameTipoCuenta: '%app.nameTipoCuenta%'
         menuTipoCuenta: '%app.menuTipoCuenta%'
         
+        #Tipo de cuenta (CRUD) - Ingles
+        tituloRoles: '%app.tituloRoles%'
+        encabezadoRoles: '%app.encabezadoRoles%'
+        descripcionRoles: '%app.descripcionRoles%'
+        nameRoles: '%app.nameRoles%'
+        menuRoles: '%app.menuRoles%'
+        
         #Tipo de cuenta (CRUD) - Español
         tituloTipoCuentaEs: '%app.tituloTipoCuentaEs%'
         encabezadoTipoCuentaEs: '%app.encabezadoTipoCuentaEs%'
@@ -986,11 +1004,6 @@ twig:
         nameIndustria: '%app.nameIndustria%'
         menuIndustria: '%app.menuIndustria%'
 
-        #Login - Ingles
-        tituloLogin: '%app.tituloLogin%'        
-        usernameTxt: '%app.usernameTxt%'        
-        passwordTxt: '%app.passwordTxt%'   
-        
         #Oportunidades - Ingles
         tituloOportunidad: '%app.tituloOportunidad%'
         menuOportunidad: '%app.menuOportunidad%'
@@ -1040,27 +1053,70 @@ twig:
         #Cotizacion en oportunidad - Ingles
         pnHeadingLabelCotizacion: '%app.pnHeadingLabelCotizacion%'
         newQuote: '%app.newQuote%'
+        deleteOpQuote: '%app.deleteOpQuote%'
         noQuote: '%app.noQuote%'
+        errorTaxQOp: '%app.errorTaxQOp%'
         correlativoQuote: '%app.correlativoQuote%'
         userQuote: '%app.userQuote%'
         dateCreatedQuote: '%app.dateCreatedQuote%'
         dateExpirationQuote: '%app.dateExpirationQuote%'
+        statusQuote: '%app.statusQuote%'
+        conditionssQuote: '%app.conditionssQuote%'
+        totalQuote: '%app.totalQuote%'
+        cantidadItemQuote: '%app.cantidadItemQuote%'
+        itemQuote: '%app.itemQuote%'
+        itemPriceQuote: '%app.itemPriceQuote%'
+        itemTotalQuote: '%app.itemTotalQuote%'
+        itemTaxQuote: '%app.itemTaxQuote%'
+        totalPrice: '%app.totalPrice%'
+        taxQuoteOp: '%app.taxQuoteOp%'
+        subTotalQuoteOp: '%app.subTotalQuoteOp%'
+        addRowQuote: '%app.addRowQuote%'
         
         #Cotizacion en oportunidad - Español
         pnHeadingLabelCotizacionEs: '%app.pnHeadingLabelCotizacionEs%'
         newQuoteEs: '%app.newQuoteEs%'
+        deleteOpQuoteEs: '%app.deleteOpQuoteEs%'
         noQuoteEs: '%app.noQuoteEs%'
+        errorTaxQOpEs: '%app.errorTaxQOpEs%'
         correlativoQuoteEs: '%app.correlativoQuoteEs%'
         userQuoteEs: '%app.userQuoteEs%'
         dateCreatedQuoteEs: '%app.dateCreatedQuoteEs%'
         dateExpirationQuoteEs: '%app.dateExpirationQuoteEs%'
+        statusQuoteEs: '%app.statusQuoteEs%'
+        conditionssQuoteEs: '%app.conditionssQuoteEs%'
+        totalQuoteEs: '%app.totalQuoteEs%'
+        cantidadItemQuoteEs: '%app.cantidadItemQuoteEs%'
+        itemQuoteEs: '%app.itemQuoteEs%'
+        itemPriceQuoteEs: '%app.itemPriceQuoteEs%'
+        itemTotalQuoteEs: '%app.itemTotalQuoteEs%'
+        itemTaxQuoteEs: '%app.itemTaxQuoteEs%'
+        totalPriceEs: '%app.totalPriceEs%'
+        taxQuoteOpEs: '%app.taxQuoteOpEs%'
+        subTotalQuoteOpEs: '%app.subTotalQuoteOpEs%'
+        addRowQuoteEs: '%app.addRowQuoteEs%'
+        
+        #Login - Ingles
+        tituloLogin: '%app.tituloLogin%'        
+        usernameTxt: '%app.usernameTxt%'        
+        passwordTxt: '%app.passwordTxt%'   
         
         #Login - Español
         tituloLoginEs: '%app.tituloLoginEs%'        
         usernameTxtEs: '%app.usernameTxtEs%'        
         passwordTxtEs: '%app.passwordTxtEs%' 
         
+        #Cotización - Ingles
+        menuCotizacion: '%app.menuCotizacion%'   
+        tituloCotizacion: '%app.tituloCotizacion%'   
+        encabezadoCotizacion: '%app.encabezadoCotizacion%'   
+        descripcionCotizacion: '%app.descripcionCotizacion%'   
         
+        #Cotización - Español
+        menuCotizacionEs: '%app.menuCotizacionEs%'   
+        tituloCotizacionEs: '%app.tituloCotizacionEs%'   
+        encabezadoCotizacionEs: '%app.encabezadoCotizacionEs%'   
+        descripcionCotizacionEs: '%app.descripcionCotizacionEs%' 
         
         perfil: '%app.perfil%'
         perfilPublico: '%app.perfilPublico%'

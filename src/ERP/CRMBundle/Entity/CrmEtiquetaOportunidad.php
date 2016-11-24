@@ -34,7 +34,7 @@ class CrmEtiquetaOportunidad
     /**
      * @var \CrmOportunidad
      *
-     * @ORM\ManyToOne(targetEntity="CrmOportunidad")
+     * @ORM\ManyToOne(targetEntity="CrmOportunidad", inversedBy="tagOportunidad", cascade={"persist", "remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="oportunidad", referencedColumnName="id")
      * })

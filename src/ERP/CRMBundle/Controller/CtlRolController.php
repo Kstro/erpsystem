@@ -30,6 +30,7 @@ class CtlRolController extends Controller
 
         return $this->render('ctlrol/index.html.twig', array(
             'ctlRols' => $ctlRols,
+            'menuRolesA'=> 0,
         ));
     }
 

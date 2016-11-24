@@ -48,6 +48,23 @@ class CrmCotizacion
      * @ORM\Column(name="condiciones_generales", type="text", length=65535, nullable=true)
      */
     private $condicionesGenerales;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="CrmEtiquetaCotizacion", mappedBy="cotizacion", cascade={"persist", "remove"})
+     */
+    private $tagCotizacion;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="CrmDetalleCotizacion", mappedBy="cotizacion", cascade={"persist", "remove"})
+     */
+    private $detalleCotizacion;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
 
     /**
      * @var \CrmOportunidad
@@ -182,6 +199,29 @@ class CrmCotizacion
     {
         return $this->condicionesGenerales;
     }
+    
+    /**
+     * Set estado
+     *
+     * @param boolean $estado
+     * @return CrmCotizacion
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return boolean 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
 
     /**
      * Set oportunidad
@@ -250,5 +290,55 @@ class CrmCotizacion
     public function getEstadoCotizacion()
     {
         return $this->estadoCotizacion;
+    }
+    
+    /**
+     * Get tagCotizacion
+     *
+     * @return \ERP\CRMBundle\Entity\CrmEtiquetaCotizacion 
+     */
+    public function getTagCotizacion()
+    {
+        return $this->tagCotizacion;
+    }
+    
+    
+    /**
+     * Set tagCotizacion
+     *
+     * @param \ERP\CRMBundle\Entity\CrmEtiquetaCotizacion 
+     *
+     * @return CrmEtiquetaCotizacion
+     */
+    public function setTagCotizacion(\ERP\CRMBundle\Entity\CrmEtiquetaCotizacion $tagCotizacion = null)
+    {
+        $this->tagCotizacion = $tagCotizacion;
+
+        return $this;
+    }
+    
+    /**
+     * Get detalleCotizacion
+     *
+     * @return \ERP\CRMBundle\Entity\CrmDetalleCotizacion 
+     */
+    public function getDetalleCotizacion()
+    {
+        return $this->detalleCotizacion;
+    }
+    
+    
+    /**
+     * Set detalleCotizacion
+     *
+     * @param \ERP\CRMBundle\Entity\CrmDetalleCotizacion 
+     *
+     * @return CrmDetalleCotizacion
+     */
+    public function setDetalleCotizacion(\ERP\CRMBundle\Entity\CrmDetalleCotizacion $detalleCotizacion = null)
+    {
+        $this->detalleCotizacion = $detalleCotizacion;
+
+        return $this;
     }
 }

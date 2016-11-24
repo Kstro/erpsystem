@@ -1,0 +1,10 @@
+5?PU6WOKDh#X
+
+CREATE VIEW seguimientopport AS 
+SELECT `cop`.`id` AS `id`,`cop`.`oportunidad` AS `oportunidad`,`cop`.`usuario` AS `usuario`,`cop`.`comentario` AS `comentario`,`cop`.`fecha_registro` AS `fecha_registro`,`per`.`nombre` AS `nombres`,`per`.`apellido` AS `apellidos`,`foto`.`src` AS `src`,'1' AS `tipo`,'1' AS `estado`,`cop`.`tipo_comentario` AS `tipocomentario` 
+FROM (((`marvinvi_erpdg`.`crm_comentario_oportunidad` `cop` join `marvinvi_erpdg`.`ctl_usuario` `us` on((`us`.`id` = `cop`.`usuario`))) join `marvinvi_erpdg`.`ctl_persona` `per` on((`per`.`id` = `us`.`persona`))) 
+      left join `marvinvi_erpdg`.`crm_foto` `foto` on((`foto`.`persona` = `per`.`id`))) 
+union all 
+select `cop`.`id` AS `id`,`cop`.`oportunidad` AS `oportunidad`,`cop`.`usuario` AS `usuario`,`cop`.`src` AS `comentario`,`cop`.`fecha_registro` AS `fecha_registro`,`per`.`nombre` AS `nombres`,`per`.`apellido` AS `apellidos`,`foto`.`src` AS `src`,'2' AS `tipo`,`cop`.`estado` AS `estado`,'2' AS `tipocomentario` 
+from (((`marvinvi_erpdg`.`crm_documento_adjunto_oportunidad` `cop` join `marvinvi_erpdg`.`ctl_usuario` `us` on((`us`.`id` = `cop`.`usuario`))) join `marvinvi_erpdg`.`ctl_persona` `per` on((`per`.`id` = `us`.`persona`))) 
+      left join `marvinvi_erpdg`.`crm_foto` `foto` on((`foto`.`persona` = `per`.`id`)))

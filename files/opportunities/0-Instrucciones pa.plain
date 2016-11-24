@@ -1,0 +1,63 @@
+
+/*========================================================================================================================================*/
+/*                                              Importar archivo sql a PostgreSQL                                                         */
+/*========================================================================================================================================*/
+
+
+1. Para poder importar las tablas de la base de datos con el archivo sql, primero deben de borrar la base de datos, en el caso de que el nombre de la base de datos a utilizar sea el mismo a una ya creada y ésta ya contenga tablas, caso contrario, omitir paso.
+
+Ejecutar siguiente comando, en una terminal:
+
+	dropdb nombre_base_datos
+
+Ejemplo:
+
+	dropdb sifda
+
+2. Para poder importar el archivo sql, debe estar creada la base de datos, ésta debe estar vacia, para que no tengan problemas, para ello, se ejecuta el siguiente comando en una terminal como usuario postgres:
+
+	createdb nombre_base_datos -O nombre_usuario
+
+Ejemplo:
+
+	createdb sifda -O sifda
+
+** Pueden verificar en pgAdmin III, que ya ha sido creada.
+
+/*========================================================================================================================================*/
+/*      NOTA: Si no se ha creado el usuario de la base de datos, se debe ejecutar el siguiente comando como usuario postgres, antes de    */
+/*	      crear la base de datos:                                                                                                     */
+/*                                                                                                                                        */
+/*		createuser -DRSP nombre_usuario                                                                                           */
+/*                                                                                                                                        */
+/*	El usuario se crea con los siguientes permisos:                                                                                   */
+/*                                                                                                                                        */
+/*		D: No puede crear base de datos.                                                                                          */
+/*		R: No puede crear roles.                                                                                                  */
+/*		S: No es superusuario.                                                                                                    */
+/*		P: Para que muestre un mensaje en donde se pida la contraseña del nuevo usuario.                                          */
+/*                                                                                                                                        */
+/*	Ejemplo:                                                                                                                          */
+/*		createuser -DRSP sifda                                                                                                    */
+/*                                                                                                                                        */
+/*========================================================================================================================================*/
+
+3. Una vez que ha sido creada la base de datos, se prosigue a importar el archivo sql en PostgreSQL, para ello, se debe ubicar en la carpeta donde se encuentra el archivo sql en la terminal, y se ejecuta el siguiente comando como superusuario:
+
+	psql -U nombre_usuario -W -h host nombre_base_datos < nombre_archivo.sql
+
+** Luego de ejecutar el comando les pedirá la contraseña del usuario.
+
+Ejemplo:
+
+	psql -U sifda -W -h localhost sifda < sifda_11102014.sql
+
+	Contraseña para usuario sifda: sifda
+
+
+** Si el archivo sql no contiene errores, las tablas y sus respectivos constraints e indices se han creado satisfactoriamente, se puede verificar en pgAdmin III, que ya han sido creadas.
+
+
+
+
+

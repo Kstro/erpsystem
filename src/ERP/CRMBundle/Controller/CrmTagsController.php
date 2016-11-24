@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmEtiqueta;
 use ERP\CRMBundle\Entity\CrmEtiquetaCuenta;
+use ERP\CRMBundle\Entity\CrmEtiquetaOportunidad;
 use ERP\CRMBundle\Form\CtlRolType;
 
 /**
@@ -19,10 +20,6 @@ use ERP\CRMBundle\Form\CtlRolType;
  */
 class CrmTagsController extends Controller
 {
-
-
-
-
     /**
      * Get tags
      *
@@ -81,10 +78,6 @@ class CrmTagsController extends Controller
         return $response;
         
     }
-
-
-
-
 
     /**
      * Add tag
@@ -193,6 +186,196 @@ class CrmTagsController extends Controller
                     $em->remove($etiquetaObj);
                     $em->flush();
                     $etiquetaArrayObj = $em->getRepository('ERPCRMBundle:CrmEtiquetaCuenta')->findBy(array('etiqueta'=>$etiqueta));
+                    if (count($etiquetaArrayObj)==0) {
+                        $crmEtiquetaObj = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->find($etiqueta);
+                        $em->remove($crmEtiquetaObj);
+                        $em->flush();
+                        $data['deletedetiqueta']=$etiqueta;
+                    }
+                }
+                $data['deleted']='';
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);      
+        }
+        return $response;
+    }
+    
+    /**
+     * Get tags
+     *
+     * @Route("/tags/get/opportunities", name="admin_tags_opportunities_index_ajax",  options={"expose"=true}))
+     * @Method("GET")
+     */
+    public function indexTagsOpportunitiesAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $response = new JsonResponse();
+                $em = $this->getDoctrine()->getManager();
+                $crmEtiqueta = new CrmEtiqueta();
+                $crmEtiquetaOportunidad = new CrmEtiquetaOportunidad();
+                $id = $request->get("param1");
+                
+                $sql = "SELECT ec.id as id, e.nombre as nombre FROM ERPCRMBundle:CrmEtiquetaOportunidad ec"
+                            ." JOIN ec.etiqueta e "
+                            ." JOIN ec.oportunidad c "
+                            ." WHERE c.id=:id";
+                $tags = $em->createQuery($sql)
+                                    ->setParameters(array('id'=>$id))
+                                    ->getResult();
+                
+                if(count($tags)==0){
+                    $data['error']='No data';
+                }
+                else{
+                    $data['data']=$tags;
+                }                
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }      
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
+
+    /**
+     * Add tag
+     *
+     * @Route("/tag/add/opportunities", name="admin_tags_opportunities_add_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function addTagsOpportunitiesAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $response = new JsonResponse();
+                $em = $this->getDoctrine()->getManager();
+                $crmEtiqueta = new CrmEtiqueta();
+                $crmEtiquetaOportunidad = new CrmEtiquetaOportunidad();
+                $id=$request->get("param1");
+                $nombreTag = $request->get("param2");
+                $etiquetaOportunidadObj=array();
+                $oportunidadObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);
+                $etiquetaObj = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findBy(array('nombre'=>$nombreTag));
+                
+                if(count($etiquetaObj)==0){/////Etiqueta no existe
+                    $crmEtiqueta->setNombre($nombreTag);
+                    $em->persist($crmEtiqueta);
+                    $em->flush();  
+                    $crmEtiquetaOportunidad->setEtiqueta($crmEtiqueta);
+                    $crmEtiquetaOportunidad->setOportunidad($oportunidadObj);
+                    $em->persist($crmEtiquetaOportunidad);
+                    $em->flush();
+                    $data['nombreTag']=$crmEtiqueta->getNombre();
+                    $data['idTag']=$crmEtiquetaOportunidad->getId();    
+                }
+                else{/////Etiqueta existe
+                    $etiquetaOportunidadObj = $em->getRepository('ERPCRMBundle:CrmEtiquetaOportunidad')->findBy(array('etiqueta'=>$etiquetaObj[0]->getId(),'oportunidad'=>$id));
+                    $crmEtiquetaOportunidad->setEtiqueta($etiquetaObj[0]);
+                    $crmEtiquetaOportunidad->setOportunidad($oportunidadObj);
+                    if (count($etiquetaOportunidadObj)==0) {/////Etiqueta no esta asignada a esa cuenta
+                        $em->persist($crmEtiquetaOportunidad);
+                        $em->flush();
+                        $data['nombreTag']=$etiquetaObj[0]->getNombre();
+                        $data['idTag']=$crmEtiquetaOportunidad->getId();    
+                    }
+                    else{
+                        $data['existe']=1;
+                    }
+                }        
+                                
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                        {
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = $e->getMessage();                     
+                            break;
+                        }      
+                 }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
+
+    /**
+     * Add tag
+     *
+     * @Route("/tag/delete/opportunities", name="admin_tags_opportunities_delete_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function deletetagsOpportunitiesAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $response = new JsonResponse();
+                $em = $this->getDoctrine()->getManager();
+                $id=$request->get("param1");
+                $etiquetaObj = $em->getRepository('ERPCRMBundle:CrmEtiquetaOportunidad')->find($id);
+                
+                //$data['deletedetiqueta']='';
+                if(count($etiquetaObj)!=0){
+                    $etiqueta = $etiquetaObj->getEtiqueta()->getId();
+                    $em->remove($etiquetaObj);
+                    $em->flush();
+                    $etiquetaArrayObj = $em->getRepository('ERPCRMBundle:CrmEtiquetaOportunidad')->findBy(array('etiqueta'=>$etiqueta));
                     if (count($etiquetaArrayObj)==0) {
                         $crmEtiquetaObj = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->find($etiqueta);
                         $em->remove($crmEtiquetaObj);

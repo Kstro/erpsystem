@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}
 
 {% block body %}
     <h1>CtlRol creation</h1>
@@ -13,4 +13,47 @@
             <a href="{{ path('admin_role_index') }}">Back to the list</a>
         </li>
     </ul>
-{% endblock %}
+{% endblock %}#}
+
+
+<div class="col-md-12 col-xs-12">
+            <div id="pnAdd" class="panel panel-default" style="display:none;">
+                    <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+                    <div class="panel-body">
+                        <div class="col-md-4">
+                            <label>{{nameEtapa}}</label>
+                            <label class="hidden requiredFields">{{requiredFields}}</label>
+                            <input id="txtId" type="hidden" name="" class="input-sm form-control">
+                            <input id="txtName" type="text" name="" class="input-sm form-control validateInput">
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                        <div class="col-md-4">
+                            <label>System modules</label>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4" id="optionModules">
+                            <select id="modulos" style="width:100%;">
+                                <option value="1">CRM</option>
+                                <option value="2">Accounts</option>
+                                <option value="3">Activities</option>
+                                <option value="4">Sales</option>
+                                <option value="5">Calendar</option>
+                                <option value="6">Settings</option>
+                            </select>
+                        </div> 
+                        <div class="col-md-4" id="botonModules">
+                            <button id="plusModule" class="btn btn-success btn-sm" ><i class="fa fa-plus"></i></button>
+                        </div> 
+                        <div class="col-md-4">    
+                            
+                        </div> 
+                        <div class="clearfix"></div>
+                        <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                            <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
+                            <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                        </div>
+                    </div>
+                    {# <div class="panel-footer">Panel Footer</div> #}
+            </div>
+</div>

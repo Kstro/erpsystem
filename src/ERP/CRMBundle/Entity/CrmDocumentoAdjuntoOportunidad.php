@@ -34,6 +34,13 @@ class CrmDocumentoAdjuntoOportunidad
      * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
      */
     private $fechaRegistro;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
 
     /**
      * @var \CrmOportunidad
@@ -111,6 +118,29 @@ class CrmDocumentoAdjuntoOportunidad
     public function getFechaRegistro()
     {
         return $this->fechaRegistro;
+    }
+    
+    /**
+     * Set estado
+     *
+     * @param integer $estado
+     * @return CrmDocumentoAdjuntoOportunidad
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return CrmDocumentoAdjuntoOportunidad
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 
     /**

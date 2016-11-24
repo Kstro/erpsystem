@@ -68,8 +68,8 @@ class CrmSeguimientoController extends Controller {
                 case 4:///// CRM - 
                     $sql="SELECT * FROM seguimientocont where contacto=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
-                case 5:///// CRM - 
-                    $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                case 5:///// CRM - Oportunidades
+                    $sql="SELECT * FROM seguimientopport where oportunidad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
                     break;
             }
             

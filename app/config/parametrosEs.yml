@@ -460,16 +460,36 @@ parameters:
         #Cotizacion en oportunidad
         app.pnHeadingLabelCotizacionEs: Cotizaciones
         app.newQuoteEs: Nueva cotización
+        app.deleteOpQuoteEs: Eliminar
         app.noQuoteEs: No se encontraron cotizaciones
+        app.errorTaxQOpEs: Debe ser mayor o igual que 0.00 y menor o igualque 100.00
         app.correlativoQuoteEs: No.
         app.userQuoteEs: Asignado a
         app.dateCreatedQuoteEs: Fecha de registro
         app.dateExpirationQuoteEs: Válido hasta
+        app.statusQuoteEs: Estado
+        app.conditionssQuoteEs: Condiciones generales
+        app.addRowQuoteEs: Nueva fila
+        app.totalQuoteEs: Total ($)
+        app.cantidadItemQuoteEs: Cantidad
+        app.itemQuoteEs: Producto / Servicio
+        app.itemPriceQuoteEs: Precio unitario ($)
+        app.itemTotalQuoteEs: Total ($)
+        app.itemTaxQuoteEs: Tax (%)
+        app.taxQuoteOpEs: Tax ($)
+        app.totalPriceEs: Precio total ($)
+        app.subTotalQuoteOpEs: Sub-total ($)
        
         #Login
         app.tituloLoginEs: Sistema CRM | Inicio de sesión
         app.usernameTxtEs: Nombre de usuario
         app.passwordTxtEs: Contraseña
+        
+        # Cotizacion
+        app.menuCotizacionEs: Cotizaciones
+        app.tituloCotizacionEs: Cotizaciones | CRM
+        app.encabezadoCotizacionEs: Listado de cotizaciones
+        app.descripcionCotizacionEs: Registrar, actualizar o eliminar cotizaciones.
        
         #perfil
         app.perfilEs: e

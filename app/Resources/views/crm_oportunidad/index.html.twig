@@ -1,9 +1,11 @@
 {% extends ':layout:layouterp.html.twig' %}
 {% block title -%}<title>{{tituloOportunidad}}</title>{% endblock %}
 {% block navegacion %}
-    {% include ':layout:menuventas.html.twig' %}
+    {% include ':crm_oportunidad:opciones_oportunidad.html.twig' %}
+    {% include ':crm_oportunidad:add_files.html.twig' %}
 {% endblock %} 
 {% block customcss %}
+    <link rel="stylesheet" href="{{ asset('Resources/customscss/timeline/timeline.css') }}">
     <link rel="stylesheet" href="{{ asset('Resources/bootstrap/css/datetime.min.css') }}" />
 {% endblock %}
 {% block descripcion %}
@@ -15,6 +17,8 @@
           <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
           <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
           <p id="taskNoEdit" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{taskNoEdit}}</p>
+          <p id="removeFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeFile}}</p>
+          <p id="removedFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removedFile}}</p>
      </div>
 {% endblock %}
 {% block acciones %}
@@ -61,15 +65,27 @@
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/collapse.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/transition.js') }}"></script>
     <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/datetime.js') }}"></script>
+    
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/seguimiento.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/add-comment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags_opportunities.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
+    
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#filterTag').removeClass('hidden');
+            $('#btnLoadMoreFiles').addClass('hidden');
+            $('#selectTags').select2();
+            
+            var valor = $('#selectTags').val();       
+            
             /*/////Definición datatable*/
             var table = $('#oppotunitiesList').DataTable({
                 dom:'ftp',
                 "processing": false,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{path('admin_opportunities_data')}}',
+                    "url": '{{path('admin_opportunities_data')}}'+"?param1="+valor,
                     "type": 'GET'
                 },
                 "columns": [
@@ -98,6 +114,13 @@
                     "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
                 }
             });
+            
+            $(document).on('change', '#selectTags', function(event) {
+                valor = $(this).val();
+                var url = Routing.generate('admin_opportunities_data')+"?param1="+valor;
+                table.ajax.url(url).load();
+            });
+            
             /*//Buscar hasta que se presione enter*/
             $('#providersList_filter input').unbind();
             $('#providersList_filter input').bind('keyup', function(e) {

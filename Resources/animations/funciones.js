@@ -64,6 +64,28 @@ function seleccionarTodo() {
     });	       
 }
 
+/* Funcion que seleciona y deselecciona todos los checkboxes de la tabla de cotizaciones en la oportunidad */
+function seleccionarTodoQ() {
+    $('#detalleQuote').addClass('hidden');
+    $('#divQuotes').removeClass('hidden');    
+    
+    //Se recorren todos los checkboxes
+    /*$('input[type=checkbox]').each( function() {*/
+    $('.chkItemQ').each( function() {    
+        //Si se ha seleccionado el checkbox con nombre checktodos
+        if($("input[name=checktodosQ]:checked").length == 1){
+            $('.btnNewQuotation').addClass('hidden');
+            $('.btnDeleteQuotation').removeClass('hidden');
+            $(this).prop({'checked': true});
+        //Si se ha deseleccionado el checkbox con nombre checktodos
+        } else {
+            $('.btnNewQuotation').removeClass('hidden');
+            $('.btnDeleteQuotation').addClass('hidden');
+            $(this).prop({'checked': false}); 
+        }
+    });	
+}
+
 var flag = 1;
 
 function cambiaTexto(dataEn, dataEs, idioma) {

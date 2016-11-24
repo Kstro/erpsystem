@@ -62,6 +62,11 @@ class CrmOportunidad
      * @ORM\Column(name="estado", type="boolean", nullable=false)
      */
     private $estado;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="CrmEtiquetaOportunidad", mappedBy="oportunidad", cascade={"persist", "remove"})
+     */
+    private $tagOportunidad;
 
     /**
      * @var \CtlEtapaVenta
@@ -376,6 +381,31 @@ class CrmOportunidad
     public function getCuenta()
     {
         return $this->cuenta;
+    }
+    
+    /**
+     * Get tagOportunidad
+     *
+     * @return \ERP\CRMBundle\Entity\CrmEtiquetaOportunidad 
+     */
+    public function getTagOportunidad()
+    {
+        return $this->tagOportunidad;
+    }
+    
+    
+    /**
+     * Set tagOportunidad
+     *
+     * @param \ERP\CRMBundle\Entity\CrmEtiquetaOportunidad 
+     *
+     * @return CrmEtiquetaOportunidad
+     */
+    public function setTagOportunidad(\ERP\CRMBundle\Entity\CrmEtiquetaOportunidad $tagOportunidad = null)
+    {
+        $this->tagOportunidad = $tagOportunidad;
+
+        return $this;
     }
     
     public function __toString() {

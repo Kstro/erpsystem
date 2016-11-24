@@ -29,7 +29,17 @@
                 <i class="{% if menuReunionesA is defined %}fa fa-arrow-right {% endif %}"></i>
         </span>
     </li>
-</a>               
+</a>      
+{% for actividad in actividades if actividad.id>3 %}
+    <a href="{{path('admin_activities_info',{nombre:actividad.nombre})|lower}}" class="leftnava">
+        <li class="leftnav left {% if opcion is defined and actividad.nombre|lower==opcion|lower  %}active {% endif %}">
+            {{actividad.nombre}}
+            <span class="pull-right">
+                <i class="{% if opcion is defined and actividad.nombre|lower==opcion|lower %}fa fa-arrow-right {% endif %}"></i>
+            </span>
+        </li>
+    </a>
+{% endfor %}
 {#<a href="{{path('crmcaso_index')}}" class="leftnava">
 	<li class="leftnav left {% if menuCasoA is defined %}active {% endif %}">
 		{{menuCaso}}

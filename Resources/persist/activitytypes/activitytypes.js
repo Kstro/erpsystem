@@ -14,80 +14,76 @@ $(document).ready(function() {
 	});
 
 	
-	$('#frmCampaigns').on('submit',(function(event) {
-		/*/////Definición de variables*/
-		event.preventDefault();
-		var $btn = $('#btnSave').button('loading');
-		var $btn1 = $('#btnSaveTop').button('loading');
-  		var errores = 0;
-  		/*//Contador de errores, para antes de la persistencia*/
-  		var idUser=[];
-  		var textFechaInicio= $('#txtFechaInicio').val();
-  		var textFechaFin=$('#txtFechaFin').val();
-  		var idAct=$('#txtId').val();
-		$('.validateInput').each(function() {
-		 	if (!required($(this))) {
-		 		$(this).addClass('errorform');
-		 		errores++;
-		 	}
-		});
-		$('.validateSelect').each(function() {
-		 	if (!required($(this))) {
-		 		$(this).next().children().children().addClass('errorform');
-		 		errores++;
-		 	}
-		});
-		var dataForm = new FormData(this);
-		if (errores==0) {
-			$('.dpbResponsable').each(function() {
-			 	id = $(this).val();
-			 	idUser.push(id);
-			});
-			console.log(idUser);
-			$.ajax({
-				url: Routing.generate('admin_campaigns_save_ajax'), 
-				type: "POST",
-				data: dataForm,
-				contentType: false,
-				cache: false,
-				processData:false,
-				success: function(data)
-				{
-					$("#txtId").val(data.id);
-					if(data.msg){
-						swal('',data.msg,'success');
-						var table = $('#tasksList').DataTable();
-						$('.btnAddPage').click();
-						$('.btnAddPage').removeClass('hidden');
-						table.ajax.reload();
-					}
-					if(data.error){
-						swal('',data.error,'error');
-					}
-					$btn.button('reset');
-					$btn1.button('reset');
-				},
-				error:function(data) {
-					/* Act on the event */
-					$btn.button('reset');
-					$btn1.button('reset');
-				}
-			});
-		}
-		else {
-			var requiredFields = $('.requiredFields').html();
-			swal('',requiredFields,'error');
-			$btn.button('reset');
-			$btn1.button('reset');
-		}
-		event.preventDefault();
-		return false;
-	}));
+	$(document).on('click', '#btnSave', function(event) {
+        var btn = $(this).button('loading');
+        var id=$('#txtId');
+        var name=$('#txtName');
+        var icon=$('#txtIcon');
+        var table = $('#activityList').DataTable();
+        var errores = 0;
+/*        //Contador de errores, para antes de la persistencia*/
+
+        $('.validateInput').each(function() {
+            console.log($(this).val());
+            
+            if (!required($(this))) {
+                errores++;
+            }
+        });
+
+        if (errores==0) {
+            var data = {
+                            param1: id.val(),
+                            param2 : name.val(),
+                            param3 : icon.val()
+                        };
+
+            $.ajax({
+                data: data,
+                url: Routing.generate('admin_activity_type_save_ajax'),
+                type: 'POST',
+                dataType: 'json',
+                success: function (response)
+                {
+                    
+                    
+                    if(!response.error){
+                        swal('', response.msg,'success');
+                        $('#txtId').val('');
+                        $('#txtName').val('');
+                        $('#txtIcon').val('');
+                        
+                        table.ajax.reload();
+                        $('#pnAdd').slideToggle();
+                    } else {
+                        swal('', response.error, 'error');
+                        /*btn.button('reset');*/
+                    }                    
+                    
+                    btn.button('reset');
+                    
+                },
+                error:function(response){
+                    if(response.msg.error){
+                        swal('', response.msg.error, 'error');
+                    }
+                    btn.button('reset');
+                }
+            });
+            
+            return false;        
+        }
+        else {
+            swal('','Fields in red are required!','error');
+            btn.button('reset');
+        }                
+       
+    });    
 	/*/////Fin definición persist data (Save method)*/
 
 
 	/*/////Persist datatable (Edit method)*/
-	$(document).on('click', '#tasksList>tbody>tr>td:nth-child(2),#tasksList>tbody>tr>td:nth-child(3),#tasksList>tbody>tr>td:nth-child(4),#tasksList>tbody>tr>td:nth-child(5),#tasksList>tbody>tr>td:nth-child(6),#tasksList>tbody>tr>td:nth-child(7)', function(event) {
+	$(document).on('click', '#activityList>tbody>tr>td:nth-child(2),#activityList>tbody>tr>td:nth-child(3)', function(event) {
 		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		/*// console.log(text);*/
@@ -95,13 +91,9 @@ $(document).ready(function() {
 		/*// console.log(id);*/
 		/*// var idArray = id.split('-');*/
 		/*// console.log(idArray);*/
-		var idForm=$('#txtId1').val();
+		var idForm=$('#txtId').val();
 		/*// var idForm=$('#txtId2').val();*/
 		var selected = 0;
-                $('#addedFiles').html('');
-                $('#wallmessages').html('');
-                $('#wallmessages').removeClass('hidden');
-                $('#comentarios').removeClass('hidden');
                 numPedidos=1;
 		/*//Cambiar nombre del panel heading para Modify*/
 		$('.pnHeadingLabelAdd').addClass('hidden');
@@ -117,7 +109,7 @@ $(document).ready(function() {
 		});	
 		if (text=='TD' && id!=idForm && selected==0) {
 			$.ajax({
-				url: Routing.generate('admin_retrieve_campaign_ajax'),
+				url: Routing.generate('admin_retrieve_activity_types_ajax'),
 				type: 'POST',
 				data: {param1: id},
 				success:function(data){
@@ -133,68 +125,18 @@ $(document).ready(function() {
 							/*// $('#cuentaActividades').val(data.cuentaId).trigger('change');	*/
 							$('#txtId').val(data.id);
 							$('#txtName').val(data.name);
-							$('#tipoCampania').val(data.tipoCampania).trigger('change');
-							if (data.personaId!=0) {
-								/*// $('#responsableCampania').append('<option value="'+data.personaId+'">'+data.personaNombre+'</option>');*/
-							}
+							$('#txtIcon').val(data.icon);
 							
-							$('#estadoCampania').val(data.estadoCampania).trigger('change');
-							$('#txtFechaInicio').val(data.fechaInicio);
-							$('#txtFechaFin').val(data.fechaFin);
-							$('#txtDescripcion').val(data.descripcion);
-
-							$('#pnAdd').show();
+                                                        $('#txtIcon').next().children().removeClass();
+                                                        $('#txtIcon').next().children().addClass('fa '+data.icon);
+                                                        
+							$('#pnAdd').slideDown();
+							
 							$('.btnAddPage').addClass('hidden');
-							$('#tasksList').parent().hide();
+							/*$('#activityList').parent().hide();*/
 							$('#btnSaveTop').removeClass('hidden');
 							$('#btnCancelTop').removeClass('hidden');
-							/*// console.log('end');*/
-
-							/*var numDirecciones = data.responsables.length;
-
-							for (var i = 0; i < numDirecciones; i++) {
-								/* console.log(i);*/
-								/*// console.log(data.addressArray[i]);*/
-								/*switch(i){
-									case 0:
-										$(".dpbStateFirst").val(data.stateArray[i]).trigger("change");
-										$(".dpbCityFirst").val(data.cityArray[i]).trigger("change");
-										$('.txtAddressFirst').val(data.addressArray[i]);
-									break;
-									default:
-										$('#plusAddress').click();
-										$("#state-"+(numAddress)).val(data.stateArray[i]).trigger("change");
-										$("#city-"+(numAddress)).val(data.cityArray[i]).trigger("change");
-										$('#address-'+(numAddress)).val(data.addressArray[i]);
-									break;
-								}
-							}*/
-                                                    for (var i = 0; i < data.docs.length; i++) {
-                                                        /*console.log(i);*/
-                                                        if(data.docs[i].estado==1){
-                                                            var addItem='<div class="col-xs-1" style="vertical-align:middle;">';
-
-                                                                addItem+='<a id="'+data.docs[i].id+'" href="" class="fileDelete">';
-
-                                                                addItem+='<i style="margin-top:3px;vertical-align:middle;" class="fa fa-remove"></i>';
-
-                                                                addItem+='</a>';
-
-
-                                                            addItem+='</div><div class="col-xs-10">';
-
-                                                                addItem+='<a target="_blank" href="../../../files/'+data.path+'/';
-                                                                addItem+=data.docs[i].nombre;
-                                                                addItem+='">';
-
-                                                            addItem+=data.docs[i].nombre;
-
-                                                                addItem+='</a>';
-
-                                                            addItem+='</div>';
-                                                            $('#addedFiles').append(addItem);
-                                                        }
-                                                    }
+							
 						}
 						else{
 							/*// console.log('else');*/
@@ -255,13 +197,13 @@ $(document).ready(function() {
 						// 	swal('',data.nombre+' '+taskNoEdit,'error');
 						// }*/
 					}
-                                        seguimientoGeneral(data.id, numPedidos,null,3);
+                                        /*seguimientoGeneral(data.id, numPedidos,null,3);
                                         $('#addTag').removeClass('hidden');
                                         $('#addedTags').removeClass('hidden');
                                         $('#addedFiles').removeClass('hidden');
                                         $('#filterTag').addClass('hidden');
                                         $('#addFile').removeClass('hidden');
-                                        $('#btnLoadMore').removeClass('hidden');
+                                        $('#btnLoadMore').removeClass('hidden');*/
 				},
 				error:function(data){
 					if(data.error){
@@ -393,14 +335,14 @@ $(document).ready(function() {
 		$('#pnAdd').slideUp();
 		if ($(this).is(':checked')) {
 			$('.chkItem').each(function() {
-				$('.btnAddPage').addClass('hidden');
+				$('.btnAdd').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');
 				$(this).prop({'checked': true});
 			});	
 		} 
 		else {
 			$('.chkItem').each(function() {
-				$('.btnAddPage').removeClass('hidden');
+				$('.btnAdd').removeClass('hidden');
 				$('.btnDelete').addClass('hidden');
 				$(this).prop({'checked': false});
 			});
@@ -422,19 +364,19 @@ $(document).ready(function() {
 			var id=$(this).parent().attr('id');
 			/*// var probability=$('#txtProbability');*/
 			if ($(this).is(':checked')) {
-				$('.btnAddPage').addClass('hidden');
+				$('.btnAdd').addClass('hidden');
 				$('.btnDelete').removeClass('hidden');
 				$(this).prop({'checked': true});
 			} 
 			else {
-				$('.btnAddPage').removeClass('hidden');
+				$('.btnAdd').removeClass('hidden');
 				$('.btnDelete').addClass('hidden');
 				$(this).prop({'checked': false});
 			}$('.chkItem').each(function() {
 				total++;
 				if ($(this).is(':checked')) {
 					selected++;
-					$('.btnAddPage').addClass('hidden');
+					$('.btnAdd').addClass('hidden');
 					$('.btnDelete').removeClass('hidden');
 				}
 			});	

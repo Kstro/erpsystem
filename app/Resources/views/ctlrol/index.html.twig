@@ -1,39 +1,143 @@
-{% extends 'base.html.twig' %}
+{% extends ':layout:layouterp.html.twig' %}
 
-{% block body %}
-    <h1>CtlRol list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ctlRol in ctlRols %}
-            <tr>
-                <td><a href="{{ path('admin_role_show', { 'id': ctlRol.id }) }}">{{ ctlRol.id }}</a></td>
-                <td>{{ ctlRol.nombre }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('admin_role_show', { 'id': ctlRol.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('admin_role_edit', { 'id': ctlRol.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block title -%}<title>{{tituloRoles}}</title>{% endblock %}
 
-    <ul>
+
+{% block descripcion %}
+    <div class="col-md-5">
+        <p class="robo" style="font-weight: 300; margin-bottom: 0px; font-size: 30px;">{{encabezadoRoles | capitalize}}</p>
+        <p class="robo" style="font-weight: 300; font-size: 14px; ">{{descripcionRoles}}</p>
+        <p id="cancelLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelLabel}}</p>
+        <p id="removeLabel" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeLabel}}</p>
+        <p id="removeFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removeFile}}</p>
+        <p id="removedFile" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{removedFile}}</p>
+        <p id="cancelButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{cancelButtonText}}</p>
+        <p id="confirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{confirmButtonText}}</p>
+        <p id="alternateconfirmButtonText" class="robo hidden" style="font-weight: 300; font-size: 14px; ">{{alternateconfirmButtonText}}</p>
+    </div>
+{% endblock %}
+{% block acciones %}
+     <div class="col-md-7 text-right panel-body">
+          {# <button id="btnBack" class="hidden btnBack btn btn-sm btn-default btn-flat">{{back}}</button> #}
+          <button data-loading-text="Loading..." autocomplete="off" class="btnAddPage btn btn-sm btn-primary btn-flat">{{add}}</button>
+          <a id="btnCancelTop" class="hidden btn btn-sm btn-default">{{cancel}}</a>
+          <button id="btnSaveTop" class="hidden btn btn-sm btn-primary">{{save}}</button>
+          <button class="hidden btnDelete btn btn-sm btn-danger btn-flat">{{delete}}</button>
+          <button class="hidden btnShow btn btn-sm btn-success btn-flat">{{show}}</button>
+          <button class="hidden btnAction btn btn-sm btn-default btn-flat">{{actionClients}}</button>
+
+     </div>
+{% endblock acciones %}
+
+
+
+
+{% block contenido %}
+    
+    <div class="row">
+        {% include ':ctlrol:new.html.twig' %}
+        <div class="clearfix"></div>
+        <div class="col-md-12 col-xs-12">
+            <table id="roleList" class="mdl-data-table dataTable" width="100%" cellspacing="0" style="text-align:left;">
+                <thead>
+                    <tr role="row">
+                        <th style="text-align:left;width: 20px;" colspan="1" rowspan="1"><input class="chkItemAll" type="checkbox" name=""></th>
+                        <th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{nameCliente}}</th>
+                        {#<th aria-label="Name: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{cuentaCliente}}</th>#}
+                        {#<th aria-label="Email: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{emailCliente}}</th>#}
+                        {#<th aria-label="Phone: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{phoneCliente}}</th>#}
+                        {# <th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fuenteCliente}}</th> #}
+                        {#<th aria-label="Industry: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaRegistroCliente}}</th>#}
+                    </tr>
+                </thead>      
+                {% for ctlRol in ctlRols %}
+                    <tr>
+                        <td style="text-align:left;"><input type="checkbox" id="{{ctlRol.id}}"></td>
+                        
+                        <td style="text-align:left;">{{ ctlRol.nombre }}</td>
+                        {#<td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('admin_role_show', { 'id': ctlRol.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_role_edit', { 'id': ctlRol.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>#}
+                    </tr>
+                {% endfor %}
+             </table>
+        </div>
+    </div>
+    
+    
+
+    
+
+    {#<ul>
         <li>
             <a href="{{ path('admin_role_new') }}">Create a new entry</a>
         </li>
-    </ul>
+    </ul>#}
+{% endblock %}
+
+
+
+{% block js_extend %}
+    
+    <script type="text/javascript" src="{{ asset('Resources/validations/validation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/animations/rol/rol.js') }}"></script>
+    
+    <script type="text/javascript" src="{{ asset('Resources/persist/rol/rol.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/tags.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/persist/seguimiento/files.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/bootstrap/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('Resources/mask/mask.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.firstPhoneTxt').mask('(000) 000-0000');
+            /////Definición datatable
+            $('#filterTag').removeClass('hidden');
+            $('#btnLoadMoreFiles').addClass('hidden');
+            
+            var valor = $('#selectTags').val();
+            var table = $('#roleList').DataTable({
+                dom:'ftp',
+                "order":[1,'asc'],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }    
+                ],
+                "language": {
+                    "info": "{{dtInfo}} _PAGE_ de _PAGES_",
+                    "infoEmpty": "{{dtInfoEmpty}}",
+                    "emptyTable": "{{dtEmptyTable}}",
+                    "paginate": { 
+                        "next": "{{dtNext}}",
+                        "previous": "{{dtPrev}}"
+                    },
+                    "processing": "{{dtProcessing}}",
+                    "search": "{{dtSearch}}",
+                    "lengthMenu": "{{dtLengthMenu}} _MENU_ registros"
+                }
+            });
+            /////Fin definición datatable
+            
+            
+
+            $('#dpbTitulo').select2();
+            $('.dpbIndustria').select2();
+            $('.dpbInteres').select2();
+            $('.dpbTipoPhone').select2();
+            $('.dpbTipoPersona').select2();
+            $('#selectTags').select2();
+            $('#modulos').select2();
+            // $('.dpbCampania').select2();
+            var idContacto = $('#txtId2').val();         
+            
+        });
+            
+    </script>
+     
 {% endblock %}

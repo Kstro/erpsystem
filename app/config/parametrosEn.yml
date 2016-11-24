@@ -307,6 +307,7 @@ parameters:
         #Todas las actividades
         app.tituloTodasActividades: All the activities | CRM
         app.menuTodasActividades: All
+        app.menuTiposActividades: Activities types
         app.encabezadoTodasActividades: All the activities
         app.descripcionTodasActividades: Add, modify or delete any activity.
         app.nameTodasActividades: Name
@@ -346,6 +347,16 @@ parameters:
 
         app.cuentaActividad: Account
         app.tipoActividad: Activity type
+
+
+        #TipoActividad
+        app.tituloTipoActividad: Activity types management | CRM
+        app.menuTipoActividad: Activity types
+        app.encabezadoTipoActividad: Activity types list
+        app.descripcionTipoActividad: Add, modify or delete Activity types.
+        app.nameTipoActividad: Name
+        app.iconTipoActividad: Icon
+
 
         #Llamadas
         app.tituloLlamadas: Calls | CRM
@@ -491,6 +502,13 @@ parameters:
         app.nameTipoCuenta: Name
         app.menuTipoCuenta: Account types
         
+        #Roles (CRUD)
+        app.tituloRoles: Roles management | CRM
+        app.encabezadoRoles: Roles
+        app.descripcionRoles: Add, modify or delete roles.
+        app.nameRoles: Name
+        app.menuRoles: Roles
+        
         #Industria (CRUD)
         app.tituloIndustria: Industry management | CRM
         app.encabezadoIndustria: Industry
@@ -558,18 +576,37 @@ parameters:
         #Cotizacion en oportunidad
         app.pnHeadingLabelCotizacion: Quotes
         app.newQuote: New quote
+        app.deleteOpQuote: Delete
         app.noQuote: No quotes found
+        app.errorTaxQOp: It must be greater than or equal to 0.00 and less than or equal to 100.00
         app.correlativoQuote: No.
         app.userQuote: Assigned to
         app.dateCreatedQuote: Created date
         app.dateExpirationQuote: Valid until
+        app.statusQuote: Status
+        app.conditionssQuote: General conditions
+        app.addRowQuote: Add row
+        app.totalQuote: Total ($)
+        app.cantidadItemQuote: Quantity
+        app.itemQuote: Product / Service
+        app.itemPriceQuote: Unit price ($)
+        app.itemTotalQuote: Total ($)
+        app.itemTaxQuote: Tax (%)
+        app.totalPrice: Total price ($)
+        app.taxQuoteOp: Tax ($)
+        app.subTotalQuoteOp: Sub-total ($)
        
         #Login
         app.tituloLogin: Login | CRM
         app.usernameTxt: Username
         app.passwordTxt: Password
 
-       
+        #Cotizacion
+        app.menuCotizacion: Quotes
+        app.tituloCotizacion: Quotes | CRM
+        app.encabezadoCotizacion: Quotes list
+        app.descripcionCotizacion: Add, modify or delete quotes.
+        
        
         #perfil
         app.perfil: e

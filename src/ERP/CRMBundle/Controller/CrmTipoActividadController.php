@@ -37,7 +37,7 @@ class CrmTipoActividadController extends Controller
             'campanias' => $campanias,
             'personas' => $personas,
             // 'crmTipoCampanias' => $crmTipoCampanias,
-            'menuCampaniaA' => true,
+            'menuTodasActividadesA' => true,
         ));
     }
 
@@ -198,26 +198,24 @@ class CrmTipoActividadController extends Controller
                 }
                 $busqueda['value'] = str_replace(' ', '%', $busqueda['value']);
                 if($busqueda['value']!=''){
-                    $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, act.id, CONCAT('<div style=\"text-align:left\">',act.icono_clase,'</div>') as icono
+                    $sql = "SELECT CASE WHEN act.id>3 THEN CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') ELSE CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"hidden\" type=\"checkbox\"></div>') END as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, act.id, CONCAT('<div style=\"text-align:left\">','<i class=\"fa ',act.icono_clase,'\"> </i> </div>') as icono
                                 FROM crm_tipo_actividad act
-                                GROUP BY 1
                                 HAVING CONCAT(name,' ',icono) LIKE upper('%".$busqueda['value']."%') ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
                     $stmt = $em->getConnection()->prepare($sql);
                     $stmt->execute();
                     $row['data'] = $stmt->fetchAll();
                     $row['recordsFiltered']= count($row['data']);
-                    $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, act.id, CONCAT('<div style=\"text-align:left\">',act.icono_clase,'</div>') as icono
+                    $sql = "SELECT CASE WHEN act.id>3 THEN CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') ELSE CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"hidden\" type=\"checkbox\"></div>') END as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, act.id, CONCAT('<div style=\"text-align:left\">','<i class=\"fa ',act.icono_clase,'\"> </i> </div>') as icono
                                 FROM crm_tipo_actividad act
-                                GROUP BY 1
                                 HAVING CONCAT(name,' ',icono) LIKE upper('%".$busqueda['value']."%') ORDER BY ". $orderByText." ".$orderDir." LIMIT " . $start . "," . $longitud;
                     $stmt = $em->getConnection()->prepare($sql);
                     $stmt->execute();
                     $row['data'] = $stmt->fetchAll();
                 }
                 else{
-                    $sql = "SELECT CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, act.id, CONCAT('<div style=\"text-align:left\">','<i class=\"',act.icono_clase,'\"> </i> </div>') as icono
+                    $sql = "SELECT CASE WHEN act.id>3 THEN CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"chkItem\" type=\"checkbox\"></div>') ELSE CONCAT('<div id=\"',act.id,'\" style=\"text-align:left\"><input style=\"z-index:5;\" class=\"hidden\" type=\"checkbox\"></div>') END as chk, CONCAT('<div style=\"text-align:left\">',act.nombre,'</div>') as name, act.id, CONCAT('<div style=\"text-align:left\">','<i class=\"fa ',act.icono_clase,'\"> </i> </div>') as icono
                                         FROM crm_tipo_actividad act
-                                        GROUP BY 1
+                                        
                                         ORDER BY ". $orderByText." ".$orderDir;
                     $stmt = $em->getConnection()->prepare($sql);
                     $stmt->execute();
@@ -251,6 +249,168 @@ class CrmTipoActividadController extends Controller
     //////Fin de campania
     
     
+    
+    
+    
+    /////Save tipo actividad
+    /**
+     * Save 
+     *
+     * @Route("/activitiy/types/save", name="admin_activity_type_save_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function saveajaxAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+
+        
+            try {
+                
+                
+                $id=$request->get("param1");
+                $name=$request->get("param2");
+                $icon=$request->get("param3");
+                $response = new JsonResponse();
+                // var_dump($name);
+                // var_dump($probability);
+                // die();
+
+                $em = $this->getDoctrine()->getManager();
+                $sql = "SELECT upper(obj.nombre) FROM ERPCRMBundle:CrmTipoActividad obj "
+                                            . "WHERE obj.estado=1 AND upper(obj.nombre) LIKE upper(:busqueda) "
+                                            . "AND obj.estado=1";
+                $objectDuplicate = $em->createQuery($sql)
+                                        ->setParameters(array('busqueda'=>"".strtoupper($name).""))
+                                        ->getResult();   
+
+                    
+                   
+                    if (count($objectDuplicate) && $id=='') {
+                        $serverDuplicateName = $this->getParameter('app.serverDuplicateName');
+                        $data['error'] = $serverDuplicateName;
+                    } else {
+                        if ($id=='') {
+                                $object = new CrmTipoActividad();
+                                $object->setNombre($name);
+                                $object->setIcono($icon);
+                                $object->setEstado(true);
+                                $em->persist($object);
+                                $em->flush();    
+                                $serverSave = $this->getParameter('app.serverMsgSave');
+                                $data['msg']=$serverSave;
+                                $data['id']=$object->getId();
+                        } else {
+                                $object = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->find($id);
+                                $object->setNombre($name);
+                                $object->setIcono($icon);
+                                $em->merge($object);
+                                $em->flush();    
+                                $serverUpdate = $this->getParameter('app.serverMsgUpdate');
+                                $data['msg']=$serverUpdate;
+                                $data['id']=$object->getId();
+                        }
+                        
+                        
+                    }
+                    
+                $response->setData($data); 
+            } catch (\Exception $e) {
+                    //var_dump($e);
+                    if(method_exists($e,'getErrorCode')){
+                        switch (intval($e->getErrorCode())){
+                            case 2003: 
+                                $serverOffline = $this->getParameter('app.serverOffline');
+                                $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                            break;
+                            case 1062: 
+                                $serverDuplicate = $this->getParameter('app.serverDuplicateName');
+                                $data['error'] = $serverDuplicate."! CODE: ".$e->getErrorCode();
+                            break;
+                            default :
+                                $data['error'] = "Error CODE: ".$e->getMessage();
+                            break;
+                            }      
+                    }
+                    else{
+                            $data['error']=$e->getMessage();
+                    }
+                    $response->setData($data);
+            }
+        
+            
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
+    
+    
+    
+    
+
+    
+    /**
+     * Retrieve level of customer satisfaction
+     *
+     * @Route("/activity/types/retrieve", name="admin_retrieve_activity_types_ajax",  options={"expose"=true}))
+     * @Method("POST")
+     */
+    public function retrieveajaxAction(Request $request)
+    {
+        $isAjax = $this->get('Request')->isXMLhttpRequest();
+        if($isAjax){
+            try {
+                $id=$request->get("param1");
+                $response = new JsonResponse();
+                
+                $em = $this->getDoctrine()->getManager();
+                $object = $em->getRepository('ERPCRMBundle:CrmTipoActividad')->find($id);
+                if(count($object)!=0){
+                
+                    //$object->setProbabilidad($);
+                    //$em->merge($object);
+                    //$em->flush();    
+                    $data['name']=$object->getNombre();
+                    $data['icon']=$object->getIcono();
+                    //$data['name']=$object->getNombre();
+                    $data['id']=$object->getId();
+                }
+                else{
+                    $data['error']="Error";
+                }
+                            
+                $response->setData($data); 
+                
+            } catch (\Exception $e) {
+                if(method_exists($e,'getErrorCode')){
+                    switch (intval($e->getErrorCode()))
+                            {
+                                case 2003: 
+                                    $serverOffline = $this->getParameter('app.serverOffline');
+                                    $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
+                                break;
+                                default :
+                                    $data['error'] = "Error CODE: ".$e->getMessage();                     
+                                break;
+                            }      
+                }
+                else{
+                        $data['error']=$e->getMessage();
+                }
+                $response->setData($data);
+            }
+        } else {   
+            $data['error']='Ajax request';
+            $response->setData($data);
+            
+        }
+        return $response;
+        
+    }
     
     
     

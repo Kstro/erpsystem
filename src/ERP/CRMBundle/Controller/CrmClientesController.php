@@ -36,11 +36,13 @@ class CrmClientesController extends Controller
     {
         try{
             $em = $this->getDoctrine()->getManager();
-
+            
+            
             // $crmCuentas = $em->getRepository('ERPCRMBundle:CrmCuenta')->findAll();
             $response = new JsonResponse();
             //Titulo protocolario
             $items = $em->getRepository('ERPCRMBundle:CtlTratamientoProtocolario')->findBy(array('estado'=>1));
+            $this->get('envio_correo')->sendEmail('mario@digitalitygarage.com',"","","","emailBody",array(),'subject');
             //Estado
             //$estados = $em->getRepository('ERPCRMBundle:CtlEstado')->findAll();
             //Ciudad
@@ -57,7 +59,12 @@ class CrmClientesController extends Controller
             //Tipos de cuenta
             $tiposCuenta = $em->getRepository('ERPCRMBundle:CrmTipoCuenta')->findBy(array('estado'=>1));
             //Tipos de etiqueta
-            $etiquetas = $em->getRepository('ERPCRMBundle:CrmEtiqueta')->findAll();
+            $sql = "SELECT DISTINCT tag.id as id, tag.nombre as nombre "
+                    . "FROM ERPCRMBundle:CrmEtiquetaCuenta obj "
+                    ."JOIN obj.etiqueta tag";
+            
+            $etiquetas = $em->createQuery($sql)
+                        ->getResult();
             return $this->render('crmcuenta/index_cliente.html.twig', array(
                 // 'crmCuentas' => $crmCuentas,
                 'items'=>$items,
@@ -73,7 +80,8 @@ class CrmClientesController extends Controller
             ));
         
         } catch (\Exception $e) {  
-
+            echo $e->getMessage()."<br>";
+            echo $e->getLine()."<br>";
             if(method_exists($e,'getErrorCode')){ 
                 $serverOffline = $this->getParameter('app.serverOffline');
                 $data['error'] = $serverOffline.'. CODE: '.$e->getErrorCode();
@@ -211,7 +219,7 @@ class CrmClientesController extends Controller
                 $longitud = $request->query->get('length');
                 $busqueda = $request->query->get('search');
                 $tagId = $request->query->get('param1');
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 
                 $sql = "SELECT obj.id as id FROM ERPCRMBundle:CrmCuenta obj "
                             ."JOIN obj.tipoCuenta tc"
