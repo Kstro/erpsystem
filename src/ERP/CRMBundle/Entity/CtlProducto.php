@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CtlProducto
  *
- * @ORM\Table(name="ctl_producto", indexes={@ORM\Index(name="fk_ctl_producto_ctl_categoria_producto1_idx", columns={"categoria_producto"})})
+ * @ORM\Table(name="ctl_producto", indexes={@ORM\Index(name="fk_ctl_producto_ctl_categoria_producto1_idx", columns={"categoria_producto"}), @ORM\Index(name="tipo_producto", columns={"tipo_producto"})})
  * @ORM\Entity
  */
 class CtlProducto
@@ -27,6 +27,34 @@ class CtlProducto
      * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=100, nullable=true)
+     */
+    private $codigo;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="costo", type="decimal", precision=15, escale= 2, nullable=true)
+     */
+    private $costo;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="precio", type="decimal", precision=15, escale= 2, nullable=true)
+     */
+    private $precio;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
+     */
+    private $fecaRegistro;
 
     /**
      * @var string
@@ -41,7 +69,7 @@ class CtlProducto
      * @ORM\Column(name="estado", type="boolean", nullable=false)
      */
     private $estado;
-
+   
     /**
      * @var \CtlCategoriaProducto
      *
@@ -51,8 +79,16 @@ class CtlProducto
      * })
      */
     private $categoriaProducto;
-
-
+    
+    /**
+     * @var \CtlTipoProducto
+     *
+     * @ORM\ManyToOne(targetEntity="CtlTipoProducto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_producto_producto", referencedColumnName="id")
+     * })
+     */
+    private $tipoProducto;
 
     /**
      * Get id
@@ -86,7 +122,28 @@ class CtlProducto
     {
         return $this->nombre;
     }
+        
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return CtlProducto
+     */
+    public function setCodigo($codigo) {
+        $this->codigo = $codigo;
 
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo() {
+        return $this->codigo;
+    }
+    
     /**
      * Set descripcion
      *
@@ -109,7 +166,70 @@ class CtlProducto
     {
         return $this->descripcion;
     }
+    
+    /**
+     * Set costo
+     *
+     * @param string $costo
+     * @return CtlProducto
+     */
+    public function setCosto($costo) {
+        $this->costo = $costo;
 
+        return $this;
+    }
+
+    /**
+     * Get costo
+     *
+     * @return string 
+     */
+    public function getCosto() {
+        return $this->costo;
+    }
+    
+    /**
+     * Set precio
+     *
+     * @param string $precio
+     * @return CtlProducto
+     */
+    public function setPrecio($precio) {
+        $this->precio = $precio;
+
+        return $this;
+    }
+
+    /**
+     * Get precio
+     *
+     * @return string 
+     */
+    public function getPrecio() {
+        return $this->precio;
+    }
+        
+    /**
+     * Set fechaRegistro
+     *
+     * @param string $fechaRegistro
+     * @return CtlProducto
+     */
+    public function setFechaRegistro($fechaRegistro) {
+        $this->fechaRegistro = $fechaRegistro;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaRegistro
+     *
+     * @return string 
+     */
+    public function getFechaRegistro() {
+        return $this->fechaRegistro;
+    }
+            
     /**
      * Set estado
      *
@@ -155,4 +275,25 @@ class CtlProducto
     {
         return $this->categoriaProducto;
     }
+        
+    /**
+     * Set tipoProducto
+     *
+     * @param \ERP\CRMBundle\Entity\CtlTipoProducto $tipoProducto
+     * @return CtlProducto
+     */
+    public function setTipoProducto(\ERP\CRMBundle\Entity\CtlTipoProducto $tipoProducto = null) {
+        $this->tipoProducto = $tipoProducto;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoProducto
+     *
+     * @return \ERP\CRMBundle\Entity\CtlTipoProducto 
+     */
+    public function getTipoProducto() {
+        return $this->tipoProducto;
+    }        
 }

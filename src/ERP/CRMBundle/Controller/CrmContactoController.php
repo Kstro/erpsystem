@@ -422,6 +422,7 @@ class CrmContactoController extends Controller
                     //Persistiendo la tabla contacto_cuenta                  
                     $crmContactoCuentaObj = new CrmContactoCuenta();
                     $cuentaObj = $em->getRepository('ERPCRMBundle:CrmCuenta')->find($idCompania);
+                    $crmContactoCuentaObj->setTitular(0);
                     $crmContactoCuentaObj->setCuenta($cuentaObj);
                     $crmContactoCuentaObj->setContacto($crmContactoObj);
                     $em->persist($crmContactoCuentaObj);
@@ -855,7 +856,7 @@ class CrmContactoController extends Controller
     //Fin eliminar contacto
     
     /**
-     * Retrieve clients
+     * Retrieve contact
      *
      * @Route("/contact/retrieve", name="admin_contact_retrieve_ajax",  options={"expose"=true}))
      * @Method("POST")
@@ -996,6 +997,16 @@ class CrmContactoController extends Controller
                 // } else {
                 //     $data['campania']='';
                 // }
+                //Esto es para los docs
+                $sql = "SELECT doc.id as id, doc.src as nombre, doc.estado FROM ERPCRMBundle:CrmDocumentoAdjuntoContacto doc "
+                        . "JOIN doc.contacto c "
+                        . "WHERE c.id=:idContacto ORDER BY doc.fechaRegistro DESC";
+                $docs = $em->createQuery($sql)
+                        ->setParameters(array('idContacto' => $idContacto))
+                        ->getResult();
+
+                $data['docs'] = $docs;
+
 
                 $data['id1'] = $crmContactoObj->getId();
                 $data['id2'] = $crmContactoObj->getPersona()->getId();

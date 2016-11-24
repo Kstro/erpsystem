@@ -36,6 +36,13 @@ class CrmComentarioContacto
     private $fechaRegistro;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_comentario", type="integer", nullable=false)
+     */
+    private $tipoComentario;
+
+    /**
      * @var \CrmContacto
      *
      * @ORM\ManyToOne(targetEntity="CrmContacto")
@@ -157,5 +164,26 @@ class CrmComentarioContacto
     public function getUsuario()
     {
         return $this->usuario;
+    }
+    
+    /**
+     * Set tipoComentario
+     *
+     * @param string $tipoComentario
+     * @return CrmComentarioActividad
+     */
+    public function setTipoComentario($tipoComentario) {
+        $this->tipoComentario = $tipoComentario;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoComentario
+     *
+     * @return string 
+     */
+    public function getTipoComentario() {
+        return $this->tipoComentario;
     }
 }

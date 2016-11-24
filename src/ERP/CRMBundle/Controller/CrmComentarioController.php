@@ -15,6 +15,7 @@ use ERP\CRMBundle\Entity\CrmActividad;
 use ERP\CRMBundle\Entity\CrmComentarioActividad;
 use ERP\CRMBundle\Entity\CtlPersona;
 use ERP\CRMBundle\Entity\CrmContacto;
+use ERP\CRMBundle\Entity\CrmComentarioContacto;
 use ERP\CRMBundle\Entity\CrmContactoCuenta;
 use ERP\CRMBundle\Entity\CtlTratamientoProtocolario;
 use ERP\CRMBundle\Entity\CtlTelefono;
@@ -28,7 +29,7 @@ use ERP\CRMBundle\Form\CrmCuentaType;
  * @Route("/comments/handler")
  */
 class CrmComentarioController extends Controller {
-    
+
     /**
      * Add comment providers
      *
@@ -42,9 +43,9 @@ class CrmComentarioController extends Controller {
             try {
                 $timeZone = $this->get('time_zone')->getTimeZone();
                 date_default_timezone_set($timeZone->getNombre());
-                $id=$request->get("param1");
+                $id=$request->get("param1");                
                 $comment=$request->get("param2");
-                $tipoComment=$request->get("param3");
+                $tipoComment=$request->get("param3");                
                 $fechaRegistro = new \DateTime('now');
 //                var_dump($fechaRegistro->format('Y-m-d H:i'));
 //                die();
@@ -77,6 +78,12 @@ class CrmComentarioController extends Controller {
                         $actObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($id);
                         $crmComentario->setCampania($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
+                        break;
+                    case 4:///// CRM - Contacto
+                        $crmComentario = new CrmComentarioContacto();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($id);
+                        $crmComentario->setContacto($actObj);
+                        $sql = "SELECT COUNT(*) as total FROM seguimientocont where contacto=" . $id;
                         break;
                 }
                 

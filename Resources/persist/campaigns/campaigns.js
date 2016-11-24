@@ -91,7 +91,7 @@ $(document).ready(function() {
 		/*/////Definición de variables*/
 		var text = $(this).prop('tagName');
 		/*// console.log(text);*/
-		var id=$(this).parent().children().first().children().attr('id');
+		var id=$(this).parent().children().first().children().attr('id');                
 		/*// console.log(id);*/
 		/*// var idArray = id.split('-');*/
 		/*// console.log(idArray);*/
@@ -437,7 +437,7 @@ $(document).ready(function() {
 					$('.btnAddPage').addClass('hidden');
 					$('.btnDelete').removeClass('hidden');
 				}
-			});	
+			});
 		}
 		
 		if(total==selected){

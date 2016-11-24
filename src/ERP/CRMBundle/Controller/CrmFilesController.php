@@ -10,9 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoActividad;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCampania;
+use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoContacto;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCampania;
+use ERP\CRMBundle\Entity\CrmComentarioContacto;
 use ERP\CRMBundle\Form\CtlRolType;
 
 /**
@@ -125,10 +127,12 @@ class CrmFilesController extends Controller
                         $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoCampania doc";
                         break;
                     case 4:///// CRM - 
-                        $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                        $path = $this->getParameter('files.contacts');
+                        $cuentaObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($id);
+                        $sql = "SELECT max(doc.id) FROM ERPCRMBundle:CrmDocumentoAdjuntoContacto doc";
                         break;
                     case 5:///// CRM -
-                        $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                        $sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ";
                         break;
                 }
                 
@@ -173,7 +177,9 @@ class CrmFilesController extends Controller
                                     $data['path'].='campaigns/';
                                     break;
                                 case 4:///// CRM - 
-                                    //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
+                                    $crmFile= new CrmDocumentoAdjuntoContacto();
+                                    $crmFile->setContacto($cuentaObj);//en este caso el objeto $cuentaObj es del tipo contacto
+                                    $data['path'].='contacts/';
                                     break;
                                 case 5:///// CRM -
                                     //$sql="SELECT * FROM seguimientoact where actividad=".$id. " ORDER BY fecha_registro DESC LIMIT ".$inicio.",".$longitud;
@@ -370,6 +376,14 @@ class CrmFilesController extends Controller
                         $actObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($idCuenta);
                         $crmComentario->setCampania($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
+                        break;
+                    case 4:///// CRM - Contacto                       
+                        $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoContacto')->find($id);
+                        
+                        $crmComentario = new CrmComentarioContacto();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($idCuenta);
+                        $crmComentario->setContacto($actObj);
+                        $sql = "SELECT COUNT(*) as total FROM seguimientocont where contacto=" . $id;
                         break;
                 }
                 if(count($docObj)!=0){

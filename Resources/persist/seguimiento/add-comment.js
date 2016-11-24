@@ -146,7 +146,7 @@ $(document).ready(function() {
 
 function agregarComentario($btn,id,comment,tipoComment){
     var item='';
-    console.log('asdcadc '+id);
+    console.log('asdcadc '+id);    
     $.ajax({
             url: Routing.generate('admin_general_comment_add_ajax'),
             type: "POST",            

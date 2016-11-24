@@ -2,7 +2,10 @@
 
 $(document).on('click', '.btnAddPage', function(event) {
 	/*//console.log('add');*/
-	var id = $('#txtId1').val();
+        $('#wallmessages').addClass('hidden');
+        $('#comentarios').addClass('hidden');
+        
+        var id = $('#txtId1').val();
 	
 	/*// console.log("ID: "+id);*/
 	/*//Cambiar nombre del panel heading para add (Inserción)*/
@@ -49,13 +52,16 @@ $(document).on('input', 'div.dataTables_filter input', function(event) {
 
 $(document).on('click', '#btnCancel,#btnBack,#btnCancelTop', function(event) {
 	/*// console.log('cancel');*/
+        $('#addedFiles').addClass('hidden');
+        $('#addFile').addClass('hidden');
+        $('#btnLoadMore').addClass('hidden');
 	limpiarCampos();
 	return false;
 	
 });
-$(document).on('click', '#clientePotencialList>thead>tr>th:gt(0)', function(event) {
+$(document).on('click', '#clientePotencialList>thead>tr>th:gt(0)', function(event) {	
 	
-	console.log('cancel');
+        console.log('cancel');
 	$('.chkItemAll').prop({'checked': false});	
 });
 
@@ -72,7 +78,7 @@ function limpiarCampos(){
         $('.txtZipCode').val('');
 	$('.firstPhoneTxt').val('');
 	$('.firstPhoneExtension').val('');
-	$('.txtEmailFirst').val('');
+	$('.txtEmailFirst').val('');        
 	$('#imgTest').attr('src','http://placehold.it/250x250');
 	$('#file').val('');
 

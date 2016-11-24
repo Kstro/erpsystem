@@ -3,8 +3,8 @@ $(document).ready(function() {
 	/*/////Cargar mas historial*/
         
 	$(document).on('click', '#btnLoadMore', function(event) {
-		var numPedidos =$('#iteracion').val();
-		var idForm=$('#txtId1').val();
+		var numPedidos =$('#iteracion').val();                
+		var idForm=$('#txtId1').val();                
                 if (typeof idForm=== 'undefined') {
                     idForm= $('#txtId').val();
                 }
@@ -230,6 +230,7 @@ function seguimientoActividad(dataId, iteracion,boton){
 }
 
 function seguimientoGeneral(dataId, iteracion,boton,tipoComment){
+        
         tipo=tipoComment;
         console.log('seguimiento Gen');
 	if (boton!=null) {
