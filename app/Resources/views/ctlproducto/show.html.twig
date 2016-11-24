@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ctlproducto</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ctlProducto.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ ctlProducto.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ ctlProducto.codigo }}</td>
+            </tr>
+            <tr>
+                <th>Costo</th>
+                <td>{{ ctlProducto.costo }}</td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>{{ ctlProducto.precio }}</td>
+            </tr>
+            <tr>
+                <th>Fecaregistro</th>
+                <td>{% if ctlProducto.fecaRegistro %}{{ ctlProducto.fecaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ ctlProducto.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{% if ctlProducto.estado %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_ctlproduct_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_ctlproduct_edit', { 'id': ctlProducto.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

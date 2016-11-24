@@ -92,4 +92,8 @@ class CtlCategoriaProducto
     {
         return $this->estado;
     }
+    
+    public function __toString() {
+        return $this->nombre ? $this->nombre: '';
+    } 
 }

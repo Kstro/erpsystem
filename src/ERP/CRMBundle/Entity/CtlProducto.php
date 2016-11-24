@@ -38,14 +38,14 @@ class CtlProducto
     /**
      * @var string
      *
-     * @ORM\Column(name="costo", type="decimal", precision=15, escale= 2, nullable=true)
+     * @ORM\Column(name="costo", type="decimal", precision=15, scale=2, nullable=true)
      */
     private $costo;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="precio", type="decimal", precision=15, escale= 2, nullable=true)
+     * @ORM\Column(name="precio", type="decimal", precision=15, scale=2, nullable=true)
      */
     private $precio;
     
@@ -54,7 +54,7 @@ class CtlProducto
      *
      * @ORM\Column(name="fecha_registro", type="datetime", nullable=false)
      */
-    private $fecaRegistro;
+    private $fechaRegistro;
 
     /**
      * @var string
@@ -85,7 +85,7 @@ class CtlProducto
      *
      * @ORM\ManyToOne(targetEntity="CtlTipoProducto")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tipo_producto_producto", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="tipo_producto", referencedColumnName="id")
      * })
      */
     private $tipoProducto;

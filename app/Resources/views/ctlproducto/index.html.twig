@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ctlproductos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Codigo</th>
+                <th>Costo</th>
+                <th>Precio</th>
+                <th>Fecaregistro</th>
+                <th>Descripcion</th>
+                <th>Estado</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ctlProducto in ctlProductos %}
+            <tr>
+                <td><a href="{{ path('admin_ctlproduct_show', { 'id': ctlProducto.id }) }}">{{ ctlProducto.id }}</a></td>
+                <td>{{ ctlProducto.nombre }}</td>
+                <td>{{ ctlProducto.codigo }}</td>
+                <td>{{ ctlProducto.costo }}</td>
+                <td>{{ ctlProducto.precio }}</td>
+                <td>{% if ctlProducto.fecaRegistro %}{{ ctlProducto.fecaRegistro|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ ctlProducto.descripcion }}</td>
+                <td>{% if ctlProducto.estado %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_ctlproduct_show', { 'id': ctlProducto.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_ctlproduct_edit', { 'id': ctlProducto.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_ctlproduct_new') }}">Create a new ctlProducto</a>
+        </li>
+    </ul>
+{% endblock %}
