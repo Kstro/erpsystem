@@ -601,6 +601,11 @@ parameters:
         app.usernameTxt: Username
         app.passwordTxt: Password
 
+        #Cotizacion
+        app.menuCotizacion: Quotes
+        app.tituloCotizacion: Quotes | CRM
+        app.encabezadoCotizacion: Quotes list
+        app.descripcionCotizacion: Add, modify or delete quotes.
         
        
         #perfil

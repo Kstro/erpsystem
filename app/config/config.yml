@@ -15,6 +15,7 @@ parameters:
     files.cuentas: %kernel.root_dir%/../files/accounts/
     files.activities: %kernel.root_dir%/../files/activities/
     files.campaigns: %kernel.root_dir%/../files/campaigns/
+    files.opportunities: %kernel.root_dir%/../files/opportunities/
     
 framework:
     #esi:             ~
@@ -1105,7 +1106,17 @@ twig:
         usernameTxtEs: '%app.usernameTxtEs%'        
         passwordTxtEs: '%app.passwordTxtEs%' 
         
+        #Cotización - Ingles
+        menuCotizacion: '%app.menuCotizacion%'   
+        tituloCotizacion: '%app.tituloCotizacion%'   
+        encabezadoCotizacion: '%app.encabezadoCotizacion%'   
+        descripcionCotizacion: '%app.descripcionCotizacion%'   
         
+        #Cotización - Español
+        menuCotizacionEs: '%app.menuCotizacionEs%'   
+        tituloCotizacionEs: '%app.tituloCotizacionEs%'   
+        encabezadoCotizacionEs: '%app.encabezadoCotizacionEs%'   
+        descripcionCotizacionEs: '%app.descripcionCotizacionEs%' 
         
         perfil: '%app.perfil%'
         perfilPublico: '%app.perfilPublico%'
