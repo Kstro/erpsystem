@@ -80,7 +80,12 @@ class CrmComentarioController extends Controller {
                         $crmComentario->setCampania($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
                         break;
-                    
+                    case 4:///// CRM - Contacto
+                        $crmComentario = new CrmComentarioContacto();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($id);
+                        $crmComentario->setContacto($actObj);
+                        $sql = "SELECT COUNT(*) as total FROM seguimientocont where contacto=" . $id;
+                        break;
                     case 5:///// CRM - Oportunidad
                         $crmComentario= new CrmComentarioOportunidad();
                         $actObj = $em->getRepository('ERPCRMBundle:CrmOportunidad')->find($id);

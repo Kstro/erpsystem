@@ -13,6 +13,7 @@ use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCampania;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoContacto;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoCuenta;
 use ERP\CRMBundle\Entity\CrmDocumentoAdjuntoOportunidad;
+use ERP\CRMBundle\Entity\CrmComentarioContacto;
 use ERP\CRMBundle\Entity\CrmComentarioCuenta;
 use ERP\CRMBundle\Entity\CrmComentarioCampania;
 use ERP\CRMBundle\Entity\CrmComentarioOportunidad;
@@ -381,6 +382,14 @@ class CrmFilesController extends Controller
                         $actObj = $em->getRepository('ERPCRMBundle:CrmCampania')->find($idCuenta);
                         $crmComentario->setCampania($actObj);
                         $sql="SELECT COUNT(*) as total FROM seguimientocmp where campania=".$id;
+                        break;
+                    case 4:///// CRM - Contacto                       
+                        $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoContacto')->find($id);
+
+                        $crmComentario = new CrmComentarioContacto();
+                        $actObj = $em->getRepository('ERPCRMBundle:CrmContacto')->find($idCuenta);
+                        $crmComentario->setContacto($actObj);
+                        $sql = "SELECT COUNT(*) as total FROM seguimientocont where contacto=" . $id;
                         break;
                     case 5:///// CRM - Campaña
                         $docObj = $em->getRepository('ERPCRMBundle:CrmDocumentoAdjuntoOportunidad')->find($id);

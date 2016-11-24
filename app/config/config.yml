@@ -16,6 +16,8 @@ parameters:
     files.activities: %kernel.root_dir%/../files/activities/
     files.campaigns: %kernel.root_dir%/../files/campaigns/
     files.opportunities: %kernel.root_dir%/../files/opportunities/
+    files.contacts: %kernel.root_dir%/../files/contacts/
+    photo.contacto: %kernel.root_dir%/../photos/contacto/
     
 framework:
     #esi:             ~
