@@ -1192,6 +1192,7 @@ doctrine:
                         MONTH: DoctrineExtensions\Query\Mysql\Month
                         YEAR: DoctrineExtensions\Query\Mysql\Year
                         IFNULL: DoctrineExtensions\Query\Mysql\IfNull
+                        ROUND: DoctrineExtensions\Query\Mysql\Round
 
 # Swiftmailer Configuration
 swiftmailer:
