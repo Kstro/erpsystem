@@ -490,7 +490,10 @@ parameters:
         app.tituloCotizacionEs: Cotizaciones | CRM
         app.encabezadoCotizacionEs: Listado de cotizaciones
         app.descripcionCotizacionEs: Registrar, actualizar o eliminar cotizaciones.
-       
+        
+        # Producto
+        app.menuProductoEs: Productos        
+        
         #perfil
         app.perfilEs: e
         app.perfilPublicoEs: e
