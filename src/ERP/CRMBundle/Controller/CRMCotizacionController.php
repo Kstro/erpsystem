@@ -44,6 +44,9 @@ class CRMCotizacionController extends Controller
         $etiquetas = $em->createQuery($sql)
                     ->getResult();
         
+            //var_dump($sql);
+            //die();
+        
         return $this->render('crmcotizacion/index.html.twig', array(
             'personas'=>$personas,
             'productos'=>$productos,
@@ -209,12 +212,15 @@ class CRMCotizacionController extends Controller
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaRegistro, '</div>') as created, "
                         . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as assigned, "
                         . "CONCAT('<div style=\"text-align: left;\">', est.nombre, '</div>') as status, "
+                        . "CONCAT('<div style=\"text-align: right;\">', ROUND(SUM((det.cantidad * det.valorUnitario) + (det.cantidad * det.valorUnitario * (det.tax/100))),2), '</div>') as total, "
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaVencimiento, '</div>') as close "
                         . "FROM ERPCRMBundle:CrmCotizacion quo "
                         . "JOIN quo.usuario us "
                         . "JOIN us.persona per "
                         . "JOIN quo.estadoCotizacion est "
+                        . "JOIN quo.detalleCotizacion det "
                         . "WHERE quo.estado = 1 AND CONCAT(upper(quo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(quo.fechaVencimiento), ' ' , upper(est.nombre)) LIKE upper(:busqueda) "
+                        . "GROUP BY quo.id "
                         . "ORDER BY ".$orderByText." ".$orderDir;
 
                 $row['data'] = $em->createQuery($dql)
@@ -227,12 +233,15 @@ class CRMCotizacionController extends Controller
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaRegistro, '</div>') as created, "
                         . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as assigned, "
                         . "CONCAT('<div style=\"text-align: left;\">', est.nombre, '</div>') as status, "
+                        . "CONCAT('<div style=\"text-align: right;\">', ROUND(SUM((det.cantidad * det.valorUnitario) + (det.cantidad * det.valorUnitario * (det.tax/100))),2), '</div>') as total, "
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaVencimiento, '</div>') as close "
                         . "FROM ERPCRMBundle:CrmCotizacion quo "
                         . "JOIN quo.usuario us "
                         . "JOIN us.persona per "
                         . "JOIN quo.estadoCotizacion est "
+                        . "JOIN quo.detalleCotizacion det "
                         . "WHERE quo.estado = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(quo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(quo.fechaVencimiento), ' ' , upper(est.nombre)) LIKE upper(:busqueda) "
+                        . "GROUP BY quo.id "
                         . "ORDER BY ".$orderByText." ".$orderDir;
 
                 $row['data'] = $em->createQuery($dql)
@@ -245,6 +254,7 @@ class CRMCotizacionController extends Controller
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaRegistro, '</div>') as created, "
                         . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as assigned, "
                         . "CONCAT('<div style=\"text-align: left;\">', est.nombre, '</div>') as status, "
+                        . "CONCAT('<div style=\"text-align: right;\">', ROUND(SUM((det.cantidad * det.valorUnitario) + (det.cantidad * det.valorUnitario * (det.tax/100))),2), '</div>') as total, "
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaVencimiento, '</div>') as close "
                         . "FROM ERPCRMBundle:CrmCotizacion quo "
                         . "JOIN quo.usuario us "
@@ -252,8 +262,10 @@ class CRMCotizacionController extends Controller
                         . "JOIN quo.estadoCotizacion est "
                         . "JOIN quo.tagCotizacion tquo "
                         . "JOIN tquo.etiqueta tag "
+                        . "JOIN quo.detalleCotizacion det "
                         . "WHERE quo.estado = 1 AND CONCAT(upper(quo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(quo.fechaVencimiento), ' ' , upper(est.nombre)) LIKE upper(:busqueda) "
                         . " AND tag.id = " . $tagId
+                        . "GROUP BY quo.id "
                         . "ORDER BY ".$orderByText." ".$orderDir;
 
                 $row['data'] = $em->createQuery($dql)
@@ -266,6 +278,7 @@ class CRMCotizacionController extends Controller
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaRegistro, '</div>') as created, "
                         . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as assigned "
                         . "CONCAT('<div style=\"text-align: left;\">', est.nombre, '</div>') as status, "
+                        . "CONCAT('<div style=\"text-align: right;\">', ROUND(SUM((det.cantidad * det.valorUnitario) + (det.cantidad * det.valorUnitario * (det.tax/100))),2), '</div>') as total, "
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaVencimiento, '</div>') as close "
                         . "FROM ERPCRMBundle:CrmCotizacion quo "
                         . "JOIN quo.usuario us "
@@ -273,8 +286,10 @@ class CRMCotizacionController extends Controller
                         . "JOIN quo.estadoCotizacion est "
                         . "JOIN quo.tagCotizacion tquo "
                         . "JOIN tquo.etiqueta tag "
+                        . "JOIN quo.detalleCotizacion det "
                         . "WHERE quo.estado = 1 AND CONCAT(upper(opo.nombre), ' ' , upper(quo.fechaRegistro), ' ' , upper(CONCAT(per.nombre, ' ', per.apellido)), ' ' , upper(quo.fechaVencimiento), ' ' , upper(est.nombre)) LIKE upper(:busqueda) "
                         . " AND tag.id = " . $tagId
+                        . "GROUP BY quo.id "
                         . " ORDER BY ".$orderByText." ".$orderDir;
 
                 $row['data'] = $em->createQuery($dql)
@@ -290,14 +305,17 @@ class CRMCotizacionController extends Controller
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaRegistro, '</div>') as created, "
                         . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as assigned, "
                         . "CONCAT('<div style=\"text-align: left;\">', est.nombre, '</div>') as status, "
+                        . "CONCAT('<div style=\"text-align: right;\">', ROUND(SUM((det.cantidad * det.valorUnitario) + (det.cantidad * det.valorUnitario * (det.tax/100))),2), '</div>') as total, "
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaVencimiento, '</div>') as close "
                         . "FROM ERPCRMBundle:CrmCotizacion quo "
                         . "JOIN quo.usuario us "
                         . "JOIN us.persona per "
                         . "JOIN quo.estadoCotizacion est "
+                        . "JOIN quo.detalleCotizacion det "
                         . "WHERE quo.estado = 1 "
+                        . "GROUP BY quo.id "
                         . "ORDER BY ".$orderByText." ".$orderDir;
-
+                //var_dump($dql);
                 $row['data'] = $em->createQuery($dql)
                         ->setFirstResult($start)
                         ->setMaxResults($longitud)
@@ -307,6 +325,7 @@ class CRMCotizacionController extends Controller
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaRegistro, '</div>') as created, "
                         . "CONCAT('<div style=\"text-align: left;\">', per.nombre, ' ', per.apellido, '</div>') as assigned, "
                         . "CONCAT('<div style=\"text-align: left;\">', est.nombre, '</div>') as status, "
+                        . "CONCAT('<div style=\"text-align: right;\">', ROUND(SUM((det.cantidad * det.valorUnitario) + (det.cantidad * det.valorUnitario * (det.tax/100))),2), '</div>') as total, "
                         . "CONCAT('<div style=\"text-align: left;\">', quo.fechaVencimiento, '</div>') as close "
                         . "FROM ERPCRMBundle:CrmCotizacion quo "
                         . "JOIN quo.usuario us "
@@ -314,7 +333,9 @@ class CRMCotizacionController extends Controller
                         . "JOIN quo.estadoCotizacion est "
                         . "JOIN quo.tagCotizacion tquo "
                         . "JOIN tquo.etiqueta tag "
+                        . "JOIN quo.detalleCotizacion det "
                         . "WHERE quo.estado = 1 AND tag.id = " . $tagId
+                        . "GROUP BY quo.id "
                         . "ORDER BY ".$orderByText." ".$orderDir;
 
                 $row['data'] = $em->createQuery($dql)

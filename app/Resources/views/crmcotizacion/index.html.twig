@@ -39,7 +39,7 @@
                         <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{userQuote}}</th>
                         <th aria-label="Priority: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{statusQuote}}</th>
                         <th aria-label="dateStart: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{dateExpirationQuote}}</th>
-                        {#<th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{totalQuote}}</th>#}
+                        <th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{totalQuote}}</th>
                         {#<th aria-label="dateCancel: activate to sort column ascending" colspan="1" rowspan="1" aria-controls="example" tabindex="0" class="sortRecords mdl-data-table__cell--non-numeric sorting">{{fechaRegistroOportunidad}}</th>#}
                     </tr>
                 </thead> 
@@ -88,8 +88,8 @@
                     { "data": "assigned" },
                     { "data": "status" },
                     { "data": "close" },
-                    /*{ "data": "close" },
-                    { "data": "created" },*/
+                    { "data": "total" },
+                    /*{ "data": "created" },*/
                 ],
                 "order":[1,'desc'],
                 "columnDefs": [
