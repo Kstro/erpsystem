@@ -607,6 +607,12 @@ parameters:
         app.encabezadoCotizacion: Quotes list
         app.descripcionCotizacion: Add, modify or delete quotes.
         
+        #Gestion productos
+        app.menuProducto: Product
+        app.tituloCtlProducto: Products
+        app.encabezadoCtlProducto: Products List
+        app.descripcionCtlProducto: Add, modify or delete product.
+        app.nameProducto: Name
        
         #perfil
         app.perfil: e

@@ -87,7 +87,15 @@
             <i class="{% if menuRolesA is defined %}fa fa-arrow-right {% endif %}"></i>
         </span>
     </li>
-</a>                
+</a>
+<a href="{{path('admin_ctlproduct_index')}}" class="leftnava">
+    <li class="leftnav left {% if menuCtlProductoA is defined %}active {% endif %}">
+        {{menuProducto}}
+        <span class="pull-right right">
+            <i class="{% if menuCtlProductoA is defined %}fa fa-arrow-right {% endif %}"></i>
+        </span>
+    </li>
+</a>
 {#<a href="{{path('crmtipocaso_index')}}" class="leftnava">
     <li class="leftnav left {% if menuTipoCasoA is defined %}active {% endif %}">
         {{menuTipoCaso}}

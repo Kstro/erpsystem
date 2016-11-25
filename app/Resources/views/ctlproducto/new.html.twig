@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Ctlproducto creation</h1>
+    <h1>CrmTipoCampania creation</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -10,7 +10,31 @@
 
     <ul>
         <li>
-            <a href="{{ path('admin_ctlproduct_index') }}">Back to the list</a>
+            <a href="{{ path('admin_crmtipocampania_index') }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}
+ #}
+
+
+
+ <div class="col-md-12 col-xs-12">
+            <div id="pnAdd" class="panel panel-default" style="display:none;">
+                    <div class="panel-heading"><div class="hidden pnHeadingLabelAdd">{{pnHeadingLabelAdd}}</div><div class="hidden pnHeadingLabelEdit">{{pnHeadingLabelEdit}}</div></div>
+                    <div class="panel-body">
+                        <div class="col-md-4">
+                        <label>{{nameCampania}}</label>
+                        <label class="hidden requiredFields">{{requiredFields}}</label>
+                        <input id="txtId" type="hidden" name="" class="input-sm form-control">
+                        <input id="txtName" type="text" name="" class="input-sm form-control validateInput">
+                    </div>
+                    
+                    {# <div class="clearfix"></div> #}
+                    <div class="col-md-4 pull-right text-right" style="margin-top:20px;">
+                        <button id="btnCancel" class="btn btn-sm btn-default">{{cancel}}</button>
+                        <button id="btnSave" class="btn btn-sm btn-primary">{{save}}</button>
+                    </div>
+                    </div>
+                    {# <div class="panel-footer">Panel Footer</div> #}
+            </div>
+</div>

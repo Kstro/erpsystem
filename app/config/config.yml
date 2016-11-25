@@ -1120,6 +1120,16 @@ twig:
         encabezadoCotizacionEs: '%app.encabezadoCotizacionEs%'   
         descripcionCotizacionEs: '%app.descripcionCotizacionEs%' 
         
+        #Productos - Español
+        menuProductoEs: '%app.menuProductoEs%'
+                        
+        #Productos - Ingles
+        menuProducto: '%app.menuProducto%'
+        tituloCtlProducto: '%app.tituloCtlProducto%'
+        encabezadoCtlProducto: '%app.encabezadoCtlProducto%'
+        descripcionCtlProducto: '%app.descripcionCtlProducto%'
+        nameProducto: '%app.nameProducto%'
+                
         perfil: '%app.perfil%'
         perfilPublico: '%app.perfilPublico%'
         verficarmeAbogado: '%app.verficarmeAbogado%'
